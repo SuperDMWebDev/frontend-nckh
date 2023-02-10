@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import SearchBar from './SearchBar/SearchBar';
 
 type Product = {
   id: number;
@@ -24,7 +23,6 @@ const products: Product[] = [
 function Home() {
   return (
     <div className="App">
-      <SearchBar />
       <ul>
         {products.map((product) => (
           <li key={product.id}>
