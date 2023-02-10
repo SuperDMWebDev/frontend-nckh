@@ -1,21 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
+    "sourceMap": true,
     "noImplicitAny": true,
-    "module": "esnext",
-    "target": "es5",
+    "module": "commonjs",
+    "target": "ES6",
+    "jsx": "react-jsx",
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": false,
-    "jsx": "react-jsx"
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"]
+  "exclude": ["css"]
 }
