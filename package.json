@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --mode development --open --hot",
-    "build": "webpack --mode production",
+    "build": "webpack",
     "deploy": "yarn build && netlify deploy --prod"
   },
   "dependencies": {
