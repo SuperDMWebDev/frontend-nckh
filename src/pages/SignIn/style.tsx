@@ -18,10 +18,86 @@ const Styled = styled.div`
     background-size: cover;
     height: auto;
   }
-  .signin-container {
-    background-image: url('./assets/images/universe.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+  .signin {
+    &__container {
+      width: 100vw;
+      height: fit-content;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      background-color: var(--white);
+    }
+    &__header {
+      padding: 1.5rem 0.5rem;
+      border-bottom: 1px solid #e8e3e3;
+      background: #2e5185 !important;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+      max-height: 50px;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1030;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .nav__container {
+        display: flex;
+        margin-bottom: 0;
+        list-style: none;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .nav__left {
+        flex-direction: row;
+        display: flex;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        color: var(--white);
+        margin-right: 5px;
+        font-size: 1.5rem;
+
+        a {
+          color: var(--white);
+          display: inline-block;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  .signin__logo {
+    margin-top: 50px;
+    background: var(--white);
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+  }
+  .signin__logo--around {
+    padding: 1.5rem 0.5rem;
+  }
+  .navbar__logo {
+    max-width: 200px;
+    float: left;
+    padding: 0;
+    margin: 10px 0;
+  }
+
+  .navbar__image {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: contain;
   }
   .signin-main {
     padding: 5rem 0rem;
@@ -50,6 +126,7 @@ const Styled = styled.div`
     font-weight: bold;
     line-height: 140%;
     margin-top: 3rem;
+    font-size: 2rem;
   }
   .input-box {
     align-self: flex-start;
@@ -59,6 +136,7 @@ const Styled = styled.div`
     font-weight: bold;
     display: block;
     padding: 0.5rem 0rem;
+    font-size: 2rem;
   }
   .input-box .input-text[type='text'],
   .input-box .input-text[type='password'] {
@@ -91,7 +169,7 @@ const Styled = styled.div`
     width: 100%;
     cursor: pointer;
     box-shadow: rgb(0 0 0 / 25%) 0rem -0.4rem inset;
-    background: rgb(38, 137, 12);
+    background: #4682b4;
     color: rgb(255, 255, 255);
     border-radius: 0.4rem;
     font-size: 1.4rem;
