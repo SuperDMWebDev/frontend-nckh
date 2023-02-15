@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import './SearchBar.scss';
 import { MdClose } from 'react-icons/md';
+import StyledSearchBar from './StyledSearchBar';
 
 const SearchBar: React.FC = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -19,18 +19,20 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="searchInputs">
-      <input
-        type="search"
-        placeholder="Search by name or keyword"
-        value={keyword}
-        onChange={handleFilter}
-        ref={inputRef}
-      />
-      <div className="searchIcon">
-        {keyword.length !== 0 && <MdClose id="clearBtn" onClick={clearInput} />}
+    <StyledSearchBar>
+      <div className="search--input">
+        <input
+          type="search"
+          placeholder="Search by name or keyword"
+          value={keyword}
+          onChange={handleFilter}
+          ref={inputRef}
+        />
+        <div className="search__icon">
+          {keyword.length !== 0 && <MdClose id="clearBtn" onClick={clearInput} />}
+        </div>
       </div>
-    </div>
+    </StyledSearchBar>
   );
 };
 
