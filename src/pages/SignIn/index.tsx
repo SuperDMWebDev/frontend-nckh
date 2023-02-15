@@ -10,8 +10,6 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
-  // const responseGoogle = async (response) => {
-  //   const res = await loginUserWithGoogle(response.tokenId);
   //   const { data, status } = res;
   //   if (status != 200) {
   //     toast.error(data, {
@@ -107,28 +105,41 @@ const SignIn = function () {
   const onFailure = (res: any) => {
     console.log('Login failed: res:', res);
   };
-  // const { signInWithGoogle } = useGoogleLogin({
-  //   onSuccess,
-  //   onFailure,
-  //   GOOGLE_CLIENT_ID,
-  //   isSignedIn: true,
-  //   accessType: 'offline'
-  //   // responseType: 'code',
-  //   // prompt: 'consent',
-  // });
+
   useEffect(() => {
     document.title = 'HCMUS - Sign in';
-    // document.getElementById("root").style.backgroundImage = `url("./assets/images/universe.jpg")`;
-    // document.getElementById("root").style.backgroundSize = `cover`;
-    // document.getElementById("root").style.backgroundRepeat = `no-repeat`;
-
-    return () => {
-      document.body.style.backgroundImage = 'url';
-    };
   }, []);
   return (
     <Styled>
-      <div className="signin-container">
+      <div className="signin__container">
+        <nav className="signin__header">
+          <div className="nav__container container">
+            <nav className="nav__left">
+              <span>
+                <i className="fa fa-phone"></i>
+                <a href="tel:(028) 3835 4266">Call us : (028) 3835 4266</a>
+              </span>
+              <span>
+                <i className="fa-regular fa-envelope"></i>{' '}
+                <a href="mailto:info@fit.hcmus.edu.vn">info@fit.hcmus.edu.vn</a>
+              </span>
+            </nav>
+            <div className="nav__right">
+              <span>You are not login</span>
+            </div>
+          </div>
+        </nav>
+        <div className="signin__logo">
+          <div className="container">
+            <nav className="navbar">
+              <a href="#" className="navbar__logo">
+                <span className="logo">
+                  <img className="navbar__image" src="/assets/images/logo_hcmus.jpg" alt="logo" />
+                </span>
+              </a>
+            </nav>
+          </div>
+        </div>
         <main className="signin-main">
           <div className="main-container">
             <div className="auth-form">
@@ -194,26 +205,11 @@ const SignIn = function () {
                     Log in
                   </button>
                 </form>
-                <div className="auth-split">
-                  <hr className="card-line" />
-                  <span className="card-text">or</span>
-                </div>
-                <div className="single-sign-on">
-                  {/* <GoogleLoginButton responseGoogle={responseGoogle} /> */}
-                </div>
-                <p className="redirect-signup">
-                  Don't have an account?
-                  <a href="/signup">Sign up</a>
-                </p>
+                <hr className="card-line" />
 
                 <p className="text-disclaimer">
                   By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
                   and Children’s Privacy Policy.
-                </p>
-                <p className="text-disclaimer">
-                  I understand that I can withdraw my consent at any time and the withdrawal will
-                  not affect the lawfulness of the consent before its withdrawal, as described in
-                  the Kahoot! Privacy Policy.
                 </p>
               </div>
             </div>
