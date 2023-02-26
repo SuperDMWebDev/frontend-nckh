@@ -30,7 +30,7 @@ const Styled = styled.div`
     &__header {
       padding: 1.5rem 0.5rem;
       border-bottom: 1px solid #e8e3e3;
-      background: #2e5185 !important;
+      background: var(--blue-bold) !important;
       box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
       max-height: 50px;
       position: fixed;
@@ -169,7 +169,7 @@ const Styled = styled.div`
     width: 100%;
     cursor: pointer;
     box-shadow: rgb(0 0 0 / 25%) 0rem -0.4rem inset;
-    background: #4682b4;
+    background: var(--blue-light);
     color: rgb(255, 255, 255);
     border-radius: 0.4rem;
     font-size: 1.4rem;
@@ -274,6 +274,9 @@ const Styled = styled.div`
     font-size: 1.5rem;
     line-height: 17px;
     margin: 1rem 0px 1.5rem;
+  }
+  a.reset-link {
+    margin-left: 20px;
   }
 `;
 
