@@ -7,6 +7,7 @@ import { loginUser } from '../../utils/api';
 import { toast } from 'react-toastify';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import Footer from '../../components/Footer';
 const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
@@ -216,6 +217,7 @@ const SignIn = function () {
           </div>
         </main>
       </div>
+      <Footer />
     </Styled>
   );
 };

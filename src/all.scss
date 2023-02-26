@@ -1,5 +1,6 @@
 :root {
-  --blue: #0f6fc5;
+  --blue-light: #4682b4;
+  --blue-bold: #2e5185;
   --indigo: #6610f2;
   --purple: #613d7c;
   --pink: #e83e8c;
@@ -20,6 +21,7 @@
   --danger: #ca3120;
   --light: #f8f9fa;
   --dark: #343a40;
+  --colourBrandingMain: #323232;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -62,9 +64,9 @@ section {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: proxima-nova, sans-serif;
+  font-variant-ligatures: no-common-ligatures;
+  min-height: 100vh;
   font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.5;
@@ -465,4 +467,17 @@ h6,
   .h6 {
     font-size: calc(0.90375rem + 0.045vw);
   }
+}
+
+.navbar-brand.has-logo {
+  max-width: 200px;
+  float: left;
+  padding: 0;
+  margin: 10px 0px;
+}
+.navbar-brand.has-logo img {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: contain;
 }
