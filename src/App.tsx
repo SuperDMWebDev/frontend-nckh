@@ -7,6 +7,7 @@ import './all.scss';
 import Admin from './pages/Admin';
 import AdminHomepage from './pages/AdminHomepage';
 import Header from './components/Header';
+import ModalTeacher from './components/AdminList/ModalTeacher';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/home-page" element={<AdminHomepage />} />
+        <Route path="/test" element={<ModalTeacher />} />
       </Routes>
     </BrowserRouter>
   );
