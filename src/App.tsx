@@ -6,7 +6,7 @@ import SignIn from './pages/SignIn';
 import './all.scss';
 import Admin from './pages/Admin';
 import AdminHomepage from './pages/AdminHomepage';
-import Header from './components/Header';
+import DetailPage from './pages/DetailPage';
 
 const App = () => {
   return (
@@ -17,9 +17,10 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/home-page" element={<AdminHomepage />} />
+        <Route path="/detail-page" element={<DetailPage />} />
       </Routes>
     </BrowserRouter>
-  );
+  ); 
 };
 
 export default App;
