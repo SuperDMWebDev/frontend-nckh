@@ -7,6 +7,7 @@ import './all.scss';
 import Admin from './pages/Admin';
 import AdminHomepage from './pages/AdminHomepage';
 import DetailPage from './pages/DetailPage';
+import ModalTeacher from './components/AdminList/ModalTeacher';
 
 const App = () => {
   return (
@@ -18,9 +19,10 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/home-page" element={<AdminHomepage />} />
         <Route path="/detail-page" element={<DetailPage />} />
+        <Route path="/test" element={<ModalTeacher />} />
       </Routes>
     </BrowserRouter>
-  ); 
+  );
 };
 
 export default App;

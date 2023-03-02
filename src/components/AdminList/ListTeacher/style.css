@@ -1,0 +1,29 @@
+.ant-table-tbody>tr.ant-table-row:hover>td,
+.ant-table-tbody>tr>td.ant-table-cell-row-hover {
+    background-color: lightgray;
+}
+
+.table-row-light {
+    background-color: #ffffff;
+}
+
+.table-row-dark {
+    background-color: #f0f0f0;
+}
+
+.ant-table-thead .ant-table-cell {
+    background-color: green;
+}
+
+.button_delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.button_delete:hover {
+    color: red;
+}
