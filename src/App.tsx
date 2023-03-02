@@ -7,7 +7,6 @@ import './all.scss';
 import Admin from './pages/Admin';
 import AdminHomepage from './pages/AdminHomepage';
 import DetailPage from './pages/DetailPage';
-import Header from './components/Header';
 import ModalTeacher from './components/AdminList/ModalTeacher';
 
 const App = () => {
