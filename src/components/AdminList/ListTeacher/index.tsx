@@ -1,11 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, MoreOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import type { MenuProps } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
+import { Modal } from 'antd';
+import ModalTeacher from '../ModalTeacher';
+import Loader from '../../Loader/Loader';
 import './style.css';
 
 
@@ -46,6 +50,14 @@ const ListTeacher: React.FC = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500);
+    }, [])
 
     const handleSearch = (
         selectedKeys: string[],
@@ -186,12 +198,35 @@ const ListTeacher: React.FC = () => {
         },
     ];
 
-    return <Table
-        pagination={{ pageSize: 7 }}
-        columns={columns}
-        dataSource={data}
-        rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-    />;
+    return <>
+        {
+            loading ? <Loader /> : <div>
+                <div className='header_table'>
+                    <span className='title_table'>List of Teachers</span>
+                    <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
+                </div>
+
+                <Table
+                    pagination={{ pageSize: 7 }}
+                    columns={columns}
+                    dataSource={data}
+                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+                />;
+
+                <Modal
+                    className='title_modal'
+                    title="Add Teacher"
+                    centered
+                    open={open}
+                    onOk={() => setOpen(false)}
+                    onCancel={() => setOpen(false)}
+                    width={800}
+                >
+                    <ModalTeacher />
+                </Modal>
+            </div>
+        }
+    </>
 };
 
 export default ListTeacher;
