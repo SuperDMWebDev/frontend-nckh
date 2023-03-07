@@ -8,6 +8,7 @@ import Admin from './pages/Admin';
 import AdminHomepage from './pages/AdminHomepage';
 import DetailPage from './pages/DetailPage';
 import ModalTeacher from './components/AdminList/ModalTeacher';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (

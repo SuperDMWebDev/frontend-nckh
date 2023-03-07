@@ -58,13 +58,13 @@ const SignIn = function () {
     },
     validationSchema: signInSchema,
     onSubmit: async (value) => {
-      // console.log("value submit ", value);
       try {
         const responseSignIn = await loginUser(value.email, value.password);
-        const { data, status } = responseSignIn;
-
-        if (status != 200) {
-          toast.error(data, {
+        const {
+          data: { token, message, code }
+        } = responseSignIn;
+        if (code != 0) {
+          toast.error(message, {
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -74,10 +74,8 @@ const SignIn = function () {
             theme: 'light'
           });
         } else {
-          const { accessToken, refreshToken, msg } = data;
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-          toast.success(msg, {
+          localStorage.setItem('accessToken', token);
+          toast.success(message, {
             position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
@@ -86,15 +84,9 @@ const SignIn = function () {
             draggable: true,
             theme: 'light'
           });
-          // let cuser = await isAuthenticated();
-          // // console.log("cuser ", cuser);
-          // if (cuser?.user != undefined) {
-          //   setCurrentUser(cuser.user);
-          // }
-          navigate('/home');
         }
       } catch (err) {
-        throw err;
+        console.log('err login ', err);
       }
     }
   });
