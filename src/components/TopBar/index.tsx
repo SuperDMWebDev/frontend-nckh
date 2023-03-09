@@ -28,12 +28,12 @@ function TopBar() {
                     </li>
                 </ul>
 
-                <div className="topbar-right">
-                    <div className='account'>
+                <ul className="topbar-right">
+                    <li className='account'>
                         <AccountCircleOutlinedIcon />
-                        <a>Admin</a>
-                    </div>
-                </div>
+                        <a href="">Admin</a>
+                    </li>
+                </ul>
             </div>
         </Styled>
     );

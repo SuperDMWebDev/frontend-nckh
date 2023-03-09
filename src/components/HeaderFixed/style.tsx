@@ -1,13 +1,26 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
-    .header {
+    .header-fixed {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 30px 50px;
         box-shadow: 0 3px 3px rgb(0 0 0 / 5%);
         background-color: white;
+
+        position: absolute;
+        width: 100%;
+        top: 79px;
+    }
+    svg {
+        margin-right: 12px;
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+    }
+    .account svg {
+        color: #959595;
     }
 
     ul {
@@ -20,7 +33,9 @@ const Styled = styled.div`
         align-items: space-between;
     }
     li {
-        margin-right: 42px;
+        margin-right: 40px;
+        display: flex;
+        align-items: center;
     }
     li:last-child {
         margin-right: 0;
