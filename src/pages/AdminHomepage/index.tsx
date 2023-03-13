@@ -1,9 +1,13 @@
 import { styled } from '@mui/material/styles';
 import TopBar from '../../components/TopBar';
 import Header from '../../components/Header';
+import HeaderFixed from '../../components/HeaderFixed';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import Slider from '../../components/Carousel';
 import Styled from './style';
+import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Footer from '../../components/Footer';
+import Chart from '../../components/BarChart';
 
 const FacebookIconStyled = styled('i')(({ theme }) => ({
     backgroundImage: 'url(/assets/icons/facebook-fill.svg)',
@@ -17,6 +21,10 @@ const FacebookIconStyled = styled('i')(({ theme }) => ({
 }));
 
 const SocialBarStyled = styled('div')(({ theme }) => ({
+    'svg': {
+        width: '20px',
+        height: '20px',
+    },
     'a': {
         transition: 'all .3s',
         cursor: 'pointer',
@@ -44,6 +52,44 @@ const SocialBarStyled = styled('div')(({ theme }) => ({
 }));
 
 export default function AdminHomepage() {
+    const [isVisible, setIsVisible] = useState(true);
+    const [height, setHeight] = useState(0);
+    const div = useRef() as MutableRefObject<HTMLDivElement>;
+
+
+    useEffect(() => {
+        window.addEventListener("scroll", listenToScroll);
+        return () =>
+            window.removeEventListener("scroll", listenToScroll);
+    }, [])
+
+    const listenToScroll = () => {
+        let heightToHideFrom = 30;
+        let heightToFixedFrom = 47;
+        const winScroll = document.body.scrollTop ||
+            document.documentElement.scrollTop;
+        setHeight(winScroll);
+
+        if (winScroll > heightToHideFrom) {
+            isVisible && setIsVisible(false);
+        } else {
+            setIsVisible(true);
+        }
+
+        div.current.style.transition = 'all 0.3s';
+        if (winScroll > heightToFixedFrom) {
+            div.current.style.transform = 'translateY(-80px)';
+            div.current.style.position = "fixed";
+            div.current.style.top = '0';
+            div.current.style.left = '0';
+            div.current.style.width = '100%';
+            div.current.style.display = 'block';
+            div.current.style.zIndex = '99999999999';
+        } else if (winScroll <= heightToFixedFrom) {
+            div.current.style.display = 'none';
+        }
+    };
+
     return (
         <Styled>
             <TopBar />
@@ -63,52 +109,21 @@ export default function AdminHomepage() {
                 </ul>
             </SocialBarStyled>
 
-            <Header />
+            {
+                isVisible &&
+                <Header />
+            }
+
+            <div ref={div}>
+                <HeaderFixed />
+            </div>
+            
 
             <Slider />
 
-            {/* <div className="carousel slide" data-ride="carousel" id="our-vehicles-slider">
-                <ol className="carousel-indicators d-none d-md-flex list-unstyled justify-content-around mx-auto">
-                    <li className="active" data-slide-to="0" data-target="#our-vehicles-slider"></li>
-                    <li data-slide-to="1" data-target="#our-vehicles-slider"></li>
-                    <li data-slide-to="2" data-target="#our-vehicles-slider"></li>
-                    <li data-slide-to="3" data-target="#our-vehicles-slider"></li>
-                    <li data-slide-to="4" data-target="#our-vehicles-slider"></li>
-                </ol>
+            <Chart />
 
-                <div className="carousel-inner">
-                    <div className="carousel-item active item-1">
-                        Item-1
-                    </div>
-
-                    <div className="carousel-item item-2">
-                        Item-2
-                    </div>
-
-                    <div className="carousel-item item-3">
-                        Item-3
-                    </div>
-
-                    <div className="carousel-item item-4">
-                        Item-4
-                    </div>
-
-                    <div className="carousel-item item-5">
-                        Item-5
-                    </div>
-
-                    <div className="carousel-item item-5">
-                        Item-6
-                    </div>
-                </div>
-
-                <a href="#our-vehicles-slider" className="carousel-control-prev" data-slide="prev">
-                    <i className="fa fa-angle-left"></i>
-                </a>
-                <a href="#our-vehicles-slider" className="carousel-control-next" data-slide="next">
-                    <i className="fa fa-angle-right"></i>
-                </a>
-            </div> */}
+            <Footer />
         </Styled>
     );
 }

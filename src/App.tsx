@@ -9,6 +9,7 @@ import AdminHomepage from './pages/AdminHomepage';
 import DetailPage from './pages/DetailPage';
 import ModalTeacher from './components/AdminList/ModalTeacher';
 import Loader from './components/Loader/Loader';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
