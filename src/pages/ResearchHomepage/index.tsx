@@ -51,7 +51,7 @@ const SocialBarStyled = styled('div')(({ theme }) => ({
     },
 }));
 
-export default function AdminHomepage() {
+export default function ResearchHomepage() {
     const [isVisible, setIsVisible] = useState(true);
     const [height, setHeight] = useState(0);
     const div = useRef() as MutableRefObject<HTMLDivElement>;
