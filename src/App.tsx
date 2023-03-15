@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { defaultToastConfig } from './utils/config';
 import ResearchHomepage from './pages/ResearchHomepage';
+import Report from './pages/Report';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/detail-page" element={<DetailPage />} />
           <Route path="/test" element={<ModalTeacher />} />
           <Route path="/loader" element={<Loader />} />
+          <Route path="/report" element={<Report />} />
         </Routes>
       </BrowserRouter>
     </div>

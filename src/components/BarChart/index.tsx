@@ -18,19 +18,21 @@ const data = [{ year: '2010', publication: 400 },
 export default function Chart() {
     return (
         <Styled>
-            <div className="statistic">
-                <h3 className="statistic-title">Publications of VNUHCM-US (2010-2022)</h3>
-                <div className="statistic-content">
-                    <BarChart width={730} height={300} data={data}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="year">
-                            <Label value="Year" offset={0} position="insideBottom" />
-                        </XAxis>
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="publication" fill="rgba(24, 71, 139, 0.8)" />
-                    </BarChart>
+            <div className="chart">
+                <div className="statistic">
+                    <h3 className="statistic-title">Publications of VNUHCM-US (2010-2022)</h3>
+                    <div className="statistic-content">
+                        <BarChart width={730} height={300} data={data}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="year">
+                                <Label value="Year" offset={0} position="insideBottom" />
+                            </XAxis>
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="publication" fill="rgba(24, 71, 139, 0.8)" />
+                        </BarChart>
+                    </div>
                 </div>
             </div>
         </Styled>

@@ -65,7 +65,7 @@ export default function ResearchHomepage() {
 
     const listenToScroll = () => {
         let heightToHideFrom = 30;
-        let heightToFixedFrom = 47;
+        let heightToFixedFrom = 30;
         const winScroll = document.body.scrollTop ||
             document.documentElement.scrollTop;
         setHeight(winScroll);

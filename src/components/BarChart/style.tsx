@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
-    background-color: #f9f9f9;
-    padding-bottom: 180px;
+    .chart {
+        padding-bottom: 180px;
+    }
 
     .statistic {
         padding: 25px 0;
