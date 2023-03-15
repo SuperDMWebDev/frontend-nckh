@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const Styled = styled.div`
     .carousel {
         padding: 75px 0 100px 0;
-        background-color: #f9f9f9;
         position: relative;
     }
     img {
