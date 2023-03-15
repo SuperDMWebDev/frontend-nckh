@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Styled from './style';
 
 const Search = styled('div')(({ theme }) => ({
@@ -44,10 +45,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function Header() {
+export default function HeaderFixed() {
     return (
         <Styled>
-            <div className="header">
+            <div className="header-fixed" >
                 <Search>
                     <SearchIconWrapper>
                         <SearchIcon />
@@ -65,6 +66,10 @@ export default function Header() {
                     </li>
                     <li>
                         <a href="">TRANG CHỦ</a>
+                    </li>
+                    <li className='account'>
+                        <AccountCircleOutlinedIcon />
+                        <a href="">Admin</a>
                     </li>
                 </ul>
             </div>

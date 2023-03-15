@@ -4,6 +4,10 @@ import Styled from './style';
 import Sidebar from '../../components/Sidebar';
 import { UserOutlined, BookOutlined, SettingOutlined, DatabaseOutlined } from '@ant-design/icons';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
+import ListTeacher from '../../components/AdminList/ListTeacher';
+import ListArticle from '../../components/AdminList/ListArticle';
+const { Content } = Layout;
+
 const items: ItemType[] = [
   {
     key: '1',
@@ -39,7 +43,21 @@ export default function Admin() {
           currentKey={currentKey}
           setCurrentKey={setCurrentKey}
         />
-        <Layout className="content-layout"></Layout>
+        <Content
+          style={{
+            margin: '30px 30px',
+            padding: 24,
+            background: "white",
+            borderRadius: "10px",
+          }}
+        >
+          {
+            currentKey == '1' && <ListTeacher />
+          }
+          {
+            currentKey == '2' && <ListArticle />
+          }
+        </Content>
       </Layout>
     </Styled>
   );
