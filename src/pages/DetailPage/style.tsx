@@ -28,20 +28,24 @@ const Styled = styled.div`
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   }
 
-  .content-wrapper {
+  .content_wrapper {
     margin-left: 20px;
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    gap: 25px;
   }
 
-  .content_row {
+  .title_column {
     display: flex;
-    align-items: center;
-    width: 60%;
-    justify-content: space-between;
-    flex-direction: row;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  .value_column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
 
   .row_title {
