@@ -101,43 +101,28 @@ export default function SearchBarAdmin() {
           </SearchIconWrapper>
           <StyledInputBase placeholder="Tìm kiếm..." inputProps={{ 'aria-label': 'search' }} />
         </Search>
-      </div>
-      {/* 
-        <div className="account" onClick={() => setOpenLogoutPop(true)}>
-          <AccountCircleOutlinedIcon />
-          <a className="account_title">Admin</a>
-          {openLogoutPopup && (
-            <div className="account__popup">
-              <div className="account__popup__content">Admin </div>
-              <div className="account__popup__content">Logout </div>
-            </div>
-          )}
-        </div> */}
+        <div className="menu-container" ref={menuRef}>
+          <div
+            className="menu-trigger"
+            onClick={() => {
+              setOpen(!open);
+            }}>
+            <div className="menu-trigger__space"></div>
+            <img src="https://i.pravatar.cc/" />
+          </div>
 
-      <div className="menu-container" ref={menuRef}>
-        <div
-          className="menu-trigger"
-          onClick={() => {
-            setOpen(!open);
-          }}>
-          <img src={user}></img>
-        </div>
-        <div className="dropdown-container"></div>
-
-        <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-          <h3>
-            The Kiet
-            <br />
-            <span>Website Designer</span>
-          </h3>
-          <ul>
-            <DropdownItem img={user} text={'My Profile'} />
-            <DropdownItem img={edit} text={'Edit Profile'} />
-            <DropdownItem img={inbox} text={'Inbox'} />
-            <DropdownItem img={settings} text={'Settings'} />
-            <DropdownItem img={help} text={'Helps'} />
-            <DropdownItem img={logout} text={'Logout'} />
-          </ul>
+          <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
+            <h3>User Admin</h3>
+            <div className="dropdown-menu__subTitle">Website Designer</div>
+            <ul>
+              <DropdownItem img={user} text={'My Profile'} />
+              <DropdownItem img={edit} text={'Edit Profile'} />
+              <DropdownItem img={inbox} text={'Inbox'} />
+              <DropdownItem img={settings} text={'Settings'} />
+              <DropdownItem img={help} text={'Helps'} />
+              <DropdownItem img={logout} text={'Logout'} />
+            </ul>
+          </div>
         </div>
       </div>
     </Styled>

@@ -23,7 +23,8 @@
     "window": true,
     "document": true,
     "Raven": true,
-    "ENV": true
+    "ENV": true,
+    "JSX": true
   },
   "rules": {
     "react/prop-types": "off",
