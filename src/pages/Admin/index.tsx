@@ -11,6 +11,7 @@ import { ItemType } from 'antd/es/menu/hooks/useItems';
 import ListTeacher from '../../components/AdminList/ListTeacher';
 import ListArticle from '../../components/AdminList/ListArticle';
 import SearchBarAdmin from '../../components/SearchBarAdmin/SearchBarAdmin';
+import Configuration from '../../components/AdminList/Configuration';
 const { Content, Header } = Layout;
 
 const items: ItemType[] = [
@@ -130,6 +131,7 @@ export default function Admin() {
               }}>
               {currentKey == '1' && <ListTeacher />}
               {currentKey == '2' && <ListArticle />}
+              {currentKey == '3' && <Configuration />}
             </Content>
           </Layout>
         </Layout>
