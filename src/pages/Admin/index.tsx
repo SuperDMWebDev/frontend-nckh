@@ -57,6 +57,12 @@ export default function Admin() {
           {
             currentKey == '2' && <ListArticle />
           }
+          {
+            currentKey == '3' && <div>Configuration</div>
+          }
+          {
+            currentKey == '4' && <div>Article</div>
+          }
         </Content>
       </Layout>
     </Styled>

@@ -211,7 +211,7 @@ const ListTeacher: React.FC = () => {
                     columns={columns}
                     dataSource={data}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                />;
+                />
 
                 <Modal
                     className='title_modal'
