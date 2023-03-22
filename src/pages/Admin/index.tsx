@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 import Styled from './style';
@@ -93,7 +94,6 @@ export default function Admin() {
   const [currentKey, setCurrentKey] = useState('1');
   return (
     <>
-      {' '}
       <Styled>
         <Layout style={{ minHeight: '100vh' }}>
           <Sidebar
@@ -104,24 +104,7 @@ export default function Admin() {
             setCurrentKey={setCurrentKey}
           />
           <Layout>
-            {/* <Header style={headerStyle}>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Tìm kiếm..."
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-              <div>
-                <AccountCircleOutlinedIcon />
-                <a href="">Admin</a>
-              </div>
-            </Header> */}
-            {/* <Header style={headerStyle}> */}
             <SearchBarAdmin />
-            {/* </Header> */}
             <Content
               style={{
                 margin: '30px 30px',
