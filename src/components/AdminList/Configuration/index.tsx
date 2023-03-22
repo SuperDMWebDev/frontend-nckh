@@ -13,6 +13,8 @@ import Loader from '../../Loader/Loader';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import { Tab, Tabs } from 'react-bootstrap';
+import { Checkbox } from '@mui/material';
+import ModalAcademic from '../ModalAcademic';
 
 interface DataTypeContact {
     key: number;
@@ -227,6 +229,15 @@ const Configuration: React.FC = () => {
 
     const columnsContact: ColumnsType<DataTypeContact> = [
         {
+            title: '',
+            dataIndex: '',
+            key: 'x',
+            width: '3%',
+            render: (text, record) => (
+                <Checkbox />
+            )
+        },
+        {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
@@ -263,6 +274,15 @@ const Configuration: React.FC = () => {
         }
     ];
     const columnsAcademic: ColumnsType<DataTypeAcademic> = [
+        {
+            title: '',
+            dataIndex: '',
+            key: 'x',
+            width: '3%',
+            render: (text, record) => (
+                <Checkbox />
+            )
+        },
         {
             title: 'ID',
             dataIndex: 'id',
@@ -359,7 +379,7 @@ const Configuration: React.FC = () => {
                             onCancel={() => setOpen(false)}
                             width={800}
                         >
-                            <ModalTeacher />
+                            <ModalContact />
                         </Modal>
                     </Tab>
 
@@ -385,7 +405,7 @@ const Configuration: React.FC = () => {
                             onCancel={() => setOpen(false)}
                             width={800}
                         >
-                            <ModalTeacher />
+                            <ModalAcademic />
                         </Modal>
                     </Tab>
                 </Tabs>
