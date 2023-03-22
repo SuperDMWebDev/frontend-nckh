@@ -8,7 +8,7 @@ import type { MenuProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { Modal } from 'antd';
-import ModalTeacher from '../ModalTeacher';
+import ModalContact from '../ModalContact';
 import Loader from '../../Loader/Loader';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
@@ -59,19 +59,6 @@ for (let i = 0; i < 46; i++) {
         updateTitleAt: '',
     });
 }
-
-// Menu Dropdown
-const items: MenuProps['items'] = [
-    {
-        label: (
-            <div className="button_delete" onClick={(e) => console.log(e.target)}>
-                <DeleteOutlined style={{ marginRight: '10px' }} />
-                Delete
-            </div>
-        ),
-        key: 'delete'
-    }
-];
 
 const Configuration: React.FC = () => {
     const [searchText, setSearchText] = useState('');
