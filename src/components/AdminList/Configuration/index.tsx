@@ -8,11 +8,13 @@ import type { MenuProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { Modal } from 'antd';
-import ModalTeacher from '../ModalTeacher';
+import ModalContact from '../ModalContact';
 import Loader from '../../Loader/Loader';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import { Tab, Tabs } from 'react-bootstrap';
+import { Checkbox } from '@mui/material';
+import ModalAcademic from '../ModalAcademic';
 
 interface DataTypeContact {
     key: number;
@@ -59,19 +61,6 @@ for (let i = 0; i < 46; i++) {
         updateTitleAt: '',
     });
 }
-
-// Menu Dropdown
-const items: MenuProps['items'] = [
-    {
-        label: (
-            <div className="button_delete" onClick={(e) => console.log(e.target)}>
-                <DeleteOutlined style={{ marginRight: '10px' }} />
-                Delete
-            </div>
-        ),
-        key: 'delete'
-    }
-];
 
 const Configuration: React.FC = () => {
     const [searchText, setSearchText] = useState('');
@@ -240,6 +229,15 @@ const Configuration: React.FC = () => {
 
     const columnsContact: ColumnsType<DataTypeContact> = [
         {
+            title: '',
+            dataIndex: '',
+            key: 'x',
+            width: '3%',
+            render: (text, record) => (
+                <Checkbox />
+            )
+        },
+        {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
@@ -276,6 +274,15 @@ const Configuration: React.FC = () => {
         }
     ];
     const columnsAcademic: ColumnsType<DataTypeAcademic> = [
+        {
+            title: '',
+            dataIndex: '',
+            key: 'x',
+            width: '3%',
+            render: (text, record) => (
+                <Checkbox />
+            )
+        },
         {
             title: 'ID',
             dataIndex: 'id',
@@ -372,7 +379,7 @@ const Configuration: React.FC = () => {
                             onCancel={() => setOpen(false)}
                             width={800}
                         >
-                            <ModalTeacher />
+                            <ModalContact />
                         </Modal>
                     </Tab>
 
@@ -398,7 +405,7 @@ const Configuration: React.FC = () => {
                             onCancel={() => setOpen(false)}
                             width={800}
                         >
-                            <ModalTeacher />
+                            <ModalAcademic />
                         </Modal>
                     </Tab>
                 </Tabs>
