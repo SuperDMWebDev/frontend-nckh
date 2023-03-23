@@ -35,6 +35,12 @@
         "order": ["type-annotations", "static-methods", "lifecycle", "everything-else", "render"]
       }
     ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "React"
+      }
+    ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error", // suppress errors for missing 'import React' in files
     "react/react-in-jsx-scope": "off",

@@ -52,7 +52,7 @@ const Styled = styled.div`
     padding: 10px 20px;
     width: 220px;
     box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);
-    transition: all 5s ease-in-out;
+
     &__subTitle {
       font-size: 14px;
       color: #64626285;
@@ -63,19 +63,19 @@ const Styled = styled.div`
     }
   }
 
-  .dropdown-menu.active {
+  .menu-container .dropdown-menu.active {
     display: block;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition: all 5s ease-in-out;
+    transition: 0.5s ease-in-out;
   }
 
-  .dropdown-menu.inactive {
+  .menu-container .dropdown-menu.inactive {
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20px);
-    transition: all 5s ease-in-out;
+    transition: 0.5s ease-in-out;
   }
 
   h3 {
