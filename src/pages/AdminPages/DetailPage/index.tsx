@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import TopBar from '../../components/TopBar';
 import Styled from './style';
 import { Layout, Menu, theme } from 'antd';
 const { Sider, Content } = Layout;
 import { UserOutlined, DatabaseOutlined, BookOutlined, SettingOutlined } from '@ant-design/icons';
-import { PlusOutlined } from '@ant-design/icons';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../../components/Sidebar';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 
 const DetailPage = () => {

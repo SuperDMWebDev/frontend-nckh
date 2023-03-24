@@ -42,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: '#959595',
   '& .MuiInputBase-input': {
     padding: '10px',
-    // vertical padding + font size from searchIcon
     paddingLeft: '40px',
     fontSize: '16px'
   },
