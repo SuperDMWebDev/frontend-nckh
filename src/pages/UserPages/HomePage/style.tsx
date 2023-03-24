@@ -9,6 +9,7 @@ const Styled = styled.div`
       url('/assets/images/banner.jpg');
     background-position: 50%;
     background-size: cover;
+    opacity: 0.9;
     margin: 0;
     padding: 112px 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',

@@ -1,7 +1,11 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parser": "@babel/eslint-parser",
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -37,6 +41,7 @@
     ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error", // suppress errors for missing 'import React' in files
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "react/react-in-jsx-scope": "off",
     // allow jsx syntax in js files (for next.js project)
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }] //should add ".ts" if typescript project
