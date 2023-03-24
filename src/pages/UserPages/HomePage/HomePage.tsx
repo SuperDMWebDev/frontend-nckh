@@ -1,15 +1,17 @@
+import React from 'react';
+import Styled from './style';
+import NavBarUser from '../../../components/User/NavBarUser/NavBarUser';
 import styled from 'styled-components';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import Styled from './style';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: '100px',
   backgroundColor: '#efefef',
-  marginLeft: 0,
-  width: '55%'
+  // marginLeft: 0,
+  width: '40%',
+  marginTop: '85px'
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -32,8 +34,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   color: '#959595',
   '& .MuiInputBase-input': {
-    padding: '10px',
-    // vertical padding + font size from searchIcon
+    padding: '15px',
     paddingLeft: '40px',
     fontSize: '16px'
   },
@@ -45,10 +46,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-export default function HeaderFixed() {
+const HomePage = () => {
   return (
     <Styled>
-      <div className="header-fixed">
+      <NavBarUser />
+
+      <section className="banner">
+        <div className="content">
+          <div className="content_title">Scientific Article Management</div>
+          <div className="content_script">
+            Brings your research to life, so you can make an impact on tomorrow
+          </div>
+          <div className="content_script">
+            Search over 100 million cross-publisher articles and counting
+          </div>
+        </div>
+
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
@@ -56,22 +69,10 @@ export default function HeaderFixed() {
           <StyledInputBase placeholder="Tìm kiếm..." inputProps={{ 'aria-label': 'search' }} />
         </Search>
 
-        <ul>
-          <li>
-            <a href="">GIỚI THIỆU</a>
-          </li>
-          <li>
-            <a href="">THỐNG KÊ</a>
-          </li>
-          <li>
-            <a href="">TRANG CHỦ</a>
-          </li>
-          <li className="account">
-            <AccountCircleOutlinedIcon />
-            <a href="">Admin</a>
-          </li>
-        </ul>
-      </div>
+        <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
+      </section>
     </Styled>
   );
-}
+};
+
+export default HomePage;

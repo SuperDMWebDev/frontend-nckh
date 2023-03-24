@@ -5,14 +5,15 @@ import Styled from './style';
 import styled from 'styled-components';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Sidebar from '../../components/Sidebar';
+import Sidebar from '../../../components/Sidebar';
+
 import { UserOutlined, BookOutlined, SettingOutlined, DatabaseOutlined } from '@ant-design/icons';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
-import ListTeacher from '../../components/AdminList/ListTeacher';
-import ListArticle from '../../components/AdminList/ListArticle';
-import SearchBarAdmin from '../../components/SearchBarAdmin/SearchBarAdmin';
-import Configuration from '../../components/AdminList/Configuration';
+import ListTeacher from '../../../components/AdminList/ListTeacher';
+import ListArticle from '../../../components/AdminList/ListArticle';
+import SearchBarAdmin from '../../../components/SearchBarAdmin/SearchBarAdmin';
+import Configuration from '../../../components/AdminList/Configuration';
 const { Content, Header } = Layout;
 
 const items: ItemType[] = [
