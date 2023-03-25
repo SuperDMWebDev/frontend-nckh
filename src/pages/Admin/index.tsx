@@ -6,6 +6,7 @@ import { UserOutlined, BookOutlined, SettingOutlined, DatabaseOutlined } from '@
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 import ListTeacher from '../../components/AdminList/ListTeacher';
 import ListArticle from '../../components/AdminList/ListArticle';
+import ListScholar from '../../components/AdminList/ListScholar';
 const { Content } = Layout;
 
 const items: ItemType[] = [
@@ -55,13 +56,13 @@ export default function Admin() {
             currentKey == '1' && <ListTeacher />
           }
           {
-            currentKey == '2' && <ListArticle />
+            currentKey == '2' && <ListScholar />
           }
           {
             currentKey == '3' && <div>Configuration</div>
           }
           {
-            currentKey == '4' && <div>Article</div>
+            currentKey == '4' && <div><ListArticle /></div>
           }
         </Content>
       </Layout>
