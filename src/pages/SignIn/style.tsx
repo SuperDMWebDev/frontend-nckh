@@ -104,6 +104,7 @@ const Styled = styled.div`
     width: 100%;
     height: fit-content;
     background-color: transparent;
+    min-height: 100vh;
   }
   .main-container {
     display: flex;

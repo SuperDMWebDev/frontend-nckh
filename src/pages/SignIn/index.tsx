@@ -11,37 +11,6 @@ import Footer from '../../components/Footer';
 const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
-  //   const { data, status } = res;
-  //   if (status != 200) {
-  //     toast.error(data, {
-  //       position: 'top-right',
-  //       autoClose: 2000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: false,
-  //       draggable: true,
-  //       theme: 'light'
-  //     });
-  //   } else {
-  //     const { accessToken, refreshToken, msg } = data;
-  //     localStorage.setItem('accessToken', accessToken);
-  //     localStorage.setItem('refreshToken', refreshToken);
-  //     toast.success(msg, {
-  //       position: 'top-right',
-  //       autoClose: 2000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: false,
-  //       draggable: true,
-  //       theme: 'light'
-  //     });
-  //     let cuser = await isAuthenticated();
-  //     if (cuser?.user != undefined) {
-  //       setCurrentUser(cuser.user);
-  //     }
-  //     navigate('/home');
-  //   }
-  // };
   const signInSchema = Yup.object({
     email: Yup.string().email('Not a valid email').required('Email required'),
     password: Yup.string()
@@ -58,55 +27,23 @@ const SignIn = function () {
     },
     validationSchema: signInSchema,
     onSubmit: async (value) => {
-      // console.log("value submit ", value);
       try {
         const responseSignIn = await loginUser(value.email, value.password);
-        const { data, status } = responseSignIn;
-
-        if (status != 200) {
-          toast.error(data, {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: 'light'
-          });
+        const {
+          data: { token, message, code }
+        } = responseSignIn;
+        if (code != 0) {
+          toast.error(message);
         } else {
-          const { accessToken, refreshToken, msg } = data;
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-          toast.success(msg, {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: 'light'
-          });
-          // let cuser = await isAuthenticated();
-          // // console.log("cuser ", cuser);
-          // if (cuser?.user != undefined) {
-          //   setCurrentUser(cuser.user);
-          // }
-          navigate('/home');
+          localStorage.setItem('accessToken', token);
+          toast.success(message);
+          navigate('/admin');
         }
       } catch (err) {
-        throw err;
+        console.log('err login ', err);
       }
     }
   });
-  const onSuccess = (res: any) => {
-    console.log('Login Success: currentUser:', res.profileObj);
-    // refreshTokenSetup(res);
-  };
-
-  const onFailure = (res: any) => {
-    console.log('Login failed: res:', res);
-  };
-
   useEffect(() => {
     document.title = 'HCMUS - Sign in';
   }, []);
