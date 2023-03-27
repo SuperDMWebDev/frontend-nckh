@@ -7,14 +7,12 @@ const Styled = styled.div`
         align-items: center;
         padding: 30px 50px;
         box-shadow: 0 3px 3px rgb(0 0 0 / 5%);
-        background-color: white;
     }
 
     ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        background-color: transparent !important;
 
         display: flex;
         align-items: space-between;
@@ -35,8 +33,6 @@ const Styled = styled.div`
     a {
         color: #959595;
         position: relative;
-        font-size: 16px;
-        text-decoration: none;
     }
     a::after {
         content: "";
