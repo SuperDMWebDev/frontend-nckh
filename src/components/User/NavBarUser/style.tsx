@@ -5,12 +5,12 @@ const Styled = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 50px;
+    padding: 5px 50px;
     box-shadow: 0 3px 3px rgb(0 0 0 / 5%);
     background-color: white;
-
+    width: 100%;
     &_logo {
-      max-width: 70px;
+      max-width: 60px;
     }
   }
 
