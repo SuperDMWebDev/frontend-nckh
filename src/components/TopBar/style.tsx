@@ -11,16 +11,12 @@ const Styled = styled.div`
     }
     svg {
         margin-right: 12px;
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
     }
 
     ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        background-color: transparent !important;
 
         display: flex;
         align-items: center;
@@ -35,7 +31,6 @@ const Styled = styled.div`
     a {
         color: #dfdfdf;
         font-size: 16px;
-        text-decoration: none;
         transition: all .3s;
         cursor: pointer;
     }

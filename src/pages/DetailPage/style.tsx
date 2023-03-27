@@ -1,18 +1,10 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
-  .container {
-    padding: 50px 0;
-    width: 50%;
-    border-radius: 4px;
-  }
-
   .title_wrapper {
     margin-bottom: 20px;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 50px;
+    justify-content: space-between;
     padding: 15px;
   }
 
@@ -22,10 +14,12 @@ const Styled = styled.div`
     left: 438px;
     top: 136px;
 
+    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 500;
-    font-size: 32px;
+    font-weight: 600;
+    font-size: 22px;
     line-height: 33px;
+    /* identical to box height */
 
     letter-spacing: -0.01em;
 
@@ -34,26 +28,20 @@ const Styled = styled.div`
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   }
 
-  .content_wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 500px;
-    font-size: 16px;
-    padding-top: 80px;
-  }
-
-  .title_column {
+  .content-wrapper {
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 55px;
+    gap: 15px;
   }
 
-  .value_column {
+  .content_row {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 55px;
+    align-items: center;
+    width: 60%;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 20px;
   }
 
   .row_title {
