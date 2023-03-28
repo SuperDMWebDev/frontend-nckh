@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Styled from './style';
 import NavBarUser from '../../../components/User/NavBarUser/NavBarUser';
 import styled from 'styled-components';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -46,11 +47,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
+  const [searchInput, setSearchInput] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const goToSearchPage = () => {
+    navigate('./search', { state: searchInput });
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      goToSearchPage();
+    }
+  };
+
   return (
     <Styled>
-      <NavBarUser />
-
       <section className="banner">
         <div className="content">
           <div className="content_title">Scientific Article Management</div>
@@ -66,7 +83,13 @@ const HomePage = () => {
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder="Tìm kiếm..." inputProps={{ 'aria-label': 'search' }} />
+          <StyledInputBase
+            placeholder="Tìm kiếm..."
+            inputProps={{ 'aria-label': 'search' }}
+            value={searchInput}
+            onChange={handleSearch}
+            onKeyDown={handleKeyDown}
+          />
         </Search>
 
         <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
