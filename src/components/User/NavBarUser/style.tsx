@@ -10,7 +10,9 @@ const Styled = styled.div`
     background-color: white;
     width: 100%;
     &_logo {
-      max-width: 60px;
+      img {
+        height: 60px;
+      }
     }
   }
 

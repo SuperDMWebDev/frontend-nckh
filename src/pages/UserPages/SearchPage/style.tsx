@@ -19,6 +19,8 @@ const Styled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
+    border: none;
   }
 
   .input_search {
