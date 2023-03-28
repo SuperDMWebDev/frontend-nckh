@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import ClearIcon from '@mui/icons-material/Clear';
-
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 
 import Styled from './style';
 
 export default function SearchPage() {
+  const location = useLocation();
+
+  const [searchInput, setSearchInput] = useState<string>(location.state);
+
   function handleClickArticle() {
     document.getElementById('detail_article')!.classList.add('detail_article_active');
   }
@@ -24,7 +26,13 @@ export default function SearchPage() {
     <Styled>
       <div className="center">
         <div className="header_article">
-          <input type="text" className="input_search" placeholder="Search for articles..." />
+          <input
+            type="text"
+            className="input_search"
+            placeholder="Search for articles..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
           <button className="btn_search">Search</button>
         </div>
 
@@ -62,20 +70,43 @@ export default function SearchPage() {
                       Associate Professor Anne Prescott started her career as a secondary school
                       teacher of mathematics. She is currently the coordinator of the primary and
                       secondary mathematics teacher education as well as the Master of Teaching
-                      (secondary). 2015-2018 Australian Mathematics and Science Partnership Program
-                      Grant $1 919 500 Maths...
+                      (secondary)
                     </p>
                   </div>
                 </div>
+                <div className="right-part">
+                  <div className="right-part_group">
+                    <div className="right-part__num">857</div>
+                    <div className="right-part__title">Citations</div>
+                  </div>
+                  <div className="right-part_group">
+                    <div className="right-part__num">368</div>
+                    <div className="right-part__title">Readers</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-bottom-part">
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faAdd} />
+                  <div className="card-bottom-part__item">Add to library</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faFilePdf} />
+                  <div className="card-bottom-part__item">Sign in to view PDF</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faNewspaper} />
+                  <div className="card-bottom-part__item">Related</div>
+                </div>
               </div>
             </div>
-
             <div className="card_article" onClick={handleClickArticle}>
               <div className="card-top-part">
                 <div className="left-part">
                   <div className="user-name">
                     <a className="link_title">
-                      <p className="name">The future of bioenergy</p>
+                      <p className="name">A/Prof Anne Prescott</p>
                     </a>
                     <p className="role"> Admin </p>
                   </div>
@@ -87,20 +118,43 @@ export default function SearchPage() {
                       Associate Professor Anne Prescott started her career as a secondary school
                       teacher of mathematics. She is currently the coordinator of the primary and
                       secondary mathematics teacher education as well as the Master of Teaching
-                      (secondary). 2015-2018 Australian Mathematics and Science Partnership Program
-                      Grant $1 919 500 Maths...
+                      (secondary)
                     </p>
                   </div>
                 </div>
+                <div className="right-part">
+                  <div className="right-part_group">
+                    <div className="right-part__num">857</div>
+                    <div className="right-part__title">Citations</div>
+                  </div>
+                  <div className="right-part_group">
+                    <div className="right-part__num">368</div>
+                    <div className="right-part__title">Readers</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-bottom-part">
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faAdd} />
+                  <div className="card-bottom-part__item">Add to library</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faFilePdf} />
+                  <div className="card-bottom-part__item">Sign in to view PDF</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faNewspaper} />
+                  <div className="card-bottom-part__item">Related</div>
+                </div>
               </div>
             </div>
-
             <div className="card_article" onClick={handleClickArticle}>
               <div className="card-top-part">
                 <div className="left-part">
                   <div className="user-name">
                     <a className="link_title">
-                      <p className="name">The rise and fall of bioenergy</p>
+                      <p className="name">A/Prof Anne Prescott</p>
                     </a>
                     <p className="role"> Admin </p>
                   </div>
@@ -112,10 +166,82 @@ export default function SearchPage() {
                       Associate Professor Anne Prescott started her career as a secondary school
                       teacher of mathematics. She is currently the coordinator of the primary and
                       secondary mathematics teacher education as well as the Master of Teaching
-                      (secondary). 2015-2018 Australian Mathematics and Science Partnership Program
-                      Grant $1 919 500 Maths...
+                      (secondary)
                     </p>
                   </div>
+                </div>
+                <div className="right-part">
+                  <div className="right-part_group">
+                    <div className="right-part__num">857</div>
+                    <div className="right-part__title">Citations</div>
+                  </div>
+                  <div className="right-part_group">
+                    <div className="right-part__num">368</div>
+                    <div className="right-part__title">Readers</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-bottom-part">
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faAdd} />
+                  <div className="card-bottom-part__item">Add to library</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faFilePdf} />
+                  <div className="card-bottom-part__item">Sign in to view PDF</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faNewspaper} />
+                  <div className="card-bottom-part__item">Related</div>
+                </div>
+              </div>
+            </div>
+            <div className="card_article" onClick={handleClickArticle}>
+              <div className="card-top-part">
+                <div className="left-part">
+                  <div className="user-name">
+                    <a className="link_title">
+                      <p className="name">A/Prof Anne Prescott</p>
+                    </a>
+                    <p className="role"> Admin </p>
+                  </div>
+                  <div className="user-field">
+                    Industry Fellow School of International Studies and Education
+                  </div>
+                  <div className="user-position">
+                    <p className="position">
+                      Associate Professor Anne Prescott started her career as a secondary school
+                      teacher of mathematics. She is currently the coordinator of the primary and
+                      secondary mathematics teacher education as well as the Master of Teaching
+                      (secondary)
+                    </p>
+                  </div>
+                </div>
+                <div className="right-part">
+                  <div className="right-part_group">
+                    <div className="right-part__num">857</div>
+                    <div className="right-part__title">Citations</div>
+                  </div>
+                  <div className="right-part_group">
+                    <div className="right-part__num">368</div>
+                    <div className="right-part__title">Readers</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-bottom-part">
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faAdd} />
+                  <div className="card-bottom-part__item">Add to library</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faFilePdf} />
+                  <div className="card-bottom-part__item">Sign in to view PDF</div>
+                </div>
+                <div className="card-bottom-part__group">
+                  <FontAwesomeIcon icon={faNewspaper} />
+                  <div className="card-bottom-part__item">Related</div>
                 </div>
               </div>
             </div>
@@ -198,7 +324,28 @@ export default function SearchPage() {
                         <div className="left-part">
                           <div className="user-name">
                             <a className="link_title">
-                              <p className="mini_name">A/Prof Anne Prescott</p>
+                              <p className="mini_name">
+                                Bioenergy production and environmental impactst
+                              </p>
+                            </a>
+                            <p className="role"> Admin </p>
+                          </div>
+                          <div className="user-field">Industry Fellow School</div>
+                          <div className="user-position">
+                            <p className="position">
+                              Associate Professor Anne Prescott started her career as a secondary
+                              school teacher of mathematics.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mini_card_article">
+                      <div className="card-top-part">
+                        <div className="left-part">
+                          <div className="user-name">
+                            <a className="link_title">
+                              <p className="mini_name">The rise and fall of bioenergy</p>
                             </a>
                             <p className="role"> Admin </p>
                           </div>
@@ -236,7 +383,26 @@ export default function SearchPage() {
                         <div className="left-part">
                           <div className="user-name">
                             <a className="link_title">
-                              <p className="mini_name">A/Prof Anne Prescott</p>
+                              <p className="mini_name">The rise and fall of bioenergy</p>
+                            </a>
+                            <p className="role"> Admin </p>
+                          </div>
+                          <div className="user-field">Industry Fellow School</div>
+                          <div className="user-position">
+                            <p className="position">
+                              Associate Professor Anne Prescott started her career as a secondary
+                              school teacher of mathematics.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mini_card_article">
+                      <div className="card-top-part">
+                        <div className="left-part">
+                          <div className="user-name">
+                            <a className="link_title">
+                              <p className="mini_name">The rise and fall of bioenergy</p>
                             </a>
                             <p className="role"> Admin </p>
                           </div>
@@ -274,45 +440,7 @@ export default function SearchPage() {
                         <div className="left-part">
                           <div className="user-name">
                             <a className="link_title">
-                              <p className="mini_name">A/Prof Anne Prescott</p>
-                            </a>
-                            <p className="role"> Admin </p>
-                          </div>
-                          <div className="user-field">Industry Fellow School</div>
-                          <div className="user-position">
-                            <p className="position">
-                              Associate Professor Anne Prescott started her career as a secondary
-                              school teacher of mathematics.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mini_card_article">
-                      <div className="card-top-part">
-                        <div className="left-part">
-                          <div className="user-name">
-                            <a className="link_title">
-                              <p className="mini_name">A/Prof Anne Prescott</p>
-                            </a>
-                            <p className="role"> Admin </p>
-                          </div>
-                          <div className="user-field">Industry Fellow School</div>
-                          <div className="user-position">
-                            <p className="position">
-                              Associate Professor Anne Prescott started her career as a secondary
-                              school teacher of mathematics.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mini_card_article">
-                      <div className="card-top-part">
-                        <div className="left-part">
-                          <div className="user-name">
-                            <a className="link_title">
-                              <p className="mini_name">A/Prof Anne Prescott</p>
+                              <p className="mini_name">AThe rise and fall of bioenergy</p>
                             </a>
                             <p className="role"> Admin </p>
                           </div>

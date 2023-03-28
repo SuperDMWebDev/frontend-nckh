@@ -1,14 +1,15 @@
 import React from 'react';
 import Styled from './style';
-// import Logo from '/assets/images/logo.png';
 
 const NavBarUser = () => {
   return (
     <Styled>
       <div className="container">
-        <div className="container_logo">
-          <img src="/assets/images/hcmus_logo.jpg" />
-        </div>
+        <a href="/">
+          <div className="container_logo">
+            <img src="/assets/images/hcmus_logo.jpg" />
+          </div>
+        </a>
         <div>
           <ul>
             <li>

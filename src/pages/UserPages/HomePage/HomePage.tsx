@@ -56,16 +56,18 @@ const HomePage: React.FC = () => {
     setSearchInput(e.target.value);
   };
 
+  const goToSearchPage = () => {
+    navigate('./search', { state: searchInput });
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      navigate('./search');
+      goToSearchPage();
     }
   };
 
   return (
     <Styled>
-      {/* <NavBarUser /> */}
-
       <section className="banner">
         <div className="content">
           <div className="content_title">Scientific Article Management</div>
