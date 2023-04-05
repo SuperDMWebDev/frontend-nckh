@@ -16,7 +16,7 @@ import './style.css'
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
-export default function ModalAcademic() {
+export default function ModalAcademicTitle() {
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
 
     const onFormLayoutChange = ({ size }: { size: SizeType }) => {
@@ -26,7 +26,7 @@ export default function ModalAcademic() {
 
     return (
         <Form
-            className='modalAcademic'
+            className='modalAcademicTitle'
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 14 }}
             layout="horizontal"
@@ -39,24 +39,15 @@ export default function ModalAcademic() {
                 <Input disabled={true} value={'id'} />
             </Form.Item>
             <Form.Item label="ID Teacher">
+                <Input disabled={true} value={'id'} />
+            </Form.Item>
+            <Form.Item label="Name">
                 <Input />
             </Form.Item>
-            <Form.Item label="Name of academic rank">
-                <Input />
-            </Form.Item>
-            <Form.Item label="Name of academic title">
-                <Input />
-            </Form.Item>
-            <Form.Item label="Create rank at">
+            <Form.Item label="Create at">
                 <Input disabled={true} value={'1/1/1990'} />
             </Form.Item>
-            <Form.Item label="Update rank at">
-                <Input disabled={true} value={'1/1/1990'} />
-            </Form.Item>
-            <Form.Item label="Create title at">
-                <Input disabled={true} value={'1/1/1990'} />
-            </Form.Item>
-            <Form.Item label="Update title at">
+            <Form.Item label="Update at">
                 <Input disabled={true} value={'1/1/1990'} />
             </Form.Item>
         </Form>
