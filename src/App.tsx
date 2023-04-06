@@ -17,7 +17,7 @@ import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 
 const App = () => {
-  const [role, setRole] = useState<string>('user');
+  const [role, setRole] = useState<string>('admin');
 
   return (
     <div>
