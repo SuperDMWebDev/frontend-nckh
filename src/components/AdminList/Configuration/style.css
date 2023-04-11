@@ -31,3 +31,10 @@
     width: 20px;
     height: 20px;
 }
+
+.search-outlined-filtered {
+    color: var(--blue);
+}
+.search-outlined-not-filtered {
+    color: undefined;
+}

@@ -15,9 +15,10 @@ import { defaultToastConfig } from './utils/config';
 import ResearchHomepage from './pages/AdminPages/ResearchHomepage';
 import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
+import { ROLE_USER } from './constants/constant';
 
 const App = () => {
-  const [role, setRole] = useState<string>('admin');
+  const [role, setRole] = useState<string>(ROLE_USER);
 
   return (
     <div>
