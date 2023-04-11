@@ -10,7 +10,12 @@ const listLabel = [
     {
         label: 'ID',
         disabled: true,
-        value: 'id',
+        value: 'id'
+    },
+    {
+        label: 'ID Giảng viên',
+        disabled: true,
+        value: 'id'
     },
     {
         label: 'Tên',
@@ -34,7 +39,7 @@ const listItems = listLabel.map((item, index) =>
     </Form.Item>
 );
 
-export default function ModalContact() {
+export default function ModalAcademicRank() {
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
 
     const onFormLayoutChange = ({ size }: { size: SizeType }) => {
@@ -44,7 +49,7 @@ export default function ModalContact() {
 
     return (
         <Form
-            className='modalContact'
+            className='modalAcademicRank'
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 14 }}
             layout="horizontal"
