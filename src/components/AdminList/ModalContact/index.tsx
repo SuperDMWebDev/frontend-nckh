@@ -1,20 +1,38 @@
 import React, { useState } from 'react';
 import {
-    Button,
-    Cascader,
-    DatePicker,
     Form,
-    Input,
-    InputNumber,
-    Radio,
-    Select,
-    Switch,
-    TreeSelect,
+    Input
 } from 'antd';
-const { Option } = Select;
 import './style.css'
 
 type SizeType = Parameters<typeof Form>[0]['size'];
+const listLabel = [
+    {
+        label: 'ID',
+        disabled: true,
+        value: 'id',
+    },
+    {
+        label: 'Tên',
+        disabled: false,
+        value: undefined
+    },
+    {
+        label: 'Được tạo vào lúc',
+        disabled: true,
+        value: '1/1/1990'
+    },
+    {
+        label: 'Cập nhật vào lúc',
+        disabled: true,
+        value: '1/1/1990'
+    }
+];
+const listItems = listLabel.map((item, index) =>
+    <Form.Item key={index} label={item.label}>
+        <Input disabled={item.disabled} value={item.value} />
+    </Form.Item>
+);
 
 export default function ModalContact() {
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
@@ -35,18 +53,7 @@ export default function ModalContact() {
             size={componentSize as SizeType}
             style={{ maxWidth: 700 }}
         >
-            <Form.Item label="ID">
-                <Input disabled={true} value={'id'} />
-            </Form.Item>
-            <Form.Item label="Name">
-                <Input />
-            </Form.Item>
-            <Form.Item label="Create at">
-                <Input disabled={true} value={'1/1/1990'} />
-            </Form.Item>
-            <Form.Item label="Update at">
-                <Input disabled={true} value={'1/1/1990'} />
-            </Form.Item>
+            {listItems}
         </Form>
     );
-};
+}

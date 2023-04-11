@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, MoreOutlined, DeleteOutlined, MinusOutlined, EditOutlined } from '@ant-design/icons';
+import { SearchOutlined, MinusOutlined, EditOutlined } from '@ant-design/icons';
 import { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
-import type { MenuProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Dropdown } from 'antd';
 import { Modal } from 'antd';
 import ModalContact from '../ModalContact';
 import Loader from '../../Loader/Loader';
@@ -24,7 +22,6 @@ interface DataTypeContact {
     createAt: string;
     updateAt: string;
 }
-type DataIndexContact = keyof DataTypeContact;
 const dataContact: DataTypeContact[] = [];
 for (let i = 0; i < 46; i++) {
     dataContact.push({
@@ -44,7 +41,6 @@ interface DataTypeAcademicRank {
     createAt: string;
     updateAt: string;
 }
-type DataIndexAcademicRank = keyof DataTypeAcademicRank;
 const dataAcademicRank: DataTypeAcademicRank[] = [];
 for (let i = 0; i < 46; i++) {
     dataAcademicRank.push({
@@ -65,7 +61,6 @@ interface DataTypeAcademicTitle {
     createAt: string;
     updateAt: string;
 }
-type DataIndexAcademicTitle = keyof DataTypeAcademicTitle;
 const dataAcademicTitle: DataTypeAcademicTitle[] = [];
 for (let i = 0; i < 46; i++) {
     dataAcademicTitle.push({
@@ -94,12 +89,10 @@ const Configuration: React.FC = () => {
         }, 1500);
     }, [])
 
-
-
     const handleSearchContact = (
         selectedKeys: string[],
         confirm: (param?: FilterConfirmProps) => void,
-        dataIndex: DataIndexContact
+        dataIndex: keyof DataTypeContact
     ) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -108,7 +101,7 @@ const Configuration: React.FC = () => {
     const handleSearchAcademicRank = (
         selectedKeys: string[],
         confirm: (param?: FilterConfirmProps) => void,
-        dataIndex: DataIndexAcademicRank
+        dataIndex: keyof DataTypeAcademicRank
     ) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -117,7 +110,7 @@ const Configuration: React.FC = () => {
     const handleSearchAcademic = (
         selectedKeys: string[],
         confirm: (param?: FilterConfirmProps) => void,
-        dataIndex: DataIndexAcademicTitle
+        dataIndex: keyof DataTypeAcademicTitle
     ) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -129,7 +122,7 @@ const Configuration: React.FC = () => {
         setSearchText('');
     };
 
-    const getColumnSearchPropsContact = (dataIndex: DataIndexContact): ColumnType<DataTypeContact> => ({
+    const getColumnSearchPropsContact = (dataIndex: keyof DataTypeContact): ColumnType<DataTypeContact> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
@@ -177,7 +170,7 @@ const Configuration: React.FC = () => {
             </div>
         ),
         filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            <SearchOutlined style={{ color: filtered ? 'search-outlined-filtered' : 'search-outlined-not-filtered' }} />
         ),
         onFilter: (value, record) =>
             record[dataIndex]
@@ -191,7 +184,7 @@ const Configuration: React.FC = () => {
         },
         render: (text) => (searchedColumn === dataIndex ? text : text)
     });
-    const getColumnSearchPropsAcademicRank = (dataIndex: DataIndexAcademicRank): ColumnType<DataTypeAcademicRank> => ({
+    const getColumnSearchPropsAcademicRank = (dataIndex: keyof DataTypeAcademicRank): ColumnType<DataTypeAcademicRank> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
@@ -239,7 +232,7 @@ const Configuration: React.FC = () => {
             </div>
         ),
         filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            <SearchOutlined style={{ color: filtered ? 'search-outlined-filtered' : 'search-outlined-not-filtered' }} />
         ),
         onFilter: (value, record) =>
             record[dataIndex]
@@ -253,7 +246,7 @@ const Configuration: React.FC = () => {
         },
         render: (text) => (searchedColumn === dataIndex ? text : text)
     });
-    const getColumnSearchPropsAcademicTitle = (dataIndex: DataIndexAcademicTitle): ColumnType<DataTypeAcademicTitle> => ({
+    const getColumnSearchPropsAcademicTitle = (dataIndex: keyof DataTypeAcademicTitle): ColumnType<DataTypeAcademicTitle> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
@@ -301,7 +294,7 @@ const Configuration: React.FC = () => {
             </div>
         ),
         filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            <SearchOutlined style={{ color: filtered ? 'search-outlined-filtered' : 'search-outlined-not-filtered' }} />
         ),
         onFilter: (value, record) =>
             record[dataIndex]
@@ -341,21 +334,21 @@ const Configuration: React.FC = () => {
             }
         },
         {
-            title: 'Name',
+            title: 'Tên',
             dataIndex: 'name',
             key: 'name',
             width: '40%',
             ...getColumnSearchPropsContact('name')
         },
         {
-            title: 'Create At',
+            title: 'Được tạo vào lúc',
             dataIndex: 'createAt',
             key: 'createAt',
             width: '21%',
             ...getColumnSearchPropsContact('createAt')
         },
         {
-            title: 'Update At',
+            title: 'Cập nhật vào lúc',
             dataIndex: 'updateAt',
             key: 'updateAt',
             width: '21%',
@@ -385,7 +378,7 @@ const Configuration: React.FC = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '15%',
+            width: '12%',
             ...getColumnSearchPropsAcademicRank('id'),
             onCell: () => {
                 return {
@@ -396,28 +389,28 @@ const Configuration: React.FC = () => {
             }
         },
         {
-            title: 'ID Teacher',
+            title: 'ID Giảng viên',
             dataIndex: 'idTeacher',
             key: 'idTeacher',
-            width: '15%',
+            width: '20%',
             ...getColumnSearchPropsAcademicRank('idTeacher')
         },
         {
-            title: 'Name Of Academic Rank',
+            title: 'Tên Học hàm',
             dataIndex: 'nameRank',
             key: 'nameRank',
             width: '22%',
             ...getColumnSearchPropsAcademicRank('nameRank')
         },
         {
-            title: 'Create At',
+            title: 'Được tạo vào lúc',
             dataIndex: 'createAt',
             key: 'createAt',
             width: '21%',
             ...getColumnSearchPropsAcademicRank('createAt')
         },
         {
-            title: 'Update At',
+            title: 'Cập nhật vào lúc',
             dataIndex: 'updateAt',
             key: 'updateAt',
             width: '21%',
@@ -447,7 +440,7 @@ const Configuration: React.FC = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '15%',
+            width: '12%',
             ...getColumnSearchPropsAcademicTitle('id'),
             onCell: () => {
                 return {
@@ -458,28 +451,28 @@ const Configuration: React.FC = () => {
             }
         },
         {
-            title: 'ID Teacher',
+            title: 'ID Giảng viên',
             dataIndex: 'idTeacher',
             key: 'idTeacher',
-            width: '15%',
+            width: '20%',
             ...getColumnSearchPropsAcademicTitle('idTeacher')
         },
         {
-            title: 'Name Of Academic Title',
+            title: 'Tên Học vị',
             dataIndex: 'nameTitle',
             key: 'nameTitle',
             width: '22%',
             ...getColumnSearchPropsAcademicTitle('nameTitle')
         },
         {
-            title: 'Create At',
+            title: 'Được tạo vào lúc',
             dataIndex: 'createAt',
             key: 'createAt',
             width: '21%',
             ...getColumnSearchPropsAcademicTitle('createAt')
         },
         {
-            title: 'Update At',
+            title: 'Cập nhật vào lúc',
             dataIndex: 'updateAt',
             key: 'updateAt',
             width: '21%',
@@ -505,11 +498,11 @@ const Configuration: React.FC = () => {
                     className="mb-3"
                     fill
                 >
-                    <Tab eventKey="contact" title="Contact">
+                    <Tab eventKey="contact" title="Liên hệ">
                         <div className='header_table'>
-                            <span className='title_table'>List of Contacts</span>
-                            <button className='button2' onClick={() => setOpenContact(true)}><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
-                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Delete</button>
+                            <span className='title_table'>Danh sách Liên hệ</span>
+                            <button className='button2' onClick={() => setOpenContact(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Xóa</button>
                         </div>
 
                         <Table
@@ -521,7 +514,7 @@ const Configuration: React.FC = () => {
 
                         <Modal
                             className='title_modal'
-                            title="Add Contact"
+                            title="Thêm liên hệ"
                             centered
                             open={openContact}
                             onOk={() => setOpenContact(false)}
@@ -532,11 +525,11 @@ const Configuration: React.FC = () => {
                         </Modal>
                     </Tab>
 
-                    <Tab eventKey="academic-rank" title="Academic Rank">
+                    <Tab eventKey="academic-rank" title="Học hàm">
                         <div className='header_table'>
-                            <span className='title_table'>List of Academic Ranks</span>
-                            <button className='button2' onClick={() => setOpenAcademicRank(true)}><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
-                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Delete</button>
+                            <span className='title_table'>Danh sách Học hàm</span>
+                            <button className='button2' onClick={() => setOpenAcademicRank(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Xóa</button>
                         </div>
 
                         <Table
@@ -548,7 +541,7 @@ const Configuration: React.FC = () => {
 
                         <Modal
                             className='title_modal'
-                            title="Add Academic Rank"
+                            title="Thêm Học hàm"
                             centered
                             open={openAcademicRank}
                             onOk={() => setOpenAcademicRank(false)}
@@ -559,11 +552,11 @@ const Configuration: React.FC = () => {
                         </Modal>
                     </Tab>
 
-                    <Tab eventKey="academic-title" title="Academic Title">
+                    <Tab eventKey="academic-title" title="Học vị">
                         <div className='header_table'>
                             <span className='title_table'>List of Academic Titles</span>
-                            <button className='button2' onClick={() => setOpenAcademicTitle(true)}><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
-                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Delete</button>
+                            <button className='button2' onClick={() => setOpenAcademicTitle(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+                            <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Xóa</button>
                         </div>
 
                         <Table
@@ -590,6 +583,6 @@ const Configuration: React.FC = () => {
         }
     </>
 
-};
+}
 
 export default Configuration;
