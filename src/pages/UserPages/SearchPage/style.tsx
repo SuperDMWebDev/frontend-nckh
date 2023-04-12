@@ -357,6 +357,9 @@ const Styled = styled.div`
   .form-check-input:hover, .form-check-input:focus, .form-check-input:checked {
     box-shadow: 0 0 0 .125rem rgba(13, 110, 253, .25);
   }
+  .header_article input::placeholder {
+    font-style: italic;
+  }
 `;
 
 export default Styled;

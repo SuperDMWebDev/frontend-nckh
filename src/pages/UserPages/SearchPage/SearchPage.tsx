@@ -22,23 +22,12 @@ export default function SearchPage() {
     document.getElementById('detail_article')!.classList.remove('detail_article_active');
   }
 
-  const [item, setItem] = useState({ kindOfStand: "", another: "another" });
-  const { kindOfStand } = item;
-  // const handleChange = e => {
-  //   e.persist();
-  //   console.log(e.target.value);
-
-  //   setItem(prevState => ({
-  //     ...prevState,
-  //     kindOfStand: e.target.value
-  //   }));
-  // };
   const [selected, setSelected] = useState('article');
   const handleChange = event => {
     console.log(event.target.value);
     setSelected(event.target.value);
   };
-  const placeholderVal = `Search for ${selected}...`;
+  const placeholderVal = `Search for ${selected}s...`;
 
   return (
     <Styled>
