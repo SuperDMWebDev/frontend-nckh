@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
+import { Form, Tab, Tabs } from 'react-bootstrap';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,14 +22,55 @@ export default function SearchPage() {
     document.getElementById('detail_article')!.classList.remove('detail_article_active');
   }
 
+  const [item, setItem] = useState({ kindOfStand: "", another: "another" });
+  const { kindOfStand } = item;
+  // const handleChange = e => {
+  //   e.persist();
+  //   console.log(e.target.value);
+
+  //   setItem(prevState => ({
+  //     ...prevState,
+  //     kindOfStand: e.target.value
+  //   }));
+  // };
+  const [selected, setSelected] = useState('article');
+  const handleChange = event => {
+    console.log(event.target.value);
+    setSelected(event.target.value);
+  };
+  const placeholderVal = `Search for ${selected}...`;
+
   return (
     <Styled>
       <div className="center">
+        <div className="search-radio">
+          <Form.Group controlId="kindOfStand" className="search-form-check">
+            <p>Search for: </p>
+            <Form.Check
+              value="article"
+              type="radio"
+              aria-label="radio 1"
+              label="Article"
+              onChange={handleChange}
+              checked={selected === "article"}
+              defaultChecked={true}
+            />
+            <Form.Check
+              value="author"
+              type="radio"
+              aria-label="radio 2"
+              label="Author"
+              onChange={handleChange}
+              checked={selected === "author"}
+            />
+          </Form.Group>
+        </div>
+
         <div className="header_article">
           <input
             type="text"
             className="input_search"
-            placeholder="Search for articles..."
+            placeholder={placeholderVal}
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
