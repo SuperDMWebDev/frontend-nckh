@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
+import SearchInput from '../../../components/User/SearchInput/SearchInput';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,7 +53,7 @@ const HomePage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleSearch = (e:any) => {
     setSearchInput(e.target.value);
   };
 
@@ -60,7 +61,7 @@ const HomePage: React.FC = () => {
     navigate('./search', { state: searchInput });
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event:any) => {
     if (event.key === 'Enter') {
       goToSearchPage();
     }
@@ -79,7 +80,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <Search>
+        {/* <Search>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
@@ -90,7 +91,9 @@ const HomePage: React.FC = () => {
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
           />
-        </Search>
+        </Search> */}
+
+        <SearchInput/>
 
         <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
       </section>

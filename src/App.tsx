@@ -18,7 +18,7 @@ import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import { ROLE_USER } from './constants/constant';
 
 const App = () => {
-  const [role, setRole] = useState<string>(ROLE_USER);
+  const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
     <div>
