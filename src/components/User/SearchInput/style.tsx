@@ -27,7 +27,7 @@ const Styled = styled.div`
   .searchOption {
     background-color: #fff;
     border-radius: 0 50px 50px 0;
-    padding: 0 8px;
+    padding: 0 20px;
     position: relative;
 
     &_title {
@@ -35,17 +35,33 @@ const Styled = styled.div`
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 100px;
+      width: 80px;
       height: 40px;
+      font-size: 14px;
     }
 
     &_option {
+      position: absolute;
+      top: 50px;
+
       border-radius: 9px;
       box-shadow: 0 0 6px rgba(0, 0, 0, 0.196);
+      width: 100px;
+
       display: flex;
       flex-direction: column;
-      position: absolute;
-      top: 5px;
+      align-items: center;
+      justify-content: center;
+
+      background-color: #fff;
+      &_item {
+        padding: 8px 0;
+        font-size: 14px;
+      }
+
+      &_item:hover {
+        background-color: #e8e8e8;
+      }
     }
   }
 `;
