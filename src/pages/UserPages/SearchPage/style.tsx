@@ -23,41 +23,6 @@ const Styled = styled.div`
     border: none;
   }
 
-  .input_search {
-    box-sizing: border-box;
-    color: rgb(50, 50, 50);
-    border: 1px solid rgb(185, 185, 185);
-    background: rgb(255, 255, 255);
-
-    height: 40px;
-    width: 400px;
-
-    font-size: 13px;
-
-    padding: 12px 40px 12px 16px;
-    line-height: 1;
-    border-radius: 50px;
-  }
-
-  .btn_search {
-    position: relative;
-
-    font-size: 14px;
-    height: 40px;
-    width: 120px;
-
-    margin-left: 20px;
-    padding: 12px 16px;
-
-    border: none;
-
-    line-height: 1;
-    border-radius: 50px;
-
-    background-color: #206edb;
-    color: #fff;
-  }
-
   .sort_article {
     display: flex;
     justify-content: center;

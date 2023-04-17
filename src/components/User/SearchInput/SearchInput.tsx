@@ -32,19 +32,26 @@ const SearchInput = () => {
         <input
           type="text"
           className="input_search"
-          placeholder="Search for articles..."
+          placeholder="Search by name or keyword"
           // value={searchInput}
           // onChange={(e) => setSearchInput(e.target.value)}
         />
         <div className="searchOption">
           <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
-            <div>Article</div>
+            <div>{searchOption.label}</div>
             <FontAwesomeIcon icon={faAngleDown} />
           </div>
           {openOption && (
             <div className="searchOption_option" ref={optionRef}>
-              <div className="searchOption_option_item">Author</div>
-              <div className="searchOption_option_item">Article</div>
+              {SEARCH_OPTION.map((item) => (
+                <div
+                  className="searchOption_option_item"
+                  onClick={() => {
+                    setSearchOption(item), setOpenOption(false);
+                  }}>
+                  {item.label}
+                </div>
+              ))}
             </div>
           )}
         </div>

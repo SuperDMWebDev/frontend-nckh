@@ -4,7 +4,7 @@ const Styled = styled.div`
   .searchContainer {
     max-width: 656px;
     height: 80px;
-    margin-top: 15px;
+    margin: 15px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,9 +35,10 @@ const Styled = styled.div`
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 80px;
+      width: 70px;
       height: 40px;
       font-size: 14px;
+      cursor: pointer;
     }
 
     &_option {
@@ -53,9 +54,13 @@ const Styled = styled.div`
       align-items: center;
       justify-content: center;
 
+      overflow: hidden;
       background-color: #fff;
+      z-index: 999;
       &_item {
-        padding: 8px 0;
+        width: 100%;
+        padding: 8px 0px;
+        text-align: center;
         font-size: 14px;
       }
 
