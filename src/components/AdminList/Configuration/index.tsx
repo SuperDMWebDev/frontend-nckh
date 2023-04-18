@@ -554,7 +554,7 @@ const Configuration: React.FC = () => {
 
                     <Tab eventKey="academic-title" title="Học vị">
                         <div className='header_table'>
-                            <span className='title_table'>List of Academic Titles</span>
+                            <span className='title_table'>Danh sách Học vị</span>
                             <button className='button2' onClick={() => setOpenAcademicTitle(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                             <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px"}} />Xóa</button>
                         </div>
@@ -568,7 +568,7 @@ const Configuration: React.FC = () => {
 
                         <Modal
                             className='title_modal'
-                            title="Add Academic Title"
+                            title="Thêm Học vị"
                             centered
                             open={openAcademicTitle}
                             onOk={() => setOpenAcademicTitle(false)}

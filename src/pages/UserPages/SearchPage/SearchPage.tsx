@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
+import { Form, Tab, Tabs } from 'react-bootstrap';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +24,13 @@ export default function SearchPage() {
   function handleDeleteDetail() {
     document.getElementById('detail_article')!.classList.remove('detail_article_active');
   }
+
+  const [selected, setSelected] = useState('article');
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setSelected(event.target.value);
+  };
+  const placeholderVal = `Search for ${selected}s...`;
 
   return (
     <Styled>
