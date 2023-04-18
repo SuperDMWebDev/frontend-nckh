@@ -333,6 +333,33 @@ const Styled = styled.div`
   img {
     width: 100%;
   }
+
+  .search-radio {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+    width: 380px;
+    margin-left: -130px;
+  }
+  .search-radio p {
+    margin-bottom: 0;
+    margin-right: 50px;
+  }
+  .search-form-check {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form-check-input {
+    cursor: pointer;
+  }
+  .form-check-input:hover, .form-check-input:focus, .form-check-input:checked {
+    box-shadow: 0 0 0 .125rem rgba(13, 110, 253, .25);
+  }
+  .header_article input::placeholder {
+    font-style: italic;
+  }
 `;
 
 export default Styled;
