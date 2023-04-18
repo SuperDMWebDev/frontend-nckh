@@ -1,14 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { SEARCH_OPTION } from '../../../constants/constant';
 
 const SearchInput = () => {
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState<string>();
   const [openOption, setOpenOption] = useState(false);
   const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
 
   let optionRef = useRef<HTMLDivElement>(null);
+
+  const goToSearchPage = () => {
+    navigate('./search', { state: searchInput });
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      goToSearchPage();
+    }
+  };
 
   useEffect(() => {
     let handler = (e: any) => {
@@ -33,8 +46,9 @@ const SearchInput = () => {
           type="text"
           className="input_search"
           placeholder="Search by name or keyword"
-          // value={searchInput}
-          // onChange={(e) => setSearchInput(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <div className="searchOption">
           <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
