@@ -151,7 +151,7 @@ const ListTeacher: React.FC = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'Name',
+      title: 'Họ và tên',
       dataIndex: 'name',
       key: 'name',
       width: '20%',
@@ -165,14 +165,14 @@ const ListTeacher: React.FC = () => {
       }
     },
     {
-      title: 'Age',
+      title: 'Tuổi',
       dataIndex: 'age',
       key: 'age',
       width: '5%',
       ...getColumnSearchProps('age')
     },
     {
-      title: 'University',
+      title: 'Đơn vị công tác',
       dataIndex: 'university',
       key: 'university',
       width: '25%',
@@ -186,7 +186,7 @@ const ListTeacher: React.FC = () => {
       ...getColumnSearchProps('age')
     },
     {
-      title: 'Address',
+      title: 'Địa chỉ',
       dataIndex: 'address',
       key: 'address',
       ...getColumnSearchProps('address'),
@@ -212,8 +212,8 @@ const ListTeacher: React.FC = () => {
         {
             loading ? <Loader /> : <div>
                 <div className='header_table'>
-                    <span className='title_table'>List of Teachers</span>
-                    <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
+                    <span className='title_table'>Danh sách người dùng</span>
+                    <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                 </div>
 
                 <Table

@@ -33,7 +33,7 @@ export default function SearchPage() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
-          <button className="btn_search">Search</button>
+          <button className="btn_search">Tìm kiếm</button>
         </div>
 
         <div className="content content_article">
@@ -45,11 +45,11 @@ export default function SearchPage() {
                 color: '#0056ce',
                 fontWeight: 'bolder'
               }}>
-              SORT BY
+              SẮP XẾP
             </span>
-            <button className="btn_sort">Most relevant</button>
-            <button className="btn_sort">Most recent</button>
-            <button className="btn_sort">Most cited</button>
+            <button className="btn_sort">Liên quan nhất</button>
+            <button className="btn_sort">Gần đây nhất</button>
+            <button className="btn_sort">Trích dẫn nhiều nhất</button>
           </div>
 
           <div className="list_article">
@@ -77,11 +77,11 @@ export default function SearchPage() {
                 <div className="right-part">
                   <div className="right-part_group">
                     <div className="right-part__num">857</div>
-                    <div className="right-part__title">Citations</div>
+                    <div className="right-part__title">Trích dẫn</div>
                   </div>
                   <div className="right-part_group">
                     <div className="right-part__num">368</div>
-                    <div className="right-part__title">Readers</div>
+                    <div className="right-part__title">Người xem</div>
                   </div>
                 </div>
               </div>
@@ -89,15 +89,15 @@ export default function SearchPage() {
               <div className="card-bottom-part">
                 <div className="card-bottom-part__group">
                   <FontAwesomeIcon icon={faAdd} />
-                  <div className="card-bottom-part__item">Add to library</div>
+                  <div className="card-bottom-part__item">Thêm vào thư viện</div>
                 </div>
                 <div className="card-bottom-part__group">
                   <FontAwesomeIcon icon={faFilePdf} />
-                  <div className="card-bottom-part__item">Sign in to view PDF</div>
+                  <div className="card-bottom-part__item">Đăng nhập để xem PDF</div>
                 </div>
                 <div className="card-bottom-part__group">
                   <FontAwesomeIcon icon={faNewspaper} />
-                  <div className="card-bottom-part__item">Related</div>
+                  <div className="card-bottom-part__item">Liên quan</div>
                 </div>
               </div>
             </div>

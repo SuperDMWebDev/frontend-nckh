@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     setSearchInput(e.target.value);
   };
 
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
     navigate('./search', { state: searchInput });
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
       goToSearchPage();
     }
@@ -70,12 +70,12 @@ const HomePage: React.FC = () => {
     <Styled>
       <section className="banner">
         <div className="content">
-          <div className="content_title">Scientific Article Management</div>
+          <div className="content_title">Quản lý bài viết khoa học</div>
           <div className="content_script">
-            Brings your research to life, so you can make an impact on tomorrow
+            Đưa những nghiên cứu của bạn vào cuộc sống, để bạn có thể tạo ảnh hưởng đến mai sau
           </div>
           <div className="content_script">
-            Search over 100 million cross-publisher articles and counting
+            Với hơn 100 triệu bài viết được tìm kiếm của nhiều nhà xuất bản và con số này đang tiếp tục tăng.
           </div>
         </div>
 
@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
           />
         </Search>
 
-        <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
+        <div className="popularSearch">Từ khóa tìm kiếm phổ biến: COVID-19, Bioenergy, Obesity</div>
       </section>
     </Styled>
   );

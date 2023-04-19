@@ -75,7 +75,7 @@ export default function SearchBarAdmin() {
   let menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let handler = (e) => {
+    let handler = (e: any) => {
       if (menuRef.current != null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);

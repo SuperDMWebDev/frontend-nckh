@@ -20,22 +20,22 @@ const items: ItemType[] = [
   {
     key: '1',
     icon: <UserOutlined />,
-    label: 'User'
+    label: 'Người dùng'
   },
   {
     key: '2',
     icon: <BookOutlined />,
-    label: 'Scholar'
+    label: 'Học giả'
   },
   {
     key: '3',
     icon: <SettingOutlined />,
-    label: 'Configuration'
+    label: 'Cấu hình'
   },
   {
     key: '4',
     icon: <DatabaseOutlined />,
-    label: 'Article'
+    label: 'Bài báo khoa học'
   }
 ];
 

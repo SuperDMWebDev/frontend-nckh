@@ -30,10 +30,10 @@ const NavBarUser = () => {
         <div>
           <ul>
             <li>
-              <a href="/signin">Log In</a>
+              <a href="/signin">Đăng nhập</a>
             </li>
             <li>
-              <a>Register</a>
+              <a>Đăng kí</a>
             </li>
           </ul>
         </div>
