@@ -9,6 +9,7 @@ const Styled = styled.div`
 
     max-width: 700px;
     padding: 20px 0;
+    border-top: 1px solid #e5e5e5;
   }
 
   .left {

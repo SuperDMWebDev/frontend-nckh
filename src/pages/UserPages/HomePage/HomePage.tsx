@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import Styled from './style';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
 
+interface SEARCH_INPUT_TYPE {
+  value: string;
+  label: string;
+}
+
 const HomePage: React.FC = () => {
   return (
     <Styled>
@@ -16,7 +21,9 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <SearchInput />
+        <SearchInput
+          getSearchOption={(item: SEARCH_INPUT_TYPE) => console.log('Home page option', item)}
+        />
 
         <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
       </section>

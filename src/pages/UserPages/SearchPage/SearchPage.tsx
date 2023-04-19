@@ -9,6 +9,11 @@ import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
 import Styled from './style';
 import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
+import { SEARCH_OPTION } from '../../../constants/constant';
+interface SEARCH_INPUT_TYPE {
+  value: string;
+  label: string;
+}
 
 export default function SearchPage() {
   const searchAuthor = true;
@@ -16,6 +21,7 @@ export default function SearchPage() {
   const location = useLocation();
 
   const [searchInput, setSearchInput] = useState<string>(location.state);
+  const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
 
   function handleClickArticle() {
     document.getElementById('detail_article')!.classList.add('detail_article_active');
@@ -25,18 +31,19 @@ export default function SearchPage() {
     document.getElementById('detail_article')!.classList.remove('detail_article_active');
   }
 
-  const [selected, setSelected] = useState('article');
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setSelected(event.target.value);
+  const handleSearchOption = (item: any) => {
+    setSearchOption(item);
   };
-  const placeholderVal = `Search for ${selected}s...`;
 
   return (
     <Styled>
       {searchAuthor ? (
         <div className="center">
-          <div style={{ fontSize: '22px', margin: '20px' }}>EXPERT SEARCH</div>
+          <div
+            style={{
+              fontSize: '22px',
+              margin: '20px'
+            }}>{`${searchOption.label.toUpperCase()} SEARCH`}</div>
           <div
             style={{
               backgroundColor: '#e6e4e4',
@@ -44,8 +51,12 @@ export default function SearchPage() {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <SearchInput />
+            <SearchInput getSearchOption={(item: SEARCH_INPUT_TYPE) => handleSearchOption(item)} />
           </div>
+          <AuthorCard />
+          <AuthorCard />
+          <AuthorCard />
+          <AuthorCard />
           <AuthorCard />
         </div>
       ) : (

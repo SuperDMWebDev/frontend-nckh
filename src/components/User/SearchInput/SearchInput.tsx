@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { SEARCH_OPTION } from '../../../constants/constant';
 
-const SearchInput = () => {
+const SearchInput = ({ getSearchOption }) => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState<string>();
   const [openOption, setOpenOption] = useState(false);
@@ -61,7 +61,9 @@ const SearchInput = () => {
                 <div
                   className="searchOption_option_item"
                   onClick={() => {
-                    setSearchOption(item), setOpenOption(false);
+                    setSearchOption(item);
+                    getSearchOption(item);
+                    setOpenOption(false);
                   }}>
                   {item.label}
                 </div>
