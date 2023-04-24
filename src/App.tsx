@@ -15,9 +15,13 @@ import { defaultToastConfig } from './utils/config';
 import ResearchHomepage from './pages/AdminPages/ResearchHomepage';
 import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
+import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
+import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
+import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 
 const App = () => {
+  const isLogin = !!localStorage.getItem("accessToken");
   const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
@@ -27,11 +31,14 @@ const App = () => {
       <BrowserRouter>
         {role == 'user' ? (
           <div>
-            <NavBarUser />
+            {
+              isLogin ? <NavBarUser /> : <AnonymousNavBar />
+            }
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SignIn />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         ) : (
@@ -52,3 +59,9 @@ const App = () => {
 };
 
 export default App;
+
+
+// git fetch -a
+// git pull origin develop
+// fix conflict neu co
+// git push

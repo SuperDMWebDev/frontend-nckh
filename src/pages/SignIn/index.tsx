@@ -36,8 +36,11 @@ const SignIn = function () {
           toast.error(message);
         } else {
           localStorage.setItem('accessToken', token);
+          console.log("token");
           toast.success(message);
-          navigate('/admin');
+          //navigate('/');
+          window.location.replace('http://localhost:5000/');
+          console.log(token);
         }
       } catch (err) {
         console.log('err login ', err);

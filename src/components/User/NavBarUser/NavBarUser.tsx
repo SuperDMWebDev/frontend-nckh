@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Styled from './style';
 import user from '../../../assets/user.png';
 import edit from '../../../assets/edit.png';
@@ -13,13 +14,14 @@ const NavBarUser = () => {
   const [open, setOpen] = useState(false);
 
   let menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let handler = (e:any) => {
+    let handler = (e: any) => {
       if (menuRef.current != null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);
-          console.log(menuRef.current);
+          //console.log(menuRef.current);
         }
       }
     };
@@ -34,11 +36,19 @@ const NavBarUser = () => {
   interface DropdownType {
     img: string;
     text: string;
+    value: string;
   }
   function DropdownItem(props: DropdownType) {
+    const handleChange = (value: string) => {
+      if (value == "MyProfile") {
+        navigate('/profile');
+        setOpen(false);
+      }
+    }
+
     return (
       <Styled>
-        <li className="dropdownItem">
+        <li className="dropdownItem" value={props.value} onClick={() => handleChange(props.value)}>
           <img src={props.img} alt="" />
           <a>{props.text}</a>
         </li>
@@ -85,12 +95,12 @@ const NavBarUser = () => {
               <h3>Lecturer</h3>
               <div className="dropdown-menu__subTitle">Website Designer</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={user} text={'Your Profile'} />
-                <DropdownItem img={edit} text={'Your Article'} />
-                <DropdownItem img={inbox} text={'Configuration'} />
-                <DropdownItem img={settings} text={'Settings'} />
-                <DropdownItem img={help} text={'Helps'} />
-                <DropdownItem img={logout} text={'Logout'} />
+                <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
+                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
+                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
+                <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
+                <DropdownItem img={help} text={'Helps'} value={'Helps'} />
+                <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
               </ul>
             </div>
           </div>

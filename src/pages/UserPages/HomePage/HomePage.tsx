@@ -8,16 +8,34 @@ interface SEARCH_INPUT_TYPE {
 }
 
 const HomePage: React.FC = () => {
+  const [searchInput, setSearchInput] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const handleSearch = (e: any) => {
+    setSearchInput(e.target.value);
+  };
+
+  const goToSearchPage = () => {
+    navigate('./search', { state: searchInput });
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      goToSearchPage();
+    }
+  };
+
   return (
     <Styled>
       <section className="banner">
         <div className="content">
-          <div className="content_title">Scientific Article Management</div>
+          <div className="content_title">Quản lý bài viết khoa học</div>
           <div className="content_script">
-            Brings your research to life, so you can make an impact on tomorrow
+            Đưa những nghiên cứu của bạn vào cuộc sống, để bạn có thể tạo ảnh hưởng đến mai sau
           </div>
           <div className="content_script">
-            Search over 100 million cross-publisher articles and counting
+            Với hơn 100 triệu bài viết được tìm kiếm của nhiều nhà xuất bản và con số này đang tiếp tục tăng.
           </div>
         </div>
 
@@ -25,7 +43,7 @@ const HomePage: React.FC = () => {
           getSearchOption={(item: SEARCH_INPUT_TYPE) => console.log('Home page option', item)}
         />
 
-        <div className="popularSearch">Popular searches: COVID-19, Bioenergy, Obesity</div>
+        <div className="popularSearch">Từ khóa tìm kiếm phổ biến: COVID-19, Bioenergy, Obesity</div>
       </section>
     </Styled>
   );
