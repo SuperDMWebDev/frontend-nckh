@@ -21,8 +21,8 @@ import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 
 const App = () => {
-  const [role, setRole] = useState<string>(ROLE_USER);
   const isLogin = !!localStorage.getItem("accessToken");
+  const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
     <div>
