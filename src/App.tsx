@@ -17,9 +17,12 @@ import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
+import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
+import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 
 const App = () => {
   const [role, setRole] = useState<string>(ROLE_USER);
+  const isLogin = !!localStorage.getItem("accessToken");
 
   return (
     <div>
@@ -28,7 +31,9 @@ const App = () => {
       <BrowserRouter>
         {role == 'user' ? (
           <div>
-            <NavBarUser />
+            {
+              isLogin ? <NavBarUser /> : <AnonymousNavBar />
+            }
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />

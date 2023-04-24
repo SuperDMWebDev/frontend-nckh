@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Styled from './style';
 import user from '../../../assets/user.png';
 import edit from '../../../assets/edit.png';
@@ -13,6 +14,7 @@ const NavBarUser = () => {
   const [open, setOpen] = useState(false);
 
   let menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let handler = (e: any) => {
@@ -37,14 +39,16 @@ const NavBarUser = () => {
     value: string;
   }
   function DropdownItem(props: DropdownType) {
-    const handleChange = (e: any) => {
-      console.log(e.target);
-      console.log("clicked");
+    const handleChange = (value: string) => {
+      if (value == "MyProfile") {
+        navigate('/profile');
+        setOpen(false);
+      }
     }
 
     return (
       <Styled>
-        <li className="dropdownItem" value={props.value} onClick={handleChange}>
+        <li className="dropdownItem" value={props.value} onClick={() => handleChange(props.value)}>
           <img src={props.img} alt="" />
           <a>{props.text}</a>
         </li>
