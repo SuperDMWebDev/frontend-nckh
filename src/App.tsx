@@ -20,7 +20,7 @@ import AccountPage from './pages/UserPages/ProfilePage/AccountPage';
 import ProfilePage from './pages/UserPages/ProfilePage';
 
 const App = () => {
-  const [role, setRole] = useState<string>(ROLE_USER);
+  const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
     <div>
