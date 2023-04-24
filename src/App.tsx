@@ -16,9 +16,10 @@ import ResearchHomepage from './pages/AdminPages/ResearchHomepage';
 import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import Profile from './pages/UserPages/Profile/Profile';
+import { ROLE_USER } from './constants/constant';
 
 const App = () => {
-  const [role, setRole] = useState<string>('user');
+  const [role, setRole] = useState<string>(ROLE_USER);
 
   return (
     <div>
@@ -53,3 +54,9 @@ const App = () => {
 };
 
 export default App;
+
+
+// git fetch -a
+// git pull origin develop
+// fix conflict neu co
+// git push

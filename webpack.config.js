@@ -38,7 +38,7 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true } }]
       },
-      //third rule
+      // third rule
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
         loader: 'file-loader',
@@ -46,7 +46,7 @@ module.exports = {
           name: '[path][name].[ext]'
         }
       },
-      //four rule
+      // four rule
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
@@ -84,13 +84,13 @@ module.exports = {
     new Dotenv(),
     new CopyPlugin({
       patterns: [
-        { from: 'public/assets', to: 'assets' } //to the  root directory
+        { from: 'public/assets', to: 'assets' } // to the  root directory
       ]
     })
   ],
   devServer: {
     host: 'localhost',
-    port: port,
+    port,
     historyApiFallback: true,
     open: true
   }

@@ -94,6 +94,11 @@ const Styled = styled.div`
     color: #f7f7f7;
   }
 
+  .tab-selected {
+    font-weight: bold;
+    color: black;
+  }
+
   .content-profile {
     background-color: #efeeee;
     width: 840px;

@@ -56,12 +56,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface DropdownType {
   img: string;
   text: string;
+  value: string;
 }
 
 function DropdownItem(props: DropdownType) {
+
   return (
     <Styled>
-      <li className="dropdownItem">
+      <li className="dropdownItem" value={props.value} onClick={() => console.log("clicked")}>
         <img src={props.img} alt="" />
         <a>{props.text}</a>
       </li>
@@ -114,12 +116,12 @@ export default function SearchBarAdmin() {
             <h3>User Admin</h3>
             <div className="dropdown-menu__subTitle">Website Designer</div>
             <ul>
-              <DropdownItem img={user} text={'My Profile'} />
-              <DropdownItem img={edit} text={'Edit Profile'} />
-              <DropdownItem img={inbox} text={'Inbox'} />
-              <DropdownItem img={settings} text={'Settings'} />
-              <DropdownItem img={help} text={'Helps'} />
-              <DropdownItem img={logout} text={'Logout'} />
+              <DropdownItem img={user} text={'My Profile'} value={'MyProfile'} />
+              <DropdownItem img={edit} text={'Edit Profile'} value={'EditProfile'} />
+              <DropdownItem img={inbox} text={'Inbox'} value={'Inbox'} />
+              <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
+              <DropdownItem img={help} text={'Helps'} value={'Helps'} />
+              <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
             </ul>
           </div>
         </div>

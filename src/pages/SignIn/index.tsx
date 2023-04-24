@@ -37,7 +37,8 @@ const SignIn = function () {
         } else {
           localStorage.setItem('accessToken', token);
           toast.success(message);
-          navigate('/admin');
+          navigate('/');
+          console.log(token);
         }
       } catch (err) {
         console.log('err login ', err);
