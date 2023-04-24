@@ -9520,16 +9520,22 @@ react@^18.2.0:
     loose-envify "^1.1.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 "react@*", "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", "react@^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>= 16", "react@>= 16.8.0", "react@>=0.14.0", "react@>=15.0.0", "react@>=16", "react@>=16.0.0", "react@>=16.11.0", "react@>=16.14.0", "react@>=16.3", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=16.9.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
 =======
+=======
+>>>>>>> 9bb9567b9970826af83a371a6706966f1dd07ae4
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/read-cache/-/read-cache-1.0.0.tgz"
   integrity sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==
+<<<<<<< HEAD
 >>>>>>> 39ff31160f299faa0d69774fd90dadc051827f1e
+=======
+>>>>>>> 9bb9567b9970826af83a371a6706966f1dd07ae4
   dependencies:
     pify "^2.3.0"
 
