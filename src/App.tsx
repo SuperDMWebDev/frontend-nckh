@@ -21,7 +21,7 @@ import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 
 const App = () => {
-  const isLogin = !!localStorage.getItem("accessToken");
+  const isLogin = !!localStorage.getItem('accessToken');
   const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
@@ -31,9 +31,7 @@ const App = () => {
       <BrowserRouter>
         {role == 'user' ? (
           <div>
-            {
-              isLogin ? <NavBarUser /> : <AnonymousNavBar />
-            }
+            {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
@@ -59,7 +57,6 @@ const App = () => {
 };
 
 export default App;
-
 
 // git fetch -a
 // git pull origin develop

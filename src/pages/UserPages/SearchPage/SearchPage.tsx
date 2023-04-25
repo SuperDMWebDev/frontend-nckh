@@ -51,7 +51,7 @@ export default function SearchPage() {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <SearchInput getSearchOption={(item: SEARCH_INPUT_TYPE) => handleSearchOption(item)} />
+            <SearchInput />
           </div>
           <AuthorCard />
           <AuthorCard />

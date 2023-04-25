@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Styled from './style';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
 
@@ -35,13 +36,12 @@ const HomePage: React.FC = () => {
             Đưa những nghiên cứu của bạn vào cuộc sống, để bạn có thể tạo ảnh hưởng đến mai sau
           </div>
           <div className="content_script">
-            Với hơn 100 triệu bài viết được tìm kiếm của nhiều nhà xuất bản và con số này đang tiếp tục tăng.
+            Với hơn 100 triệu bài viết được tìm kiếm của nhiều nhà xuất bản và con số này đang tiếp
+            tục tăng.
           </div>
         </div>
 
-        <SearchInput
-          getSearchOption={(item: SEARCH_INPUT_TYPE) => console.log('Home page option', item)}
-        />
+        <SearchInput />
 
         <div className="popularSearch">Từ khóa tìm kiếm phổ biến: COVID-19, Bioenergy, Obesity</div>
       </section>
