@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { DatePicker, Form, Input } from 'antd';
 import Styled from './style';
+import InputTags from '../InputTags/InputTags';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
@@ -112,6 +115,10 @@ const ModalArticle = () => {
 
         <Form.Item label="General Note">
           <Input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} />
+        </Form.Item>
+
+        <Form.Item label="Tag">
+          <InputTags />
         </Form.Item>
       </Form>
     </Styled>

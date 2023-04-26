@@ -28,9 +28,9 @@ export default function Profile() {
     document.getElementById('1')?.classList.remove('tab-selected');
   };
 
-  useEffect(() => {
-    getInfoProfile();
-  }, []);
+  // useEffect(() => {
+  //   getInfoProfile();
+  // }, []);
 
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
