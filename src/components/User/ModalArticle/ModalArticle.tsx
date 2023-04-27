@@ -23,26 +23,18 @@ const ModalArticle = () => {
   const [projectId, setProjectId] = useState('');
   const [citationKey, setCitationKey] = useState('');
   const [generalNote, setGeneralNote] = useState('');
-  const [tags, setTags] = useState(['tag1', 'tag2', 'tag3']);
+  const [tags, setTags] = useState([]);
 
   const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
   };
 
-  const tagdRef = useRef();
-  // const updateChildState = () => {
-  //   if (tagdRef.current) {
-  //     changeVal()
-  //     setTags(tagdRef.current.changeVal());
-  //   }
-  // };
-
   return (
     <Styled>
       <Form
         labelCol={{ span: 4 }}
-        wrapperCol={{ span: 14 }}
+        wrapperCol={{ span: 18 }}
         layout="horizontal"
         initialValues={{ size: componentSize }}
         onValuesChange={onFormLayoutChange}
@@ -115,7 +107,19 @@ const ModalArticle = () => {
           <Input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} />
         </Form.Item>
 
-        <Form.Item label="Tag">
+        <Form.Item label="Tags">
+          <InputTags />
+        </Form.Item>
+
+        <Form.Item label="Authors">
+          <InputTags />
+        </Form.Item>
+
+        <Form.Item label="URL">
+          <InputTags />
+        </Form.Item>
+
+        <Form.Item label="Note">
           <InputTags />
         </Form.Item>
       </Form>

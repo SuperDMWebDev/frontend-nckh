@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { Box, TextField, Stack, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +25,9 @@ const Tags = ({ data, handleDelete }: Props) => {
       }}>
       <Stack direction="row" gap={1} alignItems="center">
         <Typography>{data}</Typography>
-        <FontAwesomeIcon onClick={() => handleDelete(data)} icon={faClose} />
+        <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
+          <FontAwesomeIcon onClick={() => handleDelete(data)} icon={faClose} />
+        </button>
       </Stack>
     </Box>
   );
@@ -71,7 +72,9 @@ const InputTags = () => {
           )
         }}
       />
-      <FontAwesomeIcon onClick={() => handleOnSubmit(tag)} icon={faAdd} />
+      <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
+        <FontAwesomeIcon color="#0056ce" onClick={() => handleOnSubmit(tag)} icon={faAdd} />
+      </button>
     </Box>
   );
 };

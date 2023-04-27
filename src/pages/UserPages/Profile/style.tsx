@@ -10,7 +10,7 @@ const Styled = styled.div`
     margin-top: 10px;
     margin-bottom: 10px;
     align-items: center;
-  };
+  }
 
   .btn-back-search {
     width: 200px;
@@ -58,7 +58,7 @@ const Styled = styled.div`
     font-family: Montserrat, sans-serif;
   }
 
-  .content_tab_name:hover{
+  .content_tab_name:hover {
     color: black;
   }
 
@@ -82,10 +82,10 @@ const Styled = styled.div`
     background-color: #323232;
     //height: 100vh;
     border-radius: 20px;
-    box-shadow: 0 0 20px hsla(0,0%,51%,.16);
+    box-shadow: 0 0 20px hsla(0, 0%, 51%, 0.16);
     font-size: 14px;
     font-weight: 300;
-    letter-spacing: .28px;
+    letter-spacing: 0.28px;
     line-height: 17px;
     padding: 0 14px 12px;
     width: 256px;
@@ -99,6 +99,22 @@ const Styled = styled.div`
     color: black;
   }
 
+  .add-article-btn {
+    background-color: transparent;
+    border: 1px solid #000;
+    color: #000;
+    width: 840px;
+    height: 70vh;
+    padding: 15px;
+    margin-left: 20px;
+    border-radius: 20px;
+    height: auto;
+    margin-bottom: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 14px;
+  }
+
   .content-profile {
     background-color: #efeeee;
     width: 840px;
@@ -107,6 +123,7 @@ const Styled = styled.div`
     border-radius: 20px;
     padding: 15px;
     height: auto;
+    text-align: center;
     padding-left: 25px;
     padding-right: 25px;
     margin-bottom: 30px;
@@ -187,7 +204,7 @@ const Styled = styled.div`
     margin-inline-end: 0px;
     font-size: 15px;
     font-weight: 300;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     text-align: left;
     white-space: pre-wrap;
     font-weight: 350;
@@ -196,7 +213,7 @@ const Styled = styled.div`
   .edit-profile {
     margin: 0 auto;
     margin-top: 65px;
-    display : flex;
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -220,7 +237,7 @@ const Styled = styled.div`
     text-decoration: none;
     overflow: hidden;
     z-index: 1;
-}
+  }
 
   .footer {
     height: 100px;

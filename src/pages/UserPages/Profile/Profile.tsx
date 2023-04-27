@@ -168,11 +168,10 @@ export default function Profile() {
             </>
           ) : (
             <>
-              <div className="content-profile">
-                <button onClick={() => setOpenModalAddArticle(true)}>Thêm bài báo khoa học</button>
-                <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                  Chưa có bài báo khoa học nào.
-                </span>
+              <div>
+                <button className="add-article-btn" onClick={() => setOpenModalAddArticle(true)}>
+                  Thêm bài báo khoa học
+                </button>
                 <Modal
                   title="Thêm bài báo khoa học"
                   centered
@@ -180,9 +179,14 @@ export default function Profile() {
                   onOk={() => setOpenModalAddArticle(false)}
                   onCancel={() => setOpenModalAddArticle(false)}
                   width={800}
-                  bodyStyle={{ height: 500, overflowY: 'scroll', padding: 20 }}>
+                  bodyStyle={{ height: 600, overflowY: 'scroll', padding: 20 }}>
                   <ModalArticle />
                 </Modal>
+              </div>
+              <div className="content-profile">
+                <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                  Chưa có bài báo khoa học nào.
+                </span>
               </div>
             </>
           )}
