@@ -21,7 +21,8 @@
 }
 
 .nav-tabs .nav-link.active {
-    color: #1677ff !important;
+    color: white !important;
+    background-color: #1677ff !important;
     border: 2px solid #1677ff !important;
     border-bottom: none !important;
     border-radius: .5rem .5rem 0 0;
