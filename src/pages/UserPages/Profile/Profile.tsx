@@ -8,13 +8,16 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { getInfoProfile } from '../../../api/Lecturer';
+import { useNavigate } from 'react-router-dom';
+
 import { Modal } from 'antd';
 import ModalArticle from '../../../components/User/ModalArticle/ModalArticle';
 
 export default function Profile() {
   const [currentTab, setCurrentTab] = useState(1);
 
-  const [openModalAddArticle, setOpenModalAddArticle] = useState(false);
+  // const [openModalAddArticle, setOpenModalAddArticle] = useState(false);
+  const navigate = useNavigate();
 
   const handleTab1 = () => {
     setCurrentTab(1);
@@ -169,10 +172,10 @@ export default function Profile() {
           ) : (
             <>
               <div>
-                <button className="add-article-btn" onClick={() => setOpenModalAddArticle(true)}>
+                <button className="add-article-btn" onClick={() => navigate('/create-article')}>
                   Thêm bài báo khoa học
                 </button>
-                <Modal
+                {/* <Modal
                   title="Thêm bài báo khoa học"
                   centered
                   open={openModalAddArticle}
@@ -181,7 +184,7 @@ export default function Profile() {
                   width={800}
                   bodyStyle={{ height: 600, overflowY: 'scroll', padding: 20 }}>
                   <ModalArticle />
-                </Modal>
+                </Modal> */}
               </div>
               <div className="content-profile">
                 <span style={{ fontSize: '14px', fontStyle: 'italic' }}>

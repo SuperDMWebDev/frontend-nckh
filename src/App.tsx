@@ -17,8 +17,8 @@ import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
-import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
+import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -37,6 +37,7 @@ const App = () => {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/create-article" element={<CreateArticle />} />
             </Routes>
           </div>
         ) : (
