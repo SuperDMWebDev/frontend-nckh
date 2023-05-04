@@ -5,7 +5,6 @@ import { Tab, Tabs } from 'react-bootstrap';
 import TabContact from './TabContact/TabContact';
 import TabAcademicRank from './TabAcademicRank/TabAcademicRank';
 import TabAcademicTitle from './TabAcademicTitle/TabAcademicTitle';
-import TabTag from './TabTag/TabTag';
 import TabUniversity from './TabUniversity/TabUniversity';
 
 const Configuration: React.FC = () => {
@@ -36,10 +35,6 @@ const Configuration: React.FC = () => {
 
                     <Tab eventKey="academic-title" title="Học vị">
                         <TabAcademicTitle />
-                    </Tab>
-
-                    <Tab eventKey="tag" title="Thẻ">
-                        <TabTag />
                     </Tab>
 
                     <Tab eventKey="university" title="Trường đại học">

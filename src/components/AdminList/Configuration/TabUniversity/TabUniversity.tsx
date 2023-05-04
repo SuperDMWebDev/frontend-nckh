@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { SearchOutlined, MinusOutlined, EditOutlined } from '@ant-design/icons';
-import { InputRef } from 'antd';
+import { Form, InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from '@mui/material';
-import ModalUniversity from './ModalUniversity';
+
+type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
     key: number;
@@ -34,11 +34,12 @@ const TabUniversity: React.FC = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
+    const [formType, setFormType] = useState<'create' | 'update'>('create');
+    const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
+    const [form] = Form.useForm();
 
     const [open, setOpen] = useState(false);
-
     const navigate = useNavigate();
-    const [formType, setFormType] = useState<'create' | 'update'>('create');
 
     const handleSearch = (
         selectedKeys: string[],
@@ -120,15 +121,6 @@ const TabUniversity: React.FC = () => {
 
     const columns: ColumnsType<DataType> = [
         {
-            title: '',
-            dataIndex: '',
-            key: 'x',
-            width: '3%',
-            render: (text, record) => (
-                <Checkbox />
-            )
-        },
-        {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
@@ -187,10 +179,28 @@ const TabUniversity: React.FC = () => {
     };
     const handleUpdate = () => {
         setFormType('update');
+        form.setFieldsValue({ name: 'name', address: 'address' });
         setOpen(true);
     };
     const handleCancel = () => {
         setOpen(false);
+    };
+
+    const handleSubmit = () => {
+        const values = form.getFieldsValue();
+        setOpen(false);
+        form.resetFields();
+        console.log('Form values:', values);
+    };
+
+    const rowSelection = {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: (record: DataType) => ({
+            disabled: record.name === 'Disabled User', // Column configuration not to be checked
+            name: record.name,
+        }),
     };
 
     return <>
@@ -203,6 +213,7 @@ const TabUniversity: React.FC = () => {
                 </div>
 
                 <Table
+                    rowSelection={{ type: 'checkbox', ...rowSelection }}
                     pagination={{ pageSize: 7 }}
                     columns={columns}
                     dataSource={data}
@@ -216,10 +227,33 @@ const TabUniversity: React.FC = () => {
                     open={open}
                     onOk={() => setOpen(false)}
                     onCancel={handleCancel}
-                    width={800}
+                    width={500}
                     destroyOnClose
+                    footer={[
+                        <Button key="back" onClick={handleCancel}>
+                            Thoát
+                        </Button>,
+                        <Button key="submit" type="primary" onClick={handleSubmit}>
+                            OK
+                        </Button>
+                    ]}
                 >
-                    <ModalUniversity formType={formType} />
+                    <Form
+                        form={form}
+                        className="modalUniversity modal-popup"
+                        labelCol={{ span: 4 }}
+                        wrapperCol={{ span: 14 }}
+                        layout="horizontal"
+                        size={componentSize as SizeType}
+                        style={{ maxWidth: 500 }}
+                    >
+                        <Form.Item label="Tên" name="name">
+                            <Input placeholder="Trường đại học" />
+                        </Form.Item>
+                        <Form.Item label="Địa chỉ" name="address">
+                            <Input placeholder="Địa chỉ" />
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </>
         }
