@@ -239,6 +239,36 @@ const Styled = styled.div`
     z-index: 1;
   }
 
+  .btn-add-profile {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #323232;
+    border-radius: 20px;
+    height: 45px;
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .btn-add-profile:hover {
+    background-color: #323232;
+    color: white;
+  }
+  .scopus-profile a {
+    color: #212529;
+    text-decoration: none;
+  }
+  .scopus-profile a:hover {
+    text-decoration: underline;
+  }
+  .scopus-profile.link {
+    display: flex;
+    align-items: center;
+  }
+  .scopus-profile.link h3 {
+    margin: 0;
+    margin-right: 10px;
+  }
+
   .footer {
     height: 100px;
   }
