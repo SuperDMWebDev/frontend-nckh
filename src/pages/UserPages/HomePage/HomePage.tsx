@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Styled from './style';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
+import { useNavigate } from 'react-router-dom';
 
 interface SEARCH_INPUT_TYPE {
   value: string;
