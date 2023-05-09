@@ -39,6 +39,8 @@ const InputTags = () => {
   const tagRef = useRef<HTMLInputElement>();
 
   const handleOnSubmit = (tag: string) => {
+    if (tag === '') return;
+
     setTags([...tags, tag]);
     setTag('');
   };
@@ -54,7 +56,7 @@ const InputTags = () => {
         inputRef={tagRef}
         fullWidth
         variant="standard"
-        size="small"
+        size="medium"
         sx={{
           margin: '1rem 0'
         }}
