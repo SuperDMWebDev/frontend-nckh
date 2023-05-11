@@ -150,22 +150,32 @@ export default function Profile() {
     }, []);
 
     console.log(lecturer);
+    const linkScopusProfile = '';
 
     const handleTab1 = () => {
         setCurrentTab(1);
         document.getElementById('1')?.classList.add('tab-selected');
-        document.getElementById('2')?.classList.remove('tab-selected')
-    }
+        document.getElementById('2')?.classList.remove('tab-selected');
+        document.getElementById('3')?.classList.remove('tab-selected');
+    };
 
     const handleTab2 = () => {
         setCurrentTab(2);
         document.getElementById('2')?.classList.add('tab-selected');
-        document.getElementById('1')?.classList.remove('tab-selected')
-    }
+        document.getElementById('1')?.classList.remove('tab-selected');
+        document.getElementById('3')?.classList.remove('tab-selected');
+    };
+
+    const handleTab3 = () => {
+        setCurrentTab(3);
+        document.getElementById('3')?.classList.add('tab-selected');
+        document.getElementById('1')?.classList.remove('tab-selected');
+        document.getElementById('2')?.classList.remove('tab-selected');
+    };
 
     const handleBackSearch = () => {
         window.location.replace('http://localhost:5000/');
-    }
+    };
 
     const handleEditProfile = () => {
         console.log("edit");
@@ -207,6 +217,9 @@ export default function Profile() {
                     </li>
                     <li className='content_tab'>
                         <div id='2' className='content_tab_name' onClick={handleTab2}>BÀI BÁO KHOA HỌC</div>
+                    </li>
+                    <li className='content_tab'>
+                        <div id='3' className='content_tab_name' onClick={handleTab3}>SCOPUS PROFILE</div>
                     </li>
                 </ul>
             </div>
@@ -279,7 +292,7 @@ export default function Profile() {
                 </div>
                 <div>
                     {
-                        currentTab == 1 ? <>
+                        currentTab === 1 ? <>
                             <div className='content-profile'>
                                 <div className='main_content'>
                                     <div className='main-field'>
@@ -318,7 +331,7 @@ export default function Profile() {
                                     </p>
                                 </div>
                             </div>
-                        </> : <>
+                        </> : currentTab === 2 ? <>
                             <div className='content-profile'>
                                 {/* <span style={{ fontSize: "14px", fontStyle: "italic" }}>Chưa có bài báo khoa học nào.</span> */}
                                 <div>
@@ -413,6 +426,32 @@ export default function Profile() {
                                     </div>
                                 </div>
                             </div>
+                        </> : <>
+                            <div className='content-profile'>
+                                <span style={{ fontSize: "14px" }}>
+                                    {linkScopusProfile === '' ? (
+                                        <div className="scopus-profile">
+                                            <button className="btn btn-add-profile">
+                                                Connect Scopus profile
+                                            </button>
+                                            <p>
+                                                If you have more than one Scopus author profile and/or there are mistakes in your profile, please go to the&nbsp;
+                                                <a href="https://www.scopus.com/feedback/author/home.uri">
+                                                    Scopus Author Feedback Wizard
+                                                </a>
+                                                &nbsp;to request a correction
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="scopus-profile link">
+                                            <h3>Link to Scopus Profile: </h3>
+                                            <a href={linkScopusProfile}>
+                                                {linkScopusProfile}
+                                            </a>
+                                        </div>
+                                    )}
+                                </span>
+                            </div>
                         </>
                     }
                 </div>
@@ -420,7 +459,7 @@ export default function Profile() {
             </div>
             <div className='footer'></div>
         </Styled>
-    )
+    );
 }
 
 // git rebase origin/develop

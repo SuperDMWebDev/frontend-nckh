@@ -3,57 +3,58 @@ import {
     Form,
     Input
 } from 'antd';
-import './style.css'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import './style.css';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 const listLabel = [
     {
-        label: 'ID',
-        disabled: true,
-        value: 'id',
-    },
-    {
-        label: 'Tên',
+        label: 'Email',
         disabled: false,
-        value: undefined
+        value: 'email'
     },
     {
-        label: 'Được tạo vào lúc',
-        disabled: true,
-        value: '1/1/1990'
-    },
-    {
-        label: 'Cập nhật vào lúc',
-        disabled: true,
-        value: '1/1/1990'
+        label: 'Mật khẩu',
+        disabled: false,
+        value: 'password'
     }
 ];
 const listItems = listLabel.map((item, index) =>
     <Form.Item key={index} label={item.label}>
-        <Input disabled={item.disabled} value={item.value} />
+        {item.label === 'Password' ? (
+            <Input.Password
+                disabled={item.disabled}
+                defaultValue={item.value}
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            />
+        ) : (
+            <Input
+                disabled={item.disabled}
+                defaultValue={item.value}
+            />
+        )}
     </Form.Item>
 );
 
-export default function ModalContact() {
+export default function ModalSetting() {
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
 
     const onFormLayoutChange = ({ size }: { size: SizeType }) => {
         setComponentSize(size);
-        console.log(size);
     };
 
     return (
         <Form
-            className='modalContact'
+            className='modalAccount'
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 14 }}
             layout="horizontal"
             initialValues={{ size: 'large' }}
             onValuesChange={onFormLayoutChange}
             size={componentSize as SizeType}
-            style={{ maxWidth: 700 }}
+            style={{ maxWidth: 550 }}
         >
             {listItems}
         </Form>
     );
-}
+};

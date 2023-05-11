@@ -21,6 +21,7 @@ import { ROLE_USER } from './constants/constant';
 import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
+import Settings from './pages/UserPages/Settings/Settings';
 
 const App = () => {
   const isLogin = !!localStorage.getItem("accessToken");
@@ -31,7 +32,7 @@ const App = () => {
       <ToastContainer {...defaultToastConfig} />
 
       <BrowserRouter>
-        {role == 'user' ? (
+        {role === 'user' ? (
           <div>
             {
               isLogin ? <NavBarUser /> : <AnonymousNavBar />
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/test" element={<EditProfile />} />
               <Route path="/profile/article-detail" element={<ArticleDetail />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>
         ) : (
