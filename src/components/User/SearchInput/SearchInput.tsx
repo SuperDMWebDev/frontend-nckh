@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { SEARCH_OPTION } from '../../../constants/constant';
 
-const SearchInput = () => {
+const SearchInput = ({ getSearchOption }: any) => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState<string>();
   const [openOption, setOpenOption] = useState(false);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'http://localhost:3001/api/v1/';
 
 const token = localStorage.getItem('accessToken');
 
@@ -19,6 +19,5 @@ export const getInfoProfile = async () => {
     }
   });
 
-  console.log('lecturers: ', JSON.parse(res.data.data));
-  return JSON.parse(res.data.data);
+  return res.data.data[0];
 };

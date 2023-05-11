@@ -8,6 +8,7 @@ import './all.scss';
 import Admin from './pages/AdminPages/Admin';
 import DetailPage from './pages/AdminPages/DetailPage';
 import ModalTeacher from './components/AdminList/ModalTeacher';
+import EditProfile from './components/User/EditProfile/EditProfile';
 import Loader from './components/Loader/Loader';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -19,6 +20,7 @@ import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
+import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
 import Settings from './pages/UserPages/Settings/Settings';
 
 const App = () => {
@@ -39,6 +41,8 @@ const App = () => {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/create-article" element={<CreateArticle />} />
+              <Route path="/test" element={<EditProfile />} />
+              <Route path="/profile/article-detail" element={<ArticleDetail />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>

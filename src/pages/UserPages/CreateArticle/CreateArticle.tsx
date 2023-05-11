@@ -128,7 +128,7 @@ const CreateArticle = () => {
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
 
-  const [selectedTag, setSelectedTag] = useState();
+  const [selectedTag, setSelectedTag] = useState<OptionSelect>();
   const handleSelect = (data: any) => {
     setSelectedTag(data);
   };
