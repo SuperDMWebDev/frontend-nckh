@@ -1,6 +1,10 @@
 import React from 'react';
 import Styled from './style';
 const AuthorCard = () => {
+  const handleLink = () => {
+    window.location.replace('http://localhost:5000/profile');
+  }
+
   return (
     <Styled>
       <div className="container">
@@ -10,7 +14,7 @@ const AuthorCard = () => {
         <div className="right">
           <div className="user-name">
             <a className="link_title">
-              <p className="name">Dr. Robert Edison</p>
+              <p className="name" onClick={handleLink}>Dr. Robert Edison</p>
             </a>
           </div>
           <div className="user-field">Senior Lecturer - Accounting Discipline Group</div>
