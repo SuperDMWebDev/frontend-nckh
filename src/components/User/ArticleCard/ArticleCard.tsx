@@ -22,16 +22,9 @@ const ArticleCard = (props: any) => {
               </a>
               <p className="role"> Admin </p>
             </div>
-            <div className="user-field">
-              Industry Fellow School of International Studies and Education
-            </div>
-            <div className="user-position">
-              <p className="position">
-                Associate Professor Anne Prescott started her career as a secondary school teacher
-                of mathematics. She is currently the coordinator of the primary and secondary
-                mathematics teacher education as well as the Master of Teaching (secondary)
-              </p>
-            </div>
+            <div className="user-field">{data?.journal}</div>
+            <div className="user-field">Author A, Author B</div>
+            <div className="user-position">{data?.abstract}</div>
           </div>
           <div className="right-part">
             <div className="right-part_group">

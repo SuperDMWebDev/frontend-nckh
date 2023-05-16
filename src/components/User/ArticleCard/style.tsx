@@ -107,9 +107,18 @@ const Styled = styled.div`
     border-radius: 15px;
   }
 
-  .position {
+  .user-position {
     color: grey;
     font-size: 13px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .position {
   }
 
   .card-bottom-part {

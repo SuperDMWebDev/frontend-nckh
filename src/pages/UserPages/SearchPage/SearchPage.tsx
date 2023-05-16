@@ -90,8 +90,6 @@ export default function SearchPage() {
           <AuthorCard />
           <AuthorCard />
           <AuthorCard />
-          <AuthorCard />
-          <AuthorCard />
         </div>
       ) : (
         <div className="center">
