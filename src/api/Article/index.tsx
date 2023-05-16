@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'http://localhost:3001/api/v1';
 
 const token = localStorage.getItem('accessToken');
 
@@ -12,12 +12,22 @@ const handleError = (error: any) => {
   return message;
 };
 
+export const getArticles = async () => {
+  try {
+    const query = `${BASE_URL}/articles/fetch?pageOffset=1&limitSize=10`;
+    const res = await axios.get(query);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 export const createArticle = async (data: any) => {
   try {
     const query = `${BASE_URL}/articles/create`;
     const res = await axios.post(query, data);
 
-    console.log('createa article', res);
     return res;
   } catch (error) {
     return handleError(error);

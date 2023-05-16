@@ -10,18 +10,25 @@ import SearchInput from '../../../components/User/SearchInput/SearchInput';
 import Styled from './style';
 import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
 import { SEARCH_OPTION } from '../../../constants/constant';
+import { getArticles } from '../../../api/Article';
+import httpStatus from 'http-status';
+import { useNavigate } from 'react-router-dom';
+import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
+
 interface SEARCH_INPUT_TYPE {
   value: string;
   label: string;
 }
 
 export default function SearchPage() {
-  const searchAuthor = true;
-
+  const navigate = useNavigate();
+  const searchAuthor = false;
   const location = useLocation();
 
   const [searchInput, setSearchInput] = useState<string>(location.state);
   const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
+
+  const [articleList, setArticleList] = useState([]);
 
   function handleClickArticle() {
     document.getElementById('detail_article')!.classList.add('detail_article_active');
@@ -34,6 +41,33 @@ export default function SearchPage() {
   const handleSearchOption = (item: any) => {
     setSearchOption(item);
   };
+
+  const fetchArticle = async () => {
+    const res = await getArticles();
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data;
+          console.log('res', res);
+          console.log('data', data);
+          setArticleList(data);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
+  console.log('article list', articleList);
+
+  useEffect(() => {
+    fetchArticle();
+  }, []);
 
   return (
     <Styled>
@@ -137,150 +171,7 @@ export default function SearchPage() {
                   </div>
                 </div>
               </div>
-              <div className="card_article" onClick={handleClickArticle}>
-                <div className="card-top-part">
-                  <div className="left-part">
-                    <div className="user-name">
-                      <a className="link_title">
-                        <p className="name">A/Prof Anne Prescott</p>
-                      </a>
-                      <p className="role"> Admin </p>
-                    </div>
-                    <div className="user-field">
-                      Industry Fellow School of International Studies and Education
-                    </div>
-                    <div className="user-position">
-                      <p className="position">
-                        Associate Professor Anne Prescott started her career as a secondary school
-                        teacher of mathematics. She is currently the coordinator of the primary and
-                        secondary mathematics teacher education as well as the Master of Teaching
-                        (secondary)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="right-part">
-                    <div className="right-part_group">
-                      <div className="right-part__num">857</div>
-                      <div className="right-part__title">Citations</div>
-                    </div>
-                    <div className="right-part_group">
-                      <div className="right-part__num">368</div>
-                      <div className="right-part__title">Readers</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-bottom-part">
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faAdd} />
-                    <div className="card-bottom-part__item">Add to library</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faFilePdf} />
-                    <div className="card-bottom-part__item">Sign in to view PDF</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faNewspaper} />
-                    <div className="card-bottom-part__item">Related</div>
-                  </div>
-                </div>
-              </div>
-              <div className="card_article" onClick={handleClickArticle}>
-                <div className="card-top-part">
-                  <div className="left-part">
-                    <div className="user-name">
-                      <a className="link_title">
-                        <p className="name">A/Prof Anne Prescott</p>
-                      </a>
-                      <p className="role"> Admin </p>
-                    </div>
-                    <div className="user-field">
-                      Industry Fellow School of International Studies and Education
-                    </div>
-                    <div className="user-position">
-                      <p className="position">
-                        Associate Professor Anne Prescott started her career as a secondary school
-                        teacher of mathematics. She is currently the coordinator of the primary and
-                        secondary mathematics teacher education as well as the Master of Teaching
-                        (secondary)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="right-part">
-                    <div className="right-part_group">
-                      <div className="right-part__num">857</div>
-                      <div className="right-part__title">Citations</div>
-                    </div>
-                    <div className="right-part_group">
-                      <div className="right-part__num">368</div>
-                      <div className="right-part__title">Readers</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-bottom-part">
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faAdd} />
-                    <div className="card-bottom-part__item">Add to library</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faFilePdf} />
-                    <div className="card-bottom-part__item">Sign in to view PDF</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faNewspaper} />
-                    <div className="card-bottom-part__item">Related</div>
-                  </div>
-                </div>
-              </div>
-              <div className="card_article" onClick={handleClickArticle}>
-                <div className="card-top-part">
-                  <div className="left-part">
-                    <div className="user-name">
-                      <a className="link_title">
-                        <p className="name">A/Prof Anne Prescott</p>
-                      </a>
-                      <p className="role"> Admin </p>
-                    </div>
-                    <div className="user-field">
-                      Industry Fellow School of International Studies and Education
-                    </div>
-                    <div className="user-position">
-                      <p className="position">
-                        Associate Professor Anne Prescott started her career as a secondary school
-                        teacher of mathematics. She is currently the coordinator of the primary and
-                        secondary mathematics teacher education as well as the Master of Teaching
-                        (secondary)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="right-part">
-                    <div className="right-part_group">
-                      <div className="right-part__num">857</div>
-                      <div className="right-part__title">Citations</div>
-                    </div>
-                    <div className="right-part_group">
-                      <div className="right-part__num">368</div>
-                      <div className="right-part__title">Readers</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-bottom-part">
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faAdd} />
-                    <div className="card-bottom-part__item">Add to library</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faFilePdf} />
-                    <div className="card-bottom-part__item">Sign in to view PDF</div>
-                  </div>
-                  <div className="card-bottom-part__group">
-                    <FontAwesomeIcon icon={faNewspaper} />
-                    <div className="card-bottom-part__item">Related</div>
-                  </div>
-                </div>
-              </div>
+              {articleList && articleList.map((item) => <ArticleCard data={item} />)}
             </div>
 
             <div className="detail_article" id="detail_article">
