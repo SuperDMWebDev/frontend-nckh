@@ -14,6 +14,7 @@ import { getArticles } from '../../../api/Article';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
+import DetailArticle from '../../../components/User/DetailArticle/DetailArticle';
 
 interface SEARCH_INPUT_TYPE {
   value: string;
@@ -172,7 +173,7 @@ export default function SearchPage() {
               {articleList && articleList.map((item) => <ArticleCard data={item} />)}
             </div>
 
-            <div className="detail_article" id="detail_article">
+            {/* <div className="detail_article" id="detail_article">
               <div>
                 <Tabs defaultActiveKey="info" id="uncontrolled-tab-example" className="mb-4">
                   <Tab eventKey="info" title="Info" style={{ fontSize: '12px' }}>
@@ -415,7 +416,8 @@ export default function SearchPage() {
                 }}
                 className="iconClear"
               />
-            </div>
+            </div> */}
+            <DetailArticle />
           </div>
         </div>
       )}
