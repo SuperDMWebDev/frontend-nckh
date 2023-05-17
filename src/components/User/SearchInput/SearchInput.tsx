@@ -62,7 +62,6 @@ const SearchInput = ({ getSearchOption }: any) => {
                   className="searchOption_option_item"
                   onClick={() => {
                     setSearchOption(item);
-                    getSearchOption(item);
                     setOpenOption(false);
                   }}>
                   {item.label}

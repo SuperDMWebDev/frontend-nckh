@@ -29,7 +29,6 @@ const SignIn = function () {
     onSubmit: async (value) => {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
-        console.log(responseSignIn);
         const {
           data: { token, message, code, expire, accountId }
         } = responseSignIn;
@@ -38,7 +37,6 @@ const SignIn = function () {
         } else {
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
-          console.log("token");
           toast.success(message);
           window.location.replace('http://localhost:5000/');
         }

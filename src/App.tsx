@@ -18,14 +18,14 @@ import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
-import SearchBarAdmin from './components/SearchBarAdmin/SearchBarAdmin';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
+import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
 import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
 import Settings from './pages/UserPages/Settings/Settings';
 import RetrieveScopusAuthor from './pages/UserPages/RetrieveScopusAuthor/RetrieveScopusAuthor';
 
 const App = () => {
-  const isLogin = !!localStorage.getItem("accessToken");
+  const isLogin = !!localStorage.getItem('accessToken');
   const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
@@ -35,16 +35,15 @@ const App = () => {
       <BrowserRouter>
         {role === 'user' ? (
           <div>
-            {
-              isLogin ? <NavBarUser /> : <AnonymousNavBar />
-            }
+            {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/create-article" element={<CreateArticle />} />
               <Route path="/test" element={<EditProfile />} />
-              <Route path="/profile/article-detail" element={<ArticleDetail />} />
+              <Route path="/profile/article-detail/:id" element={<ArticleDetail />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
             </Routes>
@@ -67,7 +66,6 @@ const App = () => {
 };
 
 export default App;
-
 
 // git fetch -a
 // git pull origin develop

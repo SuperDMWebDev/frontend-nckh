@@ -1,26 +1,36 @@
-import axios from "axios";
+import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3001/api/v1/';
 
-const token = localStorage.getItem("accessToken");
+const token = localStorage.getItem('accessToken');
 
-export const getInfoProfile = async (accountId : string | null) => {
-    const res = await axios.get(`${BASE_URL}lecturers/detail/${accountId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+const handleError = (error: any) => {
+  const { response, message } = error;
+  if (response) {
+    return response;
+  }
+  return message;
+};
 
-    return res.data.data[0];
-}
+export const getInfoProfile = async (accountId: string | null) => {
+  const res = await axios.get(`${BASE_URL}lecturers/detail/${accountId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 
+  return res.data.data[0];
+};
 
 export const getScopusAuthors = async (firstnam: string, lastname: string) => {
-    const res = await axios.get(`${BASE_URL}scopus/author?firstName=${firstnam}&lastName=${lastname}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+  const res = await axios.get(
+    `${BASE_URL}scopus/author?firstName=${firstnam}&lastName=${lastname}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
 
-    return res.data;
-}
+  return res.data;
+};

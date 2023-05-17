@@ -30,6 +30,5 @@ export const loginUser = async (email: String, password: String) => {
     },
     config
   );
-  console.log('response ', response);
   return response;
 };

@@ -1,9 +1,10 @@
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import TopBar from '../../../components/TopBar';
 import Header from '../../../components/Header';
 import HeaderFixed from '../../../components/HeaderFixed';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import Slider from '../../../components/Carousel';
+import Slider from '../../../components/Footer/Carousel';
 import Styled from './style';
 import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Footer from '../../../components/Footer';
