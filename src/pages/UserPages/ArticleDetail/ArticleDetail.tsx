@@ -23,7 +23,6 @@ export default function ArticleDetail() {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data;
-          console.log('res', res);
           setArticle(data);
           break;
         }

@@ -5,6 +5,8 @@ export interface DataResponse {
   code: number;
   message: string;
   token?: string;
+  expire: string;
+  accountId: string;
 }
 export interface Response {
   status: number;
@@ -28,6 +30,5 @@ export const loginUser = async (email: String, password: String) => {
     },
     config
   );
-  console.log('response ', response);
   return response;
 };

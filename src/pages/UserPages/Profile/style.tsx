@@ -22,43 +22,6 @@ const Styled = styled.div`
     color: #959595;
   }
 
-  .text-area {
-    width: 100%;
-    margin: 59px;
-    padding: 15px;
-    outline: none;
-    resize: none;
-    font-size: 16px;
-    border-radius: 5px;
-    border-color: #bfbfbf;
-    height: 430px;
-    margin-left: -10px;
-    margin-top: 5px;
-    background-color: #efeeee;
-  }
-
-  .text-area:focus {
-    border-radius: 5px;
-    padding: 14px;
-    border-color: black;
-  }
-
-  .text-area::-webkit-scrollbar {
-    width: 0px;
-  }
-
-  .btn-save-profile {
-    width: 70px;
-    height: 40px;
-    font-size: 13px;
-    border-radius: 5px;
-  }
-
-  .btn-save-profile:hover {
-    background-color: black;
-    color: white;
-  }
-
   .main-field {
     display: flex;
     align-content: center;

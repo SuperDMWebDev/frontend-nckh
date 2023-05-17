@@ -15,11 +15,11 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { object } from 'yup';
-import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
-import httpStatus from 'http-status';
-import { useNavigate } from 'react-router-dom';
+import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
+import { useNavigate } from 'react-router-dom';
+import httpStatus from 'http-status';
+import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 
 interface academicTitle {
   lecturerId: Number;
@@ -109,7 +109,7 @@ interface workPosition {
   company: null;
   fromDate: Number;
   id: Number;
-  isNow: String;
+  isNow: Number;
   lecturerId: Number;
   position: String;
   toDate: null;
@@ -124,6 +124,7 @@ interface Lecturer {
   academicTitles: academicTitle[];
   activities: activity[];
   avatar: String;
+  bio: string;
   books: book[];
   currentDisciplines: currentDiscipline[];
   dateOfBirth: string;
@@ -146,18 +147,17 @@ type Article = {
 export default function Profile() {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState(1);
-  const [infoProfile, setInfoProfile] = useState(
-    "Melita Grant chuyên về quản lý tổng hợp tài nguyên nước (IWRM) và nước, vệ sinh môi trường và vệ sinh (WASH) trong phát triển quốc tế, tập trung vào bình đẳng giới và hòa nhập. Cô đã làm việc trong các chính phủ, trường đại học và các tổ chức xã hội dân sự. Với nền tảng học vấn về Khoa học Chính trị và Quản lý Môi trường, Melita có chuyên môn về quản lý nước và phát triển chính sách, đồng thời đã áp dụng điều này trong bối cảnh Úc, Đông Nam Á và Nam Á. Melita có nền tảng kỹ thuật trong việc áp dụng các khuôn khổ bao gồm; chính sách quản lý nước nông thôn; các công nghệ, hành vi và chính sách quản lý nhu cầu và bảo tồn nước đô thị; chính trị nước xuyên biên giới; và quản lý tài nguyên nước tổng hợp thông qua các vai trò tại Văn phòng Nước NSW, Văn phòng Bộ trưởng Bộ Nước NSW và chính quyền địa phương.đã lãnh đạo một số dự án về bình đẳng giới và hòa nhập xã hội, bao gồm Phần Hành động về Giới cho Đối tác Nước Toàn cầu, và là tác giả của một ấn phẩm có tiêu đề, 'Bình đẳng giới và Mục tiêu 6 - Kết nối quan trọng' cho Đối tác Nước Úc. Cô hiện đang lãnh đạo một dự án nghiên cứu kéo dài nhiều năm ở Timor-Leste, Campuchia và Indonesia, và đã lãnh đạo một số sáng kiến nghiên cứu tập trung vào quản lý nước nông thôn ở Khu vực sông Mê Kông. Melita có nhiều kinh nghiệm trong việc thiết kế, thực hiện và đánh giá sự tham gia của các bên liên quan và cộng đồng trong các tổ chức xã hội dân sự, đồng thời đã tổng hợp và dịch nghiên cứu thành các khuyến nghị thực hành và chính sách thiết thực và khả thi cho xã hội dân sự và các chủ thể chính phủ."
-  );
   const [lecturer, setLecturer] = useState<Lecturer>();
-  const token = localStorage.getItem('tokenAccess');
-  const [articleList, setArticleList] = useState<Article[]>([]);
+  const [currentPosition, setCurrentPosition] = useState<workPosition>();
+  const [bio, setBio] = useState<string>('');
+  const accountId: string | null = localStorage.getItem('accountId');
+  const token = localStorage.getItem('accessToken');
+  const [articleList, setArticleList] = useState<Article[]>();
 
   const fetchArticle = async () => {
-    let id = '1';
     let param = {
       data: {
-        lecturerIds: [Number(id)]
+        lecturerIds: [Number(accountId)]
       }
     };
 
@@ -184,15 +184,18 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const data: Promise<Lecturer> = getInfoProfile();
+    const data: Promise<Lecturer> = getInfoProfile(accountId);
     data
       .then((result) => {
         setLecturer(result);
+        result.workPositions.map((workPosition) => {
+          workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
+        });
+        result.bio !== null ? setBio(result.bio) : setBio('');
       })
       .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
 
-  console.log(lecturer);
   const linkScopusProfile = '';
 
   const handleTab1 = () => {
@@ -220,32 +223,37 @@ export default function Profile() {
     window.location.replace('http://localhost:5000/');
   };
 
-  const handleEditProfile = () => {
-    console.log('edit');
-  };
-
-  function btnSave() {}
-
-  const handleEditBio = (e: any) => {
-    const bio = document.getElementsByClassName('data_content')[0];
-    var y = document.createElement('TEXTAREA');
-    var butt = document.createElement('BUTTON');
-    var buttext = document.createTextNode('Lưu');
-    butt.onclick = btnSave;
-    butt.appendChild(buttext);
-
-    var obj = e.target;
-    var z = obj.parentNode.parentNode;
-    z.insertBefore(y, bio);
-    z.insertBefore(butt, bio);
-    z.removeChild(bio);
-    y.innerHTML = infoProfile;
-    y.classList.add('text-area');
-    butt.classList.add('btn-save-profile');
-  };
-
   const handleLinkArticleDetail = () => {
     window.location.replace('/profile/article-detail');
+  };
+
+  // ----  MODAL ----
+  const [openBioModal, setOpenBioModal] = useState(false);
+  const [openInfoModal, setOpenInfoModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleOkBio = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOpenBioModal(false);
+    }, 3000);
+  };
+
+  const handleCancelBio = () => {
+    setOpenBioModal(false);
+  };
+
+  const handleOkInfo = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOpenInfoModal(false);
+    }, 3000);
+  };
+
+  const handleCancelInfo = () => {
+    setOpenInfoModal(false);
   };
 
   return (
@@ -286,7 +294,15 @@ export default function Profile() {
             <div>
               <div className="field-profile-info">
                 <PortraitIcon style={{ fontSize: '20px' }} />
-                <span style={{ marginLeft: '5px' }}>Giảng viên đại học</span>
+                <span style={{ marginLeft: '5px' }}>{currentPosition?.position}</span>
+              </div>
+              <div className="field-profile-info">
+                <PlaceIcon style={{ fontSize: '20px' }} />
+                <span style={{ marginLeft: '5px' }}>
+                  {!currentPosition?.universityName
+                    ? currentPosition?.company
+                    : currentPosition.universityName}
+                </span>
               </div>
               <div className="field-profile-info">
                 <WcIcon style={{ fontSize: '20px' }} />
@@ -303,10 +319,6 @@ export default function Profile() {
               <div className="field-profile-info">
                 <PhoneAndroidIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>038-223-334</span>
-              </div>
-              <div className="field-profile-info">
-                <PlaceIcon style={{ fontSize: '20px' }} />
-                <span style={{ marginLeft: '5px' }}>Trường ĐH Khoa học Tự Nhiên - TPHCM</span>
               </div>
             </div>
           </div>
@@ -329,9 +341,25 @@ export default function Profile() {
             <div style={{ marginLeft: '15px' }}>
               <SettingsIcon style={{ fontSize: '23px' }} />
             </div>
-            <div className="btn-edit-profile" onClick={handleEditProfile}>
+            <div className="btn-edit-profile" onClick={() => setOpenInfoModal(true)}>
               Chỉnh sửa thông tin cá nhân
             </div>
+
+            <Modal
+              title="Chỉnh sửa thông tin tiểu sử"
+              centered
+              open={openInfoModal}
+              onOk={() => setOpenInfoModal(false)}
+              onCancel={() => setOpenInfoModal(false)}
+              width={700}
+              footer={[
+                <Button key="back" onClick={handleCancelInfo}>
+                  Quay lại
+                </Button>,
+                <Button key="submit" type="primary" loading={loading} onClick={handleOkInfo}>
+                  Lưu
+                </Button>
+              ]}></Modal>
           </div>
         </div>
         <div>
@@ -341,38 +369,63 @@ export default function Profile() {
                 <div className="main_content">
                   <div className="main-field">
                     <h2 className="title_content">TIỂU SỬ</h2>
-                    {!token ? <button onClick={handleEditBio}>Chỉnh sửa</button> : null}
+                    {token ? (
+                      <button onClick={() => setOpenBioModal(true)}>Chỉnh sửa</button>
+                    ) : null}
                   </div>
                   <p className="data_content">
-                    Melita Grant chuyên về quản lý tổng hợp tài nguyên nước (IWRM) và nước, vệ sinh
-                    môi trường và vệ sinh (WASH) trong phát triển quốc tế, tập trung vào bình đẳng
-                    giới và hòa nhập. Cô đã làm việc trong các chính phủ, trường đại học và các tổ
-                    chức xã hội dân sự. Với nền tảng học vấn về Khoa học Chính trị và Quản lý Môi
-                    trường, Melita có chuyên môn về quản lý nước và phát triển chính sách, đồng thời
-                    đã áp dụng điều này trong bối cảnh Úc, Đông Nam Á và Nam Á. Melita có nền tảng
-                    kỹ thuật trong việc áp dụng các khuôn khổ bao gồm; chính sách quản lý nước nông
-                    thôn; các công nghệ, hành vi và chính sách quản lý nhu cầu và bảo tồn nước đô
-                    thị; chính trị nước xuyên biên giới; và quản lý tài nguyên nước tổng hợp thông
-                    qua các vai trò tại Văn phòng Nước NSW, Văn phòng Bộ trưởng Bộ Nước NSW và chính
-                    quyền địa phương.
-                    <br></br> đã lãnh đạo một số dự án về bình đẳng giới và hòa nhập xã hội, bao gồm
-                    Phần Hành động về Giới cho Đối tác Nước Toàn cầu, và là tác giả của một ấn phẩm
-                    có tiêu đề, 'Bình đẳng giới và Mục tiêu 6 - Kết nối quan trọng' cho Đối tác Nước
-                    Úc. Cô hiện đang lãnh đạo một dự án nghiên cứu kéo dài nhiều năm ở Timor-Leste,
-                    Campuchia và Indonesia, và đã lãnh đạo một số sáng kiến nghiên cứu tập trung vào
-                    quản lý nước nông thôn ở Khu vực sông Mê Kông. Melita có nhiều kinh nghiệm trong
-                    việc thiết kế, thực hiện và đánh giá sự tham gia của các bên liên quan và cộng
-                    đồng trong các tổ chức xã hội dân sự, đồng thời đã tổng hợp và dịch nghiên cứu
-                    thành các khuyến nghị thực hành và chính sách thiết thực và khả thi cho xã hội
-                    dân sự và các chủ thể chính phủ.
-                    <br></br>Làm việc tại Khoa Kinh tế Chính trị tại Đại học Sydney, Melita đã giảng
-                    dạy 'Quyền con người trong Phát triển Quốc tế' cho các sinh viên Cao học vào năm
-                    2010. Cô có bằng Cử nhân Nghệ thuật - Chính phủ (Hạng nhất danh dự) của Đại học
-                    Sydney và bằng Thạc sĩ Môi trường từ Đại học Melbourne. Melita là Đồng Chủ tịch
-                    của Nhóm Tham khảo WASH của Úc, thành viên của Hội đồng Đánh giá Chuyên gia của
-                    Hiệp hội Nước Úc, và là Thành viên Hội đồng của Mạng lưới Nghệ thuật & Công nghệ
-                    Úc (ANAT).
+                    {bio == '' ? (
+                      <p
+                        style={{
+                          fontSize: '13px',
+                          fontStyle: 'italic',
+                          marginLeft: '-5px'
+                        }}>
+                        Chưa cập nhật
+                      </p>
+                    ) : (
+                      bio
+                    )}
                   </p>
+
+                  <Modal
+                    title="Chỉnh sửa thông tin tiểu sử"
+                    centered
+                    open={openBioModal}
+                    onOk={() => setOpenBioModal(false)}
+                    onCancel={() => setOpenBioModal(false)}
+                    width={700}
+                    footer={[
+                      <Button key="back" onClick={handleCancelBio}>
+                        Quay lại
+                      </Button>,
+                      <Button key="submit" type="primary" loading={loading} onClick={handleOkBio}>
+                        Lưu
+                      </Button>
+                    ]}>
+                    <textarea
+                      className="text-area"
+                      placeholder="Viết tiểu sử bạn ở đây ... "
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      style={{
+                        backgroundColor: '#dddddd',
+                        color: '#666666',
+                        padding: '1em',
+                        borderRadius: '10px',
+                        border: '2px solid transparent',
+                        outline: 'none',
+                        fontFamily: "'Heebo', sans-serif",
+                        fontWeight: '500',
+                        fontSize: '16px',
+                        lineHeight: '1.4',
+                        width: '600px',
+                        height: '200px',
+                        transform: 'all 0.2s',
+                        marginLeft: '25px',
+                        marginTop: '10px'
+                      }}></textarea>
+                  </Modal>
                 </div>
               </div>
 
@@ -380,20 +433,13 @@ export default function Profile() {
                 <div className="main_content">
                   <h2 className="title_content">BẰNG CẤP</h2>
                   {/* {lecturer?.degrees.map((degree: degree) => (
-                    <div style={{ marginBottom: '2px' }} key={degree.id.toString()}>
-                      <h4>
-                        {' '}
-                        <FiberManualRecordIcon
-                          style={{ fontSize: '9px', textAlign: 'center' }}
-                        />{' '}
-                        {degree.academicTitleName} ({degree.graduationDate.toString()}) {}{' '}
-                        {degree.graduationThesisName}
-                      </h4>
-                      <p className="data_content">
-                        {degree.specialization}, {degree.universityName}
-                      </p>
-                    </div>
-                  ))} */}
+                                      <div style={{ marginBottom: "2px" }} key={degree.id.toString()}>
+                                          <h4> <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> {degree.academicTitleName} ({degree.graduationDate.toString()}) { } {degree.graduationThesisName}</h4>
+                                          <p className='data_content'>
+                                              {degree.specialization}, {degree.universityName}
+                                          </p>
+                                      </div>
+                                  ))} */}
                 </div>
               </div>
 
@@ -410,8 +456,13 @@ export default function Profile() {
           ) : currentTab === 2 ? (
             <>
               <div className="content-profile">
-                {/* <span style={{ fontSize: "14px", fontStyle: "italic" }}>Chưa có bài báo khoa học nào.</span> */}
-                <div>{articleList && articleList.map((item) => <ArticleCard data={item} />)}</div>
+                {articleList ? (
+                  articleList['1'].map((item: any) => <ArticleCard data={item} />)
+                ) : (
+                  <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                    Chưa có bài báo khoa học nào.
+                  </span>
+                )}
               </div>
             </>
           ) : (

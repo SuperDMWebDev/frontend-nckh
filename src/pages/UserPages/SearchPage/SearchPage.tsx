@@ -49,8 +49,6 @@ export default function SearchPage() {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data;
-          console.log('res', res);
-          console.log('data', data);
           setArticleList(data);
           break;
         }
@@ -63,8 +61,6 @@ export default function SearchPage() {
       }
     }
   };
-
-  console.log('article list', articleList);
 
   useEffect(() => {
     fetchArticle();

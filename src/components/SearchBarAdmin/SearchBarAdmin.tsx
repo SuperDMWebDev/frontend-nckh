@@ -60,10 +60,9 @@ interface DropdownType {
 }
 
 function DropdownItem(props: DropdownType) {
-
   return (
     <Styled>
-      <li className="dropdownItem" value={props.value} onClick={() => console.log("clicked")}>
+      <li className="dropdownItem" value={props.value} onClick={() => console.log('clicked')}>
         <img src={props.img} alt="" />
         <a>{props.text}</a>
       </li>
@@ -81,7 +80,6 @@ export default function SearchBarAdmin() {
       if (menuRef.current != null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);
-          console.log(menuRef.current);
         }
       }
     };

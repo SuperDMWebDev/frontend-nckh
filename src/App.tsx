@@ -22,6 +22,7 @@ import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
 import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
 import Settings from './pages/UserPages/Settings/Settings';
+import RetrieveScopusAuthor from './pages/UserPages/RetrieveScopusAuthor/RetrieveScopusAuthor';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -44,6 +45,7 @@ const App = () => {
               <Route path="/test" element={<EditProfile />} />
               <Route path="/profile/article-detail/:id" element={<ArticleDetail />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
             </Routes>
           </div>
         ) : (

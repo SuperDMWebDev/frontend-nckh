@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
-  console.log('data', data);
 
   const handleGoToDetail = (id: any) => {
     window.location.replace(`http://localhost:5000/profile/article-detail/${id}`);
