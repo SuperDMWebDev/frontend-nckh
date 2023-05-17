@@ -4,12 +4,23 @@ const BASE_URL = 'http://localhost:3001/api/v1/';
 
 const token = localStorage.getItem("accessToken");
 
-export const getInfoProfile = async () => {
-    const res = await axios.get(`${BASE_URL}lecturers/fetch?pageOffset=1&limitSize=2`, {
+export const getInfoProfile = async (accountId : string | null) => {
+    const res = await axios.get(`${BASE_URL}lecturers/detail/${accountId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 
     return res.data.data[0];
+}
+
+
+export const getScopusAuthors = async (firstnam: string, lastname: string) => {
+    const res = await axios.get(`${BASE_URL}scopus/author?firstName=${firstnam}&lastName=${lastname}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    return res.data;
 }

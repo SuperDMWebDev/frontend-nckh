@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { toast } from 'react-toastify';
+import { getScopusAuthors } from '../../../api/Lecturer';
 
 interface AuthorScopus {
     surname: string,
@@ -35,18 +36,16 @@ export default function RetrieveScopusAuthor() {
 
     const handleConfirm = () => {
         console.log(firstName, lastName);
-        setScopusAuthors([
-            {
-                "surname": "Tran",
-                "givenName": "Hoang Quan",
-                "scopusId": "987654321"
-            },
-            {
-                "surname": "Tran",
-                "givenName": "Trung Quan",
-                "scopusId": "123456789"
-            }
-        ]);
+        if (firstName == "" || lastName == "") {
+            toast.error("Bạn chưa điền đầy đủ thông tin để xác nhận!")
+        } else {
+            const data = getScopusAuthors(firstName, lastName);
+            data.then(result => {
+                setScopusAuthors(result.data);
+            }).catch(err => {
+                console.log("Can't get scopus authors: ", err)
+            });
+        }
     }
 
     const handleConfirmAuthorScopus = () => {
@@ -70,13 +69,13 @@ export default function RetrieveScopusAuthor() {
                         <div className="wrapper">
                             <input type="text" className="name-input" onChange={(e) => setFirstName(e.target.value)}
                                 required={true} />
-                            <label className="name-label">First Name</label>
+                            <label className="name-label">Tên</label>
                         </div>
 
                         <div className="wrapper">
                             <input type="text" className="name-input" onChange={(e) => setLastName(e.target.value)}
                                 required={true} />
-                            <label className="name-label">Last Name</label>
+                            <label className="name-label">Họ tên</label>
                         </div>
                     </div>
                     <div className='btn-confirm'>
@@ -89,26 +88,30 @@ export default function RetrieveScopusAuthor() {
                         </button>
                     </div>
 
-                    <div className='author-list'>
-                        {!scopusAuthors ? null : <h3>Chọn tài khoản Scopus của bạn: </h3>}
+                    {
+                        scopusAuthors?.length == 0 ? <div style={{ margin: "0 auto", fontSize: "14px", marginTop: "10px", fontStyle: "italic" }}>Không tìm thấy tài khoản nào!</div> : <>
+                            <div className='author-list'>
+                                {!scopusAuthors ? null : <h3>Chọn tài khoản Scopus của bạn: </h3>}
 
-                        {scopusAuthors?.map((scopusAuthor) => (
-                            <div key={scopusAuthor.scopusId} onChange={() => setScopusID(scopusAuthor.scopusId)}>
-                                <div className="radio-inputs">
-                                    <label>
-                                        <input className="radio-input" type="radio" name="engine" />
-                                        <span className="radio-tile">
-                                            <span className="radio-label">{scopusAuthor.givenName} {scopusAuthor.surname}</span>
-                                        </span>
-                                    </label>
-                                </div>
+                                {scopusAuthors?.map((scopusAuthor) => (
+                                    <div key={scopusAuthor.scopusId} onChange={() => setScopusID(scopusAuthor.scopusId)}>
+                                        <div className="radio-inputs">
+                                            <label>
+                                                <input className="radio-input" type="radio" name="engine" />
+                                                <span className="radio-tile">
+                                                    <span className="radio-label">{scopusAuthor.givenName} {scopusAuthor.surname}</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {!scopusAuthors ? null : <>
+                                    <button className='btn-choose' onClick={handleChoose}>Chọn</button>
+                                </>}
                             </div>
-                        ))}
-
-                        {!scopusAuthors ? null : <>
-                            <button className='btn-choose' onClick={handleChoose}>Chọn</button>
-                        </>}
-                    </div>
+                        </>
+                    }
 
                     <Modal
                         open={open}
