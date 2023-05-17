@@ -43,6 +43,9 @@ const NavBarUser = () => {
       if (value == "MyProfile") {
         navigate('/profile');
         setOpen(false);
+      } else if (value == "Retrieve Scopus Author") {
+        navigate('/retrieve-scopus-author');
+        setOpen(false);
       }
     }
 
@@ -99,7 +102,7 @@ const NavBarUser = () => {
                 <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
                 <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
                 <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
-                <DropdownItem img={help} text={'Helps'} value={'Helps'} />
+                <DropdownItem img={help} text={'Retrieve Scopus Author'} value={'Retrieve Scopus Author'} />
                 <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
               </ul>
             </div>

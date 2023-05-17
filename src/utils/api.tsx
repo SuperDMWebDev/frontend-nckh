@@ -5,6 +5,8 @@ export interface DataResponse {
   code: number;
   message: string;
   token?: string;
+  expire: string;
+  accountId: string;
 }
 export interface Response {
   status: number;

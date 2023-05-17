@@ -29,18 +29,18 @@ const SignIn = function () {
     onSubmit: async (value) => {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
+        console.log(responseSignIn);
         const {
-          data: { token, message, code }
+          data: { token, message, code, expire, accountId }
         } = responseSignIn;
         if (code != 0) {
           toast.error(message);
         } else {
           localStorage.setItem('accessToken', token);
+          localStorage.setItem('accountId', accountId);
           console.log("token");
           toast.success(message);
-          //navigate('/');
           window.location.replace('http://localhost:5000/');
-          console.log(token);
         }
       } catch (err) {
         console.log('err login ', err);

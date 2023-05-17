@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+//import { useNavigate } from 'react-router';
 import Styled from './style';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
 import { useNavigate } from 'react-router-dom';
