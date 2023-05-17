@@ -23,6 +23,28 @@ export const getArticles = async () => {
   }
 };
 
+export const getArticlesOfLecturers = async (data: any) => {
+  try {
+    const query = `${BASE_URL}/articles/fetch-all`;
+    const res = await axios.post(query, data);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const getDetailArticle = async (id: any) => {
+  try {
+    const query = `${BASE_URL}/articles/detail/${id}`;
+    const res = await axios.get(query);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 export const createArticle = async (data: any) => {
   try {
     const query = `${BASE_URL}/articles/create`;

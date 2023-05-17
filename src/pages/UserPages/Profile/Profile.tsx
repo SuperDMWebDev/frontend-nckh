@@ -19,7 +19,7 @@ import { object } from 'yup';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
-import { getArticles } from '../../../api/Article';
+import { getArticlesOfLecturers } from '../../../api/Article';
 
 interface academicTitle {
   lecturerId: Number;
@@ -138,6 +138,11 @@ interface Lecturer {
   workPositions: workPosition[];
 }
 
+type Article = {
+  [key: string]: any; // 👈️ variable key
+  name: string;
+};
+
 export default function Profile() {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState(1);
@@ -146,16 +151,21 @@ export default function Profile() {
   );
   const [lecturer, setLecturer] = useState<Lecturer>();
   const token = localStorage.getItem('tokenAccess');
-  const [articleList, setArticleList] = useState([]);
+  const [articleList, setArticleList] = useState<Article[]>([]);
 
   const fetchArticle = async () => {
-    const res = await getArticles();
+    let id = '1';
+    let param = {
+      data: {
+        lecturerIds: [Number(id)]
+      }
+    };
+
+    const res = await getArticlesOfLecturers(param);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data;
-          console.log('res', res);
-          console.log('data', data);
           setArticleList(data);
           break;
         }
@@ -369,7 +379,7 @@ export default function Profile() {
               <div className="content-profile">
                 <div className="main_content">
                   <h2 className="title_content">BẰNG CẤP</h2>
-                  {lecturer?.degrees.map((degree: degree) => (
+                  {/* {lecturer?.degrees.map((degree: degree) => (
                     <div style={{ marginBottom: '2px' }} key={degree.id.toString()}>
                       <h4>
                         {' '}
@@ -383,7 +393,7 @@ export default function Profile() {
                         {degree.specialization}, {degree.universityName}
                       </p>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
 
@@ -401,57 +411,7 @@ export default function Profile() {
             <>
               <div className="content-profile">
                 {/* <span style={{ fontSize: "14px", fontStyle: "italic" }}>Chưa có bài báo khoa học nào.</span> */}
-                <div>
-                  {/* <div className="card_article" onClick={handleLinkArticleDetail}>
-                    <div className="card-top-part">
-                      <div className="left-part">
-                        <div className="user-name">
-                          <a className="link_title">
-                            <p className="name">
-                              Life-cycle costs approach for private piped water service delivery: a
-                              study in rural Viet Nam
-                            </p>
-                          </a>
-                        </div>
-                        <div className="user-field">
-                          Industry Fellow School of International Studies and Education
-                        </div>
-                        <div className="user-position">
-                          <p className="position">
-                            Journal of Water, Sanitation and Hygiene for Development
-                          </p>
-                        </div>
-                      </div>
-                      <div className="right-part">
-                        <div className="right-part_group">
-                          <div className="right-part__num">857</div>
-                          <div className="right-part__title">Citations</div>
-                        </div>
-                        <div className="right-part_group">
-                          <div className="right-part__num">368</div>
-                          <div className="right-part__title">Readers</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="card-bottom-part">
-                      <div className="card-bottom-part__group">
-                        <FontAwesomeIcon icon={faAdd} />
-                        <div className="card-bottom-part__item">Add to library</div>
-                      </div>
-                      <div className="card-bottom-part__group">
-                        <FontAwesomeIcon icon={faFilePdf} />
-                        <div className="card-bottom-part__item">Sign in to view PDF</div>
-                      </div>
-                      <div className="card-bottom-part__group">
-                        <FontAwesomeIcon icon={faNewspaper} />
-                        <div className="card-bottom-part__item">Related</div>
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {articleList && articleList.map((item) => <ArticleCard data={item} />)}
-                </div>
+                <div>{articleList && articleList.map((item) => <ArticleCard data={item} />)}</div>
               </div>
             </>
           ) : (

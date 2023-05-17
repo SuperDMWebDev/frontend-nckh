@@ -13,7 +13,7 @@ const handleError = (error: any) => {
 };
 
 export const getInfoProfile = async () => {
-  const res = await axios.get(`${BASE_URL}/lecturers/fetch?pageOffset=1&limitSize=2`, {
+  const res = await axios.get(`${BASE_URL}lecturers/fetch?pageOffset=1&limitSize=2`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

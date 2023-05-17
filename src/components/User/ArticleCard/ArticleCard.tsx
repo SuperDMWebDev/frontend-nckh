@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
-  const handleLink = () => {
-    window.location.replace('http://localhost:5000/profile');
+  console.log('data', data);
+
+  const handleGoToDetail = (id: any) => {
+    window.location.replace(`http://localhost:5000/profile/article-detail/${id}`);
   };
 
   return (
@@ -17,9 +20,9 @@ const ArticleCard = (props: any) => {
         <div className="card-top-part">
           <div className="left-part">
             <div className="user-name">
-              <a className="link_title">
+              <div className="link_title" onClick={() => handleGoToDetail(data.id)}>
                 <p className="name">{data?.name}</p>
-              </a>
+              </div>
               <p className="role"> Admin </p>
             </div>
             <div className="user-field">{data?.journal}</div>
