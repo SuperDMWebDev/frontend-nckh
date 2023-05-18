@@ -572,6 +572,16 @@ const Styled = styled.div`
   .header_article input::placeholder {
     font-style: italic;
   }
+
+
+  // style modal
+  .modalStyle .img-avatar-edit {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
 `;
 
 export default Styled;
