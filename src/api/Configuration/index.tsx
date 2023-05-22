@@ -51,3 +51,14 @@ export const deleteMultipleContactTypes = async (data: any) => {
         return handleError(error);
     }
 };
+
+export const updateContactType = async (data: any) => {
+    try {
+        const res = await axios.put(`${BASE_URL}configs/contact-type/:${data.id}/update`, data);
+
+        console.log(data.id);
+        return res;
+    } catch (error) {
+        return handleError(error);
+    }
+};

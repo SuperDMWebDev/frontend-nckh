@@ -20,11 +20,15 @@ interface DataType {
     createAt: string;
     updateAt: string;
 }
-interface NameInput {
+interface DataName {
     name: string;
 }
-interface IdInput {
+interface DataId {
     id: number;
+}
+interface DataUpdate {
+    id: number;
+    name: string;
 }
 const _data: DataType[] = [];
 for (let i = 0; i < 46; i++) {
@@ -59,9 +63,12 @@ const Test: React.FC = () => {
     const [form] = Form.useForm();
     const [deleted, setDeleted] = useState(false);
 
-    const [data, setData] = useState<NameInput[]>([]);
-    const [id, setId] = useState<IdInput[]>([]);
+    const [dataName, setDataName] = useState<DataName[]>([]);
+    const [dataId, setDataId] = useState<DataId[]>([]);
+    
     const [name, setName] = useState('');
+    const [id, setId] = useState<number>(0);
+    const [update, setUpdate] = useState<DataUpdate>({id: id, name: name});
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
@@ -98,9 +105,10 @@ const Test: React.FC = () => {
         setName('');
         setOpen(true);
     };
-    const handleUpdate = () => {
+    const handleUpdate = (record: DataType) => {
         setFormType('update');
-        form.setFieldsValue({ name: 'name' });
+        setId(record.id);
+        form.setFieldsValue({ name: record.name });
         setOpen(true);
     };
     const handleCancel = () => {
@@ -108,10 +116,17 @@ const Test: React.FC = () => {
     };
 
     const onFinish = () => {
-        const newData: NameInput = { name: name };
-        data.push(newData);
-        setData(data);
-        createMultipleContactTypes(data);
+        if (formType === 'create') {
+            const newData: DataName = { name: name };
+            dataName.push(newData);
+            setDataName(dataName);
+            //createMultipleContactTypes(dataName);
+        }
+        else {
+            const newData: DataUpdate = { id: id, name: name };
+            setUpdate(newData);
+            updateContactType(update);
+        }
 
         // setData([...data, {name: name}]);
         // form.resetFields();
@@ -120,7 +135,7 @@ const Test: React.FC = () => {
 
     const handleSubmit = (data: any) => {
         const newData = [...data, { name: name }];
-        setData(newData);
+        //setData(newData);
         console.log(data);
 
         // nameArray.push(values);
@@ -134,6 +149,7 @@ const Test: React.FC = () => {
         // eslint-disable-next-line no-console
         //console.log(idList);
         //deleteMultipleContactTypes(idList);
+        console.log(dataId);
     };
 
     const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -245,7 +261,7 @@ const Test: React.FC = () => {
             key: 'x',
             width: '3%',
             render: (text, record) => (
-                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={handleUpdate} />
+                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={() => handleUpdate(record)} />
             )
         }
     ];
@@ -261,7 +277,7 @@ const Test: React.FC = () => {
     //     // setData(data);
     //     console.log(data);
     // }
-    const createMultipleContactTypes = async (data: NameInput[]) => {
+    const createMultipleContactTypes = async (data: DataName[]) => {
         try {
             const res = await axios.post(`${BASE_URL}configs/contact-type/create`, data);
 
@@ -271,7 +287,16 @@ const Test: React.FC = () => {
             return handleError(error);
         }
     };
+    const updateContactType = async (data: DataUpdate) => {
+        try {
+            const res = await axios.put(`${BASE_URL}configs/contact-type/:${data.id}/update`, data);
 
+            console.log(data);
+            return res;
+        } catch (error) {
+            return handleError(error);
+        }
+    };
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
@@ -305,43 +330,43 @@ const Test: React.FC = () => {
 
         //     return selectedRowKeys;
         // },
-        onSelect: (record: any, selected: any) => {
+        onSelect: (record: any, selected: boolean) => {
             if (!selected) {
-                const index = id.findIndex((item) => item.id === record.id);
-                id.splice(index, 1);
-                setId(id);
+                const index = dataId.findIndex((item) => item.id === record.id);
+                dataId.splice(index, 1);
+                setDataId(dataId);
             } else {
-                id.push({ id: record.id });
-                setId(id);
+                dataId.push({ id: record.id });
+                setDataId(dataId);
             }
         },
         onSelectAll: (selected: any, selectedRows: any) => {
             if (!selected) {
                 //setId([]);
-                while (id.length != 0) {
-                    id.splice(0, 1);
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
                 }
-                setId(id);
+                setDataId(dataId);
                 //console.log(id);
             } else {
-                while (id.length != 0) {
-                    id.splice(0, 1);
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
                 }
-                console.log(id);
+                console.log(dataId);
                 selectedRows.map((item: DataType) => {
                     //console.log(id);
-                    const cur: IdInput = { id: item.id};
+                    const cur: DataId = { id: item.id };
                     //console.log(cur);
-                    
+
                     //if (id.indexOf(cur) === -1) {
-                        //console.log(!id.includes(cur));
-                        id.push({ id: item.id });
-                        //setId(id);
-                        //console.log(id);
+                    //console.log(!id.includes(cur));
+                    dataId.push({ id: item.id });
+                    //setId(id);
+                    //console.log(id);
                     //}
                 });
-                setId(id);
-                console.log(id);
+                setDataId(dataId);
+                console.log(dataId);
                 //setId(selectedRows.map((row: { id: any; }) => ({ id: row.id })));
                 //console.log(id);
             }
@@ -358,7 +383,6 @@ const Test: React.FC = () => {
                     <span className='title_table'>Danh sách liên hệ</span>
                     <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                     <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
-                    <button className='button2' onClick={handleUpdate}><PlusOutlined style={{ marginRight: "10px" }} />Cap nhat</button>
                 </div>
 
                 <Table
@@ -397,7 +421,7 @@ const Test: React.FC = () => {
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 14 }}
                         layout="horizontal"
-                        onFinish={onFinish}
+                        onFinish={() => onFinish()}
                         initialValues={{ size: componentSize }}
                         onValuesChange={onFormLayoutChange}
                         size={componentSize as SizeType}

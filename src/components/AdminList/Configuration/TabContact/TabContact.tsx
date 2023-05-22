@@ -8,7 +8,7 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes } from '../../../../api/Configuration';
+import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes, updateContactType } from '../../../../api/Configuration';
 
 // eslint-disable-next-line no-magic-numbers
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -20,7 +20,14 @@ interface DataType {
     createAt: string;
     updateAt: string;
 }
-interface NameInput {
+interface DataName {
+    name: string;
+}
+interface DataId {
+    id: number;
+}
+interface DataUpdate {
+    id: number;
     name: string;
 }
 
@@ -31,10 +38,14 @@ const TabContact: React.FC = () => {
     const [formType, setFormType] = useState<'create' | 'update'>('create');
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
     const [form] = Form.useForm();
-    const [deleted, setDeleted] = useState(false);
+    // const [deleted, setDeleted] = useState(false);
 
-    const [data, setData] = useState<NameInput>();
+    const [dataName, setDataName] = useState<DataName[]>([]);
+    const [dataId, setDataId] = useState<DataId[]>([]);
+    
     const [name, setName] = useState('');
+    const [id, setId] = useState<number>(0);
+    const [update, setUpdate] = useState<DataUpdate>({id: id, name: name});
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
@@ -70,8 +81,9 @@ const TabContact: React.FC = () => {
         setFormType('create');
         setOpen(true);
     };
-    const handleUpdate = () => {
+    const handleUpdate = (record: DataType) => {
         setFormType('update');
+        setId(record.id);
         form.setFieldsValue({ name: 'name' });
         setOpen(true);
     };
@@ -79,6 +91,24 @@ const TabContact: React.FC = () => {
         setOpen(false);
     };
 
+    const onFinish = () => {
+        if (formType === 'create') {
+            const newData: DataName = { name: name };
+            dataName.push(newData);
+            setDataName(dataName);
+            //createMultipleContactTypes(dataName);
+        }
+        else {
+            const newData: DataUpdate = { id: id, name: name };
+            setUpdate(newData);
+            updateContactType(update);
+        }
+
+        // setData([...data, {name: name}]);
+        // form.resetFields();
+        // console.log(data);
+    };
+    
     const handleSubmit = () => {
         const values = form.getFieldsValue();
         // nameArray.push(values);
@@ -88,25 +118,70 @@ const TabContact: React.FC = () => {
         // console.log(nameArray);
     };
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
     const idList: React.Key[] = [];
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            selectedRowKeys.map(item => (
-                idList.push(item)
-            ));
+        // onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        //     selectedRowKeys.map(item => (
+        //         idList.push(item)
+        //     ));
 
-            return selectedRowKeys;
-        },
+        //     return selectedRowKeys;
+        // },
         // getCheckboxProps: (record: DataType) => ({
         //     disabled: record.name === 'Disabled User', // Column configuration not to be checked
         //     name: record.name,
         // }),
+        onSelect: (record: any, selected: boolean) => {
+            if (!selected) {
+                const index = dataId.findIndex((item) => item.id === record.id);
+                dataId.splice(index, 1);
+                setDataId(dataId);
+            } else {
+                dataId.push({ id: record.id });
+                setDataId(dataId);
+            }
+        },
+        onSelectAll: (selected: any, selectedRows: any) => {
+            if (!selected) {
+                //setId([]);
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
+                }
+                setDataId(dataId);
+                //console.log(id);
+            } else {
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
+                }
+                console.log(dataId);
+                selectedRows.map((item: DataType) => {
+                    //console.log(id);
+                    const cur: DataId = { id: item.id };
+                    //console.log(cur);
+
+                    //if (id.indexOf(cur) === -1) {
+                    //console.log(!id.includes(cur));
+                    dataId.push({ id: item.id });
+                    //setId(id);
+                    //console.log(id);
+                    //}
+                });
+                setDataId(dataId);
+                console.log(dataId);
+                //setId(selectedRows.map((row: { id: any; }) => ({ id: row.id })));
+                //console.log(id);
+            }
+        },
     };
 
     const handleDelete = () => {
         // eslint-disable-next-line no-console
-        console.log(idList);
-        deleteMultipleContactTypes(idList);
+        console.log(dataId);
+        deleteMultipleContactTypes(dataId);
     };
 
     const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -218,7 +293,7 @@ const TabContact: React.FC = () => {
             key: 'x',
             width: '3%',
             render: (text, record) => (
-                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={handleUpdate} />
+                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={() => handleUpdate(record)} />
             )
         }
     ];
@@ -252,13 +327,13 @@ const TabContact: React.FC = () => {
                     width={500}
                     destroyOnClose
                     footer={[
-                        <Button key="back" onClick={handleCancel}>
-                            Thoát
-                        </Button>,
-                        // eslint-disable-next-line react/jsx-key
-                        <Button type="primary" onClick={handleSubmit}>
-                            OK
-                        </Button>
+                        // <Button key="back" onClick={handleCancel}>
+                        //     Thoát
+                        // </Button>,
+                        // // eslint-disable-next-line react/jsx-key
+                        // <Button type="primary" onClick={handleSubmit}>
+                        //     OK
+                        // </Button>
                     ]}
                 >
                     <div id="name-input"></div>
@@ -268,14 +343,20 @@ const TabContact: React.FC = () => {
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 14 }}
                         layout="horizontal"
-                        onFinish={() => createMultipleContactTypes(data)}
+                        onFinish={() => onFinish()}
                         initialValues={{ size: componentSize }}
                         onValuesChange={onFormLayoutChange}
                         size={componentSize as SizeType}
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Liên hệ" value={data && data.name} onChange={(e) => setName(e.target.value)} />
+                            <Input placeholder="Liên hệ" value={name} onChange={handleInputChange} />
+                        </Form.Item>
+
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
                         </Form.Item>
                     </Form>
                 </Modal>
