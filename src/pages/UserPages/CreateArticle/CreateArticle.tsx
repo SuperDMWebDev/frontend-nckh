@@ -4,9 +4,11 @@ import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
 import { createArticle } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
+import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
@@ -22,13 +24,14 @@ type OptionSelect = {
 
 const CreateArticle = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState();
 
   const [name, setName] = useState('');
   const [journal, setJournal] = useState('');
   const [volume, setVolume] = useState('');
   const [issue, setIssue] = useState('');
-  const [date, setDate] = useState('');
+  const [day, setDay] = useState<number>();
+  const [month, setMonth] = useState<number>();
+  const [year, setYear] = useState<number>();
   const [abstract, setAbstract] = useState('');
   const [ArXivID, setArXivID] = useState('');
   const [DOI, setDOI] = useState('');
@@ -43,11 +46,18 @@ const CreateArticle = () => {
   const [generalNote, setGeneralNote] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
-
-  const [selectedTag, setSelectedTag] = useState<OptionSelect>();
+  const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
+  const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
   const handleSelect = (data: any) => {
     setSelectedTag(data);
   };
+  const [selectedLecturer, setSelectedLecturer] = useState<OptionSelect[]>();
+  const handleSelectLecturer = (data: any) => {
+    setSelectedLecturer(data);
+  };
+
+  const [urlPayload, setUrlPayload] = useState<any[]>([]);
+  const [notePayload, setNotePayload] = useState<any[]>([]);
 
   const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
@@ -78,17 +88,18 @@ const CreateArticle = () => {
     }
   };
 
-  const handleCreateArticle = async () => {
-    const data = {
-      name,
-      journal
-    };
-    console.log('data', data);
-    const res = await createArticle(data);
+  const fetchLecturer = async () => {
+    const res = await getAllLecturers();
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
-          console.log('re', res);
+          const data = res.data.data;
+          let newData: OptionSelect[] = [];
+          data.map((item: { id: number; name: string }) => {
+            let obj: OptionSelect = { value: item.id, label: item.name };
+            newData.push(obj);
+          });
+          setLecturerList(newData);
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -101,8 +112,90 @@ const CreateArticle = () => {
     }
   };
 
+  const handleGetURL = (list: any) => {
+    var urls: any[] = [];
+    list?.map((item: string) => {
+      let obj = {
+        url: item
+      };
+      urls.push(obj);
+    });
+    setUrlPayload(urls);
+  };
+
+  const handleGetNote = (list: any) => {
+    var notes: any[] = [];
+    list?.map((item: string) => {
+      let obj = {
+        note: item
+      };
+      notes.push(obj);
+    });
+    setNotePayload(notes);
+  };
+
+  const handleCreateArticle = async () => {
+    var tags: any[] = [];
+    var authors: any[] = [];
+
+    selectedTag?.map((item: { value: number; label: string }) => {
+      let obj = { tag_id: item.value };
+      tags.push(obj);
+    });
+
+    selectedLecturer?.map((item: { value: number; label: string }) => {
+      let obj = { lecturerId: item.value };
+      authors.push(obj);
+    });
+
+    var data = {
+      name,
+      journal,
+      volume,
+      issue,
+      day,
+      month,
+      year,
+      abstract,
+      ArXivID,
+      DOI,
+      ISBN,
+      ISSN,
+      PMID,
+      Scopus,
+      PII,
+      SGR,
+      projectId,
+      citationKey,
+      generalNote,
+      tags,
+      authors,
+      urls: urlPayload,
+      notes: notePayload
+    };
+    var bodyFormData = new FormData();
+    bodyFormData.append('data', JSON.stringify(data));
+    const res = await createArticle(bodyFormData);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          toast.success('Create article sucessfully');
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          toast.success('Fail to create article');
+          navigate('/profile');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   useEffect(() => {
     fetchTag();
+    fetchLecturer();
   }, []);
 
   return (
@@ -113,7 +206,7 @@ const CreateArticle = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
           layout="horizontal"
-          onFinish={() => createArticle(data)}
+          // onFinish={() => createArticle(data)}
           initialValues={{ size: componentSize }}
           onValuesChange={onFormLayoutChange}
           size={componentSize as SizeType}>
@@ -133,8 +226,14 @@ const CreateArticle = () => {
             <Input value={issue} onChange={(e) => setIssue(e.target.value)} />
           </Form.Item>
 
-          <Form.Item label="Date">
-            <DatePicker style={{ width: '100%' }} />
+          <Form.Item label="Day">
+            <Input value={day} onChange={(e) => setDay(parseInt(e.target.value))} />
+          </Form.Item>
+          <Form.Item label="Month">
+            <Input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} />
+          </Form.Item>
+          <Form.Item label="Year">
+            <Input value={year} onChange={(e) => setYear(parseInt(e.target.value))} />
           </Form.Item>
 
           <Form.Item label="Abstract">
@@ -194,21 +293,27 @@ const CreateArticle = () => {
               isSearchable={true}
               isMulti
             />
-            <div style={{ marginTop: '20px' }}>
-              <InputTags />
-            </div>
+            <div style={{ marginTop: '20px' }}>{/* <InputTags />   */}</div>
           </Form.Item>
 
           <Form.Item label="Authors">
-            <InputTags />
+            <Select
+              options={lecturerList}
+              placeholder="Select authors"
+              value={selectedLecturer}
+              onChange={handleSelectLecturer}
+              isSearchable={true}
+              isMulti
+            />
+            <div style={{ marginTop: '20px' }}>{/* <InputTags /> */}</div>
           </Form.Item>
 
           <Form.Item label="URL">
-            <InputTags />
+            <InputTags handleGetInputTag={handleGetURL} />
           </Form.Item>
 
           <Form.Item label="Note">
-            <InputTags />
+            <InputTags handleGetInputTag={handleGetNote} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

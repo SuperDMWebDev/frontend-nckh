@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Styled from './style';
 import { useParams } from 'react-router-dom';
-import { getDetailArticle } from '../../../api/Article';
+import { getDetailArticle, deleteArticle } from '../../../api/Article';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
+import { DeleteOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
+import { toast } from 'react-toastify';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -16,6 +19,49 @@ export default function ArticleDetail() {
 
   const [article, setArticle] = useState<Article>();
   const [authorList, setAuthorList] = useState<string[]>([]);
+
+  const { confirm } = Modal;
+  function showConfirm() {
+    confirm({
+      title: 'Do you want to delete this article?',
+      content: 'When clicked the OK button, this article will be deleted permanently.',
+      async onOk() {
+        try {
+          handleDeleteArticle();
+        } catch (e) {
+          return console.log('Oops errors!');
+        }
+      },
+      onCancel() {}
+    });
+  }
+
+  const handleDeleteArticle = async () => {
+    var payload = {
+      data: [
+        {
+          id: Number(id)
+        }
+      ]
+    };
+    console.log('pay load', payload);
+    const res = await deleteArticle(payload);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          toast.success('Delete article sucessfully');
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          toast.success('Fail to delete this article');
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
 
   const fetchArticlesOfLecturers = async () => {
     const res = await getDetailArticle(id);
@@ -61,7 +107,14 @@ export default function ArticleDetail() {
     <Styled>
       {article && (
         <div className="detail-article-body">
-          <div className="article-title">{article.name}</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className="article-title">{article.name}</div>
+            <div className="button_delete" onClick={showConfirm}>
+              <DeleteOutlined style={{ marginRight: '10px' }} />
+              Delete
+            </div>
+          </div>
+
           <div className="article-author">
             <div>Authors: </div>
             <ul>

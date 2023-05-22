@@ -13,7 +13,7 @@ const Styled = styled.div`
     font-weight: 500;
     line-height: 1.1;
     font-size: 26px;
-    color: #72A9F6;
+    color: #72a9f6;
   }
 
   .article-author {
@@ -62,9 +62,24 @@ const Styled = styled.div`
     line-height: 24px;
     font-size: 18px;
     font-weight: 300;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans',
+      'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
     font-size: 15px;
     line-height: 21px;
+  }
+
+  .button_delete {
+    background-color: #f7f7f7;
+    padding: 8px 16px;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 3px;
+  }
+
+  .button_delete:hover {
+    color: #f81f1f;
   }
 `;
 
