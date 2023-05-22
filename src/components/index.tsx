@@ -8,7 +8,7 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes } from '../../../../api/Configuration';
+import axios from 'axios';
 
 // eslint-disable-next-line no-magic-numbers
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -23,8 +23,34 @@ interface DataType {
 interface NameInput {
     name: string;
 }
+interface IdInput {
+    id: number;
+}
+const _data: DataType[] = [];
+for (let i = 0; i < 46; i++) {
+    _data.push({
+        key: i,
+        id: i,
+        name: '',
+        createAt: '',
+        updateAt: ''
+    });
+}
 
-const TabContact: React.FC = () => {
+const Test: React.FC = () => {
+    const BASE_URL = 'http://localhost:3001/api/v1/';
+
+    const token = localStorage.getItem("accessToken");
+
+    const handleError = (error: any) => {
+        const { response, message } = error;
+        if (response) {
+            return response;
+        }
+        return message;
+    };
+
+
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
@@ -33,16 +59,17 @@ const TabContact: React.FC = () => {
     const [form] = Form.useForm();
     const [deleted, setDeleted] = useState(false);
 
-    const [data, setData] = useState<NameInput>();
+    const [data, setData] = useState<NameInput[]>([]);
+    const [id, setId] = useState<IdInput[]>([]);
     const [name, setName] = useState('');
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [contactTypes, setContactTypes] = useState<DataType[]>([]);
     useEffect(() => {
         // eslint-disable-next-line no-shadow
-        getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+        //getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
         // eslint-disable-next-line no-magic-numbers, no-console
     }, []);
 
@@ -68,6 +95,7 @@ const TabContact: React.FC = () => {
 
     const handleCreate = () => {
         setFormType('create');
+        setName('');
         setOpen(true);
     };
     const handleUpdate = () => {
@@ -79,8 +107,22 @@ const TabContact: React.FC = () => {
         setOpen(false);
     };
 
-    const handleSubmit = () => {
-        const values = form.getFieldsValue();
+    const onFinish = () => {
+        const newData: NameInput = { name: name };
+        data.push(newData);
+        setData(data);
+        createMultipleContactTypes(data);
+
+        // setData([...data, {name: name}]);
+        // form.resetFields();
+        // console.log(data);
+    };
+
+    const handleSubmit = (data: any) => {
+        const newData = [...data, { name: name }];
+        setData(newData);
+        console.log(data);
+
         // nameArray.push(values);
         // setOpen(false);
         form.resetFields();
@@ -88,25 +130,10 @@ const TabContact: React.FC = () => {
         // console.log(nameArray);
     };
 
-    const idList: React.Key[] = [];
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            selectedRowKeys.map(item => (
-                idList.push(item)
-            ));
-
-            return selectedRowKeys;
-        },
-        // getCheckboxProps: (record: DataType) => ({
-        //     disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        //     name: record.name,
-        // }),
-    };
-
     const handleDelete = () => {
         // eslint-disable-next-line no-console
-        console.log(idList);
-        deleteMultipleContactTypes(idList);
+        //console.log(idList);
+        //deleteMultipleContactTypes(idList);
     };
 
     const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -223,6 +250,107 @@ const TabContact: React.FC = () => {
         }
     ];
 
+    // function createMultipleContactTypes(data: NameInput[] | undefined): void {
+    //     //throw new Error('Function not implemented.');
+    //     //handleSubmit(data);
+    //     //console.log(name);
+    //     // const value = form.getFieldValue('name');
+    //     // console.log(value);
+    //     //setData(data);
+    //     // const newData = [...data, { name: name }];
+    //     // setData(data);
+    //     console.log(data);
+    // }
+    const createMultipleContactTypes = async (data: NameInput[]) => {
+        try {
+            const res = await axios.post(`${BASE_URL}configs/contact-type/create`, data);
+
+            console.log(data);
+            return res;
+        } catch (error) {
+            return handleError(error);
+        }
+    };
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
+    const idList: React.Key[] = [];
+    // const rowSelection = {
+    //     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+
+    //         selectedRowKeys.map(item => {
+    //             id.push({ id: parseInt(item.toString()) });
+    //             setId(id);
+    //         });
+    //         console.log(id);
+
+    //         return selectedRowKeys;
+    //     },
+    //     // getCheckboxProps: (record: DataType) => ({
+    //     //     disabled: record.name === 'Disabled User', // Column configuration not to be checked
+    //     //     name: record.name,
+    //     // }),
+    // };
+
+
+    const rowSelection = {
+        // onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        //     selectedRowKeys.map(item => {
+        //         id.push({ id: parseInt(item.toString()) });
+        //         setId(id);
+        //     });
+        //     //console.log(id);
+
+        //     return selectedRowKeys;
+        // },
+        onSelect: (record: any, selected: any) => {
+            if (!selected) {
+                const index = id.findIndex((item) => item.id === record.id);
+                id.splice(index, 1);
+                setId(id);
+            } else {
+                id.push({ id: record.id });
+                setId(id);
+            }
+        },
+        onSelectAll: (selected: any, selectedRows: any) => {
+            if (!selected) {
+                //setId([]);
+                while (id.length != 0) {
+                    id.splice(0, 1);
+                }
+                setId(id);
+                //console.log(id);
+            } else {
+                while (id.length != 0) {
+                    id.splice(0, 1);
+                }
+                console.log(id);
+                selectedRows.map((item: DataType) => {
+                    //console.log(id);
+                    const cur: IdInput = { id: item.id};
+                    //console.log(cur);
+                    
+                    //if (id.indexOf(cur) === -1) {
+                        //console.log(!id.includes(cur));
+                        id.push({ id: item.id });
+                        //setId(id);
+                        //console.log(id);
+                    //}
+                });
+                setId(id);
+                console.log(id);
+                //setId(selectedRows.map((row: { id: any; }) => ({ id: row.id })));
+                //console.log(id);
+            }
+        },
+    };
+
+
+
+
     return <>
         {
             <>
@@ -230,6 +358,7 @@ const TabContact: React.FC = () => {
                     <span className='title_table'>Danh sách liên hệ</span>
                     <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                     <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
+                    <button className='button2' onClick={handleUpdate}><PlusOutlined style={{ marginRight: "10px" }} />Cap nhat</button>
                 </div>
 
                 <Table
@@ -237,7 +366,7 @@ const TabContact: React.FC = () => {
                     rowSelection={{ type: 'checkbox', ...rowSelection }}
                     pagination={{ pageSize: 7 }}
                     columns={columns}
-                    dataSource={contactTypes}
+                    dataSource={_data}
                     // eslint-disable-next-line no-magic-numbers, no-confusing-arrow
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 />
@@ -252,13 +381,13 @@ const TabContact: React.FC = () => {
                     width={500}
                     destroyOnClose
                     footer={[
-                        <Button key="back" onClick={handleCancel}>
-                            Thoát
-                        </Button>,
-                        // eslint-disable-next-line react/jsx-key
-                        <Button type="primary" onClick={handleSubmit}>
-                            OK
-                        </Button>
+                        // <Button key="back" onClick={handleCancel}>
+                        //     Thoát
+                        // </Button>,
+                        // // eslint-disable-next-line react/jsx-key
+                        // <Button type="primary" onClick={handleSubmit}>
+                        //     OK
+                        // </Button>
                     ]}
                 >
                     <div id="name-input"></div>
@@ -268,14 +397,20 @@ const TabContact: React.FC = () => {
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 14 }}
                         layout="horizontal"
-                        onFinish={() => createMultipleContactTypes(data)}
+                        onFinish={onFinish}
                         initialValues={{ size: componentSize }}
                         onValuesChange={onFormLayoutChange}
                         size={componentSize as SizeType}
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Liên hệ" value={data && data.name} onChange={(e) => setName(e.target.value)} />
+                            <Input placeholder="Liên hệ" value={name} onChange={handleInputChange} />
+                        </Form.Item>
+
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
                         </Form.Item>
                     </Form>
                 </Modal>
@@ -284,4 +419,4 @@ const TabContact: React.FC = () => {
     </>;
 };
 
-export default TabContact;
+export default Test;
