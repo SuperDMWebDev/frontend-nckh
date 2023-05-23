@@ -33,15 +33,15 @@ const Tags = ({ data, handleDelete }: Props) => {
   );
 };
 
-const InputTags = () => {
+const InputTags = ({ handleGetInputTag }: any) => {
   const [tag, setTag] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const tagRef = useRef<HTMLInputElement>();
 
   const handleOnSubmit = (tag: string) => {
     if (tag === '') return;
-
     setTags([...tags, tag]);
+    handleGetInputTag([...tags, tag]);
     setTag('');
   };
 
