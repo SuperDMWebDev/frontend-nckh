@@ -4,7 +4,7 @@ const Styled = styled.div`
   .header_topbar {
     margin-top: 10px;
     width: 100%;
-    height: 35px;
+    height: 40px;
     background-color: #f7f7f7;
     display: flex;
     margin-top: 10px;
@@ -66,24 +66,41 @@ const Styled = styled.div`
   .content_tab_name {
     color: #959595;
     position: relative;
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: none;
-    font-family: Montserrat, sans-serif;
+    //font-family: Montserrat, sans-serif;
+    //transition: all 250ms;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    border: none;
+    background: none;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
   }
 
   .content_tab_name:hover {
-    color: black;
+    color: #4a5bf7;
   }
 
-  .content_tab_name::after {
-    content: '';
-    background-color: black;
-    width: 0;
-    display: block;
-    height: 2px;
-    position: absolute;
-    transition: all 0.3s;
+  .content_tab_name:before {
+    margin-left: auto;
   }
+
+  .content_tab_name::after, .content_tab_name::before {
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #4a5bf7;
+    display: block;
+    transition: 0.5s;
+  }
+
+  .content_tab_name:hover::after, .content_tab_name:hover::before {
+    width: 100%;
+  }
+
+  
 
   .container {
     display: flex;
@@ -109,7 +126,7 @@ const Styled = styled.div`
 
   .tab-selected {
     font-weight: bold;
-    color: black;
+    color: #3f51b5;
   }
 
   .add-article-btn {
@@ -195,6 +212,8 @@ const Styled = styled.div`
     margin-bottom: 7px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bolder;
+    color: white;
+    text-decoration: none;
   }
 
   .field-profile-info a:hover {
@@ -581,6 +600,24 @@ const Styled = styled.div`
     border-radius: 50%;
     margin: 0 auto;
     margin-top: 30px;
+  }
+
+  .card_book {
+    width: auto;
+    box-shadow: 2px#323232;
+    height: auto;
+    background-color: #e5e5e5;
+    padding: 20px 20px;
+    border-radius: 10px;
+    margin-left: -13px;
+    margin-bottom: 10px;
+  }
+
+  .name-book p {
+    font-size: 15px;
+    font-family: proxima-nova, sans-serif;
+    line-height: 20px;
+    color: #111111;
   }
 `;
 
