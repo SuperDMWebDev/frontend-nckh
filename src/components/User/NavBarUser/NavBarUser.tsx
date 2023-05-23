@@ -85,16 +85,10 @@ const NavBarUser = () => {
         <div>
           <ul>
             <li>
-              <a href="">GIỚI THIỆU</a>
-            </li>
-            <li>
-              <a href="">THỐNG KÊ</a>
-            </li>
-            <li>
               <a href="">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="">BÀI BÁO</a>
+              <a href="/search">BÀI BÁO</a>
             </li>
           </ul>
         </div>

@@ -1,58 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,300;1,400&display=swap');
 
 .nav-tabs {
-    border-bottom: none !important;
+  border-bottom: none !important;
 }
 .nav-tabs .nav-item {
-    margin: 0;
+  margin: 0;
 }
 .nav-tabs .nav-item .nav-link {
-    font-size: 24px;
-    color: black;
-    font-weight: 600;
-    text-shadow: 0px 2px 2px rgba(0,0,0,0.25);
+  font-size: 24px;
+  color: black;
+  font-weight: 600;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .header_table span.title_table {
-    width: 700px;
+  width: 700px;
 }
 
 .nav-tabs .nav-link:hover {
-    border: none !important;
-    border-bottom: 2px solid #1677ff !important;
+  border: none !important;
+  border-bottom: 2px solid #1677ff !important;
 }
 
 .nav-tabs .nav-link.active {
-    color: white !important;
-    background-color: #1677ff !important;
-    border: 2px solid #1677ff !important;
-    border-bottom: none !important;
-    border-radius: .5rem .5rem 0 0;
+  color: white !important;
+  background-color: #1677ff !important;
+  border: 2px solid #1677ff !important;
+  border-bottom: none !important;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .edit-button {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .search-outlined-filtered {
-    color: var(--blue);
+  color: var(--blue);
 }
 .search-outlined-not-filtered {
-    color: undefined;
+  color: undefined;
 }
 
 .modal-popup {
-    margin: 0 auto;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 33px;
-    /* identical to box height */
-    letter-spacing: -0.01em;
-    color: #000000;
+  margin: 0 auto;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 33px;
+  /* identical to box height */
+  letter-spacing: -0.01em;
+  color: #000000;
 }
 :where(.css-dev-only-do-not-override-10ed4xt).ant-modal .ant-modal-close:hover {
-    background-color: transparent;
+  background-color: transparent;
 }

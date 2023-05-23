@@ -605,17 +605,19 @@ export default function Profile() {
                         </>
                     ) : currentTab === 2 ? (
                         <>
+                            <div className="add-article-container">
+                                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
+                                    Thêm bài báo khoa học
+                                </button>
+                            </div>
                             <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">CÁC BÀI BÁO KHOA HỌC</h2>
-                                    {articleList ? (
-                                        articleList['1'].map((item: any) => <ArticleCard data={item} />)
-                                    ) : (
-                                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                            Chưa có bài báo khoa học nào.
-                                        </span>
-                                    )}
-                                </div>
+                                {articleList ? (
+                                    articleList['1'].map((item: any) => <ArticleCard data={item} />)
+                                ) : (
+                                    <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                                        Chưa có bài báo khoa học nào.
+                                    </span>
+                                )}
                             </div>
                         </>
                     ) : currentTab === 3 ? (
@@ -676,9 +678,9 @@ export default function Profile() {
                         </>
                     )}
                 </div>
-            </div>
+            </div >
             <div className="footer"></div>
-        </Styled>
+        </Styled >
     );
 }
 

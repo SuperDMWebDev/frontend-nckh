@@ -189,3 +189,12 @@ export const editAvatarProfile = async (AvatarURL: string, accountId: string | n
   );
 };
 
+export const getAllLecturers = async () => {
+  try {
+    const query = `${BASE_URL}lecturers/fetch-all`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
