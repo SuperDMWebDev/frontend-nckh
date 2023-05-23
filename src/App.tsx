@@ -44,7 +44,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/create-article" element={<CreateArticle />} />
               <Route path="/test" element={<EditProfile />} />
-              <Route path="/profile/article-detail/:id" element={<ArticleDetail />} />
+              <Route path="/article-detail/:id" element={<ArticleDetail />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
             </Routes>
