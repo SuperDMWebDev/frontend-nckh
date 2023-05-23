@@ -38,18 +38,20 @@ export default function ArticleDetail() {
 
   const handleDeleteArticle = async () => {
     var payload = {
-      data: [
-        {
-          id: Number(id)
-        }
-      ]
+      data: {
+        data: [
+          {
+            id: Number(id)
+          }
+        ]
+      }
     };
-    console.log('pay load', payload);
     const res = await deleteArticle(payload);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Delete article sucessfully');
+          navigate('./search');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
