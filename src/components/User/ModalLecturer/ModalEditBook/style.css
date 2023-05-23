@@ -1,0 +1,52 @@
+.data_content {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    text-align: left;
+    white-space: pre-wrap;
+    font-weight: 350;
+    margin-left: 13px;
+}
+
+.card_book {
+    width: auto;
+    box-shadow: 2px#323232;
+    height: auto;
+    background-color: #e5e5e5;
+    padding: 20px 20px;
+    border-radius: 10px;
+    margin-left: -13px;
+    margin-bottom: 10px;
+}
+
+.name-book p {
+    font-size: 15px;
+    font-family: proxima-nova, sans-serif;
+    line-height: 20px;
+    color: #111111;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.user-field {
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    margin: 5px 0;
+}
+
+.btn-add-card {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-add-card:hover {
+    color: rgb(70, 70, 241);
+}

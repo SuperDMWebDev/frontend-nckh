@@ -21,7 +21,10 @@ import "./Profile.css";
 import Avatar1 from 'react-avatar-edit'
 import { editBioProfile } from '../../../api/Lecturer';
 import { editAvatarProfile } from '../../../api/Lecturer';
+import { editNameProfile } from '../../../api/Lecturer';
 import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
+import { toast } from 'react-toastify';
+import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 
 
 type Article = {
@@ -147,17 +150,9 @@ export default function Profile() {
     const [openInfoModal, setOpenInfoModal] = useState(false);
     const [openEditProfile, setOpenEditProfile] = useState(false);
     const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
+    const [openEditNameModal, setOpenEditNameModal] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [newUniversity, setNewUniversity] = useState<string>("");
-
-    const handleChangeUniversity = (event: any) => {
-        setNewUniversity(event.target.value);
-    };
-    const optionsUniversity = [
-        { value: "a", label: "Truong A" },
-        { value: "b", label: "Truong B" },
-        { value: "c", label: "Truong C" }
-    ];
+    const [newName, setNewName] = useState<string | undefined>();
 
     const handleOkBio = () => {
         setLoading(true);
@@ -194,13 +189,16 @@ export default function Profile() {
         }, 3000);
     };
 
-    const handleCancelEditAvatar = () => {
-        setOpenEditProfile(false);
-    };
-
     const onCrop = (view: string) => {
         console.log(view);
         editAvatarProfile(view, accountId);
+    };
+
+    const [isToast, setIsToast] = useState<Boolean>(false);
+
+    const handleSaveName = () => {
+        editNameProfile(lecturer, newName, accountId);
+        window.location.reload();
     }
 
     return (
@@ -344,6 +342,37 @@ export default function Profile() {
                                     Lưu
                                 </Button>
                             ]}>
+
+                            <div>
+                                <div className='header-edit-profile'>
+                                    <h2>Tên tài khoản: <span style={{ marginLeft: '5px', fontSize: "18px" }}>{lecturer?.name}</span></h2>
+                                    <p onClick={() => setOpenEditNameModal(true)}>
+                                        Chỉnh sửa
+                                    </p>
+                                </div>
+
+                                <Modal
+                                    title="Chỉnh sửa tên tài khoản"
+                                    centered
+                                    open={openEditNameModal}
+                                    onOk={handleSaveName}
+                                    onCancel={() => setOpenEditNameModal(false)}
+                                    width={700}
+                                    className="modalStyle"
+                                >
+                                    <div className="group">
+                                        <input required={true}
+                                            type="text"
+                                            className="input-edit-profile"
+                                            value={newName}
+                                            onChange={(e) => { setNewName(e.target.value) }}
+                                        />
+                                        <span className="highlight-edit-profile"></span>
+                                        <span className="bar-edit-profile"></span>
+                                        <label className='label-edit-profile'>Tên tài khoản</label>
+                                    </div>
+                                </Modal>
+                            </div>
 
                             <div>
                                 <div className='header-edit-profile'>
@@ -643,32 +672,7 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">SÁCH</h2>
-                                    {
-                                        lecturer?.books.length == 0 ? <>
-                                            <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                                Chưa có bài báo khoa học nào.
-                                            </span>
-                                        </> : <>
-                                            {lecturer?.books.map((book: any) => (
-                                                <div style={{ marginBottom: "2px" }} key={book.id.toString()}>
-                                                    <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                        <div className="card_book">
-                                                            <div className="name-book">
-                                                                <p className="name">Sách: {book.name}</p>
-                                                            </div>
-                                                            <div className="user-field">Tác giả: {book.coAuthors}</div>
-                                                            <div>Năm xuất bản: {book.publicYear}</div>
-                                                        </div>
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </>
-                                    }
-                                </div>
-                            </div>
+                            <ModalEditBook lecturer={lecturer} />
                         </>
                     )}
                 </div>

@@ -65,7 +65,6 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
 
 export const editInfoProfile = async (data: any, accountId: string | null) => {
   const { lecturer, newUniversity, newCurrentDisciplines, newGender, newDateOfBirth, newDepartmentName, newEmail, newAddress, newPhone } = data;
-  console.log({ lecturer, newUniversity, newCurrentDisciplines, newGender, newDateOfBirth, newDepartmentName, newEmail, newAddress, newPhone });
   const res = await axios.put(
     `${BASE_URL}lecturers/${accountId}/update`,
     {
@@ -83,6 +82,94 @@ export const editInfoProfile = async (data: any, accountId: string | null) => {
         "academicRankGainYear": lecturer.academicRankGainYear,
         "academicTitleId": lecturer.academicTitleId,
         "academicTitleGainYear": lecturer.academicTitleGainYear
+      }
+    }
+  );
+};
+
+export const editNameProfile = async (lecturer: any, newName: string | undefined, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": newName,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear
+      }
+    }
+  );
+};
+
+export const addNewBook = async (lecturer: any, newBook: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "books": [
+          {
+            "name": newBook.name,
+            "publisherName": "IEEE CPS, ISBN-13; 978",
+            "publicYear": newBook.publicYear,
+            "coAuthors": newBook.coAuthors,
+            "create": true
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const updateBook = async (lecturer: any, book: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "books": [
+          {
+            "id": book.id,
+            "name": book.name,
+            "publisherName": "IEEE CPS, ISBN-13; 978",
+            "publicYear": book.publicYear,
+            "coAuthors": book.coAuthors,
+            "update": true
+          }
+        ]
       }
     }
   );

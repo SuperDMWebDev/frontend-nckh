@@ -227,6 +227,7 @@ const Styled = styled.div`
   }
   .main_content {
     text-align: left;
+    position: relative;
   }
 
   .main_content h4 {
@@ -611,6 +612,15 @@ const Styled = styled.div`
     border-radius: 10px;
     margin-left: -13px;
     margin-bottom: 10px;
+    position: relative;
+  }
+
+  .btn-edit-card {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 14px;
   }
 
   .name-book p {
