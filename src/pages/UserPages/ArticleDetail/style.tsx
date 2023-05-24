@@ -14,6 +14,7 @@ const Styled = styled.div`
     line-height: 1.1;
     font-size: 26px;
     color: #72a9f6;
+    max-width: 600px;
   }
 
   .article-author {
@@ -77,9 +78,21 @@ const Styled = styled.div`
     font-weight: 600;
     border-radius: 3px;
   }
+  .button_update {
+    background-color: #f7f7f7;
+    padding: 8px 16px;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 3px;
+  }
 
   .button_delete:hover {
     color: #f81f1f;
+  }
+
+  .button_update:hover {
+    color: #001be4;
   }
 `;
 

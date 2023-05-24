@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getDetailArticle, deleteArticle } from '../../../api/Article';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { toast } from 'react-toastify';
 
@@ -111,9 +111,15 @@ export default function ArticleDetail() {
         <div className="detail-article-body">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className="article-title">{article.name}</div>
-            <div className="button_delete" onClick={showConfirm}>
-              <DeleteOutlined style={{ marginRight: '10px' }} />
-              Delete
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <div className="button_update" onClick={() => navigate(`/update-article/${id}`)}>
+                <EditOutlined style={{ marginRight: '10px' }} />
+                Edit
+              </div>
+              <div className="button_delete" onClick={showConfirm}>
+                <DeleteOutlined style={{ marginRight: '10px' }} />
+                Delete
+              </div>
             </div>
           </div>
 
