@@ -53,6 +53,7 @@ export default function RetrieveScopusAuthor() {
     setFirstName('');
     setLastName('');
     handleClose();
+    setScopusAuthors([]);
     toast.success('Xác nhận thành công!');
   };
 

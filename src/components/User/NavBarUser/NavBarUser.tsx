@@ -7,11 +7,28 @@ import inbox from '../../../assets/envelope.png';
 import settings from '../../../assets/settings.png';
 import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
+import { getInfoProfile } from '../../../api/Lecturer';
+
+
+type Lecturer = {
+  [key: string]: any; // 👈️ variable key
+  name: string;
+};
 
 const NavBarUser = () => {
   const [logined, setLogined] = useState(true);
-
   const [open, setOpen] = useState(false);
+  const [lecturer, setLecturer] = useState<Lecturer>();
+  const accountId: string | null = localStorage.getItem('accountId');
+
+  useEffect(() => {
+    const data: Promise<Lecturer> = getInfoProfile(accountId);
+    data
+      .then((result) => {
+        setLecturer(result);
+      })
+      .catch((err) => console.log("Can't get data lecturer: ", err));
+  }, []);
 
   let menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -84,12 +101,15 @@ const NavBarUser = () => {
                 setOpen(!open);
               }}>
               <div className="menu-trigger__space"></div>
-              <img className="avatar" src="https://i.pravatar.cc/" />
+              <img
+                className="avatar"
+                src={lecturer?.avatar == "http://image" ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+              />
             </div>
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <h3>Lecturer</h3>
-              <div className="dropdown-menu__subTitle">Website Designer</div>
+              <div className="dropdown-menu__subTitle">Website User</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
                 <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
