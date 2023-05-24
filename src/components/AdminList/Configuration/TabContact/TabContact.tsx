@@ -9,26 +9,20 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes, updateContactType } from '../../../../api/Configuration';
+import { toast } from "react-toastify"
 
 // eslint-disable-next-line no-magic-numbers
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
-    key: number;
     id: number;
     name: string;
-    createAt: string;
-    updateAt: string;
 }
 interface DataName {
     name: string;
 }
 interface DataId {
     id: number;
-}
-interface DataUpdate {
-    id: number;
-    name: string;
 }
 
 const TabContact: React.FC = () => {
@@ -38,16 +32,13 @@ const TabContact: React.FC = () => {
     const [formType, setFormType] = useState<'create' | 'update'>('create');
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
     const [form] = Form.useForm();
-    // const [deleted, setDeleted] = useState(false);
 
-    const [dataName, setDataName] = useState<DataName[]>([]);
-    const [dataId, setDataId] = useState<DataId[]>([]);
-    
+    const [id, setId] = useState(0);
     const [name, setName] = useState('');
-    const [id, setId] = useState<number>(0);
-    const [update, setUpdate] = useState<DataUpdate>({id: id, name: name});
+    const [dataId, setDataId] = useState<DataId[]>([]);
 
     const [open, setOpen] = useState(false);
+    const [openDel, setOpenDel] = useState(false);
     const navigate = useNavigate();
 
     const [contactTypes, setContactTypes] = useState<DataType[]>([]);
@@ -79,62 +70,75 @@ const TabContact: React.FC = () => {
 
     const handleCreate = () => {
         setFormType('create');
+        form.setFieldsValue({ name: '' });
         setOpen(true);
     };
     const handleUpdate = (record: DataType) => {
         setFormType('update');
         setId(record.id);
-        form.setFieldsValue({ name: 'name' });
+        form.setFieldsValue({ name: record.name });
         setOpen(true);
     };
     const handleCancel = () => {
         setOpen(false);
+        setOpenDel(false);
     };
-
-    const onFinish = () => {
-        if (formType === 'create') {
-            const newData: DataName = { name: name };
-            dataName.push(newData);
-            setDataName(dataName);
-            //createMultipleContactTypes(dataName);
+    const handleDelete = () => {
+        if (dataId.length === 0) {
+            toast.error('Bạn chưa chọn liên hệ nào để xóa!');
+        } else {
+            setOpenDel(true);
         }
-        else {
-            const newData: DataUpdate = { id: id, name: name };
-            setUpdate(newData);
-            updateContactType(update);
-        }
-
-        // setData([...data, {name: name}]);
-        // form.resetFields();
-        // console.log(data);
     };
-    
-    const handleSubmit = () => {
-        const values = form.getFieldsValue();
-        // nameArray.push(values);
-        // setOpen(false);
-        form.resetFields();
-        // eslint-disable-next-line no-console
-        // console.log(nameArray);
-    };
-
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
 
-    const idList: React.Key[] = [];
-    const rowSelection = {
-        // onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-        //     selectedRowKeys.map(item => (
-        //         idList.push(item)
-        //     ));
+    const onFinish = () => {
+        if (formType === 'create') {
+            const dataName: DataName[] = [];
+            dataName.push({ name: name });
+            const payload: any = {
+                data: dataName
+            }
+            if (name === '') {
+                toast.error('Bạn chưa nhập liên hệ!');
+            } else {
+                createMultipleContactTypes(payload).then((code) => {
+                    if (code === 0) {
+                        toast.success('Tạo liên hệ thành công!');
+                    } else {
+                        toast.error('Tạo liên hệ thất bại!');
+                    }
+                    getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+                    setOpen(false);
+                });
+            }
+        } else {
+            const dataUpdate: DataType = { id: id, name: name };
+            updateContactType(dataUpdate);
+            getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+        }
+    };
+    const onDelete = () => {
+        const temp: any = {
+            data: dataId
+        }
+        const payload: any = {
+            data: temp
+        }
+        deleteMultipleContactTypes(payload).then((code) => {
+            if (code === 0) {
+                toast.success('Xóa liên hệ thành công!');
+                getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+            } else {
+                toast.error('Xóa liên hệ thất bại!');
+            }
+            setOpenDel(false);
+        });
+    };
 
-        //     return selectedRowKeys;
-        // },
-        // getCheckboxProps: (record: DataType) => ({
-        //     disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        //     name: record.name,
-        // }),
+    const rowSelection = {
         onSelect: (record: any, selected: boolean) => {
             if (!selected) {
                 const index = dataId.findIndex((item) => item.id === record.id);
@@ -147,41 +151,20 @@ const TabContact: React.FC = () => {
         },
         onSelectAll: (selected: any, selectedRows: any) => {
             if (!selected) {
-                //setId([]);
                 while (dataId.length != 0) {
                     dataId.splice(0, 1);
                 }
                 setDataId(dataId);
-                //console.log(id);
             } else {
                 while (dataId.length != 0) {
                     dataId.splice(0, 1);
                 }
-                console.log(dataId);
                 selectedRows.map((item: DataType) => {
-                    //console.log(id);
-                    const cur: DataId = { id: item.id };
-                    //console.log(cur);
-
-                    //if (id.indexOf(cur) === -1) {
-                    //console.log(!id.includes(cur));
                     dataId.push({ id: item.id });
-                    //setId(id);
-                    //console.log(id);
-                    //}
                 });
                 setDataId(dataId);
-                console.log(dataId);
-                //setId(selectedRows.map((row: { id: any; }) => ({ id: row.id })));
-                //console.log(id);
             }
         },
-    };
-
-    const handleDelete = () => {
-        // eslint-disable-next-line no-console
-        console.log(dataId);
-        deleteMultipleContactTypes(dataId);
     };
 
     const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -256,7 +239,7 @@ const TabContact: React.FC = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '12%',
+            width: '3%',
             ...getColumnSearchProps('id'),
             onCell: () => {
                 return {
@@ -270,22 +253,8 @@ const TabContact: React.FC = () => {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
-            width: '40%',
+            width: '94%',
             ...getColumnSearchProps('name')
-        },
-        {
-            title: 'Được tạo vào lúc',
-            dataIndex: 'createAt',
-            key: 'createAt',
-            width: '21%',
-            ...getColumnSearchProps('createAt')
-        },
-        {
-            title: 'Cập nhật vào lúc',
-            dataIndex: 'updateAt',
-            key: 'updateAt',
-            width: '21%',
-            ...getColumnSearchProps('updateAt')
         },
         {
             title: '',
@@ -326,17 +295,8 @@ const TabContact: React.FC = () => {
                     onCancel={handleCancel}
                     width={500}
                     destroyOnClose
-                    footer={[
-                        // <Button key="back" onClick={handleCancel}>
-                        //     Thoát
-                        // </Button>,
-                        // // eslint-disable-next-line react/jsx-key
-                        // <Button type="primary" onClick={handleSubmit}>
-                        //     OK
-                        // </Button>
-                    ]}
+                    footer={[]}
                 >
-                    <div id="name-input"></div>
                     <Form
                         form={form}
                         className="modalContact modal-popup"
@@ -353,12 +313,34 @@ const TabContact: React.FC = () => {
                             <Input placeholder="Liên hệ" value={name} onChange={handleInputChange} />
                         </Form.Item>
 
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                                Thoát
+                            </Button>
                             <Button type="primary" htmlType="submit">
-                                Submit
+                                OK
                             </Button>
                         </Form.Item>
                     </Form>
+                </Modal>
+                <Modal
+                    className='title_modal'
+                    centered
+                    open={openDel}
+                    onOk={() => setOpenDel(false)}
+                    onCancel={handleCancel}
+                    width={500}
+                    destroyOnClose
+                    footer={[
+                        <Button type="primary" htmlType="submit" onClick={onDelete}>
+                            Có
+                        </Button>,
+                        <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                            Không
+                        </Button>
+                    ]}
+                >
+                    Bạn có chắc muốn xóa liên hệ này không?
                 </Modal>
             </>
         }

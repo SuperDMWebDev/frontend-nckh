@@ -23,11 +23,10 @@ import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
 import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
 import Settings from './pages/UserPages/Settings/Settings';
 import RetrieveScopusAuthor from './pages/UserPages/RetrieveScopusAuthor/RetrieveScopusAuthor';
-import Test from './components';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
-  const [role, setRole] = useState<string>(ROLE_USER.ADMIN);
+  const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
     <div>
@@ -59,7 +58,6 @@ const App = () => {
             <Route path="/test" element={<ModalTeacher />} />
             <Route path="/loader" element={<Loader />} />
             <Route path="/report" element={<Report />} />
-            <Route path="/test1" element={<Test />} />
           </Routes>
         )}
       </BrowserRouter>

@@ -6,8 +6,9 @@ import TabContact from './TabContact/TabContact';
 import TabAcademicRank from './TabAcademicRank/TabAcademicRank';
 import TabAcademicTitle from './TabAcademicTitle/TabAcademicTitle';
 import TabUniversity from './TabUniversity/TabUniversity';
+import TabActivity from './TabActivity/TabActivity';
 
-const Configuration: React.FC = () => {
+export default function Configuration() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -37,6 +38,10 @@ const Configuration: React.FC = () => {
                         <TabAcademicTitle />
                     </Tab>
 
+                    <Tab eventKey="activity-type" title="Hoạt động">
+                        <TabActivity />
+                    </Tab>
+
                     <Tab eventKey="university" title="Trường đại học">
                         <TabUniversity />
                     </Tab>
@@ -45,5 +50,3 @@ const Configuration: React.FC = () => {
         }
     </>
 }
-
-export default Configuration;

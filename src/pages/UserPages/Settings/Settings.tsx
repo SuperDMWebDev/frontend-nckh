@@ -8,13 +8,15 @@ import styled from 'styled-components';
 import { Button, Modal } from 'antd';
 import ModalSetting from './ModalSetting/ModalSetting';
 import axios from 'axios';
+import { getAllAccounts } from '../../../api/Account';
 
-const AvatarBtn = styled('button')(({}) => ({
+const AvatarBtn = styled('button')(({ }) => ({
   width: '155px',
   height: '155px',
   borderRadius: '50%',
   border: '2px solid #959595',
   transition: 'all .3s',
+  padding: '0',
 
   svg: {
     width: '55px',
@@ -31,8 +33,25 @@ const AvatarBtn = styled('button')(({}) => ({
   },
   '&:hover svg, &:hover p': {
     color: '#323232'
-  }
+  },
+
+  // '.avatar-image': {
+  //   backgroundImage: `url('https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1')`,
+  //   backgroundSize: 'cover',
+  // },
 }));
+
+interface DataType {
+  id: number;
+  email: string;
+  password: string;
+  created_at: string;
+  updated_at: string;
+  is_deleted: number;
+  role: number;
+  token: null;
+  token_expired_in: null;
+}
 
 export default function Settings() {
   const BASE_URL = 'http://localhost:8080/api/v1/';
@@ -41,8 +60,9 @@ export default function Settings() {
   const [currentTab, setCurrentTab] = useState(1);
   const [openInfo, setOpenInfo] = useState(false);
   const [openDel, setOpenDel] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [avatar, setAvatar] = useState('123');
 
   const handleTab1 = () => {
     setCurrentTab(1);
@@ -50,24 +70,9 @@ export default function Settings() {
   };
 
   useEffect(() => {
-    const getAccountInfo = async () => {
-      setLoading(true);
-      try {
-        const { data: response } = await axios.get(`${BASE_URL}accounts`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        setData(response);
-      } catch (error) {
-        console.error(error.message);
-      }
-
-      setLoading(false);
-    };
-
-    getAccountInfo();
+    // eslint-disable-next-line no-shadow
+    getAllAccounts().then((data) => setData(data));
+    // eslint-disable-next-line no-magic-numbers, no-console
   }, []);
 
   const listLabel = [
@@ -132,8 +137,17 @@ export default function Settings() {
                 <div className="main_content row">
                   <div className="avatar col-4">
                     <AvatarBtn>
-                      <CameraAltOutlinedIcon />
-                      <p>Thêm ảnh</p>
+                      {/* <CameraAltOutlinedIcon />
+                      <p>Thêm ảnh</p> */}
+                      {avatar === '' ? (
+                        <div>
+                          <CameraAltOutlinedIcon />
+                          <p>Thêm ảnh</p>
+                        </div>
+                      ) : (
+                        <div className='avatar-image' style={{ backgroundImage: `url('https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1')`,
+                        backgroundSize: 'cover', width: '100%', height: '100%', borderRadius: '50%' }}></div>
+                      )}
                     </AvatarBtn>
                   </div>
 

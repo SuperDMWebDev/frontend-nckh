@@ -1,34 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SearchOutlined, MinusOutlined, EditOutlined } from '@ant-design/icons';
 import { Form, InputRef } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
+// eslint-disable-next-line no-duplicate-imports
+import { Button, Input, Space, Table, Modal } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
+// eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from '@mui/material';
+import { createMultipleAcademicTitles, deleteMultipleAcademicTitles, getAllAcademicTitles, updateAcademicTitle } from '../../../../api/Configuration';
+import { toast } from "react-toastify"
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
-  key: number;
   id: number;
-  idTeacher: number;
-  nameTitle: string;
-  createAt: string;
-  updateAt: string;
+  name: string;
 }
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    id: i,
-    idTeacher: 0,
-    nameTitle: '',
-    createAt: '',
-    updateAt: ''
-  });
+interface DataName {
+  name: string;
+}
+interface DataId {
+  id: number;
 }
 
 const TabAcademicTitle: React.FC = () => {
@@ -39,8 +32,20 @@ const TabAcademicTitle: React.FC = () => {
   const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
   const [form] = Form.useForm();
 
+  const [id, setId] = useState(0);
+  const [name, setName] = useState('');
+  const [dataId, setDataId] = useState<DataId[]>([]);
+
   const [open, setOpen] = useState(false);
+  const [openDel, setOpenDel] = useState(false);
   const navigate = useNavigate();
+
+  const [academicTitles, setAcademicTitles] = useState<DataType[]>([]);
+  useEffect(() => {
+    // eslint-disable-next-line no-shadow
+    getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+    // eslint-disable-next-line no-magic-numbers, no-console
+  }, []);
 
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
     setComponentSize(size);
@@ -59,6 +64,105 @@ const TabAcademicTitle: React.FC = () => {
   const handleReset = (clearFilters: () => void) => {
     clearFilters();
     setSearchText('');
+  };
+
+  const handleCreate = () => {
+    setFormType('create');
+    form.setFieldsValue({ name: '' });
+    setOpen(true);
+  };
+  const handleUpdate = (record: DataType) => {
+    setFormType('update');
+    setId(record.id);
+    form.setFieldsValue({ name: record.name });
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+    setOpenDel(false);
+  };
+  const handleDelete = () => {
+    if (dataId.length === 0) {
+      toast.error('Bạn chưa chọn học vị nào để xóa!');
+    } else {
+      setOpenDel(true);
+    }
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const onFinish = () => {
+    if (formType === 'create') {
+      const dataName: DataName[] = [];
+      dataName.push({ name: name });
+      const payload: any = {
+        data: dataName
+      }
+      if (name === '') {
+        toast.error('Bạn chưa nhập học vị!');
+      } else {
+        createMultipleAcademicTitles(payload).then((code) => {
+          if (code === 0) {
+            toast.success('Tạo học vị thành công!');
+          } else {
+            toast.error('Tạo học vị thất bại!');
+          }
+          getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+          setOpen(false);
+        });
+      }
+    } else {
+      const dataUpdate: DataType = { id: id, name: name };
+      updateAcademicTitle(dataUpdate);
+      getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+    }
+  };
+  const onDelete = () => {
+    const temp: any = {
+      data: dataId
+    }
+    const payload: any = {
+      data: temp
+    }
+    deleteMultipleAcademicTitles(payload).then((code) => {
+      if (code === 0) {
+        toast.success('Xóa học vị thành công!');
+        getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+      } else {
+        toast.error('Xóa học vị thất bại!');
+      }
+      setOpenDel(false);
+    });
+  };
+
+  const rowSelection = {
+    onSelect: (record: any, selected: boolean) => {
+      if (!selected) {
+        const index = dataId.findIndex((item) => item.id === record.id);
+        dataId.splice(index, 1);
+        setDataId(dataId);
+      } else {
+        dataId.push({ id: record.id });
+        setDataId(dataId);
+      }
+    },
+    onSelectAll: (selected: any, selectedRows: any) => {
+      if (!selected) {
+        while (dataId.length != 0) {
+          dataId.splice(0, 1);
+        }
+        setDataId(dataId);
+      } else {
+        while (dataId.length != 0) {
+          dataId.splice(0, 1);
+        }
+        selectedRows.map((item: DataType) => {
+          dataId.push({ id: item.id });
+        });
+        setDataId(dataId);
+      }
+    },
   };
 
   const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -131,7 +235,7 @@ const TabAcademicTitle: React.FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      width: '12%',
+      width: '3%',
       ...getColumnSearchProps('id'),
       onCell: () => {
         return {
@@ -142,32 +246,11 @@ const TabAcademicTitle: React.FC = () => {
       }
     },
     {
-      title: 'ID Giảng viên',
-      dataIndex: 'idTeacher',
-      key: 'idTeacher',
-      width: '20%',
-      ...getColumnSearchProps('idTeacher')
-    },
-    {
       title: 'Tên học vị',
-      dataIndex: 'nameTitle',
-      key: 'nameTitle',
-      width: '22%',
-      ...getColumnSearchProps('nameTitle')
-    },
-    {
-      title: 'Được tạo vào lúc',
-      dataIndex: 'createAt',
-      key: 'createAt',
-      width: '21%',
-      ...getColumnSearchProps('createAt')
-    },
-    {
-      title: 'Cập nhật vào lúc',
-      dataIndex: 'updateAt',
-      key: 'updateAt',
-      width: '21%',
-      ...getColumnSearchProps('updateAt')
+      dataIndex: 'name',
+      key: 'name',
+      width: '94%',
+      ...getColumnSearchProps('name')
     },
     {
       title: '',
@@ -178,38 +261,11 @@ const TabAcademicTitle: React.FC = () => {
         <EditOutlined
           className="edit-button"
           style={{ cursor: 'pointer' }}
-          onClick={handleUpdate}
+          onClick={() => handleUpdate(record)}
         />
       )
     }
   ];
-
-  const handleCreate = () => {
-    setFormType('create');
-    setOpen(true);
-  };
-  const handleUpdate = () => {
-    setFormType('update');
-    form.setFieldsValue({ name: 'name' });
-    setOpen(true);
-  };
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = () => {
-    const values = form.getFieldsValue();
-    setOpen(false);
-    form.resetFields();
-  };
-
-  const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {}
-    // getCheckboxProps: (record: DataType) => ({
-    //     disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    //     name: record.name,
-    // }),
-  };
 
   return (
     <>
@@ -221,17 +277,18 @@ const TabAcademicTitle: React.FC = () => {
               <PlusOutlined style={{ marginRight: '10px' }} />
               Thêm
             </button>
-            <button className="button2" style={{ marginLeft: '10px' }}>
+            <button className="button2" onClick={handleDelete} style={{ marginLeft: '10px' }}>
               <MinusOutlined style={{ marginRight: '10px' }} />
               Xóa
             </button>
           </div>
 
           <Table
+            rowKey="id"
             rowSelection={{ type: 'checkbox', ...rowSelection }}
             pagination={{ pageSize: 7 }}
             columns={columns}
-            dataSource={data}
+            dataSource={academicTitles}
             rowClassName={(record, index) =>
               index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
             }
@@ -246,27 +303,52 @@ const TabAcademicTitle: React.FC = () => {
             onCancel={handleCancel}
             width={500}
             destroyOnClose
-            footer={[
-              <Button key="back" onClick={handleCancel}>
-                Thoát
-              </Button>,
-              <Button key="submit" type="primary" onClick={handleSubmit}>
-                OK
-              </Button>
-            ]}>
+            footer={[]}>
             <Form
               form={form}
               className="modalAcademicTitle modal-popup"
               labelCol={{ span: 4 }}
               wrapperCol={{ span: 14 }}
               layout="horizontal"
+              onFinish={() => onFinish()}
+              initialValues={{ size: componentSize }}
+              onValuesChange={onFormLayoutChange}
               size={componentSize as SizeType}
-              style={{ maxWidth: 500 }}>
+              style={{ maxWidth: 500 }}
+            >
               <Form.Item label="Tên" name="name">
-                <Input placeholder="Học vị" />
+                <Input placeholder="Học vị" value={name} onChange={handleInputChange} />
+              </Form.Item>
+
+              <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
+                <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                  Thoát
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  OK
+                </Button>
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+                    className='title_modal'
+                    centered
+                    open={openDel}
+                    onOk={() => setOpenDel(false)}
+                    onCancel={handleCancel}
+                    width={500}
+                    destroyOnClose
+                    footer={[
+                        <Button type="primary" htmlType="submit" onClick={onDelete}>
+                            Có
+                        </Button>,
+                        <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                            Không
+                        </Button>
+                    ]}
+                >
+                    Bạn có chắc muốn xóa học vị này không?
+                </Modal>
         </>
       }
     </>
