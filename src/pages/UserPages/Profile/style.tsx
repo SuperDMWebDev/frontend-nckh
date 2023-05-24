@@ -34,7 +34,6 @@ const Styled = styled.div`
     font-style: italic;
   }
 
-
   .btn-back-search:hover {
     text-decoration: underline;
     color: black;
@@ -273,6 +272,27 @@ const Styled = styled.div`
     background-color: #323232;
     color: white;
   }
+
+  .add-article-container {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .btn-add-article {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #323232;
+    border-radius: 20px;
+    height: 45px;
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .btn-add-article:hover {
+    background-color: #323232;
+    color: white;
+  }
   .scopus-profile a {
     color: #212529;
     text-decoration: none;
@@ -292,7 +312,6 @@ const Styled = styled.div`
   .footer {
     height: 100px;
   }
-
 
   /*  
     temp
@@ -566,8 +585,10 @@ const Styled = styled.div`
   .form-check-input {
     cursor: pointer;
   }
-  .form-check-input:hover, .form-check-input:focus, .form-check-input:checked {
-    box-shadow: 0 0 0 .125rem rgba(13, 110, 253, .25);
+  .form-check-input:hover,
+  .form-check-input:focus,
+  .form-check-input:checked {
+    box-shadow: 0 0 0 0.125rem rgba(13, 110, 253, 0.25);
   }
   .header_article input::placeholder {
     font-style: italic;
