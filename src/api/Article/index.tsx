@@ -55,3 +55,14 @@ export const createArticle = async (data: any) => {
     return handleError(error);
   }
 };
+
+export const deleteArticle = async (data: any) => {
+  try {
+    const query = `${BASE_URL}/articles/delete`;
+    const res = await axios.delete(query, data);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};

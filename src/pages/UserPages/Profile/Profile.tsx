@@ -455,6 +455,11 @@ export default function Profile() {
             </>
           ) : currentTab === 2 ? (
             <>
+              <div className="add-article-container">
+                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
+                  Thêm bài báo khoa học
+                </button>
+              </div>
               <div className="content-profile">
                 {articleList ? (
                   articleList['1'].map((item: any) => <ArticleCard data={item} />)

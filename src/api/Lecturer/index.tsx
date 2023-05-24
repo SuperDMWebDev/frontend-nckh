@@ -34,3 +34,13 @@ export const getScopusAuthors = async (firstnam: string, lastname: string) => {
 
   return res.data;
 };
+
+export const getAllLecturers = async () => {
+  try {
+    const query = `${BASE_URL}lecturers/fetch-all`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};

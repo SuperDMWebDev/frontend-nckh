@@ -4,9 +4,11 @@ import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
 import { createArticle } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
+import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
@@ -22,94 +24,14 @@ type OptionSelect = {
 
 const CreateArticle = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<ArticleType>();
-  // const [data, setData] = useState({
-  //   name: 'The Impact of Gamification on Learning Outcomes of Computer Science Majors',
-  //   journal: 'ACM Transactions on Computing Education',
-  //   year: 2020,
-  //   pageFrom: 8,
-  //   pageTo: 10,
-  //   volume: 20,
-  //   issue: 2,
-  //   month: 2,
-  //   day: 28,
-  //   abstract:
-  //     "Gamification is the use of game elements in domains other than games. Gamification use is often suggested for difficult activities because it enhances users' engagement and motivation level. Due to such benefits, the use of gamification is also proposed in education environments to improve students' performance, engagement, and satisfaction. Computer science in higher education is a tough area of study and thus needs to utilize various already explored benefits of gamification. This research develops an empirical study to evaluate the effectiveness of gamification in teaching computer science in higher education. Along with the learning outcomes, the effect of group size on students' satisfaction level is also measured. Furthermore, the impact of gamification over time is analyzed throughout a semester to observe its effectiveness as a long-term learning technique. The analysis, covering both learning outcome and students' satisfaction, suggests that gamification is an effective tool to teach tough courses at higher education level; however, group size should be taken into account for optimal classroom size and better learning experience.",
-  //   urlAccessDate: '28/02/2023',
-  //   ArXivID: 'test',
-  //   DOI: '10.1145/3383456',
-  //   ISBN: 'testISBN',
-  //   ISSN: '10.1145/3383456',
-  //   PMID: 'testPMID',
-  //   Scopus: '2-s2.0-85085248397',
-  //   PII: 'testPII',
-  //   SGR: '85085248397',
-  //   projectId: 'testProjectId',
-  //   citationKey: 'testCitationKey',
-  //   generalNote: 'This is the general note for testing',
-  //   tags: [
-  //     {
-  //       tag_id: 4
-  //     },
-  //     {
-  //       tag_id: 5
-  //     },
-  //     {
-  //       name: 'test tag 0'
-  //     },
-  //     {
-  //       name: 'test tag 1'
-  //     }
-  //   ],
-  //   authors: [
-  //     {
-  //       lecturerId: 1
-  //     },
-  //     {
-  //       firstName: 'first0',
-  //       lastName: 'last0'
-  //     },
-  //     {
-  //       firstName: 'first1',
-  //       lastName: 'last1'
-  //     },
-  //     {
-  //       firstName: 'first2',
-  //       lastName: 'last2'
-  //     },
-  //     {
-  //       lecturerId: 2
-  //     }
-  //   ],
-  //   urls: [
-  //     {
-  //       url: 'https://www.google.com/search?channel=fs&client=ubuntu-sn&q=date+format+in+js+with+mysql'
-  //     },
-  //     {
-  //       url: 'https://www.google.com/search?channel=fs&client=ubuntu-sn&q=moment+date+parse'
-  //     },
-  //     {
-  //       url: 'https://stackoverflow.com/questions/22184747/parse-string-to-date-with-moment-js'
-  //     }
-  //   ],
-  //   notes: [
-  //     {
-  //       note: 'Sample note test 0'
-  //     },
-  //     {
-  //       note: 'Sample note test 1'
-  //     },
-  //     {
-  //       note: 'Sample note test 2'
-  //     }
-  //   ]
-  // });
 
   const [name, setName] = useState('');
   const [journal, setJournal] = useState('');
   const [volume, setVolume] = useState('');
   const [issue, setIssue] = useState('');
-  const [date, setDate] = useState('');
+  const [day, setDay] = useState<number>();
+  const [month, setMonth] = useState<number>();
+  const [year, setYear] = useState<number>();
   const [abstract, setAbstract] = useState('');
   const [ArXivID, setArXivID] = useState('');
   const [DOI, setDOI] = useState('');
@@ -124,11 +46,18 @@ const CreateArticle = () => {
   const [generalNote, setGeneralNote] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
-
-  const [selectedTag, setSelectedTag] = useState<OptionSelect>();
+  const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
+  const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
   const handleSelect = (data: any) => {
     setSelectedTag(data);
   };
+  const [selectedLecturer, setSelectedLecturer] = useState<OptionSelect[]>();
+  const handleSelectLecturer = (data: any) => {
+    setSelectedLecturer(data);
+  };
+
+  const [urlPayload, setUrlPayload] = useState<any[]>([]);
+  const [notePayload, setNotePayload] = useState<any[]>([]);
 
   const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
   const onFormLayoutChange = ({ size }: { size: SizeType }) => {
@@ -159,8 +88,114 @@ const CreateArticle = () => {
     }
   };
 
+  const fetchLecturer = async () => {
+    const res = await getAllLecturers();
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data;
+          let newData: OptionSelect[] = [];
+          data.map((item: { id: number; name: string }) => {
+            let obj: OptionSelect = { value: item.id, label: item.name };
+            newData.push(obj);
+          });
+          setLecturerList(newData);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
+  const handleGetURL = (list: any) => {
+    var urls: any[] = [];
+    list?.map((item: string) => {
+      let obj = {
+        url: item
+      };
+      urls.push(obj);
+    });
+    setUrlPayload(urls);
+  };
+
+  const handleGetNote = (list: any) => {
+    var notes: any[] = [];
+    list?.map((item: string) => {
+      let obj = {
+        note: item
+      };
+      notes.push(obj);
+    });
+    setNotePayload(notes);
+  };
+
+  const handleCreateArticle = async () => {
+    var tags: any[] = [];
+    var authors: any[] = [];
+
+    selectedTag?.map((item: { value: number; label: string }) => {
+      let obj = { tag_id: item.value };
+      tags.push(obj);
+    });
+
+    selectedLecturer?.map((item: { value: number; label: string }) => {
+      let obj = { lecturerId: item.value };
+      authors.push(obj);
+    });
+
+    var data = {
+      name,
+      journal,
+      volume,
+      issue,
+      day,
+      month,
+      year,
+      abstract,
+      ArXivID,
+      DOI,
+      ISBN,
+      ISSN,
+      PMID,
+      Scopus,
+      PII,
+      SGR,
+      projectId,
+      citationKey,
+      generalNote,
+      tags,
+      authors,
+      urls: urlPayload,
+      notes: notePayload
+    };
+    var bodyFormData = new FormData();
+    bodyFormData.append('data', JSON.stringify(data));
+    const res = await createArticle(bodyFormData);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          toast.success('Create article sucessfully');
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          toast.success('Fail to create article');
+          navigate('/profile');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   useEffect(() => {
     fetchTag();
+    fetchLecturer();
   }, []);
 
   return (
@@ -171,16 +206,16 @@ const CreateArticle = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
           layout="horizontal"
-          onFinish={() => createArticle(data)}
+          // onFinish={() => createArticle(data)}
           initialValues={{ size: componentSize }}
           onValuesChange={onFormLayoutChange}
           size={componentSize as SizeType}>
           <Form.Item label="Name">
-            <Input value={data && data.name} onChange={(e) => setName(e.target.value)} />
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
           </Form.Item>
 
           <Form.Item label="Journal">
-            <Input value={data && data.journal} onChange={(e) => setJournal(e.target.value)} />
+            <Input value={journal} onChange={(e) => setJournal(e.target.value)} />
           </Form.Item>
 
           <Form.Item label="Volume">
@@ -191,8 +226,14 @@ const CreateArticle = () => {
             <Input value={issue} onChange={(e) => setIssue(e.target.value)} />
           </Form.Item>
 
-          <Form.Item label="Date">
-            <DatePicker style={{ width: '100%' }} />
+          <Form.Item label="Day">
+            <Input value={day} onChange={(e) => setDay(parseInt(e.target.value))} />
+          </Form.Item>
+          <Form.Item label="Month">
+            <Input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} />
+          </Form.Item>
+          <Form.Item label="Year">
+            <Input value={year} onChange={(e) => setYear(parseInt(e.target.value))} />
           </Form.Item>
 
           <Form.Item label="Abstract">
@@ -252,25 +293,31 @@ const CreateArticle = () => {
               isSearchable={true}
               isMulti
             />
-            <div style={{ marginTop: '20px' }}>
-              <InputTags />
-            </div>
+            <div style={{ marginTop: '20px' }}>{/* <InputTags />   */}</div>
           </Form.Item>
 
           <Form.Item label="Authors">
-            <InputTags />
+            <Select
+              options={lecturerList}
+              placeholder="Select authors"
+              value={selectedLecturer}
+              onChange={handleSelectLecturer}
+              isSearchable={true}
+              isMulti
+            />
+            <div style={{ marginTop: '20px' }}>{/* <InputTags /> */}</div>
           </Form.Item>
 
           <Form.Item label="URL">
-            <InputTags />
+            <InputTags handleGetInputTag={handleGetURL} />
           </Form.Item>
 
           <Form.Item label="Note">
-            <InputTags />
+            <InputTags handleGetInputTag={handleGetNote} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={() => handleCreateArticle()}>
               Submit
             </Button>
           </Form.Item>

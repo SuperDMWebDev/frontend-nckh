@@ -10,7 +10,7 @@ const ArticleCard = (props: any) => {
   const { data } = props;
 
   const handleGoToDetail = (id: any) => {
-    window.location.replace(`http://localhost:5000/profile/article-detail/${id}`);
+    window.location.replace(`http://localhost:5000/article-detail/${id}`);
   };
 
   return (
