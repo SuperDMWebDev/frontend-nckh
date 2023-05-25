@@ -77,6 +77,7 @@ const Styled = styled.div`
     font-size: 15px;
     font-weight: 600;
     border-radius: 3px;
+    cursor: pointer;
   }
   .button_update {
     background-color: #f7f7f7;
@@ -85,6 +86,7 @@ const Styled = styled.div`
     font-size: 15px;
     font-weight: 600;
     border-radius: 3px;
+    cursor: pointer;
   }
 
   .button_delete:hover {

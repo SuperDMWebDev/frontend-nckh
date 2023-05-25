@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { DatePicker, Form, Input, Button } from 'antd';
 import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
-import { createArticle } from '../../../api/Article';
+import { createArticle, getDetailArticle } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
 import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
@@ -22,28 +25,35 @@ type OptionSelect = {
   label: string;
 };
 
+type Article = {
+  [key: string]: any; // 👈️ variable key
+  name: string;
+};
+
 const UpdateArticle = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [article, setArticle] = useState<any>();
 
-  const [name, setName] = useState('');
-  const [journal, setJournal] = useState('');
-  const [volume, setVolume] = useState('');
-  const [issue, setIssue] = useState('');
-  const [day, setDay] = useState<number>();
-  const [month, setMonth] = useState<number>();
-  const [year, setYear] = useState<number>();
-  const [abstract, setAbstract] = useState('');
-  const [ArXivID, setArXivID] = useState('');
-  const [DOI, setDOI] = useState('');
-  const [ISBN, setISBN] = useState('');
-  const [ISSN, setISSN] = useState('');
-  const [PMID, setPMID] = useState('');
-  const [Scopus, setScopus] = useState('');
-  const [PII, setPII] = useState('');
-  const [SGR, setSGR] = useState('');
-  const [projectId, setProjectId] = useState('');
-  const [citationKey, setCitationKey] = useState('');
-  const [generalNote, setGeneralNote] = useState('');
+  const [name, setName] = useState(article?.name);
+  const [journal, setJournal] = useState(article?.journal);
+  const [volume, setVolume] = useState(article?.volume);
+  const [issue, setIssue] = useState(article?.issue);
+  const [day, setDay] = useState<number>(article?.day);
+  const [month, setMonth] = useState<number>(article?.month);
+  const [year, setYear] = useState<number>(article?.year);
+  const [abstract, setAbstract] = useState(article?.abstract);
+  const [ArXivID, setArXivID] = useState(article?.ArXivID);
+  const [DOI, setDOI] = useState(article?.DOI);
+  const [ISBN, setISBN] = useState(article?.ISBN);
+  const [ISSN, setISSN] = useState(article?.ISSN);
+  const [PMID, setPMID] = useState(article?.PMID);
+  const [Scopus, setScopus] = useState(article?.Scopus);
+  const [PII, setPII] = useState(article?.PII);
+  const [SGR, setSGR] = useState(article?.SGR);
+  const [projectId, setProjectId] = useState(article?.projectId);
+  const [citationKey, setCitationKey] = useState(article?.citationKey);
+  const [generalNote, setGeneralNote] = useState(article?.generalNote);
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
@@ -134,6 +144,26 @@ const UpdateArticle = () => {
     setNotePayload(notes);
   };
 
+  const handleGetDetailArticle = async () => {
+    const res = await getDetailArticle(id);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data;
+          setArticle(data);
+          setName(data.name);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   const handleCreateArticle = async () => {
     var tags: any[] = [];
     var authors: any[] = [];
@@ -180,6 +210,7 @@ const UpdateArticle = () => {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Create article sucessfully');
+          navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -193,15 +224,24 @@ const UpdateArticle = () => {
     }
   };
 
+  console.log('art', article);
+  console.log('name', name);
+
   useEffect(() => {
+    handleGetDetailArticle();
     fetchTag();
     fetchLecturer();
   }, []);
 
   return (
     <Styled>
+      <div className="header_topbar">
+        <div className="btn-back-search" onClick={() => navigate(-1)}>
+          <ArrowBackIcon /> quay lại
+        </div>
+        <div className="content_tab_name tab-selected">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
+      </div>
       <div className="container">
-        <div className="title">Update this article</div>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
@@ -316,11 +356,20 @@ const UpdateArticle = () => {
             <InputTags handleGetInputTag={handleGetNote} />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" onClick={() => handleCreateArticle()}>
+          <div className="btnContainer">
+            <Button
+              style={{ borderRadius: '4px', padding: '8px 23px', marginRight: '10px' }}
+              onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+            <Button
+              style={{ borderRadius: '4px', padding: '8px 23px' }}
+              type="primary"
+              htmlType="submit"
+              onClick={() => handleCreateArticle()}>
               Submit
             </Button>
-          </Form.Item>
+          </div>
         </Form>
       </div>
     </Styled>

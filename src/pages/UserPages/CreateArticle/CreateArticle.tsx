@@ -9,7 +9,7 @@ import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface ArticleType {
@@ -24,11 +24,11 @@ type OptionSelect = {
 
 const CreateArticle = () => {
   const navigate = useNavigate();
-
+  const accountId: string | null = localStorage.getItem('accountId');
   const [name, setName] = useState('');
   const [journal, setJournal] = useState('');
-  const [volume, setVolume] = useState('');
-  const [issue, setIssue] = useState('');
+  const [volume, setVolume] = useState<number>();
+  const [issue, setIssue] = useState<number>();
   const [day, setDay] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [year, setYear] = useState<number>();
@@ -134,9 +134,17 @@ const CreateArticle = () => {
     setNotePayload(notes);
   };
 
+  const handleBackSearch = () => {
+    window.location.replace('http://localhost:5000/profile');
+  };
+
   const handleCreateArticle = async () => {
     var tags: any[] = [];
-    var authors: any[] = [];
+    var authors: any[] = [
+      {
+        lecturerId: parseInt(accountId!)
+      }
+    ];
 
     selectedTag?.map((item: { value: number; label: string }) => {
       let obj = { tag_id: item.value };
@@ -180,6 +188,7 @@ const CreateArticle = () => {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Create article sucessfully');
+          navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -200,16 +209,24 @@ const CreateArticle = () => {
 
   return (
     <Styled>
+      <div className="header_topbar">
+        <div className="btn-back-search" onClick={handleBackSearch}>
+          <ArrowBackIcon /> quay lại trang cá nhân
+        </div>
+        <div className="content_tab_name tab-selected">TẠO BÀI BÁO KHOA HỌC</div>
+      </div>
       <div className="container">
-        <div className="title">Create an article</div>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
           layout="horizontal"
-          // onFinish={() => createArticle(data)}
           initialValues={{ size: componentSize }}
           onValuesChange={onFormLayoutChange}
           size={componentSize as SizeType}>
+          <Form.Item label="DOI">
+            <Input value={DOI} onChange={(e) => setDOI(e.target.value)} />
+          </Form.Item>
+
           <Form.Item label="Name">
             <Input value={name} onChange={(e) => setName(e.target.value)} />
           </Form.Item>
@@ -219,11 +236,11 @@ const CreateArticle = () => {
           </Form.Item>
 
           <Form.Item label="Volume">
-            <Input value={volume} onChange={(e) => setVolume(e.target.value)} />
+            <Input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} />
           </Form.Item>
 
           <Form.Item label="Issue">
-            <Input value={issue} onChange={(e) => setIssue(e.target.value)} />
+            <Input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} />
           </Form.Item>
 
           <Form.Item label="Day">
@@ -242,10 +259,6 @@ const CreateArticle = () => {
 
           <Form.Item label="ArXivID">
             <Input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} />
-          </Form.Item>
-
-          <Form.Item label="DOI">
-            <Input value={DOI} onChange={(e) => setDOI(e.target.value)} />
           </Form.Item>
 
           <Form.Item label="ISBN">
@@ -316,11 +329,20 @@ const CreateArticle = () => {
             <InputTags handleGetInputTag={handleGetNote} />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" onClick={() => handleCreateArticle()}>
+          <div className="btnContainer">
+            <Button
+              style={{ borderRadius: '4px', padding: '8px 23px', marginRight: '10px' }}
+              onClick={() => handleBackSearch()}>
+              Cancel
+            </Button>
+            <Button
+              style={{ borderRadius: '4px', padding: '8px 23px' }}
+              type="primary"
+              htmlType="submit"
+              onClick={() => handleCreateArticle()}>
               Submit
             </Button>
-          </Form.Item>
+          </div>
         </Form>
       </div>
     </Styled>
