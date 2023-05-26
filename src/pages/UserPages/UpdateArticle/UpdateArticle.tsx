@@ -151,7 +151,26 @@ const UpdateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data;
           setArticle(data);
+
           setName(data.name);
+          setJournal(data.journal);
+          setVolume(data.volume);
+          setIssue(data.issue);
+          setDay(data.day);
+          setMonth(data.month);
+          setYear(data.year);
+          setAbstract(data.abstract);
+          setArXivID(data.ArXivID);
+          setDOI(data.DOI);
+          setISBN(data.ISBN);
+          setISSN(data.ISSN);
+          setPMID(data.PMID);
+          setScopus(data.Scopus);
+          setPII(data.PII);
+          setSGR(data.SGR);
+          setProjectId(data.projectId);
+          setCitationKey(data.citationKey);
+          setGeneralNote(data.generalNote);
           break;
         }
         case httpStatus.UNAUTHORIZED: {
