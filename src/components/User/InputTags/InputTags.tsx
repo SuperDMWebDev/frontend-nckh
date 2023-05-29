@@ -16,17 +16,17 @@ const Tags = ({ data, handleDelete }: Props) => {
         background: '#e0e0e0',
         height: '100%',
         display: 'flex',
-        padding: '5px 10px',
+        padding: '4px 10px',
         margin: '0 0.5rem 0.5rem 0',
         justifyContent: 'center',
         alignContent: 'center',
         color: '#252525',
-        borderRadius: '12px'
+        borderRadius: '3px'
       }}>
       <Stack direction="row" gap={1} alignItems="center">
         <Typography>{data}</Typography>
         <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
-          <FontAwesomeIcon onClick={() => handleDelete(data)} icon={faClose} />
+          <FontAwesomeIcon fontSize={10} onClick={() => handleDelete(data)} icon={faClose} />
         </button>
       </Stack>
     </Box>

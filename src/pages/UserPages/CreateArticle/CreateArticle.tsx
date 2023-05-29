@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface ArticleType {
@@ -56,6 +57,7 @@ const CreateArticle = () => {
     setSelectedLecturer(data);
   };
 
+  const [authorPayload, setAuthorPayload] = useState<any[]>([]);
   const [urlPayload, setUrlPayload] = useState<any[]>([]);
   const [notePayload, setNotePayload] = useState<any[]>([]);
 
@@ -112,15 +114,8 @@ const CreateArticle = () => {
     }
   };
 
-  const handleGetURL = (list: any) => {
-    var urls: any[] = [];
-    list?.map((item: string) => {
-      let obj = {
-        url: item
-      };
-      urls.push(obj);
-    });
-    setUrlPayload(urls);
+  const handleGetAuthor = (list: any) => {
+    setAuthorPayload(list);
   };
 
   const handleGetNote = (list: any) => {
@@ -156,6 +151,10 @@ const CreateArticle = () => {
       authors.push(obj);
     });
 
+    authorPayload?.map((item) => {
+      authors.push(item);
+    });
+
     var data = {
       name,
       journal,
@@ -178,9 +177,9 @@ const CreateArticle = () => {
       generalNote,
       tags,
       authors,
-      urls: urlPayload,
       notes: notePayload
     };
+
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
     const res = await createArticle(bodyFormData);
@@ -318,11 +317,9 @@ const CreateArticle = () => {
               isSearchable={true}
               isMulti
             />
-            <div style={{ marginTop: '20px' }}>{/* <InputTags /> */}</div>
-          </Form.Item>
-
-          <Form.Item label="URL">
-            <InputTags handleGetInputTag={handleGetURL} />
+            <div style={{ marginTop: '20px' }}>
+              <AuthorTag handleGetInputTag={handleGetAuthor} />
+            </div>
           </Form.Item>
 
           <Form.Item label="Note">
