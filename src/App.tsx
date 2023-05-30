@@ -24,6 +24,7 @@ import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
 import Settings from './pages/UserPages/Settings/Settings';
 import RetrieveScopusAuthor from './pages/UserPages/RetrieveScopusAuthor/RetrieveScopusAuthor';
 import EditProfileLecturer from './pages/UserPages/EditProfileLecturer/EditProfileLecturer';
+import LecturerDetail from './pages/UserPages/LecturerDetail/LecturerDetail';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -41,6 +42,7 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SignIn />} />
+              <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
               <Route path="/profile" element={<Profile />}>
                 {/* <Route
                   index

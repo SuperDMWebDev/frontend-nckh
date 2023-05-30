@@ -63,8 +63,7 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
   );
 };
 
-export const editInfoProfile = async (data: any, accountId: string | null) => {
-  const { lecturer, newUniversity, newCurrentDisciplines, newGender, newDateOfBirth, newDepartmentName, newEmail, newAddress, newPhone } = data;
+export const editInfoProfile = async (lecturer: any, data: any, accountId: string | null) => {
   const res = await axios.put(
     `${BASE_URL}lecturers/${accountId}/update`,
     {
@@ -74,14 +73,43 @@ export const editInfoProfile = async (data: any, accountId: string | null) => {
       data: {
         "id": lecturer.id,
         "name": lecturer.name,
-        "gender": newGender,
+        "gender": data.newGender,
         "avatar": lecturer.avatar,
-        "dateOfBirth": newDateOfBirth,
+        "dateOfBirth": data.newDateOfBirth,
         "bio": lecturer.bio,
         "academicRankId": lecturer.academicRankId,
         "academicRankGainYear": lecturer.academicRankGainYear,
         "academicTitleId": lecturer.academicTitleId,
-        "academicTitleGainYear": lecturer.academicTitleGainYear
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "contacts": [
+          {
+            "id": 1,
+            "contactTypeId": 1,
+            "value": data.email.email,
+            "update": true
+          },
+          {
+            "id": 2,
+            "contactTypeId": 2,
+            "value": data.address.address,
+            "update": true
+          },
+          {
+            "id": 3,
+            "contactTypeId": 3,
+            "value": data.phone.phone,
+            "update": true
+          }
+        ],
+        "currentDisciplines": [
+          {
+            "id": lecturer.currentDisciplines[0].id,
+            "lecturerId": accountId,
+            "departmentName": data.newDepartmentName,
+            "universityName": data.newUniversity,
+            "position": data.newCurrentDisciplines
+          }
+        ]
       }
     }
   );
@@ -175,6 +203,35 @@ export const updateBook = async (lecturer: any, book: any, accountId: string | n
   );
 };
 
+export const deleteBook = async (lecturer: any, idBook: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "books": [
+          {
+            "id": idBook,
+            "delete": true
+          }
+        ]
+      }
+    }
+  );
+};
+
 export const editAvatarProfile = async (AvatarURL: string, accountId: string | null) => {
   const res = await axios.put(
     `${BASE_URL}lecturers/${accountId}/update`,
@@ -192,6 +249,40 @@ export const editAvatarProfile = async (AvatarURL: string, accountId: string | n
 export const getAllLecturers = async () => {
   try {
     const query = `${BASE_URL}lecturers/fetch-all`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+
+// Get all university
+export const getAllUniversity = async () => {
+  try {
+    const query = `${BASE_URL}configs/university/fetch-all`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+// Get all contact type
+export const getAllContactType = async () => {
+  try {
+    const query = `${BASE_URL}configs/contact-type/fetch-all`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+// Get all Academic Title
+export const getAllAcademicTitle = async () => {
+  try {
+    const query = `${BASE_URL}configs/academic-title/fetch-all`;
     const res = await axios.get(query);
     return res;
   } catch (error) {

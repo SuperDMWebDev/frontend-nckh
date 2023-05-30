@@ -4,9 +4,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { addNewBook } from '../../../../api/Lecturer';
 import { Button, Modal } from 'antd';
 import { updateBook } from '../../../../api/Lecturer';
+import { deleteBook } from '../../../../api/Lecturer';
 
 export default function ModalEditBook(props: any) {
-    const { lecturer } = props;
+    const { lecturer, canEdit } = props;
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
@@ -57,7 +58,8 @@ export default function ModalEditBook(props: any) {
     }
 
     const handleDeleteBook = () => {
-        
+        deleteBook(lecturer, idBook, accountId);
+        window.location.reload();
     }
 
 
@@ -66,12 +68,13 @@ export default function ModalEditBook(props: any) {
             <div className="content-profile">
                 <div className="main_content">
                     <h2 className="title_content">SÁCH</h2>
-                    <div className='btn-edit-card' onClick={(e) => { setOpenAddModal(true) }}>
+                    {canEdit ? <div className='btn-edit-card' onClick={(e) => { setOpenAddModal(true) }}>
                         <AddIcon style={{
                             fontSize: "20px",
                             cursor: "pointer"
                         }} />
-                    </div>
+                    </div> : null}
+
                     <Modal
                         title="Thêm sách"
                         centered
@@ -129,7 +132,10 @@ export default function ModalEditBook(props: any) {
                                 <div style={{ marginBottom: "2px" }} key={book.id.toString()}>
                                     <p className='data_content' style={{ marginBottom: "-5px" }}>
                                         <div className="card_book">
-                                            <div className='btn-edit-card' onClick={() => handleEditCard(book)}><ModeEditOutlineIcon /></div>
+                                            {
+                                                canEdit ? <div className='btn-edit-card' onClick={() => handleEditCard(book)}><ModeEditOutlineIcon /></div>
+                                                    : null
+                                            }
                                             <div className="name-book">
                                                 <p className="name">Sách: {book.name}</p>
                                             </div>

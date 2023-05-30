@@ -14,10 +14,10 @@ import { getInfoProfile } from '../../../api/Lecturer';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import httpStatus from 'http-status';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
-import "./Profile.css";
+import "./LecturerDetail.css";
 import Avatar1 from 'react-avatar-edit'
 import { editBioProfile } from '../../../api/Lecturer';
 import { editAvatarProfile } from '../../../api/Lecturer';
@@ -38,7 +38,7 @@ type Lecturer1 = {
     name: string;
 };
 
-export default function Profile() {
+export default function LecturerDetail() {
     const navigate = useNavigate();
     const [currentTab, setCurrentTab] = useState(1);
     const [lecturer, setLecturer] = useState<Lecturer1>();
@@ -51,10 +51,13 @@ export default function Profile() {
     const token = localStorage.getItem('accessToken');
     const [articleList, setArticleList] = useState<Article[]>();
 
+    const { id }: any = useParams();
+    console.log(id);
+
     const fetchArticle = async () => {
         let param = {
             data: {
-                lecturerIds: [Number(accountId)]
+                lecturerIds: [Number(id)]
             }
         };
 
@@ -81,7 +84,7 @@ export default function Profile() {
     }, []);
 
     useEffect(() => {
-        const data: Promise<Lecturer1> = getInfoProfile(accountId);
+        const data: Promise<Lecturer1> = getInfoProfile(id);
         data
             .then((result) => {
                 setLecturer(result);
@@ -319,186 +322,6 @@ export default function Profile() {
                     </div>
 
                     <div className="line">.........</div>
-                    <div className="edit-profile">
-                        <div style={{ marginLeft: '15px' }}>
-                            <SettingsIcon style={{ fontSize: '23px' }} />
-                        </div>
-                        <div className="btn-edit-profile" onClick={() => setOpenEditProfile(true)}>
-                            Chỉnh sửa thông tin cá nhân
-                        </div>
-
-                        <Modal
-                            title="Chỉnh sửa thông tin tiểu sử"
-                            centered
-                            open={openEditProfile}
-                            onOk={() => setOpenEditProfile(false)}
-                            onCancel={() => setOpenEditProfile(false)}
-                            width={700}
-                            className="modalStyle"
-                            footer={[
-                                <Button key="back" onClick={handleCancelInfo}>
-                                    Quay lại
-                                </Button>,
-                                <Button key="submit" type="primary" loading={loading} onClick={handleOkInfo}>
-                                    Lưu
-                                </Button>
-                            ]}>
-
-                            <div>
-                                <div className='header-edit-profile'>
-                                    <h2>Tên tài khoản: <span style={{ marginLeft: '5px', fontSize: "18px" }}>{lecturer?.name}</span></h2>
-                                    <p onClick={() => setOpenEditNameModal(true)}>
-                                        Chỉnh sửa
-                                    </p>
-                                </div>
-
-                                <Modal
-                                    title="Chỉnh sửa tên tài khoản"
-                                    centered
-                                    open={openEditNameModal}
-                                    onOk={handleSaveName}
-                                    onCancel={() => setOpenEditNameModal(false)}
-                                    width={700}
-                                    className="modalStyle"
-                                >
-                                    <div className="group">
-                                        <input required={true}
-                                            type="text"
-                                            className="input-edit-profile"
-                                            value={newName}
-                                            onChange={(e) => { setNewName(e.target.value) }}
-                                        />
-                                        <span className="highlight-edit-profile"></span>
-                                        <span className="bar-edit-profile"></span>
-                                        <label className='label-edit-profile'>Tên tài khoản</label>
-                                    </div>
-                                </Modal>
-                            </div>
-
-                            <div>
-                                <div className='header-edit-profile'>
-                                    <h2>Ảnh đại diện</h2>
-                                    <p onClick={() => setOpenEditAvatarModal(true)}>
-                                        Chỉnh sửa
-                                    </p>
-                                </div>
-
-                                <div className='content'>
-                                    <img
-                                        className="img-avatar-edit"
-                                        src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
-                                        alt=""
-                                    />
-                                </div>
-
-                                <Modal
-                                    title="Chỉnh sửa thông tin tiểu sử"
-                                    centered
-                                    open={openEditAvatarModal}
-                                    onOk={() => setOpenEditAvatarModal(false)}
-                                    onCancel={() => setOpenEditAvatarModal(false)}
-                                    width={700}
-                                    className="modalStyle"
-                                >
-                                    <Avatar1
-                                        width={400}
-                                        height={300}
-                                        onCrop={onCrop}
-                                    />
-                                </Modal>
-                            </div>
-
-                            <div>
-                                <div className='header-edit-profile'>
-                                    <h2>Thông tin cá nhân</h2>
-                                    <p onClick={() => setOpenInfoModal(true)}>Chỉnh sửa</p>
-                                </div>
-
-                                <div className=''>
-                                    <div>
-                                        <div>
-                                            <div className="field-profile-info">
-                                                <PortraitIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{lecturer?.currentDisciplines[0].position}</span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <PlaceIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>
-                                                    {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
-                                                </span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <WcIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{lecturer?.gender}</span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <CalendarMonthIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>1977-05-03</span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <EmailIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{
-                                                    !email ? <>
-                                                        <span
-                                                            style={{
-                                                                fontSize: '13px',
-                                                                fontStyle: 'italic',
-                                                                marginLeft: '1px'
-                                                            }}>
-                                                            Chưa cập nhật
-                                                        </span>
-                                                    </> : email
-                                                }</span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <PhoneAndroidIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{
-                                                    !phone ? <>
-                                                        <span
-                                                            style={{
-                                                                fontSize: '13px',
-                                                                fontStyle: 'italic',
-                                                                marginLeft: '1px'
-                                                            }}>
-                                                            Chưa cập nhật
-                                                        </span>
-                                                    </> : phone
-                                                }</span>
-                                            </div>
-                                            <div className="field-profile-info">
-                                                <HouseIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{
-                                                    !address ? <>
-                                                        <span
-                                                            style={{
-                                                                fontSize: '13px',
-                                                                fontStyle: 'italic',
-                                                                marginLeft: '1px'
-                                                            }}>
-                                                            Chưa cập nhật
-                                                        </span>
-                                                    </> : address
-                                                }</span>
-                                            </div>
-                                        </div>
-
-                                        <Modal
-                                            title="Chỉnh sửa thông tin cá nhân"
-                                            centered
-                                            open={openInfoModal}
-                                            //onOk={() => setOpenInfoModal(false)}
-                                            onCancel={() => setOpenInfoModal(false)}
-                                            footer={null}
-                                            width={700}
-                                            className="modalStyle"
-                                        >
-                                            <ModalEditInfoProfile props={lecturer} />
-                                        </Modal>
-                                    </div>
-                                </div>
-                            </div>
-                        </Modal>
-                    </div>
                 </div>
                 <div>
                     {currentTab === 1 ? (
@@ -507,9 +330,6 @@ export default function Profile() {
                                 <div className="main_content">
                                     <div className="main-field">
                                         <h2 className="title_content">TIỂU SỬ</h2>
-                                        {token ? (
-                                            <button onClick={() => setOpenBioModal(true)}>Chỉnh sửa</button>
-                                        ) : null}
                                     </div>
                                     <p className="data_content">
                                         {bio == '' ? (
@@ -581,7 +401,7 @@ export default function Profile() {
                                 </div>
                             </div> */}
 
-                            <ModalEditDegree lecturer={lecturer} canEdit={true} />
+                            <ModalEditDegree lecturer={lecturer} canEdit={false} />
 
                             <div className="content-profile">
                                 <div className="main_content">
@@ -677,7 +497,7 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            <ModalEditBook lecturer={lecturer} canEdit={true} />
+                            <ModalEditBook lecturer={lecturer} canEdit={false} />
                         </>
                     )}
                 </div>

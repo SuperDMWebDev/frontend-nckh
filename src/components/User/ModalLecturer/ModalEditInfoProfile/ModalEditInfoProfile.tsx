@@ -2,9 +2,12 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { editInfoProfile } from '../../../../api/Lecturer';
 import './style.css';
+import { getAllUniversity } from '../../../../api/Lecturer';
+import { getAllContactType } from '../../../../api/Lecturer';
 
 export default function ModalEditInfoProfile(props: any) {
     const lecturer = props.props;
+    const accoundId = localStorage.getItem("accountId")
 
     const [newUniversity, setNewUniversity] = useState<string>(lecturer?.currentDisciplines[0].universityName);
     const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>(lecturer?.currentDisciplines[0].position);
@@ -14,6 +17,8 @@ export default function ModalEditInfoProfile(props: any) {
     const [newEmail, setNewEmail] = useState<string>();
     const [newAddress, setNewAddress] = useState<string>();
     const [newPhone, setNewPhone] = useState<string>();
+    const [universitys, setUniversitys] = useState<any>([]);
+    const [contactTypes, setContactTypes] = useState<any>([]);
 
     useEffect(() => {
         lecturer.contacts.map((contact: any) => {
@@ -25,7 +30,23 @@ export default function ModalEditInfoProfile(props: any) {
                 setNewEmail(contact.value);
             }
         });
-    }, [])
+
+        const university = getAllUniversity();
+        university.then((res) => {
+            setUniversitys(res.data.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        const contactTypes = getAllContactType();
+        contactTypes.then((res) => {
+            console.log(res);
+            setContactTypes(res.data.data);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+    }, []);
 
     const handleChangeGender = (event: any) => {
         setNewGender(event.target.value);
@@ -35,20 +56,23 @@ export default function ModalEditInfoProfile(props: any) {
         setNewUniversity(event.target.value);
     };
 
-    const optionsUniversity = [
-        { value: "a", label: "Truong A" },
-        { value: "b", label: "Truong B" },
-        { value: "c", label: "Truong C" }
-    ];
-
     const optionsGender = [
         { value: "Nam", label: "Nam" },
         { value: "Nữ", label: "Nữ" },
     ];
 
-
     const handleSaveEdit = () => {
-        editInfoProfile({ lecturer, newUniversity, newCurrentDisciplines, newGender, newDateOfBirth, newDepartmentName, newEmail, newAddress, newPhone }, "1");
+        const data = {
+            newUniversity: newUniversity,
+            newCurrentDisciplines: newCurrentDisciplines,
+            newGender: newGender,
+            newDateOfBirth: newDateOfBirth,
+            newDepartmentName: newDepartmentName,
+            email: { email: newEmail, id: 1 },
+            address: { address: newAddress, id: 2 },
+            phone: { phone: newPhone, id: 3 }
+        }
+        editInfoProfile(lecturer, data, accoundId);
         window.location.reload();
     }
 
@@ -114,9 +138,9 @@ export default function ModalEditInfoProfile(props: any) {
                     value={newUniversity}
                     onChange={handleChangeUniversity}
                 >
-                    {optionsUniversity.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
+                    {universitys.map((option: any) => (
+                        <option key={option.id} value={option.id}>
+                            {option.name}
                         </option>
                     ))}
                 </select>
