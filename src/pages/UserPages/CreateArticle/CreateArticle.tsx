@@ -212,9 +212,24 @@ const CreateArticle = () => {
         <div className="btn-back-search" onClick={handleBackSearch}>
           <ArrowBackIcon /> quay lại trang cá nhân
         </div>
-        <div className="content_tab_name tab-selected">TẠO BÀI BÁO KHOA HỌC</div>
+        <div className="content_tab_name">TẠO BÀI BÁO KHOA HỌC</div>
       </div>
       <div className="container">
+        <form>
+          <div className="group">
+            <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>DOI</label>
+          </div>
+
+          <div className="group">
+            <input value={name} onChange={(e) => setName(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Name</label>
+          </div>
+        </form>
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
@@ -222,20 +237,16 @@ const CreateArticle = () => {
           initialValues={{ size: componentSize }}
           onValuesChange={onFormLayoutChange}
           size={componentSize as SizeType}>
-          <Form.Item label="DOI">
-            <Input value={DOI} onChange={(e) => setDOI(e.target.value)} />
-          </Form.Item>
-
-          <Form.Item label="Name">
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
-          </Form.Item>
-
           <Form.Item label="Journal">
             <Input value={journal} onChange={(e) => setJournal(e.target.value)} />
           </Form.Item>
 
           <Form.Item label="Volume">
-            <Input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} />
+            <Input
+              type="number"
+              value={volume}
+              onChange={(e) => setVolume(parseInt(e.target.value))}
+            />
           </Form.Item>
 
           <Form.Item label="Issue">
