@@ -9,7 +9,6 @@ import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
 import { getInfoProfile } from '../../../api/Lecturer';
 
-
 type Lecturer = {
   [key: string]: any; // 👈️ variable key
   name: string;
@@ -88,7 +87,10 @@ const NavBarUser = () => {
               <a href="">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="/search">BÀI BÁO</a>
+              <a href="/search">TÌM KIẾM</a>
+            </li>
+            <li>
+              <a href="/profile">BÀI BÁO CỦA TÔI</a>
             </li>
           </ul>
         </div>
@@ -103,7 +105,11 @@ const NavBarUser = () => {
               <div className="menu-trigger__space"></div>
               <img
                 className="avatar"
-                src={lecturer?.avatar == "http://image" ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                src={
+                  lecturer?.avatar == 'http://image'
+                    ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+                    : lecturer?.avatar
+                }
               />
             </div>
 
