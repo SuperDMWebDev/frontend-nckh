@@ -34,10 +34,11 @@ const Styled = styled.div`
 
   .btn-back-search:hover {
     color: #4a5bf7;
+    text-decoration: underline;
   }
 
   .content_tab_name {
-    color: #959595;
+    color: #363636a1;
     position: relative;
     font-size: 18px;
     text-decoration: none;
@@ -46,7 +47,7 @@ const Styled = styled.div`
 
     border: none;
     background: none;
-    font-weight: 600;
+    font-weight: 400;
     font-family: 'Poppins', sans-serif;
   }
 
