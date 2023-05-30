@@ -8,7 +8,7 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes, updateContactType } from '../../../../api/Configuration';
+import { createMultipleActivities, createMultipleContactTypes, deleteMultipleActivities, deleteMultipleContactTypes, getAllActivities, getAllContactTypes, updateActivity, updateContactType } from '../../../../api/Configuration';
 import { toast } from "react-toastify"
 
 // eslint-disable-next-line no-magic-numbers
@@ -25,7 +25,7 @@ interface DataId {
     id: number;
 }
 
-const TabContact: React.FC = () => {
+const TabActivity: React.FC = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
@@ -41,10 +41,10 @@ const TabContact: React.FC = () => {
     const [openDel, setOpenDel] = useState(false);
     const navigate = useNavigate();
 
-    const [contactTypes, setContactTypes] = useState<DataType[]>([]);
+    const [activities, setActivities] = useState<DataType[]>([]);
     useEffect(() => {
         // eslint-disable-next-line no-shadow
-        getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+        getAllActivities().then((activities) => setActivities(activities));
         // eslint-disable-next-line no-magic-numbers, no-console
     }, []);
 
@@ -85,7 +85,7 @@ const TabContact: React.FC = () => {
     };
     const handleDelete = () => {
         if (dataId.length === 0) {
-            toast.error('Bạn chưa chọn liên hệ nào để xóa!');
+            toast.error('Bạn chưa chọn hoạt động nào để xóa!');
         } else {
             setOpenDel(true);
         }
@@ -102,22 +102,22 @@ const TabContact: React.FC = () => {
                 data: dataName
             }
             if (name === '') {
-                toast.error('Bạn chưa nhập liên hệ!');
+                toast.error('Bạn chưa nhập hoạt động!');
             } else {
-                createMultipleContactTypes(payload).then((code) => {
+                createMultipleActivities(payload).then((code) => {
                     if (code === 0) {
-                        toast.success('Tạo liên hệ thành công!');
+                        toast.success('Tạo hoạt động thành công!');
                     } else {
-                        toast.error('Tạo liên hệ thất bại!');
+                        toast.error('Tạo hoạt động thất bại!');
                     }
-                    getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+                    getAllActivities().then((activities) => setActivities(activities));
                     setOpen(false);
                 });
             }
         } else {
             const dataUpdate: DataType = { id: id, name: name };
-            updateContactType(dataUpdate);
-            getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+            updateActivity(dataUpdate);
+            getAllActivities().then((activities) => setActivities(activities));
         }
     };
     const onDelete = () => {
@@ -127,12 +127,12 @@ const TabContact: React.FC = () => {
         const payload: any = {
             data: temp
         }
-        deleteMultipleContactTypes(payload).then((code) => {
+        deleteMultipleActivities(payload).then((code) => {
             if (code === 0) {
-                toast.success('Xóa liên hệ thành công!');
-                getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+                toast.success('Xóa hoạt động thành công!');
+                getAllActivities().then((activities) => setActivities(activities));
             } else {
-                toast.error('Xóa liên hệ thất bại!');
+                toast.error('Xóa hoạt động thất bại!');
             }
             setOpenDel(false);
         });
@@ -271,7 +271,7 @@ const TabContact: React.FC = () => {
         {
             <>
                 <div className='header_table'>
-                    <span className='title_table'>Danh sách liên hệ</span>
+                    <span className='title_table'>Danh sách hoạt động</span>
                     <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                     <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
                 </div>
@@ -281,14 +281,14 @@ const TabContact: React.FC = () => {
                     rowSelection={{ type: 'checkbox', ...rowSelection }}
                     pagination={{ pageSize: 7 }}
                     columns={columns}
-                    dataSource={contactTypes}
+                    dataSource={activities}
                     // eslint-disable-next-line no-magic-numbers, no-confusing-arrow
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 />
 
                 <Modal
                     className='title_modal'
-                    title={formType === "create" ? "Thêm liên hệ" : "Sửa liên hệ"}
+                    title={formType === "create" ? "Thêm hoạt động" : "Sửa hoạt động"}
                     centered
                     open={open}
                     onOk={() => setOpen(false)}
@@ -299,7 +299,7 @@ const TabContact: React.FC = () => {
                 >
                     <Form
                         form={form}
-                        className="modalContact modal-popup"
+                        className="modalActivity modal-popup"
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 14 }}
                         layout="horizontal"
@@ -310,7 +310,7 @@ const TabContact: React.FC = () => {
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Liên hệ" value={name} onChange={handleInputChange} />
+                            <Input placeholder="Hoạt động" value={name} onChange={handleInputChange} />
                         </Form.Item>
 
                         <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
@@ -340,11 +340,11 @@ const TabContact: React.FC = () => {
                         </Button>
                     ]}
                 >
-                    Bạn có chắc muốn xóa liên hệ này không?
+                    Bạn có chắc muốn xóa hoạt động này không?
                 </Modal>
             </>
         }
     </>;
 };
 
-export default TabContact;
+export default TabActivity;

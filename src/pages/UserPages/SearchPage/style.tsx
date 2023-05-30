@@ -23,6 +23,16 @@ const Styled = styled.div`
     border: none;
   }
 
+  .header_article input {
+    border: 1px solid var(--gray);
+    border-right: none;
+  }
+
+  .header_article .searchOption {
+    height: 40px;
+    background-color: rgba(106, 115, 123, .6);
+  }
+
   .sort_article {
     display: flex;
     justify-content: center;
