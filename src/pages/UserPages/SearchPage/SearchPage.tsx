@@ -90,7 +90,7 @@ export default function SearchPage() {
         </div>
       ) : (
         <div className="center">
-          <div className="header_article">
+          {/* <div className="header_article">
             <input
               type="text"
               className="input_search"
@@ -99,6 +99,9 @@ export default function SearchPage() {
               onChange={(e) => setSearchInput(e.target.value)}
             />
             <button className="btn_search">Search</button>
+          </div> */}
+          <div className="header_article">
+            <SearchInput />
           </div>
 
           <div className="content content_article">

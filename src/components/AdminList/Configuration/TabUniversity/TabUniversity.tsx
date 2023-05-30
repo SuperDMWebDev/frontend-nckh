@@ -1,36 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SearchOutlined, MinusOutlined, EditOutlined } from '@ant-design/icons';
 import { Form, InputRef } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
+// eslint-disable-next-line no-duplicate-imports
+import { Button, Input, Space, Table, Modal } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
+// eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { createMultipleUniversities, deleteMultipleUniversities, getAllUniversities, updateUniversity } from '../../../../api/Configuration';
+import { toast } from "react-toastify"
 
+// eslint-disable-next-line no-magic-numbers
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
-    key: number;
     id: number;
     name: string;
-    address: string;
-    createAt: string;
-    updateAt: string;
 }
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        id: i,
-        name: '',
-        address: '',
-        createAt: '',
-        updateAt: '',
-    });
+interface DataName {
+    name: string;
+}
+interface DataId {
+    id: number;
 }
 
-const TabUniversity: React.FC = () => {
+const TabContact: React.FC = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
@@ -38,8 +33,24 @@ const TabUniversity: React.FC = () => {
     const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
     const [form] = Form.useForm();
 
+    const [id, setId] = useState(0);
+    const [name, setName] = useState('');
+    const [dataId, setDataId] = useState<DataId[]>([]);
+
     const [open, setOpen] = useState(false);
+    const [openDel, setOpenDel] = useState(false);
     const navigate = useNavigate();
+
+    const [universities, setUniversities] = useState<DataType[]>([]);
+    useEffect(() => {
+        // eslint-disable-next-line no-shadow
+        getAllUniversities().then((universities) => setUniversities(universities));
+        // eslint-disable-next-line no-magic-numbers, no-console
+    }, []);
+
+    const onFormLayoutChange = ({ size }: { size: SizeType }) => {
+        setComponentSize(size);
+    };
 
     const handleSearch = (
         selectedKeys: string[],
@@ -47,6 +58,7 @@ const TabUniversity: React.FC = () => {
         dataIndex: keyof DataType
     ) => {
         confirm();
+        // eslint-disable-next-line no-magic-numbers
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
     };
@@ -56,12 +68,112 @@ const TabUniversity: React.FC = () => {
         setSearchText('');
     };
 
+    const handleCreate = () => {
+        setFormType('create');
+        form.setFieldsValue({ name: '' });
+        setOpen(true);
+    };
+    const handleUpdate = (record: DataType) => {
+        setFormType('update');
+        setId(record.id);
+        form.setFieldsValue({ name: record.name });
+        setOpen(true);
+    };
+    const handleCancel = () => {
+        setOpen(false);
+        setOpenDel(false);
+    };
+    const handleDelete = () => {
+        if (dataId.length === 0) {
+            toast.error('Bạn chưa chọn trường đại học nào để xóa!');
+        } else {
+            setOpenDel(true);
+        }
+    };
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
+    const onFinish = () => {
+        if (formType === 'create') {
+            const dataName: DataName[] = [];
+            dataName.push({ name: name });
+            const payload: any = {
+                data: dataName
+            }
+            if (name === '') {
+                toast.error('Bạn chưa nhập trường đại học!');
+            } else {
+                createMultipleUniversities(payload).then((code) => {
+                    if (code === 0) {
+                        toast.success('Tạo trường đại học thành công!');
+                    } else {
+                        toast.error('Tạo trường đại học thất bại!');
+                    }
+                    getAllUniversities().then((universities) => setUniversities(universities));
+                    setOpen(false);
+                });
+            }
+        } else {
+            const dataUpdate: DataType = { id: id, name: name };
+            updateUniversity(dataUpdate);
+            getAllUniversities().then((universities) => setUniversities(universities));
+        }
+    };
+    const onDelete = () => {
+        const temp: any = {
+            data: dataId
+        }
+        const payload: any = {
+            data: temp
+        }
+        deleteMultipleUniversities(payload).then((code) => {
+            if (code === 0) {
+                toast.success('Xóa  trường đại học thành công!');
+                getAllUniversities().then((universities) => setUniversities(universities));
+            } else {
+                toast.error('Xóa trường đại học thất bại!');
+            }
+            setOpenDel(false);
+        });
+    };
+
+    const rowSelection = {
+        onSelect: (record: any, selected: boolean) => {
+            if (!selected) {
+                const index = dataId.findIndex((item) => item.id === record.id);
+                dataId.splice(index, 1);
+                setDataId(dataId);
+            } else {
+                dataId.push({ id: record.id });
+                setDataId(dataId);
+            }
+        },
+        onSelectAll: (selected: any, selectedRows: any) => {
+            if (!selected) {
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
+                }
+                setDataId(dataId);
+            } else {
+                while (dataId.length != 0) {
+                    dataId.splice(0, 1);
+                }
+                selectedRows.map((item: DataType) => {
+                    dataId.push({ id: item.id });
+                });
+                setDataId(dataId);
+            }
+        },
+    };
+
     const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
                     ref={searchInput}
                     placeholder={`Search ${dataIndex}`}
+                    // eslint-disable-next-line no-magic-numbers
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
@@ -87,6 +199,7 @@ const TabUniversity: React.FC = () => {
                         size="small"
                         onClick={() => {
                             confirm({ closeDropdown: false });
+                            // eslint-disable-next-line no-magic-numbers
                             setSearchText((selectedKeys as string[])[0]);
                             setSearchedColumn(dataIndex);
                         }}>
@@ -113,9 +226,11 @@ const TabUniversity: React.FC = () => {
                 .includes((value as string).toLowerCase()),
         onFilterDropdownOpenChange: (visible) => {
             if (visible) {
+                // eslint-disable-next-line no-magic-numbers
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
+        // eslint-disable-next-line no-confusing-arrow
         render: (text) => (searchedColumn === dataIndex ? text : text)
     });
 
@@ -124,7 +239,7 @@ const TabUniversity: React.FC = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '12%',
+            width: '3%',
             ...getColumnSearchProps('id'),
             onCell: () => {
                 return {
@@ -138,29 +253,8 @@ const TabUniversity: React.FC = () => {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
-            width: '20%',
+            width: '94%',
             ...getColumnSearchProps('name')
-        },
-        {
-            title: 'Địa chỉ',
-            dataIndex: 'address',
-            key: 'address',
-            width: '20%',
-            ...getColumnSearchProps('address')
-        },
-        {
-            title: 'Được tạo vào lúc',
-            dataIndex: 'createAt',
-            key: 'createAt',
-            width: '21%',
-            ...getColumnSearchProps('createAt')
-        },
-        {
-            title: 'Cập nhật vào lúc',
-            dataIndex: 'updateAt',
-            key: 'updateAt',
-            width: '21%',
-            ...getColumnSearchProps('updateAt')
         },
         {
             title: '',
@@ -168,40 +262,10 @@ const TabUniversity: React.FC = () => {
             key: 'x',
             width: '3%',
             render: (text, record) => (
-                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={handleUpdate} />
+                <EditOutlined className="edit-button" style={{ cursor: "pointer" }} onClick={() => handleUpdate(record)} />
             )
         }
     ];
-
-    const handleCreate = () => {
-        setFormType('create');
-        setOpen(true);
-    };
-    const handleUpdate = () => {
-        setFormType('update');
-        form.setFieldsValue({ name: 'name', address: 'address' });
-        setOpen(true);
-    };
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    const handleSubmit = () => {
-        const values = form.getFieldsValue();
-        setOpen(false);
-        form.resetFields();
-        console.log('Form values:', values);
-    };
-
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: (record: DataType) => ({
-            disabled: record.name === 'Disabled User', // Column configuration not to be checked
-            name: record.name,
-        }),
-    };
 
     return <>
         {
@@ -209,14 +273,16 @@ const TabUniversity: React.FC = () => {
                 <div className='header_table'>
                     <span className='title_table'>Danh sách trường đại học</span>
                     <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
-                    <button className='button2' style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
+                    <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
                 </div>
 
                 <Table
+                    rowKey="id"
                     rowSelection={{ type: 'checkbox', ...rowSelection }}
                     pagination={{ pageSize: 7 }}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={universities}
+                    // eslint-disable-next-line no-magic-numbers, no-confusing-arrow
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                 />
 
@@ -229,14 +295,7 @@ const TabUniversity: React.FC = () => {
                     onCancel={handleCancel}
                     width={500}
                     destroyOnClose
-                    footer={[
-                        <Button key="back" onClick={handleCancel}>
-                            Thoát
-                        </Button>,
-                        <Button key="submit" type="primary" onClick={handleSubmit}>
-                            OK
-                        </Button>
-                    ]}
+                    footer={[]}
                 >
                     <Form
                         form={form}
@@ -244,20 +303,48 @@ const TabUniversity: React.FC = () => {
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 14 }}
                         layout="horizontal"
+                        onFinish={() => onFinish()}
+                        initialValues={{ size: componentSize }}
+                        onValuesChange={onFormLayoutChange}
                         size={componentSize as SizeType}
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Trường đại học" />
+                            <Input placeholder="Trường" value={name} onChange={handleInputChange} />
                         </Form.Item>
-                        <Form.Item label="Địa chỉ" name="address">
-                            <Input placeholder="Địa chỉ" />
+
+                        <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
+                            <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                                Thoát
+                            </Button>
+                            <Button type="primary" htmlType="submit">
+                                OK
+                            </Button>
                         </Form.Item>
                     </Form>
                 </Modal>
+                <Modal
+                    className='title_modal'
+                    centered
+                    open={openDel}
+                    onOk={() => setOpenDel(false)}
+                    onCancel={handleCancel}
+                    width={500}
+                    destroyOnClose
+                    footer={[
+                        <Button type="primary" htmlType="submit" onClick={onDelete}>
+                            Có
+                        </Button>,
+                        <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                            Không
+                        </Button>
+                    ]}
+                >
+                    Bạn có chắc muốn xóa trường đại học này không?
+                </Modal>
             </>
         }
-    </>
-}
+    </>;
+};
 
-export default TabUniversity;
+export default TabContact;
