@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Box, TextField, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
-import { Input } from 'antd';
 
 type Props = {
   data: string;
@@ -40,7 +39,6 @@ const Tags = ({ data, handleDelete }: Props) => {
 };
 
 const AuthorTag = ({ handleGetInputTag }: any) => {
-  const [name, setName] = useState('');
   const [names, setNames] = useState<string[]>([]);
   const [authorPayLoads, setAuthorPayLoads] = useState<NAME[]>([]);
 
@@ -57,7 +55,6 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
     setNames([...names, name]);
     setAuthorPayLoads([...authorPayLoads, authorPayload]);
     handleGetInputTag([...authorPayLoads, authorPayload]);
-    setName('');
   };
 
   const handleDelete = (value: string) => {
@@ -67,29 +64,41 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
 
   return (
     <Styled>
-      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap' }}>
+      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap', width: '700px' }}>
         {names.map((data, index) => {
           return <Tags data={data} handleDelete={handleDelete} key={index} />;
         })}
       </Box>
       <div className="addLine">
-        <Input
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <Input
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
+        <div className="group">
+          <input
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            type="text"
+            required
+          />
+          <span className="highlight"></span>
+          <span className="bar"></span>
+          <label>First Name</label>
+        </div>
+
+        <div className="group">
+          <input
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            type="text"
+            required
+          />
+          <span className="highlight"></span>
+          <span className="bar"></span>
+          <label>Last Name</label>
+        </div>
+
         <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
           <FontAwesomeIcon
             color="#0056ce"
             onClick={() => {
               handleOnSubmit(firstName, lastName);
-              setFirstName('');
-              setLastName('');
             }}
             icon={faAdd}
           />

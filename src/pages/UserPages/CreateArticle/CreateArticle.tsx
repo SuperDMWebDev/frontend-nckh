@@ -130,7 +130,7 @@ const CreateArticle = () => {
   };
 
   const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/profile');
+    navigate('/profile');
   };
 
   const handleCreateArticle = async () => {
@@ -217,133 +217,153 @@ const CreateArticle = () => {
       <div className="container">
         <form>
           <div className="group">
-            <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" required />
+            <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>DOI</label>
           </div>
 
           <div className="group">
-            <input value={name} onChange={(e) => setName(e.target.value)} type="text" required />
+            <input value={name} onChange={(e) => setName(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Name</label>
           </div>
 
           <div className="group">
-            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" required />
+            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Journal</label>
           </div>
 
           <div className="group">
-            <input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} type="number" required />
+            <input
+              value={volume}
+              onChange={(e) => setVolume(parseInt(e.target.value))}
+              type="number"
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
           </div>
 
           <div className="group">
-            <input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} type="number" required />
+            <input
+              value={issue}
+              onChange={(e) => setIssue(parseInt(e.target.value))}
+              type="number"
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Issue</label>
           </div>
 
           <div className="group">
-            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" required />
+            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Day</label>
           </div>
 
           <div className="group">
-            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="number" required />
+            <input
+              value={month}
+              onChange={(e) => setMonth(parseInt(e.target.value))}
+              type="number"
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Month</label>
           </div>
 
           <div className="group">
-            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" required />
+            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Year</label>
           </div>
 
           <div className="group">
-            <input value={abstract} onChange={(e) => setAbstract(e.target.value)} type="text" required />
+            <input value={abstract} onChange={(e) => setAbstract(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Abstract</label>
           </div>
 
           <div className="group">
-            <input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} type="text" required />
+            <input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>ArXivID</label>
           </div>
 
           <div className="group">
-            <input value={ISBN} onChange={(e) => setISSN(e.target.value)} type="text" required />
+            <input value={ISBN} onChange={(e) => setISSN(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>ISBN</label>
           </div>
 
           <div className="group">
-            <input value={ISSN} onChange={(e) => setISSN(e.target.value)} type="text" required />
+            <input value={ISSN} onChange={(e) => setISSN(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>ISSN</label>
           </div>
 
           <div className="group">
-            <input value={PMID} onChange={(e) => setPMID(e.target.value)} type="text" required />
+            <input value={PMID} onChange={(e) => setPMID(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>PMID</label>
           </div>
 
           <div className="group">
-            <input value={Scopus} onChange={(e) => setScopus(e.target.value)} type="text" required />
+            <input value={Scopus} onChange={(e) => setScopus(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Scopus</label>
           </div>
 
           <div className="group">
-            <input value={PII} onChange={(e) => setPII(e.target.value)} type="text" required />
+            <input value={PII} onChange={(e) => setPII(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>PII</label>
           </div>
 
           <div className="group">
-            <input value={SGR} onChange={(e) => setSGR(e.target.value)} type="text" required />
+            <input value={SGR} onChange={(e) => setSGR(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>SGR</label>
           </div>
 
           <div className="group">
-            <input value={projectId} onChange={(e) => setProjectId(e.target.value)} type="text" required />
+            <input value={projectId} onChange={(e) => setProjectId(e.target.value)} type="text" />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Project Id</label>
           </div>
 
           <div className="group">
-            <input value={citationKey} onChange={(e) => setCitationKey(e.target.value)} type="text" required />
+            <input
+              value={citationKey}
+              onChange={(e) => setCitationKey(e.target.value)}
+              type="text"
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Citation Key</label>
           </div>
 
           <div className="group">
-            <input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} type="text" required />
+            <input
+              value={generalNote}
+              onChange={(e) => setGeneralNote(e.target.value)}
+              type="text"
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>General Note</label>
@@ -351,27 +371,31 @@ const CreateArticle = () => {
 
           <div className="group">
             <label className="label--config">Tags</label>
-            <Select
-              options={tagList}
-              placeholder="Select tags"
-              value={selectedTag}
-              onChange={handleSelect}
-              isSearchable={true}
-              isMulti
-            />
+            <div style={{ width: '700px' }}>
+              <Select
+                options={tagList}
+                placeholder="Select tags"
+                value={selectedTag}
+                onChange={handleSelect}
+                isSearchable={true}
+                isMulti
+              />
+            </div>
             <div style={{ marginTop: '20px' }}>{/* <InputTags />   */}</div>
           </div>
 
           <div className="group">
             <label className="label--config">Authors</label>
-            <Select
-              options={lecturerList}
-              placeholder="Select authors"
-              value={selectedLecturer}
-              onChange={handleSelectLecturer}
-              isSearchable={true}
-              isMulti
-            />
+            <div style={{ width: '700px' }}>
+              <Select
+                options={lecturerList}
+                placeholder="Select authors"
+                value={selectedLecturer}
+                onChange={handleSelectLecturer}
+                isSearchable={true}
+                isMulti
+              />
+            </div>
             <div style={{ marginTop: '20px' }}>
               <AuthorTag handleGetInputTag={handleGetAuthor} />
             </div>

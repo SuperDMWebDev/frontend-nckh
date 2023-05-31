@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* <SearchInput /> */}
+        <SearchInput />
 
         {/* <div className="popularSearch">Từ khóa tìm kiếm phổ biến: COVID-19, Bioenergy, Obesity</div> */}
       </section>

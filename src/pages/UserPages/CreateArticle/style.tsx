@@ -24,8 +24,8 @@ const Styled = styled.div`
 
   .btn-back-search {
     width: 300px;
-    margin-right: 118px;
-    margin-left: 370px;
+    margin-right: 80px;
+    margin-left: 300px;
     cursor: pointer;
     font-family: proxima-nova, sans-serif;
     font-size: 12px;
@@ -63,7 +63,7 @@ const Styled = styled.div`
   }
 
   input {
-    font-size: 18px;
+    font-size: 14px;
     padding: 10px 10px 10px 5px;
     display: block;
     width: 700px;
@@ -77,7 +77,7 @@ const Styled = styled.div`
   /* LABEL ======================================= */
   label {
     color: #999;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
@@ -91,9 +91,9 @@ const Styled = styled.div`
   /* active state */
   input:focus ~ label,
   input:valid ~ label {
-    top: -20px;
+    top: -15px;
     font-size: 14px;
-    color: #5264ae;
+    color: #3f51b5;
   }
 
   label.label--config {
@@ -110,11 +110,11 @@ const Styled = styled.div`
   .bar:before,
   .bar:after {
     content: '';
-    height: 2px;
+    height: 1px;
     width: 0;
     bottom: 1px;
     position: absolute;
-    background: #5264ae;
+    background: #3f51b5;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
@@ -153,7 +153,7 @@ const Styled = styled.div`
   /* ANIMATIONS ================ */
   @-webkit-keyframes inputHighlighter {
     from {
-      background: #5264ae;
+      background: #3f51b5;
     }
     to {
       width: 0;
@@ -162,7 +162,7 @@ const Styled = styled.div`
   }
   @-moz-keyframes inputHighlighter {
     from {
-      background: #5264ae;
+      background: #3f51b5;
     }
     to {
       width: 0;
@@ -171,7 +171,7 @@ const Styled = styled.div`
   }
   @keyframes inputHighlighter {
     from {
-      background: #5264ae;
+      background: #3f51b5;
     }
     to {
       width: 0;

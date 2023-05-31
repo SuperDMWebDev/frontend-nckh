@@ -67,7 +67,7 @@ const UpdateArticle = () => {
     setSelectedLecturer(data);
   };
 
-  const [urlPayload, setUrlPayload] = useState<any[]>([]);
+  const [authorPayload, setAuthorPayload] = useState<any[]>([]);
   const [notePayload, setNotePayload] = useState<any[]>([]);
 
   const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
@@ -123,15 +123,8 @@ const UpdateArticle = () => {
     }
   };
 
-  const handleGetURL = (list: any) => {
-    var urls: any[] = [];
-    list?.map((item: string) => {
-      let obj = {
-        url: item
-      };
-      urls.push(obj);
-    });
-    setUrlPayload(urls);
+  const handleGetAuthor = (list: any) => {
+    setAuthorPayload(list);
   };
 
   const handleGetNote = (list: any) => {
@@ -220,7 +213,6 @@ const UpdateArticle = () => {
       generalNote,
       tags,
       authors,
-      urls: urlPayload,
       notes: notePayload
     };
     var bodyFormData = new FormData();
@@ -278,14 +270,24 @@ const UpdateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" required />
+            <input
+              value={journal}
+              onChange={(e) => setJournal(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Journal</label>
           </div>
 
           <div className="group">
-            <input value={volume} onChange={(e) => setVolume(e.target.value)} type="text" required />
+            <input
+              value={volume}
+              onChange={(e) => setVolume(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
@@ -299,35 +301,60 @@ const UpdateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" required />
+            <input
+              value={day}
+              onChange={(e) => setDay(parseInt(e.target.value))}
+              type="number"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Day</label>
           </div>
 
           <div className="group">
-            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="number" required />
+            <input
+              value={month}
+              onChange={(e) => setMonth(parseInt(e.target.value))}
+              type="number"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Month</label>
           </div>
 
           <div className="group">
-            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" required />
+            <input
+              value={year}
+              onChange={(e) => setYear(parseInt(e.target.value))}
+              type="number"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Year</label>
           </div>
 
           <div className="group">
-            <input value={abstract} onChange={(e) => setAbstract(e.target.value)} type="text" required />
+            <input
+              value={abstract}
+              onChange={(e) => setAbstract(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Abstract</label>
           </div>
 
           <div className="group">
-            <input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} type="text" required />
+            <input
+              value={ArXivID}
+              onChange={(e) => setArXivID(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>ArXivID</label>
@@ -355,7 +382,12 @@ const UpdateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={Scopus} onChange={(e) => setScopus(e.target.value)} type="text" required />
+            <input
+              value={Scopus}
+              onChange={(e) => setScopus(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Scopus</label>
@@ -376,21 +408,36 @@ const UpdateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={projectId} onChange={(e) => setProjectId(e.target.value)} type="text" required />
+            <input
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Project Id</label>
           </div>
 
           <div className="group">
-            <input value={citationKey} onChange={(e) => setCitationKey(e.target.value)} type="text" required />
+            <input
+              value={citationKey}
+              onChange={(e) => setCitationKey(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Citation Key</label>
           </div>
 
           <div className="group">
-            <input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} type="text" required />
+            <input
+              value={generalNote}
+              onChange={(e) => setGeneralNote(e.target.value)}
+              type="text"
+              required
+            />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>General Note</label>
