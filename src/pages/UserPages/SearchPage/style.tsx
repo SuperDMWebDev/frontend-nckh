@@ -30,9 +30,13 @@ const Styled = styled.div`
 
   .header_article .searchOption {
     height: 40px;
-    background-color: rgba(106, 115, 123, .6);
+    border: 1px solid var(--gray);
   }
 
+  .searchOption_option_item:hover {
+    cursor: pointer;
+  }
+  
   .sort_article {
     display: flex;
     justify-content: center;
