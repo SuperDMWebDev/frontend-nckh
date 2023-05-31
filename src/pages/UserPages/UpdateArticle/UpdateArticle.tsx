@@ -177,7 +177,11 @@ const UpdateArticle = () => {
     }
   };
 
-  const handleCreateArticle = async () => {
+  const handleBackSearch = () => {
+    navigate(`/article-detail/${id}`);
+  };
+
+  const handleUpdateArticle = async () => {
     var tags: any[] = [];
     var authors: any[] = [];
 
@@ -221,12 +225,12 @@ const UpdateArticle = () => {
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
-          toast.success('Create article sucessfully');
+          toast.success('Update article sucessfully');
           navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.success('Fail to create article');
+          toast.success('Fail to update article');
           navigate('/profile');
           break;
         }
@@ -235,9 +239,6 @@ const UpdateArticle = () => {
       }
     }
   };
-
-  console.log('art', article);
-  console.log('name', name);
 
   useEffect(() => {
     handleGetDetailArticle();
@@ -476,6 +477,20 @@ const UpdateArticle = () => {
             <InputTags handleGetInputTag={handleGetNote} />
           </div>
         </form>
+        <div className="btnContainer">
+          <Button
+            style={{ borderRadius: '4px', padding: '8px 23px', marginRight: '10px' }}
+            onClick={() => handleBackSearch()}>
+            Cancel
+          </Button>
+          <Button
+            style={{ borderRadius: '4px', padding: '8px 23px' }}
+            type="primary"
+            htmlType="submit"
+            onClick={() => handleUpdateArticle()}>
+            Submit
+          </Button>
+        </div>
       </div>
     </Styled>
   );

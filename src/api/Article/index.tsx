@@ -56,6 +56,17 @@ export const createArticle = async (data: any) => {
   }
 };
 
+export const updateArticle = async (data: any, id: any) => {
+  try {
+    const query = `${BASE_URL}/articles/${id}/update`;
+    const res = await axios.put(query, data);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 export const deleteArticle = async (data: any) => {
   try {
     const query = `${BASE_URL}/articles/delete`;
