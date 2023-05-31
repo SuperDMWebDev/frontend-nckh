@@ -229,85 +229,128 @@ const CreateArticle = () => {
             <span className="bar"></span>
             <label>Name</label>
           </div>
-        </form>
-        <Form
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
-          layout="horizontal"
-          initialValues={{ size: componentSize }}
-          onValuesChange={onFormLayoutChange}
-          size={componentSize as SizeType}>
-          <Form.Item label="Journal">
-            <Input value={journal} onChange={(e) => setJournal(e.target.value)} />
-          </Form.Item>
 
-          <Form.Item label="Volume">
-            <Input
-              type="number"
-              value={volume}
-              onChange={(e) => setVolume(parseInt(e.target.value))}
-            />
-          </Form.Item>
+          <div className="group">
+            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Journal</label>
+          </div>
 
-          <Form.Item label="Issue">
-            <Input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} />
-          </Form.Item>
+          <div className="group">
+            <input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} type="number" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Volume</label>
+          </div>
 
-          <Form.Item label="Day">
-            <Input value={day} onChange={(e) => setDay(parseInt(e.target.value))} />
-          </Form.Item>
-          <Form.Item label="Month">
-            <Input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} />
-          </Form.Item>
-          <Form.Item label="Year">
-            <Input value={year} onChange={(e) => setYear(parseInt(e.target.value))} />
-          </Form.Item>
+          <div className="group">
+            <input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} type="number" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Issue</label>
+          </div>
 
-          <Form.Item label="Abstract">
-            <Input value={abstract} onChange={(e) => setAbstract(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Day</label>
+          </div>
 
-          <Form.Item label="ArXivID">
-            <Input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="number" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Month</label>
+          </div>
 
-          <Form.Item label="ISBN">
-            <Input value={ISBN} onChange={(e) => setISBN(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Year</label>
+          </div>
 
-          <Form.Item label="ISSN">
-            <Input value={ISSN} onChange={(e) => setISSN(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={abstract} onChange={(e) => setAbstract(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Abstract</label>
+          </div>
 
-          <Form.Item label="PMID">
-            <Input value={PMID} onChange={(e) => setPMID(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>ArXivID</label>
+          </div>
 
-          <Form.Item label="Scopus">
-            <Input value={Scopus} onChange={(e) => setScopus(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={ISBN} onChange={(e) => setISSN(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>ISBN</label>
+          </div>
 
-          <Form.Item label="PII">
-            <Input value={PII} onChange={(e) => setPII(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={ISSN} onChange={(e) => setISSN(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>ISSN</label>
+          </div>
 
-          <Form.Item label="SGR">
-            <Input value={SGR} onChange={(e) => setSGR(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={PMID} onChange={(e) => setPMID(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>PMID</label>
+          </div>
 
-          <Form.Item label="Project Id">
-            <Input value={projectId} onChange={(e) => setProjectId(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={Scopus} onChange={(e) => setScopus(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Scopus</label>
+          </div>
 
-          <Form.Item label="Citation Key">
-            <Input value={citationKey} onChange={(e) => setCitationKey(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={PII} onChange={(e) => setPII(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>PII</label>
+          </div>
 
-          <Form.Item label="General Note">
-            <Input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} />
-          </Form.Item>
+          <div className="group">
+            <input value={SGR} onChange={(e) => setSGR(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>SGR</label>
+          </div>
 
-          <Form.Item label="Tags">
+          <div className="group">
+            <input value={projectId} onChange={(e) => setProjectId(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Project Id</label>
+          </div>
+
+          <div className="group">
+            <input value={citationKey} onChange={(e) => setCitationKey(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>Citation Key</label>
+          </div>
+
+          <div className="group">
+            <input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} type="text" required />
+            <span className="highlight"></span>
+            <span className="bar"></span>
+            <label>General Note</label>
+          </div>
+
+          <div className="group">
+            <label className="label--config">Tags</label>
             <Select
               options={tagList}
               placeholder="Select tags"
@@ -317,9 +360,10 @@ const CreateArticle = () => {
               isMulti
             />
             <div style={{ marginTop: '20px' }}>{/* <InputTags />   */}</div>
-          </Form.Item>
+          </div>
 
-          <Form.Item label="Authors">
+          <div className="group">
+            <label className="label--config">Authors</label>
             <Select
               options={lecturerList}
               placeholder="Select authors"
@@ -331,11 +375,12 @@ const CreateArticle = () => {
             <div style={{ marginTop: '20px' }}>
               <AuthorTag handleGetInputTag={handleGetAuthor} />
             </div>
-          </Form.Item>
+          </div>
 
-          <Form.Item label="Note">
+          <div className="group">
+            <label className="label--config">Note</label>
             <InputTags handleGetInputTag={handleGetNote} />
-          </Form.Item>
+          </div>
 
           <div className="btnContainer">
             <Button
@@ -351,7 +396,7 @@ const CreateArticle = () => {
               Submit
             </Button>
           </div>
-        </Form>
+        </form>
       </div>
     </Styled>
   );
