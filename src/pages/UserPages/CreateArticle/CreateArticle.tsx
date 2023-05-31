@@ -238,35 +238,35 @@ const CreateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} type="text" required />
+            <input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} type="number" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
           </div>
 
           <div className="group">
-            <input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} type="text" required />
+            <input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} type="number" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Issue</label>
           </div>
 
           <div className="group">
-            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="text" required />
+            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Day</label>
           </div>
 
           <div className="group">
-            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="text" required />
+            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="number" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Month</label>
           </div>
 
           <div className="group">
-            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="text" required />
+            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Year</label>
