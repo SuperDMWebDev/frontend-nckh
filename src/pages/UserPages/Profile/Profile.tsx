@@ -22,10 +22,12 @@ import Avatar1 from 'react-avatar-edit'
 import { editBioProfile } from '../../../api/Lecturer';
 import { editAvatarProfile } from '../../../api/Lecturer';
 import { editNameProfile } from '../../../api/Lecturer';
+import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
 import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
 import { toast } from 'react-toastify';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
+import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
 
 
 type Article = {
@@ -650,33 +652,8 @@ export default function Profile() {
                         </>
                     ) : (
                         <>
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
-                                    {lecturer?.expertises.map((expertise: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">HƯỚNG NGHIÊN CỨU</h2>
-                                    {lecturer?.researchFields.map((researchField: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={researchField.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span>{researchField.researchName}</span>
-                                                {researchField.note ? <span>({researchField.note})</span> : null}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
+                            <ModalEditExpertises lecturer={lecturer} canEdit={true} />
+                            <ModalEditResearchField lecturer={lecturer} canEdit={true} />
                             <ModalEditBook lecturer={lecturer} canEdit={true} />
                         </>
                     )}

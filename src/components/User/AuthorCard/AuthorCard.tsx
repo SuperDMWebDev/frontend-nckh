@@ -1,38 +1,44 @@
 import React from 'react';
 import Styled from './style';
-const AuthorCard = () => {
-  const handleLink = () => {
-    window.location.replace('http://localhost:5000/profile');
+
+const AuthorCard = (props: any) => {
+  const { data } = props;
+  const handleLink = (id: any) => {
+    window.location.replace(`http://localhost:5000/lecturer/${id}`);
   }
 
   return (
     <Styled>
-      <div className="container">
+      <div className="container" key={data.id} onClick={() => handleLink(data.id)}>
         <div className="left">
-          <img className="left_img" src="./assets/images/avatar.jpg" alt="" />
+          <img className="left_img"
+            src={data.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : data.avatar}
+            alt=""
+          />
         </div>
         <div className="right">
           <div className="user-name">
             <a className="link_title">
-              <p className="name" onClick={handleLink}>Dr. Robert Edison</p>
+              <p className="name" onClick={() => handleLink(data.id)}>{data.name}</p>
             </a>
           </div>
-          <div className="user-field">Senior Lecturer - Accounting Discipline Group</div>
+          <div className="user-field">{data.currentDisciplines[0].departmentName} - {data.currentDisciplines[0].universityName}</div>
           <div className="user-position">
             <p className="position">
-              Robert's research focus can be broadly categorised as an interest in information
-              asymmetry. After graduating from the University of Tasmania, Robert worked in public
-              accounting for Coopers+Lybrand and Deloittes. After returning to academia, Robert has
-              researched and taught at the University of Tasmania,
+              {data.currentDisciplines[0].position}
             </p>
           </div>
           <div className="right_availability">
-            <div className="right_availability_title">Availability: </div>
+            <div className="right_availability_title">Tiểu sử: </div>
             <div className="right_availability_content">
-              Masters Research or PhD student supervision
+              {data.bio}
             </div>
           </div>
-          <div className="right_category">Curriculum and pedagogy</div>
+          {
+            data.researchFields.map((item: any) => (
+              <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
+            ))
+          }
         </div>
       </div>
     </Styled>

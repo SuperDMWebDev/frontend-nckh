@@ -3,16 +3,22 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 20px;
 
     max-width: 700px;
     padding: 20px 0;
     border-top: 1px solid #e5e5e5;
+    cursor: pointer;
+  }
+
+  .name {
+    font-family: proxima-nova, sans-serif;
+    cursor: pointer;
   }
 
   .left {
+    width: 120px;
+
     &_img {
       width: 113px;
       border-radius: 50%;
@@ -20,6 +26,8 @@ const Styled = styled.div`
   }
 
   .right {
+    width: 100%;
+
     &_availability {
       display: flex;
       font-size: 13px;
@@ -44,6 +52,18 @@ const Styled = styled.div`
       margin-top: 15px;
       background-color: #dadada;
     }
+  }
+
+  .right_availability {
+    display: flex;
+  }
+
+  .right_availability_title {
+    width: 50px;
+  }
+
+  .right_availability_content {
+    width: auto;
   }
 `;
 

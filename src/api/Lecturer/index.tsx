@@ -101,15 +101,14 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
             "update": true
           }
         ],
-        "currentDisciplines": [
-          {
-            "id": lecturer.currentDisciplines[0].id,
-            "lecturerId": accountId,
-            "departmentName": data.newDepartmentName,
-            "universityName": data.newUniversity,
-            "position": data.newCurrentDisciplines
-          }
-        ]
+        "currentDiscipline": {
+          "id": lecturer.currentDisciplines[0].id,
+          "lecturerId": accountId,
+          "departmentName": data.newDepartmentName,
+          "universityId": data.newUniversity,
+          "position": data.newCurrentDisciplines,
+          "update": true
+        }
       }
     }
   );
@@ -163,6 +162,102 @@ export const addNewBook = async (lecturer: any, newBook: any, accountId: string 
             "publicYear": newBook.publicYear,
             "coAuthors": newBook.coAuthors,
             "create": true
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const createDegree = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "degrees": [
+          {
+            "create": true,
+            "academicTitleId": 1,
+            "universityId": data.universityId,
+            "specialization": data.specialization,
+            "graduationDate": data.graduationDate,
+            "graduationThesisName": data.graduationThesisName
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const deleteDegree = async (lecturer: any, idDegree: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "degrees": [
+          {
+            "id": idDegree,
+            "delete": true
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const editDegree = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "degrees": [
+          {
+            "update": true,
+            "id": data.id,
+            "specialization": data.specialization,
+            "universityId": data.universityId,
+            "graduationDate": data.graduationDate,
+            "academicTitleId": 1,
+            "graduationThesisName": data.graduationThesisName
           }
         ]
       }
@@ -232,6 +327,129 @@ export const deleteBook = async (lecturer: any, idBook: any, accountId: string |
   );
 };
 
+export const editExpertises = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "expertises": [
+          {
+            "id": 1,
+            "lecturerId": accountId,
+            "title": "Lĩnh vực",
+            "specialization": data.field,
+            "update": true
+          },
+          {
+            "id": 2,
+            "lecturerId": accountId,
+            "title": "Chuyên ngành",
+            "specialization": data.specialized,
+            "update": true
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const editResearchField = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "researchFields": [
+          {
+            "id": data.id,
+            "update": true,
+            "researchName": data.researchName,
+            "note": data.note
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const createResearchField = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/${accountId}/update`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "id": lecturer.id,
+        "name": lecturer.name,
+        "gender": lecturer.gender,
+        "avatar": lecturer.avatar,
+        "dateOfBirth": lecturer.dateOfBirth,
+        "bio": lecturer.bio,
+        "academicRankId": lecturer.academicRankId,
+        "academicRankGainYear": lecturer.academicRankGainYear,
+        "academicTitleId": lecturer.academicTitleId,
+        "academicTitleGainYear": lecturer.academicTitleGainYear,
+        "researchFields": [
+          {
+            "create": true,
+            "researchName": data.researchName,
+            "note": data.note
+          }
+        ]
+      }
+    }
+  );
+};
+
+export const createLecturer = async (data: any) => {
+  const res = await axios.put(
+    `${BASE_URL}lecturers/create`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        "name": data.name,
+        "gender": data.gender,
+        "avatar": null,
+        "bio": null,
+        "dateOfBirth": "18/03/2001",
+        "academicRankId": 1,
+        "academicRankGainYear": "2010",
+        "academicTitleId": 1,
+        "academicTitleGainYear": "2022",
+        "expandColumn": null,
+      }
+    }
+  );
+};
+
 export const editAvatarProfile = async (AvatarURL: string, accountId: string | null) => {
   const res = await axios.put(
     `${BASE_URL}lecturers/${accountId}/update`,
@@ -289,3 +507,13 @@ export const getAllAcademicTitle = async () => {
     return handleError(error);
   }
 };
+
+export const getListLecturers = async () => {
+  try {
+    const query = `${BASE_URL}lecturers/fetch?pageOffset=1&limitSize=10`;
+    const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+}; 

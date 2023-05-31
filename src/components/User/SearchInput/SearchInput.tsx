@@ -14,13 +14,13 @@ const SearchInput = ({ getSearchOption }: any) => {
   let optionRef = useRef<HTMLDivElement>(null);
 
   const goToSearchPage = () => {
-    navigate('./search', { state: searchInput });
+    navigate('/search', { state: { searchInput, searchOption } });
+    console.log("clicked");
   };
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
-      //goToSearchPage();
-      console.log(searchInput);
+      goToSearchPage();
     }
   };
 

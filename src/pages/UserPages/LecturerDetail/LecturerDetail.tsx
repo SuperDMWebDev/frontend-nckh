@@ -47,12 +47,9 @@ export default function LecturerDetail() {
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const accountId: string | null = localStorage.getItem('accountId');
     const token = localStorage.getItem('accessToken');
-    const [articleList, setArticleList] = useState<Article[]>();
-
+    const [articleList, setArticleList] = useState<Article[]>([]);
     const { id }: any = useParams();
-    console.log(id);
 
     const fetchArticle = async () => {
         let param = {
@@ -144,66 +141,6 @@ export default function LecturerDetail() {
     const handleBackSearch = () => {
         window.location.replace('http://localhost:5000/');
     };
-
-    const handleLinkArticleDetail = () => {
-        window.location.replace('/profile/article-detail');
-    };
-
-    // ----  MODAL ----
-    const [openBioModal, setOpenBioModal] = useState(false);
-    const [openInfoModal, setOpenInfoModal] = useState(false);
-    const [openEditProfile, setOpenEditProfile] = useState(false);
-    const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
-    const [openEditNameModal, setOpenEditNameModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [newName, setNewName] = useState<string | undefined>();
-
-    const handleOkBio = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setOpenBioModal(false);
-        }, 3000);
-        const newData: Lecturer1 | any = { ...lecturer };
-        newData.bio = bio;
-        editBioProfile(newData, accountId);
-    };
-
-    const handleCancelBio = () => {
-        setOpenBioModal(false);
-    };
-
-    const handleOkInfo = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setOpenEditProfile(false);
-        }, 3000);
-    };
-
-    const handleCancelInfo = () => {
-        setOpenEditProfile(false);
-    };
-
-    const handleOkEditAvatar = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setOpenEditProfile(false);
-        }, 3000);
-    };
-
-    const onCrop = (view: string) => {
-        console.log(view);
-        editAvatarProfile(view, accountId);
-    };
-
-    const [isToast, setIsToast] = useState<Boolean>(false);
-
-    const handleSaveName = () => {
-        editNameProfile(lecturer, newName, accountId);
-        window.location.reload();
-    }
 
     return (
         <Styled>
@@ -345,45 +282,6 @@ export default function LecturerDetail() {
                                             bio
                                         )}
                                     </p>
-
-                                    <Modal
-                                        title="Chỉnh sửa thông tin tiểu sử"
-                                        centered
-                                        open={openBioModal}
-                                        onOk={() => setOpenBioModal(false)}
-                                        onCancel={() => setOpenBioModal(false)}
-                                        width={700}
-                                        footer={[
-                                            <Button key="back" onClick={handleCancelBio}>
-                                                Quay lại
-                                            </Button>,
-                                            <Button key="submit" type="primary" loading={loading} onClick={handleOkBio}>
-                                                Lưu
-                                            </Button>
-                                        ]}>
-                                        <textarea
-                                            className="text-area"
-                                            placeholder="Viết tiểu sử bạn ở đây ... "
-                                            value={bio}
-                                            onChange={(e) => setBio(e.target.value)}
-                                            style={{
-                                                backgroundColor: '#dddddd',
-                                                color: '#666666',
-                                                padding: '1em',
-                                                borderRadius: '10px',
-                                                border: '2px solid transparent',
-                                                outline: 'none',
-                                                fontFamily: "'Heebo', sans-serif",
-                                                fontWeight: '500',
-                                                fontSize: '16px',
-                                                lineHeight: '1.4',
-                                                width: '600px',
-                                                height: '200px',
-                                                transform: 'all 0.2s',
-                                                marginLeft: '25px',
-                                                marginTop: '10px'
-                                            }}></textarea>
-                                    </Modal>
                                 </div>
                             </div>
 
@@ -428,19 +326,17 @@ export default function LecturerDetail() {
                         </>
                     ) : currentTab === 2 ? (
                         <>
-                            <div className="add-article-container">
-                                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
-                                    Thêm bài báo khoa học
-                                </button>
-                            </div>
                             <div className="content-profile">
-                                {articleList ? (
-                                    articleList['1'].map((item: any) => <ArticleCard data={item} />)
-                                ) : (
-                                    <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                        Chưa có bài báo khoa học nào.
-                                    </span>
-                                )}
+                                <div className="main_content">
+                                    <h2 className="title_content" style={{ marginBottom: "10px" }}>CÁC BÀI BÁO KHOA HỌC</h2>
+                                    {articleList.length != 0 ? (
+                                        articleList[id].map((item: any) => <ArticleCard data={item} />)
+                                    ) : (
+                                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                                            Chưa có bài báo khoa học nào.
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         </>
                     ) : currentTab === 3 ? (

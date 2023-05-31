@@ -9,7 +9,7 @@ export default function ModalEditInfoProfile(props: any) {
     const lecturer = props.props;
     const accoundId = localStorage.getItem("accountId")
 
-    const [newUniversity, setNewUniversity] = useState<string>(lecturer?.currentDisciplines[0].universityName);
+    const [newUniversity, setNewUniversity] = useState<string>("1");
     const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>(lecturer?.currentDisciplines[0].position);
     const [newGender, setNewGender] = useState<string>(lecturer?.gender);
     const [newDateOfBirth, setNewDateOfBirth] = useState<string>(lecturer?.dateOfBirth);
@@ -34,6 +34,9 @@ export default function ModalEditInfoProfile(props: any) {
         const university = getAllUniversity();
         university.then((res) => {
             setUniversitys(res.data.data);
+            res.data.data.map((u: any) => {
+                u.name == lecturer?.currentDisciplines[0].universityName ? setNewUniversity(u.id) : null;
+            });
         }).catch((err) => {
             console.log(err);
         });
@@ -47,6 +50,8 @@ export default function ModalEditInfoProfile(props: any) {
         });
 
     }, []);
+
+    console.log(newUniversity);
 
     const handleChangeGender = (event: any) => {
         setNewGender(event.target.value);
@@ -72,6 +77,8 @@ export default function ModalEditInfoProfile(props: any) {
             address: { address: newAddress, id: 2 },
             phone: { phone: newPhone, id: 3 }
         }
+
+        console.log(data);
         editInfoProfile(lecturer, data, accoundId);
         window.location.reload();
     }
@@ -135,7 +142,6 @@ export default function ModalEditInfoProfile(props: any) {
             <div className="group">
                 <select
                     className="input-edit-profile"
-                    value={newUniversity}
                     onChange={handleChangeUniversity}
                 >
                     {universitys.map((option: any) => (

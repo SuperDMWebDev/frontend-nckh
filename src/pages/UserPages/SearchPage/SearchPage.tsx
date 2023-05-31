@@ -14,7 +14,8 @@ import { getArticles } from '../../../api/Article';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
-import DetailArticle from '../../../components/User/DetailArticle/DetailArticle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { getListLecturers } from '../../../api/Lecturer';
 
 interface SEARCH_INPUT_TYPE {
   value: string;
@@ -23,13 +24,15 @@ interface SEARCH_INPUT_TYPE {
 
 export default function SearchPage() {
   const navigate = useNavigate();
-  const searchAuthor = false;
   const location = useLocation();
+  const typeSearch = location.state.searchOption;
+  console.log(location.state.searchOption);
 
   const [searchInput, setSearchInput] = useState<string>(location.state);
   const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
 
   const [articleList, setArticleList] = useState([]);
+  const [lecturerList, setLecturerList] = useState([]);
 
   function handleClickArticle() {
     document.getElementById('detail_article')!.classList.add('detail_article_active');
@@ -62,48 +65,68 @@ export default function SearchPage() {
     }
   };
 
+  const fetchLectures = async () => {
+    const res = await getListLecturers();
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data;
+          setLecturerList(data);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   useEffect(() => {
     fetchArticle();
+    fetchLectures();
   }, []);
+
+  const handleBackSearch = () => {
+    window.location.replace('http://localhost:5000/');
+  };
 
   return (
     <Styled>
-      {searchAuthor ? (
+      <div className="center">
+        <div className="btn-back-search" onClick={handleBackSearch}>
+          <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
+        </div>
+        <div
+          style={{
+            fontSize: '17px',
+            margin: '12px',
+            fontFamily: "Montserrat, sans-serif"
+          }}>{`${typeSearch.label.toUpperCase()}S SEARCH`}
+        </div>
+
+        <div
+          style={{
+            backgroundColor: '#e6e4e4',
+            width: '100%',
+            display: 'flex',
+            height: "120px",
+            justifyContent: 'center'
+          }}>
+          <SearchInput />
+        </div>
+      </div>
+
+      {typeSearch.value !== "article" ? (
         <div className="center">
-          <div
-            style={{
-              fontSize: '22px',
-              margin: '20px'
-            }}>{`${searchOption.label.toUpperCase()} SEARCH`}</div>
-          <div
-            style={{
-              backgroundColor: '#e6e4e4',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center'
-            }}>
-            <SearchInput />
+          <div className="list_article">
+            {lecturerList && lecturerList.map((item) => <AuthorCard data={item} />)}
           </div>
-          <AuthorCard />
-          <AuthorCard />
-          <AuthorCard />
         </div>
       ) : (
         <div className="center">
-          {/* <div className="header_article">
-            <input
-              type="text"
-              className="input_search"
-              placeholder="Search for articles..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-            />
-            <button className="btn_search">Search</button>
-          </div> */}
-          <div className="header_article">
-            <SearchInput />
-          </div>
-
           <div className="content content_article">
             <div className="sort_article">
               <span
@@ -123,8 +146,6 @@ export default function SearchPage() {
             <div className="list_article">
               {articleList && articleList.map((item) => <ArticleCard data={item} />)}
             </div>
-
-            {/* <DetailArticle /> */}
           </div>
         </div>
       )}

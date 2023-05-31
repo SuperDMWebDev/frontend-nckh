@@ -81,15 +81,17 @@ const NavBarUser = () => {
   return (
     <Styled>
       <div className="container">
-        <a href="/">
-          <div className="container_logo">
-            <img src="/assets/images/hcmus_logo.jpg" />
-          </div>
-        </a>
-        <div>
+        <div className="logo">
+          <a href="/">
+            <div className="container_logo">
+              <img src="/assets/images/hcmus_logo.jpg" />
+            </div>
+          </a>
+        </div>
+        <div className='navbar-tab'>
           <ul>
             <li>
-              <a href="">TRANG CHỦ</a>
+              <a href="/">TRANG CHỦ</a>
             </li>
             <li>
               <a href="/search">BÀI BÁO</a>

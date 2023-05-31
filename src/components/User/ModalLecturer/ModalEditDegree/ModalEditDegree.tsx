@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import AddIcon from '@mui/icons-material/Add';
-import { addNewBook } from '../../../../api/Lecturer';
+import { addNewBook, editDegree } from '../../../../api/Lecturer';
 import { Button, Modal } from 'antd';
 import { updateBook } from '../../../../api/Lecturer';
 import { deleteBook } from '../../../../api/Lecturer';
 import { getAllUniversity } from '../../../../api/Lecturer';
 import { getAllAcademicTitle } from '../../../../api/Lecturer';
+import { createDegree } from '../../../../api/Lecturer';
+import { deleteDegree } from '../../../../api/Lecturer';
 
 export default function ModalEditDegree(props: any) {
     const { lecturer, canEdit } = props;
@@ -57,31 +59,32 @@ export default function ModalEditDegree(props: any) {
     }, []);
 
     const handleCreatDegree = () => {
-        const newDegree = {
+        const data = {
             "graduationThesisName": newName,
             "specialization": newSpecialization,
             "universityId": newUniversity,
             "graduationDate": newYear,
             "academicTitleId": newAcademicTitle
         }
-
-        console.log(newDegree);
-
-        //window.location.reload();
+        createDegree(lecturer, data, accountId);
+        window.location.reload();
     };
 
     const handleSaveEdit = () => {
-        const book = {
+        const data = {
             "id": idDegree,
-            "name": name,
-            "publisherName": "IEEE CPS, ISBN-13; 978",
-            "publicYear": year,
-            "coAuthors": specialization
+            "graduationThesisName": name,
+            "universityId": university,
+            "graduationDate": year,
+            "specialization": specialization,
         }
+        editDegree(lecturer, data, accountId)
+        console.log(data);
         window.location.reload();
     }
 
     const handleDeleteBook = () => {
+        deleteDegree(lecturer, idDegree, accountId);
         window.location.reload();
     };
 
@@ -220,7 +223,7 @@ export default function ModalEditDegree(props: any) {
                                 width={700}
                                 className="modalStyle"
                                 footer={[
-                                    <Button key="submit" style={{ backgroundColor: "red", color: "white" }} onClick={handleDeleteBook}>
+                                    <Button key="submit" style={{ backgroundColor: "red", color: "white" }} onClick={() => handleDeleteBook()}>
                                         Xóa
                                     </Button>,
                                     <Button key="submit" type="primary" onClick={handleSaveEdit}>
