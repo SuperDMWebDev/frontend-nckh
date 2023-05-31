@@ -350,6 +350,7 @@ const CreateArticle = () => {
           </div>
 
           <div className="group">
+            <label className="label--config">Tags</label>
             <Select
               options={tagList}
               placeholder="Select tags"
@@ -362,6 +363,7 @@ const CreateArticle = () => {
           </div>
 
           <div className="group">
+            <label className="label--config">Authors</label>
             <Select
               options={lecturerList}
               placeholder="Select authors"
@@ -376,6 +378,7 @@ const CreateArticle = () => {
           </div>
 
           <div className="group">
+            <label className="label--config">Note</label>
             <InputTags handleGetInputTag={handleGetNote} />
           </div>
 

@@ -96,6 +96,11 @@ const Styled = styled.div`
     color: #5264ae;
   }
 
+  label.label--config {
+    position: static;
+    margin-left: 5px;
+  }
+
   /* BOTTOM BARS ================================= */
   .bar {
     position: relative;
