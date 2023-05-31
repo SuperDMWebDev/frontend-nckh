@@ -9,7 +9,6 @@ import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
 import { getInfoProfile } from '../../../api/Lecturer';
 
-
 type Lecturer = {
   [key: string]: any; // 👈️ variable key
   name: string;
@@ -94,7 +93,10 @@ const NavBarUser = () => {
               <a href="/">TRANG CHỦ</a>
             </li>
             <li>
-              <a href="/search">BÀI BÁO</a>
+              <a href="/search">TÌM KIẾM</a>
+            </li>
+            <li>
+              <a href="/profile">BÀI BÁO CỦA TÔI</a>
             </li>
           </ul>
         </div>

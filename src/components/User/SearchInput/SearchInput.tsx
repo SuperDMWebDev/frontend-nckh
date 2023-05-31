@@ -21,6 +21,7 @@ const SearchInput = ({ getSearchOption }: any) => {
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
       goToSearchPage();
+      console.log(searchInput);
     }
   };
 

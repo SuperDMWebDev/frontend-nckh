@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DatePicker, Form, Input, Button } from 'antd';
 import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
-import { createArticle } from '../../../api/Article';
+import { createArticle, getDetailArticle } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
 import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
@@ -10,7 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
+
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface ArticleType {
@@ -23,28 +26,35 @@ type OptionSelect = {
   label: string;
 };
 
-const CreateArticle = () => {
+type Article = {
+  [key: string]: any; // 👈️ variable key
+  name: string;
+};
+
+const UpdateArticle = () => {
   const navigate = useNavigate();
-  const accountId: string | null = localStorage.getItem('accountId');
-  const [name, setName] = useState('');
-  const [journal, setJournal] = useState('');
-  const [volume, setVolume] = useState<number>();
-  const [issue, setIssue] = useState<number>();
-  const [day, setDay] = useState<number>();
-  const [month, setMonth] = useState<number>();
-  const [year, setYear] = useState<number>();
-  const [abstract, setAbstract] = useState('');
-  const [ArXivID, setArXivID] = useState('');
-  const [DOI, setDOI] = useState('');
-  const [ISBN, setISBN] = useState('');
-  const [ISSN, setISSN] = useState('');
-  const [PMID, setPMID] = useState('');
-  const [Scopus, setScopus] = useState('');
-  const [PII, setPII] = useState('');
-  const [SGR, setSGR] = useState('');
-  const [projectId, setProjectId] = useState('');
-  const [citationKey, setCitationKey] = useState('');
-  const [generalNote, setGeneralNote] = useState('');
+  const { id } = useParams();
+  const [article, setArticle] = useState<any>();
+
+  const [name, setName] = useState(article?.name);
+  const [journal, setJournal] = useState(article?.journal);
+  const [volume, setVolume] = useState(article?.volume);
+  const [issue, setIssue] = useState(article?.issue);
+  const [day, setDay] = useState<number>(article?.day);
+  const [month, setMonth] = useState<number>(article?.month);
+  const [year, setYear] = useState<number>(article?.year);
+  const [abstract, setAbstract] = useState(article?.abstract);
+  const [ArXivID, setArXivID] = useState(article?.ArXivID);
+  const [DOI, setDOI] = useState(article?.DOI);
+  const [ISBN, setISBN] = useState(article?.ISBN);
+  const [ISSN, setISSN] = useState(article?.ISSN);
+  const [PMID, setPMID] = useState(article?.PMID);
+  const [Scopus, setScopus] = useState(article?.Scopus);
+  const [PII, setPII] = useState(article?.PII);
+  const [SGR, setSGR] = useState(article?.SGR);
+  const [projectId, setProjectId] = useState(article?.projectId);
+  const [citationKey, setCitationKey] = useState(article?.citationKey);
+  const [generalNote, setGeneralNote] = useState(article?.generalNote);
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
@@ -57,7 +67,6 @@ const CreateArticle = () => {
     setSelectedLecturer(data);
   };
 
-  const [authorPayload, setAuthorPayload] = useState<any[]>([]);
   const [urlPayload, setUrlPayload] = useState<any[]>([]);
   const [notePayload, setNotePayload] = useState<any[]>([]);
 
@@ -114,8 +123,15 @@ const CreateArticle = () => {
     }
   };
 
-  const handleGetAuthor = (list: any) => {
-    setAuthorPayload(list);
+  const handleGetURL = (list: any) => {
+    var urls: any[] = [];
+    list?.map((item: string) => {
+      let obj = {
+        url: item
+      };
+      urls.push(obj);
+    });
+    setUrlPayload(urls);
   };
 
   const handleGetNote = (list: any) => {
@@ -129,17 +145,48 @@ const CreateArticle = () => {
     setNotePayload(notes);
   };
 
-  const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/profile');
+  const handleGetDetailArticle = async () => {
+    const res = await getDetailArticle(id);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data;
+          setArticle(data);
+
+          setName(data.name);
+          setJournal(data.journal);
+          setVolume(data.volume);
+          setIssue(data.issue);
+          setDay(data.day);
+          setMonth(data.month);
+          setYear(data.year);
+          setAbstract(data.abstract);
+          setArXivID(data.ArXivID);
+          setDOI(data.DOI);
+          setISBN(data.ISBN);
+          setISSN(data.ISSN);
+          setPMID(data.PMID);
+          setScopus(data.Scopus);
+          setPII(data.PII);
+          setSGR(data.SGR);
+          setProjectId(data.projectId);
+          setCitationKey(data.citationKey);
+          setGeneralNote(data.generalNote);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
+      }
+    }
   };
 
   const handleCreateArticle = async () => {
     var tags: any[] = [];
-    var authors: any[] = [
-      {
-        lecturerId: parseInt(accountId!)
-      }
-    ];
+    var authors: any[] = [];
 
     selectedTag?.map((item: { value: number; label: string }) => {
       let obj = { tag_id: item.value };
@@ -149,10 +196,6 @@ const CreateArticle = () => {
     selectedLecturer?.map((item: { value: number; label: string }) => {
       let obj = { lecturerId: item.value };
       authors.push(obj);
-    });
-
-    authorPayload?.map((item) => {
-      authors.push(item);
     });
 
     var data = {
@@ -177,9 +220,9 @@ const CreateArticle = () => {
       generalNote,
       tags,
       authors,
+      urls: urlPayload,
       notes: notePayload
     };
-
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
     const res = await createArticle(bodyFormData);
@@ -201,18 +244,26 @@ const CreateArticle = () => {
     }
   };
 
+  console.log('art', article);
+  console.log('name', name);
+
   useEffect(() => {
+    handleGetDetailArticle();
     fetchTag();
     fetchLecturer();
   }, []);
 
+  const handleGetAuthor = () => {
+
+  };
+
   return (
     <Styled>
       <div className="header_topbar">
-        <div className="btn-back-search" onClick={handleBackSearch}>
-          <ArrowBackIcon /> quay lại trang cá nhân
+        <div className="btn-back-search" onClick={() => navigate(-1)}>
+          <ArrowBackIcon /> quay lại
         </div>
-        <div className="content_tab_name">TẠO BÀI BÁO KHOA HỌC</div>
+        <div className="content_tab_name tab-selected">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
       </div>
       <div className="container">
         <form>
@@ -238,14 +289,14 @@ const CreateArticle = () => {
           </div>
 
           <div className="group">
-            <input value={volume} onChange={(e) => setVolume(parseInt(e.target.value))} type="number" required />
+            <input value={volume} onChange={(e) => setVolume(e.target.value)} type="text" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
           </div>
 
           <div className="group">
-            <input value={issue} onChange={(e) => setIssue(parseInt(e.target.value))} type="number" required />
+            <input value={issue} onChange={(e) => setIssue(e.target.value)} type="text" required />
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Issue</label>
@@ -381,25 +432,10 @@ const CreateArticle = () => {
             <label className="label--config">Note</label>
             <InputTags handleGetInputTag={handleGetNote} />
           </div>
-
-          <div className="btnContainer">
-            <Button
-              style={{ borderRadius: '4px', padding: '8px 23px', marginRight: '10px' }}
-              onClick={() => handleBackSearch()}>
-              Cancel
-            </Button>
-            <Button
-              style={{ borderRadius: '4px', padding: '8px 23px' }}
-              type="primary"
-              htmlType="submit"
-              onClick={() => handleCreateArticle()}>
-              Submit
-            </Button>
-          </div>
         </form>
       </div>
     </Styled>
   );
 };
 
-export default CreateArticle;
+export default UpdateArticle;
