@@ -25,10 +25,8 @@ export default function SearchPage() {
   const [navigate_searchOption, setNavigate_searchOption] = useState(location.state.searchOption);
   const [navigate_searchInput, setNavigate_searchInput] = useState(location.state.searchInput);
 
-
   const [openOption, setOpenOption] = useState(false);
   let optionRef = useRef<HTMLDivElement>(null);
-
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
@@ -49,7 +47,6 @@ export default function SearchPage() {
       }
     }
   };
-
 
   const fetchListArticle = async (data: any) => {
     console.log(data);
@@ -199,7 +196,6 @@ export default function SearchPage() {
               <button className="btn_sort">Most recent</button>
               <button className="btn_sort">Most cited</button>
             </div>
-
             <div className="list_article">
               {listArticles.length != 0 ? listArticles.map((item) => <ArticleCard data={item} />) : <>
                 <div
