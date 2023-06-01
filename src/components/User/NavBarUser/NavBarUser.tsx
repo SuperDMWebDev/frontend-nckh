@@ -61,6 +61,10 @@ const NavBarUser = () => {
       } else if (value == 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
         setOpen(false);
+      } else if (value == 'Logout') {
+        localStorage.removeItem("accountId");
+        localStorage.removeItem("accessToken");
+        window.location.replace("http://localhost:5000/");
       }
     };
 
@@ -76,15 +80,17 @@ const NavBarUser = () => {
   return (
     <Styled>
       <div className="container">
-        <a href="/">
-          <div className="container_logo">
-            <img src="/assets/images/hcmus_logo.jpg" />
-          </div>
-        </a>
-        <div>
+        <div className="logo">
+          <a href="/">
+            <div className="container_logo">
+              <img src="/assets/images/hcmus_logo.jpg" />
+            </div>
+          </a>
+        </div>
+        <div className='navbar-tab'>
           <ul>
             <li>
-              <a href="">TRANG CHỦ</a>
+              <a href="/">TRANG CHỦ</a>
             </li>
             <li>
               <a href="/search">TÌM KIẾM</a>
@@ -105,11 +111,7 @@ const NavBarUser = () => {
               <div className="menu-trigger__space"></div>
               <img
                 className="avatar"
-                src={
-                  lecturer?.avatar == 'http://image'
-                    ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
-                    : lecturer?.avatar
-                }
+                src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
               />
             </div>
 
