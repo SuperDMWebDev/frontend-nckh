@@ -40,6 +40,17 @@ export const getScopusAuthors = async (firstnam: string, lastname: string) => {
   return res.data;
 };
 
+export const getListLecturerWithKeyword = async (data: any) => {
+  try {
+    const query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
+    const res = await axios.get(query);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 export const editBioProfile = async (data: any, accountId: string | null) => {
   const res = await axios.put(
     `${BASE_URL}lecturers/${accountId}/update`,

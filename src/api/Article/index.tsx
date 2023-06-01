@@ -66,3 +66,14 @@ export const deleteArticle = async (data: any) => {
     return handleError(error);
   }
 };
+
+export const getListArticleWithKeyword = async (data: any) => {
+  try {
+    const query = `${BASE_URL}/${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
+    const res = await axios.get(query);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};

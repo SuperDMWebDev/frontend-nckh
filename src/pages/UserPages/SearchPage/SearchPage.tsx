@@ -1,58 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Tab, Tabs } from 'react-bootstrap';
-import ClearIcon from '@mui/icons-material/Clear';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import SearchInput from '../../../components/User/SearchInput/SearchInput';
 import Styled from './style';
 import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
-import { SEARCH_OPTION } from '../../../constants/constant';
-import { getArticles } from '../../../api/Article';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { getListLecturers } from '../../../api/Lecturer';
-
-interface SEARCH_INPUT_TYPE {
-  value: string;
-  label: string;
-}
+import { getListArticleWithKeyword } from '../../../api/Article';
+import { getListLecturerWithKeyword } from '../../../api/Lecturer';
+import { SEARCH_OPTION } from '../../../constants/constant';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const typeSearch = location.state.searchOption;
-  console.log(location.state.searchOption);
 
-  const [searchInput, setSearchInput] = useState<string>(location.state);
-  const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
+  const [listArticles, setListArticles] = useState([]);
+  const [listAuthors, setListAuthors] = useState([]);
 
-  const [articleList, setArticleList] = useState([]);
-  const [lecturerList, setLecturerList] = useState([]);
+  const [currentSearch, setCurrentSearch] = useState<string>(location.state.searchOption.value);
 
-  function handleClickArticle() {
-    document.getElementById('detail_article')!.classList.add('detail_article_active');
-  }
+  const [navigate_searchOption, setNavigate_searchOption] = useState(location.state.searchOption);
+  const [navigate_searchInput, setNavigate_searchInput] = useState(location.state.searchInput);
 
-  function handleDeleteDetail() {
-    document.getElementById('detail_article')!.classList.remove('detail_article_active');
-  }
 
-  const handleSearchOption = (item: any) => {
-    setSearchOption(item);
+  const [openOption, setOpenOption] = useState(false);
+  let optionRef = useRef<HTMLDivElement>(null);
+
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      if (navigate_searchOption.label == "Article") {
+        const data = {
+          searchOption: "articles",
+          keyword: navigate_searchInput
+        }
+        fetchListArticle(data);
+        setCurrentSearch("article");
+      } else {
+        const data = {
+          searchOption: "lecturers",
+          keyword: navigate_searchInput
+        }
+        fetchListLectures(data);
+        setCurrentSearch("author");
+      }
+    }
   };
 
-  const fetchArticle = async () => {
-    const res = await getArticles();
+
+  const fetchListArticle = async (data: any) => {
+    console.log(data);
+    const res = await getListArticleWithKeyword(data);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data;
-          setArticleList(data);
+          setListArticles(data);
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -65,13 +71,13 @@ export default function SearchPage() {
     }
   };
 
-  const fetchLectures = async () => {
-    const res = await getListLecturers();
+  const fetchListLectures = async (data: any) => {
+    const res = await getListLecturerWithKeyword(data);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data;
-          setLecturerList(data);
+          setListAuthors(data);
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -85,8 +91,19 @@ export default function SearchPage() {
   };
 
   useEffect(() => {
-    fetchArticle();
-    fetchLectures();
+    if (navigate_searchOption.label == "Article") {
+      const data = {
+        searchOption: "articles",
+        keyword: navigate_searchInput
+      }
+      fetchListArticle(data);
+    } else {
+      const data = {
+        searchOption: "lecturers",
+        keyword: navigate_searchInput
+      }
+      fetchListLectures(data);
+    }
   }, []);
 
   const handleBackSearch = () => {
@@ -104,7 +121,7 @@ export default function SearchPage() {
             fontSize: '17px',
             margin: '12px',
             fontFamily: "Montserrat, sans-serif"
-          }}>{`${typeSearch.label.toUpperCase()}S SEARCH`}
+          }}>{`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
         </div>
 
         <div
@@ -115,14 +132,54 @@ export default function SearchPage() {
             height: "120px",
             justifyContent: 'center'
           }}>
-          <SearchInput />
+
+          <div className="searchContainer">
+            <input
+              type="text"
+              className="input_search"
+              placeholder="Search by name or keyword"
+              value={navigate_searchInput}
+              onChange={(e) => setNavigate_searchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <div className="searchOption">
+              <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
+                <div>{navigate_searchOption.label}</div>
+                <FontAwesomeIcon icon={faAngleDown} />
+              </div>
+              {openOption && (
+                <div className="searchOption_option" ref={optionRef}>
+                  {SEARCH_OPTION.map((item) => (
+                    <div
+                      className="searchOption_option_item"
+                      onClick={() => {
+                        setNavigate_searchOption(item);
+                        setOpenOption(false);
+                      }}>
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
-      {typeSearch.value !== "article" ? (
+      {currentSearch != "article" ? (
         <div className="center">
           <div className="list_article">
-            {lecturerList && lecturerList.map((item) => <AuthorCard data={item} />)}
+            {listAuthors ? listAuthors.map((item) => <AuthorCard data={item} />) : <>
+              <div
+                style={{
+                  fontSize: '14px',
+                  marginTop: '10px',
+                  fontStyle: 'italic',
+                  marginLeft: "-70px"
+                }}>
+                Không tìm thấy tác giả nào!
+              </div>
+            </>}
           </div>
         </div>
       ) : (
@@ -144,7 +201,17 @@ export default function SearchPage() {
             </div>
 
             <div className="list_article">
-              {articleList && articleList.map((item) => <ArticleCard data={item} />)}
+              {listArticles.length != 0 ? listArticles.map((item) => <ArticleCard data={item} />) : <>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    marginTop: '10px',
+                    fontStyle: 'italic',
+                    marginLeft: "-70px"
+                  }}>
+                  Không tìm thấy bài báo khoa học nào!
+                </div>
+              </>}
             </div>
           </div>
         </div>

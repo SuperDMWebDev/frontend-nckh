@@ -77,6 +77,11 @@ const NavBarUser = () => {
       </Styled>
     );
   }
+
+  const handleClickSearch = () => {
+    navigate('/search', { state: { searchInput: "", searchOption: { label: "Author", value: "author" } } });
+  }
+
   return (
     <Styled>
       <div className="container">
@@ -92,8 +97,13 @@ const NavBarUser = () => {
             <li>
               <a href="/">TRANG CHỦ</a>
             </li>
-            <li>
-              <a href="/search">TÌM KIẾM</a>
+            <li onClick={handleClickSearch} style={{
+              cursor: "pointer", color: "#959595",
+              position: "relative",
+              fontSize: "16px",
+              textDecoration: "none"
+            }}>
+              <a>TÌM KIẾM</a>
             </li>
             <li>
               <a href="/profile">BÀI BÁO CỦA TÔI</a>
