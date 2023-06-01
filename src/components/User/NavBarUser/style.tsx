@@ -18,6 +18,10 @@ const Styled = styled.div`
     }
   }
 
+  .navbar-tab li {
+    margin-left: 60px;
+  }
+
   ul {
     list-style: none;
     padding: 0;

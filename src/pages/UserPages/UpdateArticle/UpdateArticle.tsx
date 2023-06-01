@@ -253,6 +253,10 @@ const UpdateArticle = () => {
     fetchLecturer();
   }, []);
 
+  const handleGetAuthor = () => {
+
+  };
+
   return (
     <Styled>
       <div className="header_topbar">
