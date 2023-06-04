@@ -30,7 +30,9 @@ import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
+  const scopusId = localStorage.getItem('scopusId');
   const [role, setRole] = useState<string>(ROLE_USER.USER);
+  console.log(scopusId == 'null');
 
   return (
     <div>
@@ -39,31 +41,41 @@ const App = () => {
       <BrowserRouter>
         {role === 'user' ? (
           <div>
-            {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/signin" element={!isLogin ? (
-                <SignIn />
-              ) : (
-                <Navigate replace to="/" />
-              )} />
-              <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
-              <Route path="/profile" element={<Profile />}>
-                {/* <Route
+            {
+              scopusId !== 'null' ? <>
+                {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
+                <Routes>
+                  <Route path="/" element={<RetrieveScopusAuthor />} />
+                  <Route path="/*" element={<RetrieveScopusAuthor />} />
+                </Routes>
+              </> : <>
+                {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="/signin" element={!isLogin ? (
+                    <SignIn />
+                  ) : (
+                    <Navigate replace to="/" />
+                  )} />
+                  <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
+                  <Route path="/profile" element={<Profile />}>
+                    {/* <Route
                   index
                   path="/about"
                   
                 /> */}
-              </Route>
-              <Route path="/profile/edit" element={<EditProfileLecturer />} />
-              <Route path="/create-article" element={<CreateArticle />} />
-              <Route path="/update-article/:id" element={<UpdateArticle />} />
-              <Route path="/test" element={<EditProfile />} />
-              <Route path="/article-detail/:id" element={<ArticleDetail />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
-            </Routes>
+                  </Route>
+                  <Route path="/profile/edit" element={<EditProfileLecturer />} />
+                  <Route path="/create-article" element={<CreateArticle />} />
+                  <Route path="/update-article/:id" element={<UpdateArticle />} />
+                  <Route path="/test" element={<EditProfile />} />
+                  <Route path="/article-detail/:id" element={<ArticleDetail />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
+                </Routes>
+              </>
+            }
           </div>
         ) : (
           <Routes>

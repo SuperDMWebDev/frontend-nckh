@@ -260,6 +260,7 @@ const Styled = styled.div`
     border-radius: 20px;
     height: 60px;
     width: auto;
+    margin-bottom: 10px;
     cursor: pointer;
   }
 

@@ -26,6 +26,7 @@ import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEd
 import { toast } from 'react-toastify';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
+import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
 
 
 type Article = {
@@ -175,7 +176,7 @@ export default function LecturerDetail() {
                 <div className="profile">
                     <img
                         className="img-avatar"
-                        src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                        src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
                         alt=""
                     />
                     <div className="name-profile">{lecturer?.name}</div>
@@ -185,7 +186,18 @@ export default function LecturerDetail() {
                         <div>
                             <div className="field-profile-info">
                                 <PortraitIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{lecturer?.currentDisciplines[0].position}</span>
+                                <span style={{ marginLeft: '5px' }}>{
+                                    !lecturer?.currentDisciplines[0].position ? <>
+                                        <span
+                                            style={{
+                                                fontSize: '13px',
+                                                fontStyle: 'italic',
+                                                marginLeft: '1px'
+                                            }}>
+                                            Chưa cập nhật
+                                        </span>
+                                    </> : lecturer?.currentDisciplines[0].position
+                                }</span>
                             </div>
                             <div className="field-profile-info">
                                 <PlaceIcon style={{ fontSize: '20px' }} />
@@ -195,7 +207,18 @@ export default function LecturerDetail() {
                             </div>
                             <div className="field-profile-info">
                                 <WcIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{lecturer?.gender}</span>
+                                <span style={{ marginLeft: '5px' }}>{
+                                    !lecturer?.gender ? <>
+                                        <span
+                                            style={{
+                                                fontSize: '13px',
+                                                fontStyle: 'italic',
+                                                marginLeft: '1px'
+                                            }}>
+                                            Chưa cập nhật
+                                        </span>
+                                    </> : lecturer?.gender
+                                }</span>
                             </div>
                             <div className="field-profile-info">
                                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
@@ -285,34 +308,8 @@ export default function LecturerDetail() {
                                 </div>
                             </div>
 
-                            {/* <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">BẰNG CẤP</h2>
-                                    {lecturer?.degrees.map((degree: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={degree.id.toString()}>
-                                            <h4> <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> {degree.academicTitleName} ({degree.graduationDate.toString()}) { } {degree.graduationThesisName}</h4>
-                                            <p className='data_content'>
-                                                {degree.specialization}, {degree.universityName}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div> */}
-
                             <ModalEditDegree lecturer={lecturer} canEdit={false} />
-
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">THỜI GIAN CÔNG TÁC</h2>
-                                    {lecturer?.workPositions.map((workPosition: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={workPosition.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> {workPosition.fromDate.toString()}-{!workPosition.toDate ? "nay" : workPosition.toDate} - {workPosition.universityName ? workPosition.universityName : workPosition.company} - {workPosition.position}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                            <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
 
                             <div className="content-profile">
                                 <div className="main_content">

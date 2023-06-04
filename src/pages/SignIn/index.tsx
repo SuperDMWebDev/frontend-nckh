@@ -30,13 +30,15 @@ const SignIn = function () {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
         const {
-          data: { token, message, code, expire, accountId }
+          data: { token, message, code, expire, accountId, role, lecturerInfo }
         } = responseSignIn;
         if (code != 0) {
           toast.error(message);
         } else {
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
+          localStorage.setItem('scopusId', lecturerInfo.scopusId);
+          localStorage.setItem('role', role);
           toast.success(message);
           window.location.replace('http://localhost:5000/');
         }

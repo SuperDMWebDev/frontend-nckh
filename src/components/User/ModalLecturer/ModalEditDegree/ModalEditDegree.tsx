@@ -194,7 +194,7 @@ export default function ModalEditDegree(props: any) {
 
 
                     {
-                        lecturer?.books.length == 0 ? <>
+                        lecturer?.degrees == undefined ? <>
                             <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
                                 Chưa cập nhật.
                             </span>
