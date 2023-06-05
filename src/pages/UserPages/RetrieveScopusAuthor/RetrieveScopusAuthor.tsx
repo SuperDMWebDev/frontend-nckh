@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { toast } from 'react-toastify';
 import { getScopusAuthors } from '../../../api/Lecturer';
+import { retrieveScopusAccount } from '../../../api/Account';
 
 interface AuthorScopus {
   surname: string;
@@ -34,6 +35,8 @@ export default function RetrieveScopusAuthor() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const accountId = localStorage.getItem("accountId");
+
   const handleConfirm = () => {
     if (firstName == '' || lastName == '') {
       toast.error('Bạn chưa điền đầy đủ thông tin để xác nhận!');
@@ -54,11 +57,17 @@ export default function RetrieveScopusAuthor() {
     setLastName('');
     handleClose();
     setScopusAuthors([]);
-    toast.success('Xác nhận thành công!');
+    retrieveScopusAccount(accountId, scopusID);
+    toast.success("Xác nhận tài khoản Scopus thành công!")
+    localStorage.setItem("scopusId", scopusID);
+    setTimeout(() => {
+      window.location.replace("http://localhost:5000/");
+    }, 3000);
   };
 
   const handleChoose = () => {
     !scopusID ? toast.error('Vui lòng chọn tài khoản Scopus!') : handleOpen();
+    console.log(scopusID, accountId);
   };
 
   return (

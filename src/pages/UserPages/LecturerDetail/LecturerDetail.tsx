@@ -366,27 +366,44 @@ export default function LecturerDetail() {
                             <div className="content-profile">
                                 <div className="main_content">
                                     <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
-                                    {lecturer?.expertises.map((expertise: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
-                                            </p>
-                                        </div>
-                                    ))}
+                                    {
+                                        lecturer?.expertises == undefined ? <>
+                                            <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                                                Chưa cập nhật.
+                                            </span>
+                                        </> : <>
+                                            {lecturer?.expertises.map((expertise: any) => (
+                                                <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
+                                                    <p className='data_content' style={{ marginBottom: "-5px" }}>
+                                                        <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </>
+                                    }
                                 </div>
                             </div>
 
                             <div className="content-profile">
                                 <div className="main_content">
                                     <h2 className="title_content">HƯỚNG NGHIÊN CỨU</h2>
-                                    {lecturer?.researchFields.map((researchField: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={researchField.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span>{researchField.researchName}</span>
-                                                {researchField.note ? <span>({researchField.note})</span> : null}
-                                            </p>
-                                        </div>
-                                    ))}
+                                    {
+                                        lecturer?.researchFields == undefined ? <>
+                                            <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                                                Chưa cập nhật.
+                                            </span>
+                                        </> : <>
+                                            {lecturer?.researchFields.map((researchField: any) => (
+                                                <div style={{ marginBottom: "2px" }} key={researchField.id.toString()}>
+                                                    <p className='data_content' style={{ marginBottom: "-5px" }}>
+                                                        <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span>{researchField.researchName}</span>
+                                                        {researchField.note ? <span>({researchField.note})</span> : null}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </>
+                                    }
+
                                 </div>
                             </div>
 

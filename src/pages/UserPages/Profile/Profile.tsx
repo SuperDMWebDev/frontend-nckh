@@ -50,7 +50,7 @@ export default function Profile() {
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const accountId: string | null = localStorage.getItem('accountId');
+    const accountId = localStorage.getItem('accountId');
     const token = localStorage.getItem('accessToken');
     const [articleList, setArticleList] = useState<Article[]>();
     const [previewAvatar, setPreviewAvatar] = useState<string>("");
@@ -638,7 +638,7 @@ export default function Profile() {
                             </div>
                             <div className="content-profile">
                                 {articleList ? (
-                                    articleList['1'].map((item: any) => <ArticleCard data={item} />)
+                                    articleList[Number(accountId)].map((item: any) => <ArticleCard data={item} />)
                                 ) : (
                                     <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
                                         Chưa có bài báo khoa học nào.

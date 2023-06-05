@@ -179,7 +179,7 @@ export default function ModalEditWorkPosition(props: any) {
                 </Modal>
 
                 {
-                    lecturer?.degrees == undefined ? <>
+                    lecturer?.workPositions == undefined ? <>
                         <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
                             Chưa cập nhật.
                         </span>

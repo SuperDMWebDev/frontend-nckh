@@ -31,6 +31,7 @@ import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
   const scopusId = localStorage.getItem('scopusId');
+  const roleUser = localStorage.getItem('role');
   const [role, setRole] = useState<string>(ROLE_USER.USER);
   console.log(scopusId == 'null');
 
@@ -39,10 +40,10 @@ const App = () => {
       <ToastContainer {...defaultToastConfig} />
 
       <BrowserRouter>
-        {role === 'user' ? (
+        {roleUser !== '0' ? (
           <div>
             {
-              scopusId !== 'null' ? <>
+              scopusId == 'null' ? <>
                 {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
                 <Routes>
                   <Route path="/" element={<RetrieveScopusAuthor />} />

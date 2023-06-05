@@ -31,3 +31,15 @@ export const createAccount = async (account_create: any) => {
     }
   );
 };
+
+export const retrieveScopusAccount = async (accountId: any, scopusId: any) => {
+  const res = await axios.post(
+    `${BASE_URL}scopus/author/save`,
+    {
+      "data": {
+        "scopusAuthorId": scopusId,
+        "accountId": accountId
+      }
+    }
+  );
+};

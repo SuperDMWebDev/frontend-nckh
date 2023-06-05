@@ -29,6 +29,7 @@ const SignIn = function () {
     onSubmit: async (value) => {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
+        console.log(responseSignIn);
         const {
           data: { token, message, code, expire, accountId, role, lecturerInfo }
         } = responseSignIn;
@@ -37,8 +38,8 @@ const SignIn = function () {
         } else {
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
-          localStorage.setItem('scopusId', lecturerInfo.scopusId);
           localStorage.setItem('role', role);
+          !lecturerInfo ? localStorage.setItem('scopusId', 'null') : localStorage.setItem('scopusId', lecturerInfo.scopusId);
           toast.success(message);
           window.location.replace('http://localhost:5000/');
         }
