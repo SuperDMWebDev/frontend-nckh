@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/api/v1';
+import { BASE_URL } from '..';
 
 const token = localStorage.getItem('accessToken');
 
@@ -14,7 +14,7 @@ const handleError = (error: any) => {
 
 export const getArticles = async () => {
   try {
-    const query = `${BASE_URL}/articles/fetch?pageOffset=1&limitSize=10`;
+    const query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=10`;
     const res = await axios.get(query);
 
     return res;
@@ -25,7 +25,7 @@ export const getArticles = async () => {
 
 export const getArticlesOfLecturers = async (data: any) => {
   try {
-    const query = `${BASE_URL}/articles/fetch-all`;
+    const query = `${BASE_URL}articles/fetch-all`;
     const res = await axios.post(query, data);
 
     return res;
@@ -36,7 +36,7 @@ export const getArticlesOfLecturers = async (data: any) => {
 
 export const getDetailArticle = async (id: any) => {
   try {
-    const query = `${BASE_URL}/articles/detail/${id}`;
+    const query = `${BASE_URL}articles/detail/${id}`;
     const res = await axios.get(query);
 
     return res;
@@ -47,7 +47,7 @@ export const getDetailArticle = async (id: any) => {
 
 export const createArticle = async (data: any) => {
   try {
-    const query = `${BASE_URL}/articles/create`;
+    const query = `${BASE_URL}articles/create`;
     const res = await axios.post(query, data);
 
     return res;
@@ -58,7 +58,7 @@ export const createArticle = async (data: any) => {
 
 export const updateArticle = async (data: any, id: any) => {
   try {
-    const query = `${BASE_URL}/articles/${id}/update`;
+    const query = `${BASE_URL}articles/${id}/update`;
     const res = await axios.put(query, data);
 
     return res;
@@ -69,7 +69,7 @@ export const updateArticle = async (data: any, id: any) => {
 
 export const deleteArticle = async (data: any) => {
   try {
-    const query = `${BASE_URL}/articles/delete`;
+    const query = `${BASE_URL}articles/delete`;
     const res = await axios.delete(query, data);
 
     return res;
@@ -80,7 +80,12 @@ export const deleteArticle = async (data: any) => {
 
 export const getListArticleWithKeyword = async (data: any) => {
   try {
-    const query = `${BASE_URL}/${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
+    var query = '';
+    if (data.keyword !== '') {
+      query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
+    } else {
+      query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=10`;
+    }
     const res = await axios.get(query);
 
     return res;
