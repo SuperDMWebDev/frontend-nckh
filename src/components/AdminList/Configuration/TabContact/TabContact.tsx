@@ -116,8 +116,19 @@ const TabContact: React.FC = () => {
             }
         } else {
             const dataUpdate: DataType = { id: id, name: name };
-            updateContactType(dataUpdate);
-            getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+            if (dataUpdate.name === '') {
+                toast.error('Bạn chưa nhập liên hệ!');
+            } else {
+                updateContactType(dataUpdate).then((code) => {
+                    if (code === 0) {
+                        toast.success('Cập nhật liên hệ thành công!');
+                    } else {
+                        toast.error('Cập nhật liên hệ thất bại!');
+                    }
+                    getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+                    setOpen(false);
+                });
+            }
         }
     };
     const onDelete = () => {
