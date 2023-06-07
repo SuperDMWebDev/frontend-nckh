@@ -4,9 +4,11 @@ const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
 export interface DataResponse {
   code: number;
   message: string;
-  token?: string;
+  token: string;
   expire: string;
   accountId: string;
+  role: string;
+  lecturerInfo: any;
 }
 export interface Response {
   status: number;

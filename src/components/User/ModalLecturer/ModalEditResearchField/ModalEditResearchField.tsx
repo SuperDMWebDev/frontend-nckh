@@ -61,23 +61,31 @@ export default function ModalEditResearchField(props: any) {
                         cursor: "pointer"
                     }} />
                 </div> : null}
-                {lecturer?.researchFields.map((researchField: any) => (
-                    <div style={{ marginBottom: '2px' }} key={researchField.id.toString()}>
-                        <p className="data_content" style={{ marginBottom: '-5px' }}>
+                {
+                    lecturer?.researchFields == undefined ? <>
+                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                            Chưa cập nhật.
+                        </span>
+                    </> : <>
+                        {lecturer?.researchFields.map((researchField: any) => (
+                            <div style={{ marginBottom: '2px' }} key={researchField.id.toString()}>
+                                <p className="data_content" style={{ marginBottom: '-5px' }}>
 
-                            <div className="card_book">
-                                {canEdit ? <div className='btn-edit-card'
-                                    onClick={() => handleEditCard(researchField)}
-                                    style={{ top: "15px" }}
-                                ><ModeEditOutlineIcon /></div>
-                                    : null}
-                                <FiberManualRecordIcon style={{ fontSize: '9px', textAlign: 'center' }} />{' '}
-                                <span>{researchField.researchName}</span>
-                                {researchField.note ? <span>({researchField.note})</span> : null}
+                                    <div className="card_book">
+                                        {canEdit ? <div className='btn-edit-card'
+                                            onClick={() => handleEditCard(researchField)}
+                                            style={{ top: "15px" }}
+                                        ><ModeEditOutlineIcon /></div>
+                                            : null}
+                                        <FiberManualRecordIcon style={{ fontSize: '9px', textAlign: 'center' }} />{' '}
+                                        <span>{researchField.researchName}</span>
+                                        {researchField.note ? <span>({researchField.note})</span> : null}
+                                    </div>
+                                </p>
                             </div>
-                        </p>
-                    </div>
-                ))}
+                        ))}
+                    </>
+                }
             </div>
 
             <Modal

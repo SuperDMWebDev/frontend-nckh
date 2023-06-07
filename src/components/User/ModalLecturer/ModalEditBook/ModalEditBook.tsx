@@ -123,9 +123,9 @@ export default function ModalEditBook(props: any) {
 
 
                     {
-                        lecturer?.books.length == 0 ? <>
+                        lecturer?.books == undefined ? <>
                             <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                Chưa có bài báo khoa học nào.
+                                Chưa cập nhật.
                             </span>
                         </> : <>
                             {lecturer?.books.map((book: any) => (

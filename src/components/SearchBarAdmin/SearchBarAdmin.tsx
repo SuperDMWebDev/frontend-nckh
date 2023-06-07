@@ -5,6 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Styled from './style';
+import { useNavigate } from 'react-router-dom';
 
 import user from '../../assets/user.png';
 import edit from '../../assets/edit.png';
@@ -60,9 +61,23 @@ interface DropdownType {
 }
 
 function DropdownItem(props: DropdownType) {
+  const navigate = useNavigate();
+  const handleChange = (value: string) => {
+    if (value == 'MyProfile') {
+      navigate('/profile');
+    } else if (value == 'Retrieve Scopus Author') {
+      navigate('/retrieve-scopus-author');
+    } else if (value == 'Logout') {
+      localStorage.removeItem("accountId");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("scopusId");
+      localStorage.removeItem("role");
+      window.location.replace("http://localhost:5000/");
+    }
+  };
   return (
     <Styled>
-      <li className="dropdownItem" value={props.value} onClick={() => console.log('clicked')}>
+      <li className="dropdownItem" value={props.value} onClick={() => handleChange(props.value)}>
         <img src={props.img} alt="" />
         <a>{props.text}</a>
       </li>
@@ -107,12 +122,14 @@ export default function SearchBarAdmin() {
               setOpen(!open);
             }}>
             <div className="menu-trigger__space"></div>
-            <img src="https://i.pravatar.cc/" />
+            <img src="https://api-private.atlassian.com/users/4e82de5e94dd5920587675a761d71b25/avatar" style={{
+
+            }} />
           </div>
 
           <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-            <h3>User Admin</h3>
-            <div className="dropdown-menu__subTitle">Website Designer</div>
+            <h3>Admin</h3>
+            <div className="dropdown-menu__subTitle">Trang quản lý</div>
             <ul>
               <DropdownItem img={user} text={'My Profile'} value={'MyProfile'} />
               <DropdownItem img={edit} text={'Edit Profile'} value={'EditProfile'} />

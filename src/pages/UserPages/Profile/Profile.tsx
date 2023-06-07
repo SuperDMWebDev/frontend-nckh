@@ -24,10 +24,11 @@ import { editAvatarProfile } from '../../../api/Lecturer';
 import { editNameProfile } from '../../../api/Lecturer';
 import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
 import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
-import { toast } from 'react-toastify';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
+import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
+import { toast } from 'react-toastify';
 
 
 type Article = {
@@ -49,9 +50,10 @@ export default function Profile() {
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const accountId: string | null = localStorage.getItem('accountId');
+    const accountId = localStorage.getItem('accountId');
     const token = localStorage.getItem('accessToken');
     const [articleList, setArticleList] = useState<Article[]>();
+    const [previewAvatar, setPreviewAvatar] = useState<string>("");
 
     const fetchArticle = async () => {
         let param = {
@@ -87,6 +89,7 @@ export default function Profile() {
         data
             .then((result) => {
                 setLecturer(result);
+                setPreviewAvatar(result.avatar);
                 result.workPositions.map((workPosition: any) => {
                     workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
                 });
@@ -177,6 +180,7 @@ export default function Profile() {
         setTimeout(() => {
             setLoading(false);
             setOpenEditProfile(false);
+            window.location.reload();
         }, 3000);
     };
 
@@ -194,10 +198,9 @@ export default function Profile() {
 
     const onCrop = (view: string) => {
         console.log(view);
-        editAvatarProfile(view, accountId);
+        setPreviewAvatar(view);
+        editAvatarProfile(lecturer, view, accountId);
     };
-
-    const [isToast, setIsToast] = useState<Boolean>(false);
 
     const handleSaveName = () => {
         editNameProfile(lecturer, newName, accountId);
@@ -237,7 +240,7 @@ export default function Profile() {
                 <div className="profile">
                     <img
                         className="img-avatar"
-                        src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                        src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
                         alt=""
                     />
                     <div className="name-profile">{lecturer?.name}</div>
@@ -247,7 +250,18 @@ export default function Profile() {
                         <div>
                             <div className="field-profile-info">
                                 <PortraitIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{lecturer?.currentDisciplines[0].position}</span>
+                                <span style={{ marginLeft: '5px' }}>{
+                                    !lecturer?.currentDisciplines[0].position ? <>
+                                        <span
+                                            style={{
+                                                fontSize: '13px',
+                                                fontStyle: 'italic',
+                                                marginLeft: '1px'
+                                            }}>
+                                            Chưa cập nhật
+                                        </span>
+                                    </> : lecturer?.currentDisciplines[0].position
+                                }</span>
                             </div>
                             <div className="field-profile-info">
                                 <PlaceIcon style={{ fontSize: '20px' }} />
@@ -257,7 +271,18 @@ export default function Profile() {
                             </div>
                             <div className="field-profile-info">
                                 <WcIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{lecturer?.gender}</span>
+                                <span style={{ marginLeft: '5px' }}>{
+                                    !lecturer?.gender ? <>
+                                        <span
+                                            style={{
+                                                fontSize: '13px',
+                                                fontStyle: 'italic',
+                                                marginLeft: '1px'
+                                            }}>
+                                            Chưa cập nhật
+                                        </span>
+                                    </> : lecturer?.gender
+                                }</span>
                             </div>
                             <div className="field-profile-info">
                                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
@@ -388,13 +413,13 @@ export default function Profile() {
                                 <div className='content'>
                                     <img
                                         className="img-avatar-edit"
-                                        src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                                        src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : previewAvatar}
                                         alt=""
                                     />
                                 </div>
 
                                 <Modal
-                                    title="Chỉnh sửa thông tin tiểu sử"
+                                    title="Thay đổi ảnh đại diện"
                                     centered
                                     open={openEditAvatarModal}
                                     onOk={() => setOpenEditAvatarModal(false)}
@@ -421,7 +446,18 @@ export default function Profile() {
                                         <div>
                                             <div className="field-profile-info">
                                                 <PortraitIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{lecturer?.currentDisciplines[0].position}</span>
+                                                <span style={{ marginLeft: '5px' }}>{
+                                                    !lecturer?.currentDisciplines[0].position ? <>
+                                                        <span
+                                                            style={{
+                                                                fontSize: '13px',
+                                                                fontStyle: 'italic',
+                                                                marginLeft: '1px'
+                                                            }}>
+                                                            Chưa cập nhật
+                                                        </span>
+                                                    </> : lecturer?.currentDisciplines[0].position
+                                                }</span>
                                             </div>
                                             <div className="field-profile-info">
                                                 <PlaceIcon style={{ fontSize: '24px' }} />
@@ -431,7 +467,18 @@ export default function Profile() {
                                             </div>
                                             <div className="field-profile-info">
                                                 <WcIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{lecturer?.gender}</span>
+                                                <span style={{ marginLeft: '5px' }}>{
+                                                    !lecturer?.gender ? <>
+                                                        <span
+                                                            style={{
+                                                                fontSize: '13px',
+                                                                fontStyle: 'italic',
+                                                                marginLeft: '1px'
+                                                            }}>
+                                                            Chưa cập nhật
+                                                        </span>
+                                                    </> : lecturer?.gender
+                                                }</span>
                                             </div>
                                             <div className="field-profile-info">
                                                 <CalendarMonthIcon style={{ fontSize: '24px' }} />
@@ -514,7 +561,7 @@ export default function Profile() {
                                         ) : null}
                                     </div>
                                     <p className="data_content">
-                                        {bio == '' ? (
+                                        {bio == '' || bio == null || bio == 'null' ? (
                                             <p
                                                 style={{
                                                     fontSize: '13px',
@@ -569,34 +616,8 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            {/* <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">BẰNG CẤP</h2>
-                                    {lecturer?.degrees.map((degree: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={degree.id.toString()}>
-                                            <h4> <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> {degree.academicTitleName} ({degree.graduationDate.toString()}) { } {degree.graduationThesisName}</h4>
-                                            <p className='data_content'>
-                                                {degree.specialization}, {degree.universityName}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div> */}
-
                             <ModalEditDegree lecturer={lecturer} canEdit={true} />
-
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">THỜI GIAN CÔNG TÁC</h2>
-                                    {lecturer?.workPositions.map((workPosition: any) => (
-                                        <div style={{ marginBottom: "2px" }} key={workPosition.id.toString()}>
-                                            <p className='data_content' style={{ marginBottom: "-5px" }}>
-                                                <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> {workPosition.fromDate.toString()}-{!workPosition.toDate ? "nay" : workPosition.toDate} - {workPosition.universityName ? workPosition.universityName : workPosition.company} - {workPosition.position}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                            <ModalEditWorkPosition lecturer={lecturer} canEdit={true} />
 
                             <div className="content-profile">
                                 <div className="main_content">
@@ -617,7 +638,7 @@ export default function Profile() {
                             </div>
                             <div className="content-profile">
                                 {articleList ? (
-                                    articleList['1'].map((item: any) => <ArticleCard data={item} />)
+                                    articleList[Number(accountId)].map((item: any) => <ArticleCard data={item} />)
                                 ) : (
                                     <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
                                         Chưa có bài báo khoa học nào.

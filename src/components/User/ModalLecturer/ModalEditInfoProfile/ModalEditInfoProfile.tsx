@@ -11,7 +11,7 @@ export default function ModalEditInfoProfile(props: any) {
 
     const [newUniversity, setNewUniversity] = useState<string>("1");
     const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>(lecturer?.currentDisciplines[0].position);
-    const [newGender, setNewGender] = useState<string>(lecturer?.gender);
+    const [newGender, setNewGender] = useState<string>("Nam");
     const [newDateOfBirth, setNewDateOfBirth] = useState<string>(lecturer?.dateOfBirth);
     const [newDepartmentName, setNewDepartmentName] = useState<string>(lecturer?.currentDisciplines[0].departmentName);
     const [newEmail, setNewEmail] = useState<string>();
@@ -21,15 +21,17 @@ export default function ModalEditInfoProfile(props: any) {
     const [contactTypes, setContactTypes] = useState<any>([]);
 
     useEffect(() => {
-        lecturer.contacts.map((contact: any) => {
-            if (contact.contactTypeName == "phone") {
-                setNewPhone(contact.value);
-            } else if (contact.contactTypeName == "address") {
-                setNewAddress(contact.value);
-            } else if (contact.contactTypeName == "email") {
-                setNewEmail(contact.value);
-            }
-        });
+        if (lecturer.contacts !== undefined) {
+            lecturer.contacts.map((contact: any) => {
+                if (contact.contactTypeName == "phone") {
+                    setNewPhone(contact.value);
+                } else if (contact.contactTypeName == "address") {
+                    setNewAddress(contact.value);
+                } else if (contact.contactTypeName == "email") {
+                    setNewEmail(contact.value);
+                }
+            });
+        }
 
         const university = getAllUniversity();
         university.then((res) => {

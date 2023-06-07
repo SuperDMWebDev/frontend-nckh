@@ -12,14 +12,13 @@ import ModalTeacher from '../ModalTeacher';
 import Loader from '../../Loader/Loader';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
+import { signup } from '../../../api/Account';
+import { getListLecturers } from '../../../api/Lecturer';
 
 interface DataType {
-  key: number;
+  stt: number;
   name: string;
-  university: string;
-  email: string;
-  age: number;
-  address: string;
+  currentPosition: string;
 }
 
 type DataIndex = keyof DataType;
@@ -27,12 +26,9 @@ type DataIndex = keyof DataType;
 const data: DataType[] = [];
 for (let i = 0; i < 46; i++) {
   data.push({
-    key: i,
+    stt: i,
     name: `Member. ${i}`,
-    university: 'University of Science',
-    email: `member${i}@gmail.com`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`
+    currentPosition: 'string'
   });
 }
 
@@ -49,26 +45,31 @@ const items: MenuProps['items'] = [
   }
 ];
 
+type Lecturer = {
+  [key: string]: any; // 👈️ variable key
+  name: string;
+};
+
 const ListTeacher: React.FC = () => {
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef<InputRef>(null);
-    const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef<InputRef>(null);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-    }, [])
-    const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }, [])
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-    }, [])
-  
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }, [])
+
 
 
   const handleSearch = (
@@ -151,47 +152,32 @@ const ListTeacher: React.FC = () => {
 
   const columns: ColumnsType<DataType> = [
     {
+      title: 'STT',
+      dataIndex: 'stt',
+      key: 'stt',
+      width: '10%',
+      ...getColumnSearchProps('stt')
+    },
+    {
       title: 'Họ và tên',
       dataIndex: 'name',
       key: 'name',
-      width: '20%',
+      width: '30%',
       ...getColumnSearchProps('name'),
-      onCell: () => {
-        return {
-          onClick: (ev) => {
-            navigate('/detail-page');
-          }
-        };
-      }
+      // onCell: () => {
+      //   return {
+      //     onClick: (e) => {
+      //       navigate('/detail-page');
+      //     }
+      //   };
+      // }
     },
     {
-      title: 'Tuổi',
-      dataIndex: 'age',
-      key: 'age',
-      width: '5%',
-      ...getColumnSearchProps('age')
-    },
-    {
-      title: 'Đơn vị công tác',
-      dataIndex: 'university',
-      key: 'university',
-      width: '25%',
-      ...getColumnSearchProps('age')
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      width: '20%',
-      ...getColumnSearchProps('age')
-    },
-    {
-      title: 'Địa chỉ',
-      dataIndex: 'address',
-      key: 'address',
-      ...getColumnSearchProps('address'),
-      sorter: (a, b) => a.address.length - b.address.length,
-      sortDirections: ['descend', 'ascend']
+      title: 'Vị trí hiện tại',
+      dataIndex: 'currentPosition',
+      key: 'currentPosition',
+      width: '60%',
+      ...getColumnSearchProps('currentPosition')
     },
     {
       title: '',
@@ -199,7 +185,7 @@ const ListTeacher: React.FC = () => {
       key: 'x',
       width: '3%',
       render: (text, record) => (
-        <div style={{ cursor: 'pointer' }} onClick={() => console.log(record.key, text)}>
+        <div style={{ cursor: 'pointer' }} onClick={() => console.log(record.stt, text)}>
           <Dropdown menu={{ items }}>
             <MoreOutlined />
           </Dropdown>
@@ -208,35 +194,69 @@ const ListTeacher: React.FC = () => {
     }
   ];
 
-    return <>
-        {
-            loading ? <Loader /> : <div>
-                <div className='header_table'>
-                    <span className='title_table'>Danh sách người dùng</span>
-                    <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
-                </div>
+  const [email, setEmail] = useState<string>("");
+  const [lecturerList, setLecturerList] = useState<Lecturer>();
+  const handleeOk = () => {
+    signup(email);
+    setOpen(false);
+    window.location.reload();
+  }
 
-                <Table
-                    pagination={{ pageSize: 7 }}
-                    columns={columns}
-                    dataSource={data}
-                    rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                />
+  const dataAuthor = lecturerList?.map((item: Lecturer, index: number) => {
+    return {
+      stt: index + 1,
+      name: item.name,
+      currentPosition: item.currentDisciplines[0].universityName
+    }
+  });
 
-                <Modal
-                    className='title_modal'
-                    title="Add Teacher"
-                    centered
-                    open={open}
-                    onOk={() => setOpen(false)}
-                    onCancel={() => setOpen(false)}
-                    width={800}
-                >
-                    <ModalTeacher />
-                </Modal>
-            </div>
-        }
-    </>
+  console.log(dataAuthor);
+
+  useEffect(() => {
+    const data: Promise<Lecturer> = getListLecturers();
+    data
+      .then((result) => {
+        setLecturerList(result.data.data);
+      })
+      .catch((err) => console.log("Can't get data lecturer: ", err));
+  }, []);
+
+  console.log(lecturerList);
+
+  return <>
+    {
+      loading ? <Loader /> : <div>
+        <div className='header_table'>
+          <span className='title_table' style={{
+            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+          }}>Danh sách người dùng</span>
+          <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+        </div>
+
+        <Table
+          pagination={{ pageSize: 7 }}
+          columns={columns}
+          dataSource={dataAuthor}
+          rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
+        />
+
+        <Modal
+          className='title_modal'
+          title="Tạo tài khoản mới"
+          centered
+          open={open}
+          onOk={handleeOk}
+          onCancel={() => setOpen(false)}
+          width={800}
+        >
+          <div className='form-input-add'>
+            <label className='label-input-add'>Email</label>
+            <input type="text" className="email-input-add" placeholder='Nhập email ...' onChange={(e) => setEmail(e.target.value)} />
+          </div>
+        </Modal>
+      </div>
+    }
+  </>
 };
 
 export default ListTeacher;

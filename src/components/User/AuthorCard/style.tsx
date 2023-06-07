@@ -5,10 +5,30 @@ const Styled = styled.div`
     display: flex;
     gap: 20px;
 
-    max-width: 700px;
+    max-width: 750px;
     padding: 20px 0;
     border-top: 1px solid #e5e5e5;
+    padding: 20px 20px;
     cursor: pointer;
+    transition: all 0.5s;
+    user-select: none;
+    font-weight: bolder;
+
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+
+    padding-top: 30px;
+    padding-bottom: 20px;
+    background: #ffffff;
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .container:hover {
+    background-color: #caebff;
   }
 
   .name {

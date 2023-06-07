@@ -110,7 +110,7 @@ export default function Settings() {
   const onCrop = (view: string) => {
     console.log(view);
     setAvatar(view);
-    editAvatarProfile(view, accountId);
+    //editAvatarProfile(view, accountId);
   };
 
   const onOk = () => {
