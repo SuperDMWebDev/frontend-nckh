@@ -84,6 +84,11 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/admin" element={<Admin />}>
             </Route>
+            <Route path="/" element={!isLogin ? (
+              <SignIn />
+            ) : (
+              <Navigate replace to="/admin" />
+            )} />
             <Route path='/admin/create' element={<CreateLecturer />} />
             <Route path="/home-page" element={<ResearchHomepage />} />
             <Route path="/detail-page" element={<DetailPage />} />
