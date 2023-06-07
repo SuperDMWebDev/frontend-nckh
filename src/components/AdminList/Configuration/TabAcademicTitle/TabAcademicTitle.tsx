@@ -114,8 +114,19 @@ const TabAcademicTitle: React.FC = () => {
       }
     } else {
       const dataUpdate: DataType = { id: id, name: name };
-      updateAcademicTitle(dataUpdate);
-      getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+      if (dataUpdate.name === '') {
+        toast.error('Bạn chưa nhập liên hệ!');
+      } else {
+        updateAcademicTitle(dataUpdate).then((code) => {
+          if (code === 0) {
+            toast.success('Cập nhật liên hệ thành công!');
+          } else {
+            toast.error('Cập nhật liên hệ thất bại!');
+          }
+          getAllAcademicTitles().then((academicTitles) => setAcademicTitles(academicTitles));
+          setOpen(false);
+        });
+      }
     }
   };
   const onDelete = () => {
@@ -331,24 +342,24 @@ const TabAcademicTitle: React.FC = () => {
             </Form>
           </Modal>
           <Modal
-                    className='title_modal'
-                    centered
-                    open={openDel}
-                    onOk={() => setOpenDel(false)}
-                    onCancel={handleCancel}
-                    width={500}
-                    destroyOnClose
-                    footer={[
-                        <Button type="primary" htmlType="submit" onClick={onDelete}>
-                            Có
-                        </Button>,
-                        <Button className='btn-cancel' key="back" onClick={handleCancel}>
-                            Không
-                        </Button>
-                    ]}
-                >
-                    Bạn có chắc muốn xóa học vị này không?
-                </Modal>
+            className='title_modal'
+            centered
+            open={openDel}
+            onOk={() => setOpenDel(false)}
+            onCancel={handleCancel}
+            width={500}
+            destroyOnClose
+            footer={[
+              <Button type="primary" htmlType="submit" onClick={onDelete}>
+                Có
+              </Button>,
+              <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                Không
+              </Button>
+            ]}
+          >
+            Bạn có chắc muốn xóa học vị này không?
+          </Modal>
         </>
       }
     </>

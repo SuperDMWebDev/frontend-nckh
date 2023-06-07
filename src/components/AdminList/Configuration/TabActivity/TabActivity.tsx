@@ -116,8 +116,19 @@ const TabActivity: React.FC = () => {
             }
         } else {
             const dataUpdate: DataType = { id: id, name: name };
-            updateActivity(dataUpdate);
-            getAllActivities().then((activities) => setActivities(activities));
+            if (dataUpdate.name === '') {
+                toast.error('Bạn chưa nhập liên hệ!');
+            } else {
+                updateActivity(dataUpdate).then((code) => {
+                    if (code === 0) {
+                        toast.success('Cập nhật liên hệ thành công!');
+                    } else {
+                        toast.error('Cập nhật liên hệ thất bại!');
+                    }
+                    getAllActivities().then((activities) => setActivities(activities));
+                    setOpen(false);
+                });
+            }
         }
     };
     const onDelete = () => {
