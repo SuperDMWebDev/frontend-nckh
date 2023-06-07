@@ -114,8 +114,19 @@ const TabAcademicRank: React.FC = () => {
       }
     } else {
       const dataUpdate: DataType = { id: id, name: name };
-      updateAcademicRank(dataUpdate);
-      getAllAcademicRanks().then((academicRanks) => setAcademicRanks(academicRanks));
+      if (dataUpdate.name === '') {
+        toast.error('Bạn chưa nhập liên hệ!');
+      } else {
+        updateAcademicRank(dataUpdate).then((code) => {
+          if (code === 0) {
+            toast.success('Cập nhật liên hệ thành công!');
+          } else {
+            toast.error('Cập nhật liên hệ thất bại!');
+          }
+          getAllAcademicRanks().then((academicRanks) => setAcademicRanks(academicRanks));
+          setOpen(false);
+        });
+      }
     }
   };
   const onDelete = () => {

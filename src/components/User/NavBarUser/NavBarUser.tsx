@@ -58,6 +58,9 @@ const NavBarUser = () => {
       if (value == 'MyProfile') {
         navigate('/profile');
         setOpen(false);
+      } else if (value == 'Settings') {
+        navigate('/settings');
+        setOpen(false);
       } else if (value == 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
         setOpen(false);

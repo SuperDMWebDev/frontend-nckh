@@ -19,13 +19,10 @@ const Styled = styled.div`
     padding: 0 2px;
     text-align: right;
   }
-  .title::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: black;
-    margin-top: 2px;
+  // 
+  
+  .account-content {
+    margin: auto 0;
   }
   
   .header_topbar {
