@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://backend-nckh-81dr.onrender.com/api/v1/';
+export const BASE_URL = 'https://backend-nckh2.onrender.com';
