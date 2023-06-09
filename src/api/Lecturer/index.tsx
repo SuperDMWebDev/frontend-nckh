@@ -60,7 +60,7 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
       name: data.name,
       gender: data.gender,
       avatar: data.avatar,
-      dateOfBirth: data.dateOfBirth,
+      dateOfBirth: '04/05/1979',
       bio: data.bio,
       academicRankId: data.academicRankId,
       academicRankGainYear: data.academicRankGainYear,
@@ -258,6 +258,37 @@ export const editDegree = async (lecturer: any, data: any, accountId: string | n
   });
 };
 
+export const editWorkPosition = async (lecturer: any, data: any, accountId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      workPositions: [
+        {
+          id: data.id,
+          update: true,
+          universityId: 3,
+          position: data.position,
+          fromDate: data.fromDate,
+          toDate: data.toDate,
+          isNow: data.isNow
+        }
+      ]
+    }
+  });
+};
+
 export const updateBook = async (lecturer: any, book: any, accountId: string | null) => {
   const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
     headers: {
@@ -425,13 +456,26 @@ export const createLecturer = async (data: any) => {
   });
 };
 
-export const editAvatarProfile = async (AvatarURL: string, accountId: string | null) => {
+export const editAvatarProfile = async (
+  lecturer: any,
+  AvatarURL: string,
+  accountId: string | null
+) => {
   const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
     data: {
-      avatar: `${AvatarURL}`
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: `${AvatarURL}`,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear
     }
   });
 };

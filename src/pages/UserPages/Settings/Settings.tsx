@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Styled from './style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -9,6 +9,10 @@ import { Button, Modal } from 'antd';
 import ModalSetting from './ModalSetting/ModalSetting';
 import axios from 'axios';
 import { getAllAccounts } from '../../../api/Account';
+import Avatar from 'react-avatar-edit';
+import { editAvatarProfile, getAllLecturers } from '../../../api/Lecturer';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { toast } from 'react-toastify';
 
 const AvatarBtn = styled('button')(({ }) => ({
   width: '155px',
@@ -57,16 +61,27 @@ export default function Settings() {
   const BASE_URL = 'http://localhost:8080/api/v1/';
   const token = localStorage.getItem('accessToken');
 
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState<string>('account');
   const [openInfo, setOpenInfo] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [avatar, setAvatar] = useState('123');
+  const [avatar, setAvatar] = useState('');
+  const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
+  const accountId: string | null = localStorage.getItem('accountId');
 
-  const handleTab1 = () => {
-    setCurrentTab(1);
-    document.getElementById('1')?.classList.add('tab-selected');
+  const handleTab = (event: SyntheticEvent) => {
+    const idChosen: string = event.currentTarget.id;
+    setCurrentTab(idChosen);
+    document.getElementById(idChosen)?.classList.add('tab-selected');
+
+    const tabs = document.getElementsByClassName('content_tab_name');
+    for (let i = 0; i < tabs.length; i++) {
+      const tabId = tabs[i].id;
+      if (tabId !== idChosen) {
+        document.getElementById(tabId)?.classList.remove('tab-selected');
+      }
+    }
   };
 
   useEffect(() => {
@@ -87,30 +102,23 @@ export default function Settings() {
       value: 'password'
     }
   ];
-  const listItems = listLabel.map((item, index) => (
-    <div className="info" key={index}>
-      <h3>{item.label}:</h3>
-      <p>{item.value}</p>
-    </div>
-  ));
-
-  // const handleTab2 = () => {
-  //     setCurrentTab(2);
-  //     document.getElementById('2')?.classList.add('tab-selected');
-  //     document.getElementById('1')?.classList.remove('tab-selected');
-  //     document.getElementById('3')?.classList.remove('tab-selected');
-  // };
-
-  // const handleTab3 = () => {
-  //     setCurrentTab(3);
-  //     document.getElementById('3')?.classList.add('tab-selected');
-  //     document.getElementById('1')?.classList.remove('tab-selected');
-  //     document.getElementById('2')?.classList.remove('tab-selected');
-  // };
 
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
   };
+
+  const onCrop = (view: string) => {
+    console.log(view);
+    setAvatar(view);
+    //editAvatarProfile(view, accountId);
+  };
+
+  const onOk = () => {
+    if (avatar !== '') {
+      toast.success('Thêm ảnh thành công!')
+    }
+    setOpenEditAvatarModal(false);
+  }
 
   return (
     <Styled>
@@ -124,36 +132,53 @@ export default function Settings() {
           <ul className="side_tab">
             <li className="content_tab">
               <AccountCircleIcon />
-              <div id="1" className="content_tab_name" onClick={handleTab1}>
+              <div id="account" className="content_tab_name tab-selected" onClick={handleTab}>
                 Tài khoản
               </div>
             </li>
           </ul>
         </div>
+
         <div>
-          {currentTab === 1 ? (
+          {currentTab === 'account' ? (
             <>
               <div className="content-settings">
                 <div className="main_content row">
                   <div className="avatar col-4">
-                    <AvatarBtn>
-                      {/* <CameraAltOutlinedIcon />
-                      <p>Thêm ảnh</p> */}
+                    <AvatarBtn onClick={() => setOpenEditAvatarModal(true)}>
                       {avatar === '' ? (
                         <div>
                           <CameraAltOutlinedIcon />
                           <p>Thêm ảnh</p>
                         </div>
                       ) : (
-                        <div className='avatar-image' style={{ backgroundImage: `url('https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1')`,
-                        backgroundSize: 'cover', width: '100%', height: '100%', borderRadius: '50%' }}></div>
+                        <div className='avatar-image' style={{
+                          backgroundImage: `url(${avatar})`,
+                          backgroundSize: 'cover', width: '100%', height: '100%', borderRadius: '50%'
+                        }}></div>
                       )}
                     </AvatarBtn>
+
+                    <Modal
+                      title="Chỉnh sửa ảnh đại diện"
+                      centered
+                      open={openEditAvatarModal}
+                      onOk={onOk}
+                      onCancel={() => setOpenEditAvatarModal(false)}
+                      width={700}
+                      className="modalStyle"
+                    >
+                      <Avatar
+                        width={400}
+                        height={300}
+                        onCrop={onCrop}
+                      />
+                    </Modal>
                   </div>
 
                   <div className="account-content col-8">
                     <div className="details">
-                      <div className="title">
+                      {/* <div className="title">
                         <button className="btn btn-edit" onClick={() => setOpenInfo(true)}>
                           <BorderColorSharpIcon />
                           <p>Edit</p>
@@ -174,13 +199,32 @@ export default function Settings() {
                           ]}>
                           <ModalSetting />
                         </Modal>
+                      </div> */}
+
+                      <div className="details-info">
+                        <div className="info">
+                          <h3>Email: </h3>
+                          <p>email</p>
+                        </div>
+                        <div className="info">
+                          <h3>Mật khẩu: </h3>
+                          <p>
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                            <FiberManualRecordIcon />
+                          </p>
+                        </div>
                       </div>
-                      <div className="details-info">{listItems}</div>
                     </div>
 
                     <div className="account-manipulation">
                       <div className="btn-controls">
-                        <button className="btn btn-change-pwd">Đổi mật khẩu</button>
+                        {/* <button className="btn btn-change-pwd">Đổi mật khẩu</button> */}
                         <button className="btn btn-close-account" onClick={() => setOpenDel(true)}>
                           Xóa tài khoản
                         </button>
@@ -192,7 +236,7 @@ export default function Settings() {
                           open={openDel}
                           width={400}
                           footer={[
-                            <Button key="submit" onClick={() => setOpenDel(false)}>
+                            <Button type="primary" key="submit" onClick={() => setOpenDel(false)}>
                               Có
                             </Button>,
                             <Button key="back" onClick={() => setOpenDel(false)}>

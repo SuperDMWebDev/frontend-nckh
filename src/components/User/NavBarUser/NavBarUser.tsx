@@ -58,12 +58,17 @@ const NavBarUser = () => {
       if (value == 'MyProfile') {
         navigate('/profile');
         setOpen(false);
+      } else if (value == 'Settings') {
+        navigate('/settings');
+        setOpen(false);
       } else if (value == 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
         setOpen(false);
       } else if (value == 'Logout') {
         localStorage.removeItem("accountId");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("scopusId");
+        localStorage.removeItem("role");
         window.location.replace("http://localhost:5000/");
       }
     };
@@ -121,7 +126,7 @@ const NavBarUser = () => {
               <div className="menu-trigger__space"></div>
               <img
                 className="avatar"
-                src={lecturer?.avatar == null ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
               />
             </div>
 

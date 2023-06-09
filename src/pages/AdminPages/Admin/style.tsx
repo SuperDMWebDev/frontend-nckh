@@ -21,7 +21,7 @@ const Styled = styled.div`
     left: 438px;
     top: 136px;
 
-    font-family: 'Poppins';
+    // font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
     font-size: 24px;

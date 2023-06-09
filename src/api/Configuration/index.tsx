@@ -43,14 +43,12 @@ export const deleteMultipleContactTypes = async (data: any) => {
 };
 
 export const updateContactType = async (data: any) => {
-  try {
-    const res = await axios.put(`${BASE_URL}configs/contact-type/:${data.id}/update`, data);
-
-    console.log(data.id);
-    return res;
-  } catch (error) {
-    return handleError(error);
-  }
+    try {
+        const res = await axios.put(`${BASE_URL}configs/contact-type/:${data.id}/update`, data);
+        return res.data.code;
+    } catch (error) {
+        return handleError(error);
+    }
 };
 
 ///
@@ -84,6 +82,7 @@ export const deleteMultipleAcademicRanks = async (data: any) => {
 };
 
 export const updateAcademicRank = async (data: any) => {
+<<<<<<< HEAD
   try {
     const res = await axios.put(`${BASE_URL}configs/academic-rank/:${data.id}/update`, data);
 
@@ -92,6 +91,14 @@ export const updateAcademicRank = async (data: any) => {
   } catch (error) {
     return handleError(error);
   }
+=======
+    try {
+        const res = await axios.put(`${BASE_URL}configs/academic-rank/:${data.id}/update`, data);
+        return res.data.code;
+    } catch (error) {
+        return handleError(error);
+    }
+>>>>>>> fa040b88c1b5f7541e9ba901b0c4359183a146f4
 };
 
 ///
@@ -125,6 +132,7 @@ export const deleteMultipleAcademicTitles = async (data: any) => {
 };
 
 export const updateAcademicTitle = async (data: any) => {
+<<<<<<< HEAD
   try {
     const res = await axios.put(`${BASE_URL}configs/academic-title/:${data.id}/update`, data);
 
@@ -133,6 +141,14 @@ export const updateAcademicTitle = async (data: any) => {
   } catch (error) {
     return handleError(error);
   }
+=======
+    try {
+        const res = await axios.put(`${BASE_URL}configs/academic-title/:${data.id}/update`, data);
+        return res.data.code;
+    } catch (error) {
+        return handleError(error);
+    }
+>>>>>>> fa040b88c1b5f7541e9ba901b0c4359183a146f4
 };
 
 ///
@@ -166,6 +182,7 @@ export const deleteMultipleActivities = async (data: any) => {
 };
 
 export const updateActivity = async (data: any) => {
+<<<<<<< HEAD
   try {
     const res = await axios.put(`${BASE_URL}configs/activity-type/:${data.id}/update`, data);
 
@@ -174,6 +191,14 @@ export const updateActivity = async (data: any) => {
   } catch (error) {
     return handleError(error);
   }
+=======
+    try {
+        const res = await axios.put(`${BASE_URL}configs/activity-type/:${data.id}/update`, data);
+        return res.data.code;
+    } catch (error) {
+        return handleError(error);
+    }
+>>>>>>> fa040b88c1b5f7541e9ba901b0c4359183a146f4
 };
 
 ///
@@ -207,6 +232,7 @@ export const deleteMultipleUniversities = async (data: any) => {
 };
 
 export const updateUniversity = async (data: any) => {
+<<<<<<< HEAD
   try {
     const res = await axios.put(`${BASE_URL}configs/university/:${data.id}/update`, data);
 
@@ -215,4 +241,12 @@ export const updateUniversity = async (data: any) => {
   } catch (error) {
     return handleError(error);
   }
+=======
+    try {
+        const res = await axios.put(`${BASE_URL}configs/university/:${data.id}/update`, data);
+        return res.data.code;
+    } catch (error) {
+        return handleError(error);
+    }
+>>>>>>> fa040b88c1b5f7541e9ba901b0c4359183a146f4
 };

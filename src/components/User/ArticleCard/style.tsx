@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .card_article {
     box-sizing: border-box;
-    width: 700px;
+    width: 750px;
     height: auto;
     background: #ffffff;
     backdrop-filter: blur(6px);
@@ -19,6 +19,8 @@ const Styled = styled.div`
 
     padding-top: 20px;
     padding-bottom: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
   }
 
   .icon_more {

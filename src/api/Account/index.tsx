@@ -27,3 +27,20 @@ export const createAccount = async (account_create: any) => {
     password2: account_create.password
   });
 };
+
+export const retrieveScopusAccount = async (accountId: any, scopusId: any) => {
+  const res = await axios.post(`${BASE_URL}scopus/author/save`, {
+    data: {
+      scopusAuthorId: scopusId,
+      accountId: accountId
+    }
+  });
+};
+
+export const signup = async (email: string) => {
+  const res = await axios.post(`${BASE_URL}auth/signup`, {
+    email: email,
+    password: 'Nam12345678@',
+    password2: 'Nam12345678@'
+  });
+};

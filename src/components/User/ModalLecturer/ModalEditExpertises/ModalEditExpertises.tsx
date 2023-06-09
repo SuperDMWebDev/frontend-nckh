@@ -9,35 +9,59 @@ export default function ModalEditExpertises(props: any) {
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
 
-    const [field, setField] = useState<string>(lecturer?.expertises[0].specialization);
-    const [specialized, setSpecialized] = useState<string>(lecturer?.expertises[1].specialization);
+    const [field, setField] = useState<string>("");
+    const [specialized, setSpecialized] = useState<string>("");
+
+    const [editField, setEditField] = useState<string>(field);
+    const [editSpecialized, setEditSpecialized] = useState<string>(specialized);
+
+    useEffect(() => {
+        if (lecturer?.expertises !== undefined) {
+            setField(lecturer?.expertises[0].specialization);
+            setSpecialized(lecturer?.expertises[1].specialization);
+        }
+    });
 
     const handleSaveEdit = () => {
         const data = {
-            field: field,
-            specialized: specialized
+            field: editField,
+            specialized: editSpecialized
         }
         editExpertises(lecturer, data, accountId);
         window.location.reload();
     };
 
+    const handleOpenEditModal = () => {
+        setEditField(field);
+        setEditSpecialized(specialized);
+        setOpenEditModal(true);
+    }
+
     return (
         <div className="content-profile">
             <div className="main_content">
                 <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
-                {canEdit ? <div className='btn-edit-card' onClick={(e) => { setOpenEditModal(true) }}>
+                {canEdit ? <div className='btn-edit-card' onClick={handleOpenEditModal}>
                     <ModeEditOutlineIcon style={{
                         fontSize: "17px",
                         cursor: "pointer"
                     }} />
                 </div> : null}
-                {lecturer?.expertises.map((expertise: any) => (
-                    <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
-                        <p className='data_content' style={{ marginBottom: "-5px" }}>
-                            <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
-                        </p>
-                    </div>
-                ))}
+                {
+                    lecturer?.expertises == undefined ? <>
+                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                            Chưa cập nhật.
+                        </span>
+                    </> : <>
+                        {lecturer?.expertises.map((expertise: any) => (
+                            <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
+                                <p className='data_content' style={{ marginBottom: "-5px" }}>
+                                    <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
+                                </p>
+                            </div>
+                        ))}
+                    </>
+                }
             </div>
 
             <Modal
@@ -57,8 +81,8 @@ export default function ModalEditExpertises(props: any) {
                         <input required={true}
                             type="text"
                             className="input-edit-profile"
-                            value={field}
-                            onChange={(e) => { setField(e.target.value) }}
+                            value={editField}
+                            onChange={(e) => { setEditField(e.target.value) }}
                         />
                         <span className="highlight-edit-profile"></span>
                         <span className="bar-edit-profile"></span>
@@ -69,8 +93,8 @@ export default function ModalEditExpertises(props: any) {
                         <input required={true}
                             type="text"
                             className="input-edit-profile"
-                            value={specialized}
-                            onChange={(e) => { setSpecialized(e.target.value) }}
+                            value={editSpecialized}
+                            onChange={(e) => { setEditSpecialized(e.target.value) }}
                         />
                         <span className="highlight-edit-profile"></span>
                         <span className="bar-edit-profile"></span>
