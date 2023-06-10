@@ -12,7 +12,7 @@ const AnonymousNavBar = () => {
 
   useEffect(() => {
     let handler = (e: any) => {
-      if (menuRef.current != null) {
+      if (menuRef.current !== null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);
         }
@@ -33,7 +33,7 @@ const AnonymousNavBar = () => {
   }
   function DropdownItem(props: DropdownType) {
     const handleChange = (value: string) => {
-      if (value == 'MyProfile') {
+      if (value === 'MyProfile') {
         navigate('/profile');
       }
     };
@@ -55,11 +55,14 @@ const AnonymousNavBar = () => {
   return (
     <Styled>
       <div className="container">
-        <a href="/">
-          <div className="container_logo">
-            <img src="/assets/images/hcmus_logo.jpg" />
-          </div>
-        </a>
+        <div className="header">
+          <a href="/">
+            <div className="container_logo">
+              <img src="/assets/images/hcmus_logo.jpg" />
+            </div>
+          </a>
+          <div className="text__title">Quản lý bài viết khoa học</div>
+        </div>
 
         <div style={{ fontSize: '14px', cursor: 'pointer' }} onClick={handleLogin}>
           Đăng nhập
