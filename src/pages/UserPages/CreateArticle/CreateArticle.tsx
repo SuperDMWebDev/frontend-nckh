@@ -24,6 +24,17 @@ type OptionSelect = {
   label: string;
 };
 
+const journalOptionList: OptionSelect[] = [
+  {
+    value: 1,
+    label: 'Journal'
+  },
+  {
+    value: 2,
+    label: 'Conference'
+  }
+];
+
 const CreateArticle = () => {
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
@@ -31,7 +42,27 @@ const CreateArticle = () => {
   const [DOI, setDOI] = useState('');
 
   const [name, setName] = useState('');
-  const [journal, setJournal] = useState('');
+
+  const [journalConferenceText, setJournalConferenceText] = useState('');
+  const [journal, setJournal] = useState<string | null>();
+  const [conference, setConference] = useState<string | null>();
+
+  const handleGetJournalConference = (e: any) => {
+    setJournalConferenceText(e.target.value);
+    if (journalOption.value == 1) {
+      setJournal(e.target.value);
+      setConference(null);
+    } else {
+      setConference(e.target.value);
+      setJournal(null);
+    }
+  };
+
+  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
+  const handleSelectJournalOption = (option: any) => {
+    setJournalOption(option);
+  };
+
   const [volume, setVolume] = useState<number>();
   const [day, setDay] = useState<number>();
   const [month, setMonth] = useState<number>();
@@ -202,6 +233,7 @@ const CreateArticle = () => {
     var data = {
       name,
       journal,
+      conference,
       volume,
       day,
       month,
@@ -258,7 +290,7 @@ const CreateArticle = () => {
       </div>
       <div className="container">
         <form>
-          <div className="doi">
+          <div className="flex">
             <div className="group">
               <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" />
               <span className="highlight"></span>
@@ -281,11 +313,24 @@ const CreateArticle = () => {
             <label>Name</label>
           </div>
 
-          <div className="group">
-            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Journal</label>
+          <div className="flex">
+            <div className="selectInput">
+              <Select
+                options={journalOptionList}
+                value={journalOption}
+                onChange={(option) => handleSelectJournalOption(option)}
+              />
+            </div>
+            <div className="group">
+              <input
+                value={journalConferenceText}
+                onChange={(e) => handleGetJournalConference(e)}
+                type="text"
+              />
+              <span className="highlight"></span>
+              <span className="bar"></span>
+              <label>Journal</label>
+            </div>
           </div>
 
           <div className="group">

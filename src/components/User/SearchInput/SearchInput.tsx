@@ -7,7 +7,7 @@ import { SEARCH_OPTION } from '../../../constants/constant';
 
 const SearchInput = ({ getSearchOption }: any) => {
   const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>('');
   const [openOption, setOpenOption] = useState(false);
   const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
 
@@ -15,13 +15,11 @@ const SearchInput = ({ getSearchOption }: any) => {
 
   const goToSearchPage = () => {
     navigate('/search', { state: { searchInput, searchOption } });
-    console.log("clicked");
   };
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
       goToSearchPage();
-      console.log(searchInput);
     }
   };
 
