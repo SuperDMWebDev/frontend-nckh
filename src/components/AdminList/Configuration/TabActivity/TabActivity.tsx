@@ -41,6 +41,10 @@ const TabActivity: React.FC = () => {
     const [openDel, setOpenDel] = useState(false);
     const navigate = useNavigate();
 
+    const locale = {
+        emptyText: 'Không có dữ liệu',
+    };
+    
     const [activities, setActivities] = useState<DataType[]>([]);
     useEffect(() => {
         // eslint-disable-next-line no-shadow
@@ -251,14 +255,7 @@ const TabActivity: React.FC = () => {
             dataIndex: 'id',
             key: 'id',
             width: '3%',
-            ...getColumnSearchProps('id'),
-            onCell: () => {
-                return {
-                    onClick: (ev) => {
-                        navigate('/detail-page');
-                    }
-                };
-            }
+            ...getColumnSearchProps('id')
         },
         {
             title: 'Tên',
@@ -292,6 +289,7 @@ const TabActivity: React.FC = () => {
                     rowSelection={{ type: 'checkbox', ...rowSelection }}
                     pagination={{ pageSize: 7 }}
                     columns={columns}
+                    locale={locale}
                     dataSource={activities}
                     // eslint-disable-next-line no-magic-numbers, no-confusing-arrow
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}

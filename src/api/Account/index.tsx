@@ -44,3 +44,16 @@ export const signup = async (email: string) => {
     password2: 'Nam12345678@'
   });
 };
+
+export const getEmailByAccountId = async (accountId: string) => {
+  const res = await axios.get(
+    `${BASE_URL}accounts/${accountId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+
+  return res.data.data.email;
+};
