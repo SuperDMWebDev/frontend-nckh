@@ -41,6 +41,9 @@ const SignIn = () => {
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
           localStorage.setItem('role', role);
+          if (lecturerInfo) {
+            localStorage.setItem('lecturerId', lecturerInfo.id);
+          }
           !lecturerInfo
             ? localStorage.setItem('scopusId', 'null')
             : localStorage.setItem('scopusId', lecturerInfo.scopusId);
