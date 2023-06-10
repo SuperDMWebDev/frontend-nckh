@@ -35,7 +35,7 @@ export default function RetrieveScopusAuthor() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const accountId = localStorage.getItem("accountId");
+  const accountId = localStorage.getItem('accountId');
 
   const handleConfirm = () => {
     if (firstName == '' || lastName == '') {
@@ -58,16 +58,15 @@ export default function RetrieveScopusAuthor() {
     handleClose();
     setScopusAuthors([]);
     retrieveScopusAccount(accountId, scopusID);
-    toast.success("Xác nhận tài khoản Scopus thành công!")
-    localStorage.setItem("scopusId", scopusID);
+    toast.success('Xác nhận tài khoản Scopus thành công!');
+    localStorage.setItem('scopusId', scopusID);
     setTimeout(() => {
-      window.location.replace("http://localhost:5000/");
+      window.location.replace('http://localhost:5000/');
     }, 3000);
   };
 
   const handleChoose = () => {
     !scopusID ? toast.error('Vui lòng chọn tài khoản Scopus!') : handleOpen();
-    console.log(scopusID, accountId);
   };
 
   return (
