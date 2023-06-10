@@ -63,18 +63,21 @@ interface DropdownType {
 function DropdownItem(props: DropdownType) {
   const navigate = useNavigate();
   const handleChange = (value: string) => {
-    if (value == 'MyProfile') {
+    if (value === 'MyProfile') {
       navigate('/profile');
-    } else if (value == 'Retrieve Scopus Author') {
+    } else if (value === 'Retrieve Scopus Author') {
       navigate('/retrieve-scopus-author');
-    } else if (value == 'Logout') {
-      localStorage.removeItem("accountId");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("scopusId");
-      localStorage.removeItem("role");
-      window.location.replace("http://localhost:5000/");
+    } else if (value === 'Logout') {
+      localStorage.removeItem('accountId');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('scopusId');
+      localStorage.removeItem('role');
+      navigate('/signin');
+      // eslint-disable-next-line no-self-assign
+      window.location.href = window.location.href;
     }
   };
+
   return (
     <Styled>
       <li className="dropdownItem" value={props.value} onClick={() => handleChange(props.value)}>
@@ -92,7 +95,7 @@ export default function SearchBarAdmin() {
 
   useEffect(() => {
     let handler = (e: any) => {
-      if (menuRef.current != null) {
+      if (menuRef.current !== null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);
         }
@@ -122,9 +125,10 @@ export default function SearchBarAdmin() {
               setOpen(!open);
             }}>
             <div className="menu-trigger__space"></div>
-            <img src="https://api-private.atlassian.com/users/4e82de5e94dd5920587675a761d71b25/avatar" style={{
-
-            }} />
+            <img
+              src="https://api-private.atlassian.com/users/4e82de5e94dd5920587675a761d71b25/avatar"
+              style={{}}
+            />
           </div>
 
           <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>

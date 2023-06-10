@@ -1,3 +1,4 @@
+/* eslint-disable no-negated-condition */
 import React, { useState, useEffect, useContext } from 'react';
 import Styled from './style';
 import { useNavigate, Link } from 'react-router-dom';
@@ -8,7 +9,7 @@ import { toast } from 'react-toastify';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import Footer from '../../components/Footer';
-const SignIn = function () {
+const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const signInSchema = Yup.object({
@@ -29,12 +30,14 @@ const SignIn = function () {
     onSubmit: async (value) => {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
-        const {
+        let {
           data: { token, message, code, expire, accountId, role, lecturerInfo }
         } = responseSignIn;
-        if (code != 0) {
+        if (code !== 0) {
           toast.error(message);
         } else {
+          role = role.toString();
+          accountId = accountId.toString();
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
           localStorage.setItem('role', role);
@@ -42,7 +45,13 @@ const SignIn = function () {
             ? localStorage.setItem('scopusId', 'null')
             : localStorage.setItem('scopusId', lecturerInfo.scopusId);
           toast.success(message);
-          window.location.replace('http://localhost:5000/');
+          if (role === '0') {
+            navigate('/admin');
+          } else {
+            navigate('/');
+          }
+          // eslint-disable-next-line no-self-assign
+          window.location.href = window.location.href;
         }
       } catch (err) {
         console.log('err login ', err);
@@ -52,6 +61,7 @@ const SignIn = function () {
   useEffect(() => {
     document.title = 'HCMUS - Sign in';
   }, []);
+
   return (
     <Styled>
       <div className="signin__container">
@@ -126,7 +136,7 @@ const SignIn = function () {
                       />
                       <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
                         <div className="pwd-img">
-                          {showPwd == false ? (
+                          {showPwd === false ? (
                             <VisibilityOutlinedIcon />
                           ) : (
                             <VisibilityOffOutlinedIcon />

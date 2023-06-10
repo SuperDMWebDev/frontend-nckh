@@ -16,8 +16,8 @@ const handleError = (error: any) => {
   return message;
 };
 
-export const getInfoProfile = async (accountId: string | null) => {
-  const res = await axios.get(`${BASE_URL}lecturers/detail/${accountId}`, {
+export const getInfoProfile = async (lecturerId: string | null) => {
+  const res = await axios.get(`${BASE_URL}lecturers/detail/${lecturerId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

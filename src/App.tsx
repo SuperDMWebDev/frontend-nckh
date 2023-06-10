@@ -1,3 +1,5 @@
+/* eslint-disable no-implicit-coercion */
+/* eslint-disable no-negated-condition */
 import React, { useState } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import HomePage from './pages/UserPages/HomePage/HomePage';
@@ -30,9 +32,9 @@ import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
+  console.log('🚀 ~ file: App.tsx:35 ~ App ~ isLogin:', isLogin);
   const scopusId = localStorage.getItem('scopusId');
   const roleUser = localStorage.getItem('role');
-  const [role, setRole] = useState<string>(ROLE_USER.USER);
 
   return (
     <div>
@@ -41,7 +43,7 @@ const App = () => {
       <BrowserRouter>
         {roleUser !== '0' ? (
           <div>
-            {scopusId == 'null' ? (
+            {scopusId === 'null' ? (
               <>
                 {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
                 <Routes>
@@ -64,7 +66,7 @@ const App = () => {
                     {/* <Route
                   index
                   path="/about"
-                  
+
                 /> */}
                   </Route>
                   <Route path="/profile/edit" element={<EditProfileLecturer />} />
