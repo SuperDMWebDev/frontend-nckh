@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   .banner {
-    height: 70.5rem;
+    height: calc(100vh - 80px);
     filter: none;
     background-color: #010103;
     background-image: radial-gradient(circle at top, #0000 30%, #000 80%, #010103 90%),
@@ -26,6 +26,8 @@ const Styled = styled.div`
     align-items: center;
     margin: 0 auto;
     display: flex;
+    max-width: 80%;
+    text-align: center;
 
     &_title {
       color: #fff;
