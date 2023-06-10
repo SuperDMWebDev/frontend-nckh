@@ -179,9 +179,15 @@ const Styled = styled.div`
     }
   }
 
-  .doi {
+  .flex {
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .selectInput {
+    font-size: 16px;
+    width: 170px;
   }
 `;
 

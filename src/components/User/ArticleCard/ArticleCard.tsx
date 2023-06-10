@@ -28,19 +28,9 @@ const ArticleCard = (props: any) => {
             <div className="user-field">Author A, Author B</div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          <div className="right-part">
-            <div className="right-part_group">
-              <div className="right-part__num">857</div>
-              <div className="right-part__title">Citations</div>
-            </div>
-            <div className="right-part_group">
-              <div className="right-part__num">368</div>
-              <div className="right-part__title">Readers</div>
-            </div>
-          </div>
         </div>
 
-        <div className="card-bottom-part">
+        {/* <div className="card-bottom-part">
           <div className="card-bottom-part__group">
             <FontAwesomeIcon icon={faAdd} />
             <div className="card-bottom-part__item">Add to library</div>
@@ -53,7 +43,7 @@ const ArticleCard = (props: any) => {
             <FontAwesomeIcon icon={faNewspaper} />
             <div className="card-bottom-part__item">Related</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Styled>
   );
