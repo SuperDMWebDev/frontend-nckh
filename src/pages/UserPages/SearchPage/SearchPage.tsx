@@ -30,26 +30,25 @@ export default function SearchPage() {
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
-      if (navigate_searchOption.label == "Article") {
+      if (navigate_searchOption.label == 'Article') {
         const data = {
-          searchOption: "articles",
+          searchOption: 'articles',
           keyword: navigate_searchInput
-        }
+        };
         fetchListArticle(data);
-        setCurrentSearch("article");
+        setCurrentSearch('article');
       } else {
         const data = {
-          searchOption: "lecturers",
+          searchOption: 'lecturers',
           keyword: navigate_searchInput
-        }
+        };
         fetchListLectures(data);
-        setCurrentSearch("author");
+        setCurrentSearch('author');
       }
     }
   };
 
   const fetchListArticle = async (data: any) => {
-    console.log(data);
     const res = await getListArticleWithKeyword(data);
     if (res) {
       switch (res.status) {
@@ -88,17 +87,17 @@ export default function SearchPage() {
   };
 
   useEffect(() => {
-    if (navigate_searchOption.label == "Article") {
+    if (navigate_searchOption.label == 'Article') {
       const data = {
-        searchOption: "articles",
+        searchOption: 'articles',
         keyword: navigate_searchInput
-      }
+      };
       fetchListArticle(data);
     } else {
       const data = {
-        searchOption: "lecturers",
+        searchOption: 'lecturers',
         keyword: navigate_searchInput
-      }
+      };
       fetchListLectures(data);
     }
   }, []);
@@ -117,8 +116,9 @@ export default function SearchPage() {
           style={{
             fontSize: '17px',
             margin: '12px',
-            fontFamily: "Montserrat, sans-serif"
-          }}>{`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
+            fontFamily: 'Montserrat, sans-serif'
+          }}>
+          {`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
         </div>
 
         <div
@@ -126,10 +126,9 @@ export default function SearchPage() {
             backgroundColor: '#e6e4e4',
             width: '100%',
             display: 'flex',
-            height: "120px",
+            height: '120px',
             justifyContent: 'center'
           }}>
-
           <div className="searchContainer">
             <input
               type="text"
@@ -163,20 +162,24 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {currentSearch != "article" ? (
+      {currentSearch != 'article' ? (
         <div className="center">
           <div className="list_article">
-            {listAuthors ? listAuthors.map((item) => <AuthorCard data={item} />) : <>
-              <div
-                style={{
-                  fontSize: '14px',
-                  marginTop: '10px',
-                  fontStyle: 'italic',
-                  marginLeft: "-70px"
-                }}>
-                Không tìm thấy tác giả nào!
-              </div>
-            </>}
+            {listAuthors ? (
+              listAuthors.map((item) => <AuthorCard data={item} />)
+            ) : (
+              <>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    marginTop: '10px',
+                    fontStyle: 'italic',
+                    marginLeft: '-70px'
+                  }}>
+                  Không tìm thấy tác giả nào!
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -197,17 +200,21 @@ export default function SearchPage() {
               <button className="btn_sort">Most cited</button>
             </div>
             <div className="list_article">
-              {listArticles.length != 0 ? listArticles.map((item) => <ArticleCard data={item} />) : <>
-                <div
-                  style={{
-                    fontSize: '14px',
-                    marginTop: '10px',
-                    fontStyle: 'italic',
-                    marginLeft: "-70px"
-                  }}>
-                  Không tìm thấy bài báo khoa học nào!
-                </div>
-              </>}
+              {listArticles.length != 0 ? (
+                listArticles.map((item) => <ArticleCard data={item} />)
+              ) : (
+                <>
+                  <div
+                    style={{
+                      fontSize: '14px',
+                      marginTop: '10px',
+                      fontStyle: 'italic',
+                      marginLeft: '-70px'
+                    }}>
+                    Không tìm thấy bài báo khoa học nào!
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

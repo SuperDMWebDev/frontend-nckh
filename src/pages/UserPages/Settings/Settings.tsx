@@ -14,7 +14,7 @@ import { editAvatarProfile, getAllLecturers } from '../../../api/Lecturer';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { toast } from 'react-toastify';
 
-const AvatarBtn = styled('button')(({ }) => ({
+const AvatarBtn = styled('button')(({}) => ({
   width: '155px',
   height: '155px',
   borderRadius: '50%',
@@ -37,7 +37,7 @@ const AvatarBtn = styled('button')(({ }) => ({
   },
   '&:hover svg, &:hover p': {
     color: '#323232'
-  },
+  }
 
   // '.avatar-image': {
   //   backgroundImage: `url('https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1')`,
@@ -108,17 +108,15 @@ export default function Settings() {
   };
 
   const onCrop = (view: string) => {
-    console.log(view);
     setAvatar(view);
-    //editAvatarProfile(view, accountId);
   };
 
   const onOk = () => {
     if (avatar !== '') {
-      toast.success('Thêm ảnh thành công!')
+      toast.success('Thêm ảnh thành công!');
     }
     setOpenEditAvatarModal(false);
-  }
+  };
 
   return (
     <Styled>
@@ -152,10 +150,15 @@ export default function Settings() {
                           <p>Thêm ảnh</p>
                         </div>
                       ) : (
-                        <div className='avatar-image' style={{
-                          backgroundImage: `url(${avatar})`,
-                          backgroundSize: 'cover', width: '100%', height: '100%', borderRadius: '50%'
-                        }}></div>
+                        <div
+                          className="avatar-image"
+                          style={{
+                            backgroundImage: `url(${avatar})`,
+                            backgroundSize: 'cover',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%'
+                          }}></div>
                       )}
                     </AvatarBtn>
 
@@ -166,13 +169,8 @@ export default function Settings() {
                       onOk={onOk}
                       onCancel={() => setOpenEditAvatarModal(false)}
                       width={700}
-                      className="modalStyle"
-                    >
-                      <Avatar
-                        width={400}
-                        height={300}
-                        onCrop={onCrop}
-                      />
+                      className="modalStyle">
+                      <Avatar width={400} height={300} onCrop={onCrop} />
                     </Modal>
                   </div>
 
