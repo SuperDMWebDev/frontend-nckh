@@ -11,10 +11,21 @@ const Styled = styled.div`
     margin: 0 0 0 0;
     width: 100%;
     max-width: 100%;
+    color: #1890ff;
+
     &_logo {
       img {
         height: 50px;
       }
+    }
+    .header {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .text__title {
+      font-size: 40px;
+      font-weight: 600;
     }
   }
 

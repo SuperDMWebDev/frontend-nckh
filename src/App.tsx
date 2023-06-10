@@ -1,3 +1,5 @@
+/* eslint-disable no-implicit-coercion */
+/* eslint-disable no-negated-condition */
 import React, { useState } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import HomePage from './pages/UserPages/HomePage/HomePage';
@@ -30,10 +32,9 @@ import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
+  console.log('🚀 ~ file: App.tsx:35 ~ App ~ isLogin:', isLogin);
   const scopusId = localStorage.getItem('scopusId');
   const roleUser = localStorage.getItem('role');
-  const [role, setRole] = useState<string>(ROLE_USER.USER);
-  console.log(scopusId == 'null');
 
   return (
     <div>
@@ -42,29 +43,30 @@ const App = () => {
       <BrowserRouter>
         {roleUser !== '0' ? (
           <div>
-            {
-              scopusId == 'null' ? <>
+            {scopusId === 'null' ? (
+              <>
                 {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
                 <Routes>
                   <Route path="/" element={<RetrieveScopusAuthor />} />
                   <Route path="/*" element={<RetrieveScopusAuthor />} />
                 </Routes>
-              </> : <>
+              </>
+            ) : (
+              <>
                 {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/search" element={<SearchPage />} />
-                  <Route path="/signin" element={!isLogin ? (
-                    <SignIn />
-                  ) : (
-                    <Navigate replace to="/" />
-                  )} />
+                  <Route
+                    path="/signin"
+                    element={!isLogin ? <SignIn /> : <Navigate replace to="/" />}
+                  />
                   <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
                   <Route path="/profile" element={<Profile />}>
                     {/* <Route
                   index
                   path="/about"
-                  
+
                 /> */}
                   </Route>
                   <Route path="/profile/edit" element={<EditProfileLecturer />} />
@@ -76,20 +78,15 @@ const App = () => {
                   <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
                 </Routes>
               </>
-            }
+            )}
           </div>
         ) : (
           <Routes>
             <Route path="*" element={<NoMatch />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/admin" element={<Admin />}>
-            </Route>
-            <Route path="/" element={!isLogin ? (
-              <SignIn />
-            ) : (
-              <Navigate replace to="/admin" />
-            )} />
-            <Route path='/admin/create' element={<CreateLecturer />} />
+            <Route path="/admin" element={<Admin />}></Route>
+            <Route path="/" element={!isLogin ? <SignIn /> : <Navigate replace to="/admin" />} />
+            <Route path="/admin/create" element={<CreateLecturer />} />
             <Route path="/home-page" element={<ResearchHomepage />} />
             <Route path="/detail-page" element={<DetailPage />} />
             <Route path="/test" element={<ModalTeacher />} />

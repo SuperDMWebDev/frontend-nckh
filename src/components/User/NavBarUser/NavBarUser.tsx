@@ -10,7 +10,7 @@ import logout from '../../../assets/log-out.png';
 import { getInfoProfile } from '../../../api/Lecturer';
 
 type Lecturer = {
-  [key: string]: any; // 👈️ variable key
+  [key: string]: any;
   name: string;
 };
 
@@ -19,14 +19,14 @@ const NavBarUser = () => {
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
   const accountId: string | null = localStorage.getItem('accountId');
+  console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
   useEffect(() => {
-    const data: Promise<Lecturer> = getInfoProfile(accountId);
-    data
-      .then((result) => {
-        setLecturer(result);
-      })
-      .catch((err) => console.log("Can't get data lecturer: ", err));
+    // getInfoProfile(accountId)
+    //   .then((result) => {
+    //     setLecturer(result);
+    //   })
+    //   .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
 
   let menuRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,7 @@ const NavBarUser = () => {
 
   useEffect(() => {
     let handler = (e: any) => {
-      if (menuRef.current != null) {
+      if (menuRef.current !== null) {
         if (!menuRef.current.contains(e.target)) {
           setOpen(false);
         }
@@ -55,21 +55,23 @@ const NavBarUser = () => {
   }
   function DropdownItem(props: DropdownType) {
     const handleChange = (value: string) => {
-      if (value == 'MyProfile') {
+      if (value === 'MyProfile') {
         navigate('/profile');
         setOpen(false);
-      } else if (value == 'Settings') {
+      } else if (value === 'Settings') {
         navigate('/settings');
         setOpen(false);
-      } else if (value == 'Retrieve Scopus Author') {
+      } else if (value === 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
         setOpen(false);
-      } else if (value == 'Logout') {
-        localStorage.removeItem("accountId");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("scopusId");
-        localStorage.removeItem("role");
-        window.location.replace("http://localhost:5000/");
+      } else if (value === 'Logout') {
+        localStorage.removeItem('accountId');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('scopusId');
+        localStorage.removeItem('role');
+        navigate('/signin');
+        // eslint-disable-next-line no-self-assign
+        window.location.href = window.location.href;
       }
     };
 
@@ -84,8 +86,10 @@ const NavBarUser = () => {
   }
 
   const handleClickSearch = () => {
-    navigate('/search', { state: { searchInput: "", searchOption: { label: "Author", value: "author" } } });
-  }
+    navigate('/search', {
+      state: { searchInput: '', searchOption: { label: 'Author', value: 'author' } }
+    });
+  };
 
   return (
     <Styled>
@@ -97,17 +101,20 @@ const NavBarUser = () => {
             </div>
           </a>
         </div>
-        <div className='navbar-tab'>
+        <div className="navbar-tab">
           <ul>
             <li>
               <a href="/">TRANG CHỦ</a>
             </li>
-            <li onClick={handleClickSearch} style={{
-              cursor: "pointer", color: "#959595",
-              position: "relative",
-              fontSize: "16px",
-              textDecoration: "none"
-            }}>
+            <li
+              onClick={handleClickSearch}
+              style={{
+                cursor: 'pointer',
+                color: '#959595',
+                position: 'relative',
+                fontSize: '16px',
+                textDecoration: 'none'
+              }}>
               <a>TÌM KIẾM</a>
             </li>
             <li>
@@ -126,7 +133,14 @@ const NavBarUser = () => {
               <div className="menu-trigger__space"></div>
               <img
                 className="avatar"
-                src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+                src={
+                  lecturer === undefined ||
+                  lecturer?.avatar === null ||
+                  lecturer?.avatar === '' ||
+                  lecturer?.avatar === 'data:image/png;base64,'
+                    ? '/assets/images/default_avatar.jpg'
+                    : lecturer?.avatar
+                }
               />
             </div>
 

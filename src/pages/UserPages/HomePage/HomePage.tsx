@@ -33,17 +33,17 @@ const HomePage: React.FC = () => {
         <div className="content">
           <div className="content_title">Quản lý bài viết khoa học</div>
           <div className="content_script">
-            Đưa những nghiên cứu của bạn vào cuộc sống, để bạn có thể tạo ảnh hưởng đến mai sau
-          </div>
-          <div className="content_script">
-            Với hơn 100 triệu bài viết được tìm kiếm của nhiều nhà xuất bản và con số này đang tiếp
-            tục tăng.
+            Ứng dụng của chúng tôi cung cấp một nền tảng toàn diện và dễ sử dụng để quản lý các công
+            bố khoa học. Cho dù bạn là một nhà nghiên cứu, nhà khoa học hoặc chuyên gia học thuật,
+            ứng dụng của chúng tôi được thiết kế để tối ưu hóa toàn bộ thời gian và công sức của bạn
           </div>
         </div>
 
         <SearchInput />
 
-        <div className="popularSearch">Từ khóa tìm kiếm phổ biến: COVID-19, Bioenergy, Obesity</div>
+        <div className="popularSearch">
+          Từ khóa tìm kiếm phổ biến: Tran Minh Triet, Nguyen Van Vu
+        </div>
       </section>
     </Styled>
   );
