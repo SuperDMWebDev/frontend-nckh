@@ -23,7 +23,7 @@ const config = {
     'Access-Control-Allow-Credentials': 'credentials'
   }
 };
-export const loginUser = async (email: String, password: String) => {
+export const loginUser = async (email: string, password: string) => {
   const response: Response = await axios.post(
     `${URL}/auth/login`,
     {
@@ -32,5 +32,12 @@ export const loginUser = async (email: String, password: String) => {
     },
     config
   );
+
+  return response;
+};
+
+export const getLecturerIdFromAccountId = async (accountId: string) => {
+  const response: any = await axios.get(`${URL}/lecturers/account/${accountId}`);
+
   return response;
 };
