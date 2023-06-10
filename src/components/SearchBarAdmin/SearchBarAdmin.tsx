@@ -135,12 +135,12 @@ export default function SearchBarAdmin() {
             <h3>Admin</h3>
             <div className="dropdown-menu__subTitle">Trang quản lý</div>
             <ul>
-              <DropdownItem img={user} text={'My Profile'} value={'MyProfile'} />
-              <DropdownItem img={edit} text={'Edit Profile'} value={'EditProfile'} />
-              <DropdownItem img={inbox} text={'Inbox'} value={'Inbox'} />
-              <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
-              <DropdownItem img={help} text={'Helps'} value={'Helps'} />
-              <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
+              <DropdownItem img={user} text={'Hồ sơ của tôi'} value={'MyProfile'} />
+              <DropdownItem img={edit} text={'Chỉnh sửa hồ sơ'} value={'EditProfile'} />
+              <DropdownItem img={inbox} text={'Liên hệ'} value={'Inbox'} />
+              <DropdownItem img={settings} text={'Cài đặt'} value={'Settings'} />
+              <DropdownItem img={help} text={'Giúp đỡ'} value={'Helps'} />
+              <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
             </ul>
           </div>
         </div>

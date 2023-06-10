@@ -19,8 +19,16 @@ const Styled = styled.div`
     padding: 0 2px;
     text-align: right;
   }
-  // 
   
+  .title::after {
+    content: '';
+    display: block;
+    margin-top: 3px;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+  }
+
   .account-content {
     margin: auto 0;
   }
@@ -146,6 +154,12 @@ const Styled = styled.div`
   }
   .details {
     margin-bottom: 16px;
+  }
+
+  .avatar svg {
+    width: 150px;
+    height: 150px;
+    color: #bfbfbf;
   }
 
   .account-manipulation {

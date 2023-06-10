@@ -113,7 +113,6 @@ export default function Profile() {
     document.getElementById('1')?.classList.add('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab2 = () => {
@@ -121,7 +120,6 @@ export default function Profile() {
     document.getElementById('2')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab3 = () => {
@@ -129,15 +127,6 @@ export default function Profile() {
     document.getElementById('3')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
-  };
-
-  const handleTab4 = () => {
-    setCurrentTab(4);
-    document.getElementById('4')?.classList.add('tab-selected');
-    document.getElementById('1')?.classList.remove('tab-selected');
-    document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('3')?.classList.remove('tab-selected');
   };
 
   const handleBackSearch = () => {
@@ -222,11 +211,6 @@ export default function Profile() {
           </li>
           <li className="content_tab">
             <div id="3" className="content_tab_name" onClick={handleTab3}>
-              SCOPUS PROFILE
-            </div>
-          </li>
-          <li className="content_tab">
-            <div id="4" className="content_tab_name" onClick={handleTab4}>
               NGHIÊN CỨU
             </div>
           </li>
