@@ -29,18 +29,20 @@ const AuthorCard = (props: any) => {
               {data.currentDisciplines[0].position ? data.currentDisciplines[0].position : <span>Chưa cập nhật</span>}
             </span>
           </div>
-          <div className="right_availability">
+          {/* <div className="right_availability">
             <div className="right_availability_title">Tiểu sử: </div>
             <div className="right_availability_content">
               {data.bio ? data.bio : <div style={{ marginLeft: "-5px" }}>Chưa cập nhật</div>}
             </div>
+          </div> */}
+          <div className="right_availability">
+            {
+              data.researchFields == undefined ? null :
+                data.researchFields.map((item: any) => (
+                  <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
+                ))
+            }
           </div>
-          {
-            data.researchFields == undefined ? null :
-              data.researchFields.map((item: any) => (
-                <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
-              ))
-          }
         </div>
       </div>
     </Styled>

@@ -60,9 +60,9 @@ export default function RetrieveScopusAuthor() {
     retrieveScopusAccount(accountId, scopusID);
     toast.success("Xác nhận tài khoản Scopus thành công!")
     localStorage.setItem("scopusId", scopusID);
-    setTimeout(() => {
-      window.location.replace("http://localhost:5000/");
-    }, 3000);
+    // setTimeout(() => {
+    //   window.location.replace("http://localhost:5000/");
+    // }, 3000);
   };
 
   const handleChoose = () => {
@@ -93,7 +93,7 @@ export default function RetrieveScopusAuthor() {
                 onChange={(e) => setLastName(e.target.value)}
                 required={true}
               />
-              <label className="name-label">Họ tên</label>
+              <label className="name-label">Họ</label>
             </div>
           </div>
           <div className="btn-confirm">

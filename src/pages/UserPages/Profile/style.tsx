@@ -99,8 +99,6 @@ const Styled = styled.div`
     width: 100%;
   }
 
-  
-
   .container {
     display: flex;
     max-width: 1356px;

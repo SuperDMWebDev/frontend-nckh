@@ -161,11 +161,6 @@ export default function LecturerDetail() {
                         </div>
                     </li>
                     <li className="content_tab">
-                        <div id="3" className="content_tab_name" onClick={handleTab3}>
-                            SCOPUS PROFILE
-                        </div>
-                    </li>
-                    <li className="content_tab">
                         <div id="4" className="content_tab_name" onClick={handleTab4}>
                             NGHIÊN CỨU
                         </div>
@@ -187,16 +182,7 @@ export default function LecturerDetail() {
                             <div className="field-profile-info">
                                 <PortraitIcon style={{ fontSize: '20px' }} />
                                 <span style={{ marginLeft: '5px' }}>{
-                                    !lecturer?.currentDisciplines[0].position ? <>
-                                        <span
-                                            style={{
-                                                fontSize: '13px',
-                                                fontStyle: 'italic',
-                                                marginLeft: '1px'
-                                            }}>
-                                            Chưa cập nhật
-                                        </span>
-                                    </> : lecturer?.currentDisciplines[0].position
+                                    !lecturer?.currentDisciplines[0].position ? null : lecturer?.currentDisciplines[0].position
                                 }</span>
                             </div>
                             <div className="field-profile-info">
@@ -224,51 +210,36 @@ export default function LecturerDetail() {
                                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
                                 <span style={{ marginLeft: '5px' }}>{lecturer?.dateOfBirth}</span>
                             </div>
-                            <div className="field-profile-info">
-                                <EmailIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{
-                                    !email ? <>
-                                        <span
-                                            style={{
-                                                fontSize: '13px',
-                                                fontStyle: 'italic',
-                                                marginLeft: '1px'
-                                            }}>
-                                            Chưa cập nhật
-                                        </span>
-                                    </> : email
-                                }</span>
-                            </div>
-                            <div className="field-profile-info">
-                                <PhoneAndroidIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{
-                                    !phone ? <>
-                                        <span
-                                            style={{
-                                                fontSize: '13px',
-                                                fontStyle: 'italic',
-                                                marginLeft: '1px'
-                                            }}>
-                                            Chưa cập nhật
-                                        </span>
-                                    </> : phone
-                                }</span>
-                            </div>
-                            <div className="field-profile-info">
-                                <HouseIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{
-                                    !address ? <>
-                                        <span
-                                            style={{
-                                                fontSize: '13px',
-                                                fontStyle: 'italic',
-                                                marginLeft: '1px'
-                                            }}>
-                                            Chưa cập nhật
-                                        </span>
-                                    </> : address
-                                }</span>
-                            </div>
+                            {
+                                !email ? null : <>
+                                    <div className="field-profile-info">
+                                        <EmailIcon style={{ fontSize: '20px' }} />
+                                        <span style={{ marginLeft: '5px' }}>{
+                                            !email ? null : email
+                                        }</span>
+                                    </div>
+                                </>
+                            }
+                            {
+                                !phone ? null : <>
+                                    <div className="field-profile-info">
+                                        <PhoneAndroidIcon style={{ fontSize: '20px' }} />
+                                        <span style={{ marginLeft: '5px' }}>{
+                                            !phone ? null : phone
+                                        }</span>
+                                    </div>
+                                </>
+                            }
+                            {
+                                !address ? null : <>
+                                    <div className="field-profile-info">
+                                        <HouseIcon style={{ fontSize: '20px' }} />
+                                        <span style={{ marginLeft: '5px' }}>{
+                                            !address ? null : address
+                                        }</span>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
 
@@ -308,61 +279,6 @@ export default function LecturerDetail() {
                                 </div>
                             </div>
 
-                            <ModalEditDegree lecturer={lecturer} canEdit={false} />
-                            <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
-
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">KHẢ NĂNG</h2>
-                                    <p className="data_content">
-                                        Dự án hợp tác Tham gia một hội thảo trên web với tư cách là người tham gia hội
-                                        thảo hoặc diễn giả Thành viên của một ủy ban cố vấn
-                                    </p>
-                                </div>
-                            </div>
-                        </>
-                    ) : currentTab === 2 ? (
-                        <>
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content" style={{ marginBottom: "10px" }}>CÁC BÀI BÁO KHOA HỌC</h2>
-                                    {articleList.length != 0 ? (
-                                        articleList[id].map((item: any) => <ArticleCard data={item} />)
-                                    ) : (
-                                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                            Chưa có bài báo khoa học nào.
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                        </>
-                    ) : currentTab === 3 ? (
-                        <>
-                            <div className="content-profile">
-                                <span style={{ fontSize: '14px' }}>
-                                    {linkScopusProfile === '' ? (
-                                        <div className="scopus-profile">
-                                            <button className="btn btn-add-profile">Connect Scopus profile</button>
-                                            <p>
-                                                If you have more than one Scopus author profile and/or there are mistakes in
-                                                your profile, please go to the&nbsp;
-                                                <a href="https://www.scopus.com/feedback/author/home.uri">
-                                                    Scopus Author Feedback Wizard
-                                                </a>
-                                                &nbsp;to request a correction
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="scopus-profile link">
-                                            <h3>Link to Scopus Profile: </h3>
-                                            <a href={linkScopusProfile}>{linkScopusProfile}</a>
-                                        </div>
-                                    )}
-                                </span>
-                            </div>
-                        </>
-                    ) : (
-                        <>
                             <div className="content-profile">
                                 <div className="main_content">
                                     <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
@@ -384,6 +300,26 @@ export default function LecturerDetail() {
                                 </div>
                             </div>
 
+                            <ModalEditDegree lecturer={lecturer} canEdit={false} />
+                            <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
+                        </>
+                    ) : currentTab === 2 ? (
+                        <>
+                            <div className="content-profile">
+                                <div className="main_content">
+                                    <h2 className="title_content" style={{ marginBottom: "10px" }}>CÔNG BỐ KHOA HỌC</h2>
+                                    {articleList.length != 0 ? (
+                                        articleList[id].map((item: any) => <ArticleCard data={item} />)
+                                    ) : (
+                                        <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
+                                            Chưa có bài báo khoa học nào.
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
                             <div className="content-profile">
                                 <div className="main_content">
                                     <h2 className="title_content">HƯỚNG NGHIÊN CỨU</h2>

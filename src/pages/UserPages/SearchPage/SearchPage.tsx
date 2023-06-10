@@ -27,6 +27,7 @@ export default function SearchPage() {
 
   const [openOption, setOpenOption] = useState(false);
   let optionRef = useRef<HTMLDivElement>(null);
+  const scrollTop = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
@@ -107,6 +108,47 @@ export default function SearchPage() {
     window.location.replace('http://localhost:5000/');
   };
 
+  // PAGINATION
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 7;
+  const maxVisibleButtons = 7;
+
+  const renderPageButtons = (): JSX.Element[] => {
+    const visibleButtons: JSX.Element[] = [];
+    const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    const endPage: number = Math.floor(listArticles.length / itemsPerPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      visibleButtons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={i === currentPage ? 'active btn-pagination' : 'btn-pagination'}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return visibleButtons;
+  };
+
+  const totalPages = listArticles.length;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentLecturers = listArticles.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log(totalPages, indexOfLastItem, indexOfFirstItem, currentLecturers);
+
+  const handlePageChange = (pageNumber: number) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <Styled>
       <div className="center">
@@ -115,9 +157,10 @@ export default function SearchPage() {
         </div>
         <div
           style={{
-            fontSize: '17px',
+            fontSize: '22px',
             margin: '12px',
-            fontFamily: "Montserrat, sans-serif"
+            fontFamily: "monospace",
+            fontWeight: "bold"
           }}>{`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
         </div>
 
@@ -164,7 +207,7 @@ export default function SearchPage() {
       </div>
 
       {currentSearch != "article" ? (
-        <div className="center">
+        <div className="center" ref={scrollTop}>
           <div className="list_article">
             {listAuthors ? listAuthors.map((item) => <AuthorCard data={item} />) : <>
               <div
@@ -180,7 +223,7 @@ export default function SearchPage() {
           </div>
         </div>
       ) : (
-        <div className="center">
+        <div className="center" ref={scrollTop}>
           <div className="content content_article">
             <div className="sort_article">
               <span
@@ -197,7 +240,7 @@ export default function SearchPage() {
               <button className="btn_sort">Most cited</button>
             </div>
             <div className="list_article">
-              {listArticles.length != 0 ? listArticles.map((item) => <ArticleCard data={item} />) : <>
+              {currentLecturers.length != 0 ? currentLecturers.map((item) => <ArticleCard data={item} />) : <>
                 <div
                   style={{
                     fontSize: '14px',
@@ -208,6 +251,33 @@ export default function SearchPage() {
                   Không tìm thấy bài báo khoa học nào!
                 </div>
               </>}
+            </div>
+            <div>
+              <div style={{
+                marginBottom: "50px",
+                marginTop: "30px"
+              }}>
+                {/* Previous button */}
+                <button
+                  className='btn-pre-next'
+                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </button>
+
+                {/* Page buttons */}
+                {renderPageButtons()}
+
+                {/* Next button */}
+                <button
+                  className='btn-pre-next'
+                  disabled={currentPage === totalPages}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>

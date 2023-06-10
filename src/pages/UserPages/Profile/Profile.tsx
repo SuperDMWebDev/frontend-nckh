@@ -221,14 +221,14 @@ export default function Profile() {
                     </li>
                     <li className="content_tab">
                         <div id="2" className="content_tab_name" onClick={handleTab2}>
-                            BÀI BÁO KHOA HỌC
+                            CÔNG BỐ KHOA HỌC
                         </div>
                     </li>
-                    <li className="content_tab">
+                    {/* <li className="content_tab">
                         <div id="3" className="content_tab_name" onClick={handleTab3}>
                             SCOPUS PROFILE
                         </div>
-                    </li>
+                    </li> */}
                     <li className="content_tab">
                         <div id="4" className="content_tab_name" onClick={handleTab4}>
                             NGHIÊN CỨU
@@ -413,7 +413,7 @@ export default function Profile() {
                                 <div className='content'>
                                     <img
                                         className="img-avatar-edit"
-                                        src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : previewAvatar}
+                                        src={lecturer?.avatar == "null" || lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : previewAvatar}
                                         alt=""
                                     />
                                 </div>
@@ -615,19 +615,9 @@ export default function Profile() {
                                     </Modal>
                                 </div>
                             </div>
-
+                            <ModalEditExpertises lecturer={lecturer} canEdit={true} />
                             <ModalEditDegree lecturer={lecturer} canEdit={true} />
                             <ModalEditWorkPosition lecturer={lecturer} canEdit={true} />
-
-                            <div className="content-profile">
-                                <div className="main_content">
-                                    <h2 className="title_content">KHẢ NĂNG</h2>
-                                    <p className="data_content">
-                                        Dự án hợp tác Tham gia một hội thảo trên web với tư cách là người tham gia hội
-                                        thảo hoặc diễn giả Thành viên của một ủy ban cố vấn
-                                    </p>
-                                </div>
-                            </div>
                         </>
                     ) : currentTab === 2 ? (
                         <>
@@ -646,38 +636,43 @@ export default function Profile() {
                                 )}
                             </div>
                         </>
-                    ) : currentTab === 3 ? (
-                        <>
-                            <div className="content-profile">
-                                <span style={{ fontSize: '14px' }}>
-                                    {linkScopusProfile === '' ? (
-                                        <div className="scopus-profile">
-                                            <button className="btn btn-add-profile">Connect Scopus profile</button>
-                                            <p>
-                                                If you have more than one Scopus author profile and/or there are mistakes in
-                                                your profile, please go to the&nbsp;
-                                                <a href="https://www.scopus.com/feedback/author/home.uri">
-                                                    Scopus Author Feedback Wizard
-                                                </a>
-                                                &nbsp;to request a correction
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="scopus-profile link">
-                                            <h3>Link to Scopus Profile: </h3>
-                                            <a href={linkScopusProfile}>{linkScopusProfile}</a>
-                                        </div>
-                                    )}
-                                </span>
-                            </div>
-                        </>
                     ) : (
                         <>
-                            <ModalEditExpertises lecturer={lecturer} canEdit={true} />
                             <ModalEditResearchField lecturer={lecturer} canEdit={true} />
                             <ModalEditBook lecturer={lecturer} canEdit={true} />
                         </>
                     )}
+                    {/* // ) : currentTab === 3 ? (
+                    //     <>
+                    //         <div className="content-profile">
+                    //             <span style={{ fontSize: '14px' }}>
+                    //                 {linkScopusProfile === '' ? (
+                    //                     <div className="scopus-profile">
+                    //                         <button className="btn btn-add-profile">Connect Scopus profile</button>
+                    //                         <p>
+                    //                             If you have more than one Scopus author profile and/or there are mistakes in
+                    //                             your profile, please go to the&nbsp;
+                    //                             <a href="https://www.scopus.com/feedback/author/home.uri">
+                    //                                 Scopus Author Feedback Wizard
+                    //                             </a>
+                    //                             &nbsp;to request a correction
+                    //                         </p>
+                    //                     </div>
+                    //                 ) : (
+                    //                     <div className="scopus-profile link">
+                    //                         <h3>Link to Scopus Profile: </h3>
+                    //                         <a href={linkScopusProfile}>{linkScopusProfile}</a>
+                    //                     </div>
+                    //                 )}
+                    //             </span>
+                    //         </div>
+                    //     </>
+                    // ) : (
+                    //     <>
+                    //         <ModalEditResearchField lecturer={lecturer} canEdit={true} />
+                    //         <ModalEditBook lecturer={lecturer} canEdit={true} />
+                    //     </>
+                    // )} */}
                 </div>
             </div >
             <div className="footer"></div>

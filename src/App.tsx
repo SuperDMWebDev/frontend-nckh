@@ -27,6 +27,7 @@ import EditProfileLecturer from './pages/UserPages/EditProfileLecturer/EditProfi
 import LecturerDetail from './pages/UserPages/LecturerDetail/LecturerDetail';
 import CreateLecturer from './pages/AdminPages/CreateLecturer/CreateLecturer';
 import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
+import MyArticles from './pages/UserPages/MyArticles/MyArticles';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -48,6 +49,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<RetrieveScopusAuthor />} />
                   <Route path="/*" element={<RetrieveScopusAuthor />} />
+                  <Route path="/my-articles" element={<MyArticles />} />
                 </Routes>
               </> : <>
                 {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
