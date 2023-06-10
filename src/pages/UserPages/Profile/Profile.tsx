@@ -107,8 +107,6 @@ export default function Profile() {
             .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
 
-    const linkScopusProfile = '';
-
     console.log(lecturer);
 
     const handleTab1 = () => {
@@ -116,7 +114,6 @@ export default function Profile() {
         document.getElementById('1')?.classList.add('tab-selected');
         document.getElementById('2')?.classList.remove('tab-selected');
         document.getElementById('3')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
     };
 
     const handleTab2 = () => {
@@ -124,7 +121,6 @@ export default function Profile() {
         document.getElementById('2')?.classList.add('tab-selected');
         document.getElementById('1')?.classList.remove('tab-selected');
         document.getElementById('3')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
     };
 
     const handleTab3 = () => {
@@ -132,15 +128,6 @@ export default function Profile() {
         document.getElementById('3')?.classList.add('tab-selected');
         document.getElementById('1')?.classList.remove('tab-selected');
         document.getElementById('2')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
-    };
-
-    const handleTab4 = () => {
-        setCurrentTab(4);
-        document.getElementById('4')?.classList.add('tab-selected');
-        document.getElementById('1')?.classList.remove('tab-selected');
-        document.getElementById('2')?.classList.remove('tab-selected');
-        document.getElementById('3')?.classList.remove('tab-selected');
     };
 
     const handleBackSearch = () => {
@@ -226,11 +213,6 @@ export default function Profile() {
                     </li>
                     <li className="content_tab">
                         <div id="3" className="content_tab_name" onClick={handleTab3}>
-                            SCOPUS PROFILE
-                        </div>
-                    </li>
-                    <li className="content_tab">
-                        <div id="4" className="content_tab_name" onClick={handleTab4}>
                             NGHIÊN CỨU
                         </div>
                     </li>
@@ -644,31 +626,6 @@ export default function Profile() {
                                         Chưa có bài báo khoa học nào.
                                     </span>
                                 )}
-                            </div>
-                        </>
-                    ) : currentTab === 3 ? (
-                        <>
-                            <div className="content-profile">
-                                <span style={{ fontSize: '14px' }}>
-                                    {linkScopusProfile === '' ? (
-                                        <div className="scopus-profile">
-                                            <button className="btn btn-add-profile">Connect Scopus profile</button>
-                                            <p>
-                                                If you have more than one Scopus author profile and/or there are mistakes in
-                                                your profile, please go to the&nbsp;
-                                                <a href="https://www.scopus.com/feedback/author/home.uri">
-                                                    Scopus Author Feedback Wizard
-                                                </a>
-                                                &nbsp;to request a correction
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="scopus-profile link">
-                                            <h3>Link to Scopus Profile: </h3>
-                                            <a href={linkScopusProfile}>{linkScopusProfile}</a>
-                                        </div>
-                                    )}
-                                </span>
                             </div>
                         </>
                     ) : (

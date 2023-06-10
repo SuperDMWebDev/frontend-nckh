@@ -251,14 +251,7 @@ const TabContact: React.FC = () => {
             dataIndex: 'id',
             key: 'id',
             width: '3%',
-            ...getColumnSearchProps('id'),
-            onCell: () => {
-                return {
-                    onClick: (ev) => {
-                        navigate('/detail-page');
-                    }
-                };
-            }
+            ...getColumnSearchProps('id')
         },
         {
             title: 'Tên',
@@ -343,11 +336,11 @@ const TabContact: React.FC = () => {
                     width={500}
                     destroyOnClose
                     footer={[
-                        <Button type="primary" htmlType="submit" onClick={onDelete}>
-                            Có
-                        </Button>,
                         <Button className='btn-cancel' key="back" onClick={handleCancel}>
                             Không
+                        </Button>,
+                        <Button type="primary" htmlType="submit" onClick={onDelete}>
+                            Có
                         </Button>
                     ]}
                 >

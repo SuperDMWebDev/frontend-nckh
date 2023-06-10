@@ -148,6 +148,15 @@ const Styled = styled.div`
     margin-bottom: 16px;
   }
 
+  .details .title::after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    display: block;
+    background-color: black;
+    margin-top: 3px;
+  }
+
   .account-manipulation {
     width: 60%;
     margin: 0 auto;

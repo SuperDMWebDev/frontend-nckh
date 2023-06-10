@@ -54,3 +54,12 @@ export const signup = async (email: string) => {
     }
   );
 };
+
+export const getEmailByAccountId = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}accounts/1 HTTP/1.1`);
+    return res.data.email;
+  } catch (error) {
+    return handleError(error);
+  }
+};
