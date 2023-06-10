@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DatePicker, Form, Input, Button } from 'antd';
 import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
-import { createArticle } from '../../../api/Article';
+import { createArticle, getArticleByDOI } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
 import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
+
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface ArticleType {
@@ -26,16 +27,17 @@ type OptionSelect = {
 const CreateArticle = () => {
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
+
+  const [DOI, setDOI] = useState('');
+
   const [name, setName] = useState('');
   const [journal, setJournal] = useState('');
   const [volume, setVolume] = useState<number>();
-  const [issue, setIssue] = useState<number>();
   const [day, setDay] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [year, setYear] = useState<number>();
   const [abstract, setAbstract] = useState('');
   const [ArXivID, setArXivID] = useState('');
-  const [DOI, setDOI] = useState('');
   const [ISBN, setISBN] = useState('');
   const [ISSN, setISSN] = useState('');
   const [PMID, setPMID] = useState('');
@@ -43,7 +45,6 @@ const CreateArticle = () => {
   const [PII, setPII] = useState('');
   const [SGR, setSGR] = useState('');
   const [projectId, setProjectId] = useState('');
-  const [citationKey, setCitationKey] = useState('');
   const [generalNote, setGeneralNote] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
@@ -114,6 +115,49 @@ const CreateArticle = () => {
     }
   };
 
+  const handleGetArticleByDOI = async () => {
+    var payload = {
+      data: {
+        doi: DOI
+      }
+    };
+
+    const res = await getArticleByDOI(payload);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data[0];
+
+          setName(data.name);
+          setJournal(data.journal);
+          setVolume(data.volume);
+          setDay(data.day);
+          setMonth(data.month);
+          setYear(data.year);
+          setAbstract(data.abstract);
+          setArXivID(data.ArXivID);
+          setISBN(data.ISBN);
+          setISSN(data.ISSN);
+          setPMID(data.PMID);
+          setScopus(data.Scopus);
+          setPII(data.PII);
+          setSGR(data.SGR);
+          setProjectId(data.projectId);
+          setGeneralNote(data.generalNote);
+
+          toast.success('Successfully get article data from DOI');
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          toast.error('Fail to load article from given DOI');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
   const handleGetAuthor = (list: any) => {
     setAuthorPayload(list);
   };
@@ -159,7 +203,6 @@ const CreateArticle = () => {
       name,
       journal,
       volume,
-      issue,
       day,
       month,
       year,
@@ -173,7 +216,6 @@ const CreateArticle = () => {
       PII,
       SGR,
       projectId,
-      citationKey,
       generalNote,
       tags,
       authors,
@@ -191,7 +233,7 @@ const CreateArticle = () => {
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.success('Fail to create article');
+          toast.error('Fail to create article');
           navigate('/profile');
           break;
         }
@@ -216,11 +258,20 @@ const CreateArticle = () => {
       </div>
       <div className="container">
         <form>
-          <div className="group">
-            <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>DOI</label>
+          <div className="doi">
+            <div className="group">
+              <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" />
+              <span className="highlight"></span>
+              <span className="bar"></span>
+              <label>DOI</label>
+            </div>
+            <Button
+              style={{ borderRadius: '4px', padding: '8px 23px' }}
+              type="primary"
+              htmlType="submit"
+              onClick={() => handleGetArticleByDOI()}>
+              Add
+            </Button>
           </div>
 
           <div className="group">
@@ -246,17 +297,6 @@ const CreateArticle = () => {
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
-          </div>
-
-          <div className="group">
-            <input
-              value={issue}
-              onChange={(e) => setIssue(parseInt(e.target.value))}
-              type="number"
-            />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Issue</label>
           </div>
 
           <div className="group">
@@ -345,17 +385,6 @@ const CreateArticle = () => {
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Project Id</label>
-          </div>
-
-          <div className="group">
-            <input
-              value={citationKey}
-              onChange={(e) => setCitationKey(e.target.value)}
-              type="text"
-            />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Citation Key</label>
           </div>
 
           <div className="group">

@@ -93,3 +93,14 @@ export const getListArticleWithKeyword = async (data: any) => {
     return handleError(error);
   }
 };
+
+export const getArticleByDOI = async (data: any) => {
+  try {
+    const query = `${BASE_URL}scopus/article`;
+    const res = await axios.post(query, data);
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};

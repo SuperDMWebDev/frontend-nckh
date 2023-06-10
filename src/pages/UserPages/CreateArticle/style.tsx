@@ -178,6 +178,11 @@ const Styled = styled.div`
       background: transparent;
     }
   }
+
+  .doi {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export default Styled;

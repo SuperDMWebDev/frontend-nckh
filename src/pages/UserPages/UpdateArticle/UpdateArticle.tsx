@@ -39,7 +39,6 @@ const UpdateArticle = () => {
   const [name, setName] = useState(article?.name);
   const [journal, setJournal] = useState(article?.journal);
   const [volume, setVolume] = useState(article?.volume);
-  const [issue, setIssue] = useState(article?.issue);
   const [day, setDay] = useState<number>(article?.day);
   const [month, setMonth] = useState<number>(article?.month);
   const [year, setYear] = useState<number>(article?.year);
@@ -53,7 +52,6 @@ const UpdateArticle = () => {
   const [PII, setPII] = useState(article?.PII);
   const [SGR, setSGR] = useState(article?.SGR);
   const [projectId, setProjectId] = useState(article?.projectId);
-  const [citationKey, setCitationKey] = useState(article?.citationKey);
   const [generalNote, setGeneralNote] = useState(article?.generalNote);
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
@@ -149,7 +147,6 @@ const UpdateArticle = () => {
           setName(data.name);
           setJournal(data.journal);
           setVolume(data.volume);
-          setIssue(data.issue);
           setDay(data.day);
           setMonth(data.month);
           setYear(data.year);
@@ -163,7 +160,6 @@ const UpdateArticle = () => {
           setPII(data.PII);
           setSGR(data.SGR);
           setProjectId(data.projectId);
-          setCitationKey(data.citationKey);
           setGeneralNote(data.generalNote);
           break;
         }
@@ -199,7 +195,6 @@ const UpdateArticle = () => {
       name,
       journal,
       volume,
-      issue,
       day,
       month,
       year,
@@ -213,7 +208,6 @@ const UpdateArticle = () => {
       PII,
       SGR,
       projectId,
-      citationKey,
       generalNote,
       tags,
       authors,
@@ -292,13 +286,6 @@ const UpdateArticle = () => {
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Volume</label>
-          </div>
-
-          <div className="group">
-            <input value={issue} onChange={(e) => setIssue(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Issue</label>
           </div>
 
           <div className="group">
@@ -418,18 +405,6 @@ const UpdateArticle = () => {
             <span className="highlight"></span>
             <span className="bar"></span>
             <label>Project Id</label>
-          </div>
-
-          <div className="group">
-            <input
-              value={citationKey}
-              onChange={(e) => setCitationKey(e.target.value)}
-              type="text"
-              required
-            />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Citation Key</label>
           </div>
 
           <div className="group">
