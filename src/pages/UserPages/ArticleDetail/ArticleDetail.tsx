@@ -144,11 +144,11 @@ export default function ArticleDetail() {
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <div className="button_update" onClick={() => navigate(`/update-article/${id}`)}>
                   <EditOutlined style={{ marginRight: '10px' }} />
-                  Edit
+                  Chỉnh sửa
                 </div>
                 <div className="button_delete" onClick={showConfirm}>
                   <DeleteOutlined style={{ marginRight: '10px' }} />
-                  Delete
+                  Xóa
                 </div>
               </div>
             )}

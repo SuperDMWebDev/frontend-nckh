@@ -73,7 +73,7 @@ export default function RetrieveScopusAuthor() {
     <Styled>
       <div className="form-body">
         <div className="form-data">
-          <h1> Truy xuất tác giả Scopus </h1>
+          <div style={{ fontSize: '16px' }}> Truy xuất tác giả Scopus </div>
           <div className="form-input">
             <div className="wrapper">
               <input
@@ -92,7 +92,7 @@ export default function RetrieveScopusAuthor() {
                 onChange={(e) => setLastName(e.target.value)}
                 required={true}
               />
-              <label className="name-label">Họ tên</label>
+              <label className="name-label">Họ</label>
             </div>
           </div>
           <div className="btn-confirm">

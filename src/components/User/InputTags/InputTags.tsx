@@ -23,12 +23,15 @@ const Tags = ({ data, handleDelete }: Props) => {
         color: '#252525',
         borderRadius: '3px'
       }}>
-      <Stack direction="row" gap={1} alignItems="center">
+      <div className="tag">
         <Typography>{data}</Typography>
-        <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
-          <FontAwesomeIcon fontSize={10} onClick={() => handleDelete(data)} icon={faClose} />
-        </button>
-      </Stack>
+        <FontAwesomeIcon
+          className="deleteicon"
+          fontSize={14}
+          onClick={() => handleDelete(data)}
+          icon={faClose}
+        />
+      </div>
     </Box>
   );
 };
@@ -51,33 +54,34 @@ const InputTags = ({ handleGetInputTag }: any) => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: '20px' }}>
-      <TextField
-        inputRef={tagRef}
-        fullWidth
-        variant="standard"
-        size="medium"
-        sx={{
-          margin: '1rem 0'
-        }}
-        margin="none"
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-        placeholder={tags.length < 5 ? 'Enter tags' : ''}
-        InputProps={{
-          startAdornment: (
-            <Box sx={{ margin: '0 0.2rem 0 0', display: 'flex' }}>
-              {tags.map((data, index) => {
-                return <Tags data={data} handleDelete={handleDelete} key={index} />;
-              })}
-            </Box>
-          )
-        }}
-      />
-      <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
-        <FontAwesomeIcon color="#0056ce" onClick={() => handleOnSubmit(tag)} icon={faAdd} />
-      </button>
-    </Box>
+    <Styled>
+      <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div className="textField">
+          <TextField
+            inputRef={tagRef}
+            fullWidth
+            sx={{
+              margin: '1rem 0'
+            }}
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            placeholder={tags.length < 5 ? 'Enter tags' : ''}
+            InputProps={{
+              startAdornment: (
+                <Box sx={{ margin: '0 0.2rem 0 0', display: 'flex' }}>
+                  {tags.map((data, index) => {
+                    return <Tags data={data} handleDelete={handleDelete} key={index} />;
+                  })}
+                </Box>
+              )
+            }}
+          />
+        </div>
+        <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
+          <FontAwesomeIcon color="#0056ce" onClick={() => handleOnSubmit(tag)} icon={faAdd} />
+        </button>
+      </Box>
+    </Styled>
   );
 };
 
