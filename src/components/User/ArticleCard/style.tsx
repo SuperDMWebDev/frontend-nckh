@@ -43,7 +43,8 @@ const Styled = styled.div`
   }
 
   .left-part {
-    width: 80%;
+    margin: auto;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

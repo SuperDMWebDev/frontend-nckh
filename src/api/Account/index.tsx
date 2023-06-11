@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const BASE_URL = 'http://localhost:3001/api/v1/';
+import { BASE_URL } from '..';
 
 const token = localStorage.getItem('accessToken');
 
@@ -22,37 +21,42 @@ export const getAllAccounts = async () => {
 };
 
 export const createAccount = async (account_create: any) => {
-  const res = await axios.post(
-    `${BASE_URL}auth/signup`,
-    {
-      "email": account_create.email,
-      "password": account_create.password,
-      "password2": account_create.password
-    }
-  );
+  const res = await axios.post(`${BASE_URL}auth/signup`, {
+    email: account_create.email,
+    password: account_create.password,
+    password2: account_create.password
+  });
 };
 
 export const retrieveScopusAccount = async (accountId: any, scopusId: any) => {
-  const res = await axios.post(
-    `${BASE_URL}scopus/author/save`,
-    {
-      "data": {
-        "scopusAuthorId": scopusId,
-        "accountId": accountId
-      }
+  const res = await axios.post(`${BASE_URL}scopus/author/save`, {
+    data: {
+      scopusAuthorId: scopusId,
+      accountId: accountId
     }
+  }
   );
 
   return res;
 };
 
 export const signup = async (email: string) => {
-  const res = await axios.post(
-    `${BASE_URL}auth/signup`,
+  const res = await axios.post(`${BASE_URL}auth/signup`, {
+    email: email,
+    password: 'Nam12345678@',
+    password2: 'Nam12345678@'
+  });
+};
+
+export const getEmailByAccountId = async (accountId: string) => {
+  const res = await axios.get(
+    `${BASE_URL}accounts/${accountId}`,
     {
-      "email": email,
-      "password": "Nam12345678@",
-      "password2": "Nam12345678@"
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
   );
+
+  return res.data.data.email;
 };

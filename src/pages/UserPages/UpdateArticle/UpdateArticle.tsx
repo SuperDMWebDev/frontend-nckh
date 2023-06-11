@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { DatePicker, Form, Input, Button } from 'antd';
+import { Form, Input } from 'antd';
 import Styled from './style';
 import InputTags from '../../../components/User/InputTags/InputTags';
-import { createArticle, getDetailArticle } from '../../../api/Article';
+import { updateArticle, getArticleByDOI, getDetailArticle } from '../../../api/Article';
 import { getTag } from '../../../api/Tag';
 import { getAllLecturers } from '../../../api/Lecturer';
 import httpStatus from 'http-status';
@@ -11,41 +11,63 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
+import Button from '@mui/material/Button';
 
+const { Search } = Input;
 type SizeType = Parameters<typeof Form>[0]['size'];
-
-interface ArticleType {
-  name: string;
-  journal: string;
-}
 
 type OptionSelect = {
   value: number;
   label: string;
 };
 
-type Article = {
-  [key: string]: any; // 👈️ variable key
-  name: string;
-};
+const journalOptionList: OptionSelect[] = [
+  {
+    value: 1,
+    label: 'Journal'
+  },
+  {
+    value: 2,
+    label: 'Conference'
+  }
+];
 
 const UpdateArticle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const accountId: string | null = localStorage.getItem('accountId');
   const [article, setArticle] = useState<any>();
 
-  const [name, setName] = useState(article?.name);
-  const [journal, setJournal] = useState(article?.journal);
+  const [DOI, setDOI] = useState('');
+
+  const [name, setName] = useState('');
+
+  const [journalConferenceText, setJournalConferenceText] = useState('');
+  const [journal, setJournal] = useState<string | null>();
+  const [conference, setConference] = useState<string | null>();
+  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
+  const [rank, setRank] = useState('');
+  const handleSelectJournalOption = (option: any) => {
+    setJournalOption(option);
+  };
+  const handleGetJournalConference = (e: any) => {
+    setJournalConferenceText(e.target.value);
+    if (journalOption.value == 1) {
+      setJournal(e.target.value);
+      setConference(null);
+    } else {
+      setConference(e.target.value);
+      setJournal(null);
+    }
+  };
+
   const [volume, setVolume] = useState(article?.volume);
-  const [issue, setIssue] = useState(article?.issue);
   const [day, setDay] = useState<number>(article?.day);
   const [month, setMonth] = useState<number>(article?.month);
   const [year, setYear] = useState<number>(article?.year);
   const [abstract, setAbstract] = useState(article?.abstract);
   const [ArXivID, setArXivID] = useState(article?.ArXivID);
-  const [DOI, setDOI] = useState(article?.DOI);
   const [ISBN, setISBN] = useState(article?.ISBN);
   const [ISSN, setISSN] = useState(article?.ISSN);
   const [PMID, setPMID] = useState(article?.PMID);
@@ -53,7 +75,6 @@ const UpdateArticle = () => {
   const [PII, setPII] = useState(article?.PII);
   const [SGR, setSGR] = useState(article?.SGR);
   const [projectId, setProjectId] = useState(article?.projectId);
-  const [citationKey, setCitationKey] = useState(article?.citationKey);
   const [generalNote, setGeneralNote] = useState(article?.generalNote);
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
@@ -67,13 +88,8 @@ const UpdateArticle = () => {
     setSelectedLecturer(data);
   };
 
-  const [urlPayload, setUrlPayload] = useState<any[]>([]);
+  const [authorPayload, setAuthorPayload] = useState<any[]>([]);
   const [notePayload, setNotePayload] = useState<any[]>([]);
-
-  const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
-  const onFormLayoutChange = ({ size }: { size: SizeType }) => {
-    setComponentSize(size);
-  };
 
   const fetchTag = async () => {
     const res = await getTag();
@@ -123,15 +139,8 @@ const UpdateArticle = () => {
     }
   };
 
-  const handleGetURL = (list: any) => {
-    var urls: any[] = [];
-    list?.map((item: string) => {
-      let obj = {
-        url: item
-      };
-      urls.push(obj);
-    });
-    setUrlPayload(urls);
+  const handleGetAuthor = (list: any) => {
+    setAuthorPayload(list);
   };
 
   const handleGetNote = (list: any) => {
@@ -154,9 +163,12 @@ const UpdateArticle = () => {
           setArticle(data);
 
           setName(data.name);
-          setJournal(data.journal);
+          if (journal == null) {
+            setJournalConferenceText(data.conference);
+          } else {
+            setJournalConferenceText(data.journal);
+          }
           setVolume(data.volume);
-          setIssue(data.issue);
           setDay(data.day);
           setMonth(data.month);
           setYear(data.year);
@@ -170,7 +182,6 @@ const UpdateArticle = () => {
           setPII(data.PII);
           setSGR(data.SGR);
           setProjectId(data.projectId);
-          setCitationKey(data.citationKey);
           setGeneralNote(data.generalNote);
           break;
         }
@@ -184,9 +195,61 @@ const UpdateArticle = () => {
     }
   };
 
-  const handleCreateArticle = async () => {
+  const handleBackSearch = () => {
+    navigate(`/article-detail/${id}`);
+  };
+
+  const handleGetArticleByDOI = async () => {
+    var payload = {
+      data: {
+        doi: DOI
+      }
+    };
+
+    // e.preventDefault();
+
+    const res = await getArticleByDOI(payload);
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          const data = res.data.data[0];
+          setName(data.name);
+          setJournal(data.journal);
+          setVolume(data.volume);
+          setDay(data.day);
+          setMonth(data.month);
+          setYear(data.year);
+          setAbstract(data.abstract);
+          setArXivID(data.ArXivID);
+          setISBN(data.ISBN);
+          setISSN(data.ISSN);
+          setPMID(data.PMID);
+          setScopus(data.Scopus);
+          setPII(data.PII);
+          setSGR(data.SGR);
+          setProjectId(data.projectId);
+          setGeneralNote(data.generalNote);
+
+          toast.success('Successfully get article data from DOI');
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          toast.error('Fail to load article from given DOI');
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
+  const handleUpdateArticle = async () => {
     var tags: any[] = [];
-    var authors: any[] = [];
+    var authors: any[] = [
+      {
+        lecturerId: parseInt(accountId!)
+      }
+    ];
 
     selectedTag?.map((item: { value: number; label: string }) => {
       let obj = { tag_id: item.value };
@@ -198,11 +261,15 @@ const UpdateArticle = () => {
       authors.push(obj);
     });
 
+    authorPayload?.map((item) => {
+      authors.push(item);
+    });
+
     var data = {
       name,
       journal,
+      conference,
       volume,
-      issue,
       day,
       month,
       year,
@@ -216,25 +283,23 @@ const UpdateArticle = () => {
       PII,
       SGR,
       projectId,
-      citationKey,
       generalNote,
       tags,
       authors,
-      urls: urlPayload,
       notes: notePayload
     };
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
-    const res = await createArticle(bodyFormData);
+    const res = await updateArticle(bodyFormData, id);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
-          toast.success('Create article sucessfully');
+          toast.success('Update article sucessfully');
           navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.success('Fail to create article');
+          toast.success('Fail to update article');
           navigate('/profile');
           break;
         }
@@ -244,195 +309,149 @@ const UpdateArticle = () => {
     }
   };
 
-  console.log('art', article);
-  console.log('name', name);
-
   useEffect(() => {
     handleGetDetailArticle();
     fetchTag();
     fetchLecturer();
   }, []);
 
-  const handleGetAuthor = () => {
-
-  };
-
   return (
     <Styled>
       <div className="header_topbar">
-        <div className="btn-back-search" onClick={() => navigate(-1)}>
+        {/* <div className="btn-back-search" onClick={() => navigate(-1)}>
           <ArrowBackIcon /> quay lại
-        </div>
-        <div className="content_tab_name tab-selected">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
+        </div> */}
+        <div className="content_tab_name">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
       </div>
+
       <div className="container">
-        <form>
-          <div className="group">
-            <input value={DOI} onChange={(e) => setDOI(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>DOI</label>
-          </div>
+        <div className="row">
+          <Search
+            placeholder="DOI"
+            value={DOI}
+            onChange={(e) => setDOI(e.target.value)}
+            onSearch={handleGetArticleByDOI}
+            enterButton
+          />
+        </div>
 
-          <div className="group">
-            <input value={name} onChange={(e) => setName(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Name</label>
-          </div>
+        <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
 
-          <div className="group">
-            <input value={journal} onChange={(e) => setJournal(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Journal</label>
-          </div>
-
-          <div className="group">
-            <input value={volume} onChange={(e) => setVolume(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Volume</label>
-          </div>
-
-          <div className="group">
-            <input value={issue} onChange={(e) => setIssue(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Issue</label>
-          </div>
-
-          <div className="group">
-            <input value={day} onChange={(e) => setDay(parseInt(e.target.value))} type="number" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Day</label>
-          </div>
-
-          <div className="group">
-            <input value={month} onChange={(e) => setMonth(parseInt(e.target.value))} type="number" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Month</label>
-          </div>
-
-          <div className="group">
-            <input value={year} onChange={(e) => setYear(parseInt(e.target.value))} type="number" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Year</label>
-          </div>
-
-          <div className="group">
-            <input value={abstract} onChange={(e) => setAbstract(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Abstract</label>
-          </div>
-
-          <div className="group">
-            <input value={ArXivID} onChange={(e) => setArXivID(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>ArXivID</label>
-          </div>
-
-          <div className="group">
-            <input value={ISBN} onChange={(e) => setISSN(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>ISBN</label>
-          </div>
-
-          <div className="group">
-            <input value={ISSN} onChange={(e) => setISSN(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>ISSN</label>
-          </div>
-
-          <div className="group">
-            <input value={PMID} onChange={(e) => setPMID(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>PMID</label>
-          </div>
-
-          <div className="group">
-            <input value={Scopus} onChange={(e) => setScopus(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Scopus</label>
-          </div>
-
-          <div className="group">
-            <input value={PII} onChange={(e) => setPII(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>PII</label>
-          </div>
-
-          <div className="group">
-            <input value={SGR} onChange={(e) => setSGR(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>SGR</label>
-          </div>
-
-          <div className="group">
-            <input value={projectId} onChange={(e) => setProjectId(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Project Id</label>
-          </div>
-
-          <div className="group">
-            <input value={citationKey} onChange={(e) => setCitationKey(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>Citation Key</label>
-          </div>
-
-          <div className="group">
-            <input value={generalNote} onChange={(e) => setGeneralNote(e.target.value)} type="text" required />
-            <span className="highlight"></span>
-            <span className="bar"></span>
-            <label>General Note</label>
-          </div>
-
-          <div className="group">
-            <label className="label--config">Tags</label>
+        <div className="flex">
+          <div className="selectInput">
             <Select
-              options={tagList}
-              placeholder="Select tags"
-              value={selectedTag}
-              onChange={handleSelect}
-              isSearchable={true}
-              isMulti
+              options={journalOptionList}
+              value={journalOption}
+              onChange={(option) => handleSelectJournalOption(option)}
             />
-            <div style={{ marginTop: '20px' }}>{/* <InputTags />   */}</div>
           </div>
+          <Input
+            placeholder={journalOption.label}
+            value={journalConferenceText}
+            onChange={(e) => handleGetJournalConference(e)}
+          />
 
-          <div className="group">
-            <label className="label--config">Authors</label>
-            <Select
-              options={lecturerList}
-              placeholder="Select authors"
-              value={selectedLecturer}
-              onChange={handleSelectLecturer}
-              isSearchable={true}
-              isMulti
-            />
-            <div style={{ marginTop: '20px' }}>
-              <AuthorTag handleGetInputTag={handleGetAuthor} />
-            </div>
+          <div style={{ width: '170px' }}>
+            <Input placeholder="Rank" value={rank} onChange={(e) => setRank(e.target.value)} />
           </div>
+        </div>
 
-          <div className="group">
-            <label className="label--config">Note</label>
-            <InputTags handleGetInputTag={handleGetNote} />
-          </div>
-        </form>
+        <Input
+          placeholder="Volume"
+          value={volume}
+          onChange={(e) => setVolume(parseInt(e.target.value))}
+        />
+
+        <Input
+          placeholder="Day"
+          value={day}
+          onChange={(e) => setDay(parseInt(e.target.value))}
+          type="number"
+        />
+
+        <Input
+          placeholder="Month"
+          value={month}
+          onChange={(e) => setMonth(parseInt(e.target.value))}
+          type="number"
+        />
+
+        <Input
+          placeholder="Year"
+          value={year}
+          onChange={(e) => setYear(parseInt(e.target.value))}
+          type="number"
+        />
+
+        <Input
+          placeholder="Abstract"
+          value={abstract}
+          onChange={(e) => setAbstract(e.target.value)}
+        />
+
+        <Input placeholder="ArXivID" value={ArXivID} onChange={(e) => setArXivID(e.target.value)} />
+
+        <Input placeholder="ISBN" value={ISBN} onChange={(e) => setISSN(e.target.value)} />
+
+        <Input placeholder="PMID" value={PMID} onChange={(e) => setPMID(e.target.value)} />
+
+        <Input placeholder="Scopus" value={Scopus} onChange={(e) => setScopus(e.target.value)} />
+
+        <Input placeholder="PII" value={PII} onChange={(e) => setPII(e.target.value)} />
+
+        <Input placeholder="SGR" value={SGR} onChange={(e) => setSGR(e.target.value)} />
+
+        <Input
+          placeholder="Project ID"
+          value={projectId}
+          onChange={(e) => setProjectId(e.target.value)}
+        />
+
+        <Input
+          placeholder="General Note"
+          value={generalNote}
+          onChange={(e) => setGeneralNote(e.target.value)}
+        />
+
+        <div className="selectInputFull">
+          <Select
+            options={tagList}
+            placeholder="Select tags"
+            value={selectedTag}
+            onChange={handleSelect}
+            isSearchable={true}
+            isMulti
+          />
+        </div>
+        {/* <div style={{ marginTop: '20px' }}>
+            <InputTags />{' '}
+          </div> */}
+
+        <div className="selectInputFull">
+          <Select
+            options={lecturerList}
+            placeholder="Select lecturers"
+            value={selectedLecturer}
+            onChange={handleSelectLecturer}
+            isSearchable={true}
+            isMulti
+          />
+        </div>
+
+        <div>
+          <AuthorTag handleGetInputTag={handleGetAuthor} />
+        </div>
+
+        {/* <InputTags handleGetInputTag={handleGetNote} /> */}
+
+        <div className="btnContainer">
+          <Button size="large" variant="outlined" onClick={() => handleBackSearch()}>
+            Cancel
+          </Button>
+          <Button size="large" variant="contained" onClick={() => handleUpdateArticle()}>
+            Submit
+          </Button>
+        </div>
       </div>
     </Styled>
   );

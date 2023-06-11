@@ -36,7 +36,7 @@ export default function RetrieveScopusAuthor() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const accountId = localStorage.getItem("accountId");
+  const accountId = localStorage.getItem('accountId');
 
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +77,6 @@ export default function RetrieveScopusAuthor() {
 
   const handleChoose = () => {
     !scopusID ? toast.error('Vui lòng chọn tài khoản Scopus!') : handleOpen();
-    console.log(scopusID, accountId);
   };
 
   return (

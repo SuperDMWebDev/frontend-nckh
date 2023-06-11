@@ -2,73 +2,35 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Styled from './style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import BorderColorSharpIcon from '@mui/icons-material/BorderColorSharp';
-import styled from 'styled-components';
-import { Button, Modal } from 'antd';
-import ModalSetting from './ModalSetting/ModalSetting';
-import axios from 'axios';
-import { getAllAccounts } from '../../../api/Account';
-import Avatar from 'react-avatar-edit';
-import { editAvatarProfile, getAllLecturers } from '../../../api/Lecturer';
+import { Button, Form, Input, Modal } from 'antd';
+import { getEmailByAccountId } from '../../../api/Account';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { toast } from 'react-toastify';
 
-const AvatarBtn = styled('button')(({ }) => ({
-  width: '155px',
-  height: '155px',
-  borderRadius: '50%',
-  border: '2px solid #959595',
-  transition: 'all .3s',
-  padding: '0',
-
-  svg: {
-    width: '55px',
-    height: '55px',
-    color: '#959595'
-  },
-  p: {
-    fontSize: '13px',
-    fontWeight: 'bold',
-    color: '#959595'
-  },
-  '&:hover': {
-    borderColor: '#323232'
-  },
-  '&:hover svg, &:hover p': {
-    color: '#323232'
-  },
-
-  // '.avatar-image': {
-  //   backgroundImage: `url('https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1')`,
-  //   backgroundSize: 'cover',
-  // },
-}));
-
-interface DataType {
-  id: number;
-  email: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
-  is_deleted: number;
-  role: number;
-  token: null;
-  token_expired_in: null;
-}
+type SizeType = Parameters<typeof Form>[0]['size'];
 
 export default function Settings() {
-  const BASE_URL = 'http://localhost:8080/api/v1/';
-  const token = localStorage.getItem('accessToken');
-
   const [currentTab, setCurrentTab] = useState<string>('account');
   const [openInfo, setOpenInfo] = useState(false);
-  const [openDel, setOpenDel] = useState(false);
-  const [data, setData] = useState<DataType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [avatar, setAvatar] = useState('');
-  const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
   const accountId: string | null = localStorage.getItem('accountId');
+  const [form] = Form.useForm();
+  const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
+  const [email, setEmail] = useState<string>('');
+
+  useEffect(() => {
+    if (accountId !== null) {
+      getEmailByAccountId(accountId).then((email) => setEmail(email));
+    }
+  }, []);
+
+  const onFormLayoutChange = ({ size }: { size: SizeType }) => {
+    setComponentSize(size);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
 
   const handleTab = (event: SyntheticEvent) => {
     const idChosen: string = event.currentTarget.id;
@@ -83,42 +45,21 @@ export default function Settings() {
       }
     }
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line no-shadow
-    getAllAccounts().then((data) => setData(data));
-    // eslint-disable-next-line no-magic-numbers, no-console
-  }, []);
-
-  const listLabel = [
-    {
-      label: 'Email',
-      disabled: false,
-      value: 'email'
-    },
-    {
-      label: 'Mật khẩu',
-      disabled: false,
-      value: 'password'
-    }
-  ];
-
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
   };
-
-  const onCrop = (view: string) => {
-    console.log(view);
-    setAvatar(view);
-    //editAvatarProfile(view, accountId);
+  const handleCancel = () => {
+    setOpenInfo(false);
   };
 
-  const onOk = () => {
-    if (avatar !== '') {
-      toast.success('Thêm ảnh thành công!')
+  const onFinish = () => {
+    if (email === '') {
+      toast.error('Bạn chưa nhập liên hệ!');
+    } else {
+      toast.success('Cập nhật email thành công!');
+      setOpenInfo(false);
     }
-    setOpenEditAvatarModal(false);
-  }
+  };
 
   return (
     <Styled>
@@ -145,66 +86,56 @@ export default function Settings() {
               <div className="content-settings">
                 <div className="main_content row">
                   <div className="avatar col-4">
-                    <AvatarBtn onClick={() => setOpenEditAvatarModal(true)}>
-                      {avatar === '' ? (
-                        <div>
-                          <CameraAltOutlinedIcon />
-                          <p>Thêm ảnh</p>
-                        </div>
-                      ) : (
-                        <div className='avatar-image' style={{
-                          backgroundImage: `url(${avatar})`,
-                          backgroundSize: 'cover', width: '100%', height: '100%', borderRadius: '50%'
-                        }}></div>
-                      )}
-                    </AvatarBtn>
-
-                    <Modal
-                      title="Chỉnh sửa ảnh đại diện"
-                      centered
-                      open={openEditAvatarModal}
-                      onOk={onOk}
-                      onCancel={() => setOpenEditAvatarModal(false)}
-                      width={700}
-                      className="modalStyle"
-                    >
-                      <Avatar
-                        width={400}
-                        height={300}
-                        onCrop={onCrop}
-                      />
-                    </Modal>
+                    <AccountCircleIcon />
                   </div>
 
                   <div className="account-content col-8">
                     <div className="details">
-                      {/* <div className="title">
+                      <div className="title">
                         <button className="btn btn-edit" onClick={() => setOpenInfo(true)}>
                           <BorderColorSharpIcon />
                           <p>Edit</p>
                         </button>
+
                         <Modal
                           className="title_modal"
                           title="Thông tin tài khoản"
                           centered
                           open={openInfo}
                           width={650}
-                          footer={[
-                            <Button key="back" onClick={() => setOpenInfo(false)}>
-                              Thoát
-                            </Button>,
-                            <Button key="submit" onClick={() => setOpenInfo(false)}>
-                              OK
-                            </Button>
-                          ]}>
-                          <ModalSetting />
+                          footer={[]}>
+                          <Form
+                            form={form}
+                            className='modalAccount'
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 14 }}
+                            layout="horizontal"
+                            onFinish={() => onFinish()}
+                            initialValues={{ size: 'large' }}
+                            onValuesChange={onFormLayoutChange}
+                            size={componentSize as SizeType}
+                            style={{ maxWidth: 550 }}
+                          >
+                            <Form.Item label="email">
+                              <Input placeholder="Liên hệ" value={email} onChange={handleInputChange} />
+                            </Form.Item>
+
+                            <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
+                              <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                                Thoát
+                              </Button>
+                              <Button type="primary" htmlType="submit">
+                                OK
+                              </Button>
+                            </Form.Item>
+                          </Form>
                         </Modal>
-                      </div> */}
+                      </div>
 
                       <div className="details-info">
                         <div className="info">
                           <h3>Email: </h3>
-                          <p>email</p>
+                          <p>{email}</p>
                         </div>
                         <div className="info">
                           <h3>Mật khẩu: </h3>
@@ -225,26 +156,6 @@ export default function Settings() {
                     <div className="account-manipulation">
                       <div className="btn-controls">
                         {/* <button className="btn btn-change-pwd">Đổi mật khẩu</button> */}
-                        <button className="btn btn-close-account" onClick={() => setOpenDel(true)}>
-                          Xóa tài khoản
-                        </button>
-
-                        <Modal
-                          className="title_modal"
-                          title="Xóa tài khoản"
-                          centered
-                          open={openDel}
-                          width={400}
-                          footer={[
-                            <Button type="primary" key="submit" onClick={() => setOpenDel(false)}>
-                              Có
-                            </Button>,
-                            <Button key="back" onClick={() => setOpenDel(false)}>
-                              Không
-                            </Button>
-                          ]}>
-                          <p>Bạn có chắc muốn xóa tài khoản không?</p>
-                        </Modal>
                       </div>
                     </div>
                   </div>

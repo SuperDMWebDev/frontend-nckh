@@ -87,7 +87,8 @@ const Styled = styled.div`
     margin-left: auto;
   }
 
-  .content_tab_name::after, .content_tab_name::before {
+  .content_tab_name::after,
+  .content_tab_name::before {
     content: '';
     width: 0%;
     height: 2px;
@@ -96,7 +97,8 @@ const Styled = styled.div`
     transition: 0.5s;
   }
 
-  .content_tab_name:hover::after, .content_tab_name:hover::before {
+  .content_tab_name:hover::after,
+  .content_tab_name:hover::before {
     width: 100%;
   }
 
@@ -337,10 +339,6 @@ const Styled = styled.div`
   .footer {
     height: 100px;
   }
-
-  /*  
-    temp
-  */
 
   .card_article {
     box-sizing: border-box;
@@ -618,7 +616,6 @@ const Styled = styled.div`
   .header_article input::placeholder {
     font-style: italic;
   }
-
 
   // style modal
   .modalStyle .img-avatar-edit {

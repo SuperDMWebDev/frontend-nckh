@@ -31,6 +31,7 @@
     "formik": "^2.2.9",
     "http-status": "^1.6.2",
     "lzma": "^2.3.2",
+    "mdb-react-ui-kit": "^6.1.0",
     "react": "^18.2.0",
     "react-avatar-edit": "^1.2.0",
     "react-bootstrap": "^2.7.2",

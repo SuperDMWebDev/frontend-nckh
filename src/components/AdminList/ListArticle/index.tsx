@@ -34,8 +34,8 @@ export default function ListArticle() {
             {
                 loading ? <Loader /> : <div>
                     <div className='header_table'>
-                        <span className='title_table'>List of Artiles</span>
-                        <button className='button2' ><PlusOutlined style={{ marginRight: "10px" }} />Add</button>
+                        <span className='title_table'>Danh sách học giả</span>
+                        <button className='button2' ><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
                     </div>
 
                     <div className='content'>

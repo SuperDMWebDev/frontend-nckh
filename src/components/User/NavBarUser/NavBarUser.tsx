@@ -40,9 +40,7 @@ const NavBarUser = () => {
         }
       }
     };
-
     document.addEventListener('mousedown', handler);
-
     return () => {
       document.removeEventListener('mousedown', handler);
     };
@@ -149,8 +147,6 @@ const NavBarUser = () => {
               <div className="dropdown-menu__subTitle">Website User</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
-                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
                 <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
                 <DropdownItem
                   img={help}

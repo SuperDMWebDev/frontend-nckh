@@ -1,11 +1,10 @@
 import axios from 'axios';
+import { BASE_URL } from '..';
 
 type Lecturer1 = {
   [key: string]: any; // 👈️ variable key
   name: string;
 };
-
-const BASE_URL = 'http://localhost:3001/api/v1/';
 
 const token = localStorage.getItem('accessToken');
 
@@ -89,19 +88,19 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
       academicTitleGainYear: lecturer.academicTitleGainYear,
       contacts: [
         {
-          id: 1,
+          id: lecturer.contacts[0].id,
           contactTypeId: 1,
           value: data.email.email,
           update: true
         },
         {
-          id: 2,
+          id: lecturer.contacts[1].id,
           contactTypeId: 2,
           value: data.address.address,
           update: true
         },
         {
-          id: 3,
+          id: lecturer.contacts[2].id,
           contactTypeId: 3,
           value: data.phone.phone,
           update: true

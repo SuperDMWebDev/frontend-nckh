@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, TextField, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
@@ -20,27 +20,29 @@ const Tags = ({ data, handleDelete }: Props) => {
     <Box
       sx={{
         background: '#e0e0e0',
-        height: '100%',
+        height: '36px',
         display: 'flex',
         padding: '4px 10px',
         margin: '0 0.5rem 0.5rem 0',
         justifyContent: 'center',
         alignContent: 'center',
         color: '#252525',
-        borderRadius: '3px'
+        borderRadius: '4px'
       }}>
-      <Stack direction="row" gap={3} alignItems="center">
+      <div className="tag">
         <Typography>{data}</Typography>
-        <button style={{ border: 'none', background: 'transparent' }}>
-          <FontAwesomeIcon fontSize={11} onClick={() => handleDelete(data)} icon={faClose} />
-        </button>
-      </Stack>
+        <FontAwesomeIcon
+          className="deleteicon"
+          fontSize={14}
+          onClick={() => handleDelete(data)}
+          icon={faClose}
+        />
+      </div>
     </Box>
   );
 };
 
 const AuthorTag = ({ handleGetInputTag }: any) => {
-  const [name, setName] = useState('');
   const [names, setNames] = useState<string[]>([]);
   const [authorPayLoads, setAuthorPayLoads] = useState<NAME[]>([]);
 
@@ -57,7 +59,6 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
     setNames([...names, name]);
     setAuthorPayLoads([...authorPayLoads, authorPayload]);
     handleGetInputTag([...authorPayLoads, authorPayload]);
-    setName('');
   };
 
   const handleDelete = (value: string) => {
@@ -67,34 +68,35 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
 
   return (
     <Styled>
-      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap' }}>
-        {names.map((data, index) => {
-          return <Tags data={data} handleDelete={handleDelete} key={index} />;
-        })}
-      </Box>
       <div className="addLine">
+        <div style={{ fontSize: '16px', width: '100px' }}>Authors: </div>
         <Input
-          placeholder="First Name"
+          placeholder="First name"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
+
         <Input
-          placeholder="Last Name"
+          placeholder="Last name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
-        <button style={{ border: 'none', background: 'transparent', padding: 0, margin: 0 }}>
+
+        <button style={{ border: 'none', background: 'transparent' }}>
           <FontAwesomeIcon
             color="#0056ce"
             onClick={() => {
               handleOnSubmit(firstName, lastName);
-              setFirstName('');
-              setLastName('');
             }}
             icon={faAdd}
           />
         </button>
       </div>
+      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap', width: '700px' }}>
+        {names.map((data, index) => {
+          return <Tags data={data} handleDelete={handleDelete} key={index} />;
+        })}
+      </Box>
     </Styled>
   );
 };

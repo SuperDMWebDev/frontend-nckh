@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Styled from './style';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getDetailArticle, deleteArticle } from '../../../api/Article';
 import httpStatus from 'http-status';
-import { useNavigate } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { toast } from 'react-toastify';
+import { getLecturerIdFromAccountId } from '../../../utils/api';
+import { getIn } from 'formik';
 
 type Article = {
-  [key: string]: any; // 👈️ variable key
+  [key: string]: any;
   name: string;
 };
 
@@ -19,22 +20,12 @@ export default function ArticleDetail() {
 
   const [article, setArticle] = useState<Article>();
   const [authorList, setAuthorList] = useState<string[]>([]);
+  const role = localStorage.getItem('role');
+  const lecturerId = localStorage.getItem('lecturerId');
+  const accountId = localStorage.getItem('accountId');
+  const [isEnableEdit, setIsEnableEdit] = useState<boolean>(false);
 
   const { confirm } = Modal;
-  function showConfirm() {
-    confirm({
-      title: 'Do you want to delete this article?',
-      content: 'When clicked the OK button, this article will be deleted permanently.',
-      async onOk() {
-        try {
-          handleDeleteArticle();
-        } catch (e) {
-          return console.log('Oops errors!');
-        }
-      },
-      onCancel() {}
-    });
-  }
 
   const handleDeleteArticle = async () => {
     var payload = {
@@ -65,7 +56,23 @@ export default function ArticleDetail() {
     }
   };
 
-  const fetchArticlesOfLecturers = async () => {
+  function showConfirm() {
+    confirm({
+      title: 'Do you want to delete this article?',
+      content: 'When clicked the OK button, this article will be deleted permanently.',
+      async onOk() {
+        try {
+          handleDeleteArticle();
+        } catch (e) {
+          return console.log('Oops errors!');
+        }
+      },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      onCancel() {}
+    });
+  }
+
+  const fetchArticlesOfLecturers = useCallback(async () => {
     const res = await getDetailArticle(id);
     if (res) {
       switch (res.status) {
@@ -82,28 +89,50 @@ export default function ArticleDetail() {
           break;
       }
     }
-  };
+  }, []);
 
   const getAuthorList = (article: any) => {
     let nameList: string[] = [];
+    // eslint-disable-next-line array-callback-return
     article?.authors.map((item: any) => {
-      if (item.lecturer_name != undefined || item.lecturer_name != null) {
+      if (item.lecturer_name !== undefined || item.lecturer_name !== null) {
         nameList.push(item.lecturer_name);
       } else {
-        let name = item.lastName + ' ' + item.firstName;
+        let name = `${item.lastName} ${item.firstName}`;
         nameList.push(name);
       }
     });
 
+    if (lecturerId) {
+      article?.authors.forEach((item: any) => {
+        if (item?.lecturer_id && item.lecturer_id.toString() === lecturerId) {
+          setIsEnableEdit(true);
+        }
+      });
+    }
+
     setAuthorList(nameList);
   };
+
+  useEffect(() => {
+    const getInfo = async () => {
+      if (accountId && !lecturerId) {
+        const response = await getLecturerIdFromAccountId(accountId);
+        if (response.data.code === 0) {
+          const { lecturerId } = response.data;
+          localStorage.setItem('lecturerId', lecturerId);
+        }
+      }
+    };
+    getInfo();
+  }, [accountId]);
   useEffect(() => {
     fetchArticlesOfLecturers();
-  }, []);
+  }, [fetchArticlesOfLecturers]);
 
   useEffect(() => {
     getAuthorList(article);
-  }, []);
+  }, [article, lecturerId]);
 
   return (
     <Styled>
@@ -111,22 +140,25 @@ export default function ArticleDetail() {
         <div className="detail-article-body">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className="article-title">{article.name}</div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <div className="button_update" onClick={() => navigate(`/update-article/${id}`)}>
-                <EditOutlined style={{ marginRight: '10px' }} />
-                Edit
+            {isEnableEdit && (
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <div className="button_update" onClick={() => navigate(`/update-article/${id}`)}>
+                  <EditOutlined style={{ marginRight: '10px' }} />
+                  Chỉnh sửa
+                </div>
+                <div className="button_delete" onClick={showConfirm}>
+                  <DeleteOutlined style={{ marginRight: '10px' }} />
+                  Xóa
+                </div>
               </div>
-              <div className="button_delete" onClick={showConfirm}>
-                <DeleteOutlined style={{ marginRight: '10px' }} />
-                Delete
-              </div>
-            </div>
+            )}
           </div>
 
           <div className="article-author">
             <div>Authors: </div>
             <ul>
               {authorList.map((item) => (
+                // eslint-disable-next-line react/jsx-key
                 <li>{item}</li>
               ))}
               {/* <li>Grant,M</li>

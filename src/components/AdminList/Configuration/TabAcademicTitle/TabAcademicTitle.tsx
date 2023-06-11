@@ -40,6 +40,10 @@ const TabAcademicTitle: React.FC = () => {
   const [openDel, setOpenDel] = useState(false);
   const navigate = useNavigate();
 
+  const locale = {
+    emptyText: 'Không có dữ liệu',
+  };
+
   const [academicTitles, setAcademicTitles] = useState<DataType[]>([]);
   useEffect(() => {
     // eslint-disable-next-line no-shadow
@@ -247,14 +251,7 @@ const TabAcademicTitle: React.FC = () => {
       dataIndex: 'id',
       key: 'id',
       width: '3%',
-      ...getColumnSearchProps('id'),
-      onCell: () => {
-        return {
-          onClick: (ev) => {
-            navigate('/detail-page');
-          }
-        };
-      }
+      ...getColumnSearchProps('id')
     },
     {
       title: 'Tên học vị',
@@ -299,6 +296,7 @@ const TabAcademicTitle: React.FC = () => {
             rowSelection={{ type: 'checkbox', ...rowSelection }}
             pagination={{ pageSize: 7 }}
             columns={columns}
+            locale={locale}
             dataSource={academicTitles}
             rowClassName={(record, index) =>
               index % 2 === 0 ? 'table-row-light' : 'table-row-dark'

@@ -96,7 +96,7 @@ const Styled = styled.div`
   .form-data {
     width: 700px;
     height: auto;
-    border: 1px solid black;
+    border: 1px solid #a3a3a3;
     margin-top: 20px;
     color: black;
     background: rgba(215, 216, 216, 0.15);
