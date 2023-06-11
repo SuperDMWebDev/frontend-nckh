@@ -22,25 +22,64 @@ const AuthorCard = (props: any) => {
               <p className="name" onClick={() => handleLink(data.id)}>{data.name}</p>
             </a>
           </div>
-          <div className="user-field">{data.currentDisciplines[0].departmentName} - {data.currentDisciplines[0].universityName}</div>
+          <div className="user-field">{
+            data.currentDisciplines == undefined ? <>
+              <span
+                style={{
+                  fontSize: '13px',
+                  fontStyle: 'italic',
+                  marginLeft: '1px'
+                }}>
+                Chưa cập nhật
+              </span>
+            </> : <>
+              {data.currentDisciplines[0].departmentName} - {data.currentDisciplines[0].universityName}
+            </>
+          }</div>
           <div className="user-position">
             <span className="right_availability_title" style={{ fontSize: "13px" }}>Chức vụ: </span>
             <span className="position">
-              {data.currentDisciplines[0].position ? data.currentDisciplines[0].position : <span>Chưa cập nhật</span>}
+              {
+                data.currentDisciplines == undefined ? <>
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      fontStyle: 'italic',
+                      marginLeft: '1px'
+                    }}>
+                    Chưa cập nhật
+                  </span>
+                </> : <>
+                  {
+                    !data.currentDisciplines[0].position ? <>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontStyle: 'italic',
+                          marginLeft: '1px'
+                        }}>
+                        Chưa cập nhật
+                      </span>
+                    </> : data.currentDisciplines[0].position
+                  }
+                </>
+              }
             </span>
           </div>
-          <div className="right_availability">
+          {/* <div className="right_availability">
             <div className="right_availability_title">Tiểu sử: </div>
             <div className="right_availability_content">
               {data.bio ? data.bio : <div style={{ marginLeft: "-5px" }}>Chưa cập nhật</div>}
             </div>
+          </div> */}
+          <div className="right_availability">
+            {
+              data.researchFields == undefined ? null :
+                data.researchFields.map((item: any) => (
+                  <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
+                ))
+            }
           </div>
-          {
-            data.researchFields == undefined ? null :
-              data.researchFields.map((item: any) => (
-                <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
-              ))
-          }
         </div>
       </div>
     </Styled>

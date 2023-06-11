@@ -14,7 +14,7 @@ type Lecturer = {
   name: string;
 };
 
-const NavBarUser = () => {
+const NavBarRetrieveScopus = () => {
   const [logined, setLogined] = useState(true);
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
@@ -22,11 +22,11 @@ const NavBarUser = () => {
   console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
   useEffect(() => {
-    getInfoProfile(accountId)
-      .then((result) => {
-        setLecturer(result);
-      })
-      .catch((err) => console.log("Can't get data lecturer: ", err));
+    // getInfoProfile(accountId)
+    //   .then((result) => {
+    //     setLecturer(result);
+    //   })
+    //   .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
 
   let menuRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,9 @@ const NavBarUser = () => {
         }
       }
     };
+
     document.addEventListener('mousedown', handler);
+
     return () => {
       document.removeEventListener('mousedown', handler);
     };
@@ -83,42 +85,19 @@ const NavBarUser = () => {
     );
   }
 
-  const handleClickSearch = () => {
-    navigate('/search', {
-      state: { searchInput: '', searchOption: { label: 'Author', value: 'author' } }
-    });
-  };
 
   return (
     <Styled>
       <div className="container">
-        <div className="logo">
+        <div className="logo" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <a href="/">
             <div className="container_logo">
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
+          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>Quản lý bài viết khoa học</div>
         </div>
         <div className="navbar-tab">
-          <ul>
-            <li>
-              <a href="/">TRANG CHỦ</a>
-            </li>
-            <li
-              onClick={handleClickSearch}
-              style={{
-                cursor: 'pointer',
-                color: '#959595',
-                position: 'relative',
-                fontSize: '16px',
-                textDecoration: 'none'
-              }}>
-              <a>TÌM KIẾM</a>
-            </li>
-            <li>
-              <a href="/my-articles">BÀI BÁO CỦA TÔI</a>
-            </li>
-          </ul>
         </div>
 
         {logined ? (
@@ -147,6 +126,8 @@ const NavBarUser = () => {
               <div className="dropdown-menu__subTitle">Website User</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
+                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
+                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
                 <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
                 <DropdownItem
                   img={help}
@@ -174,4 +155,4 @@ const NavBarUser = () => {
   );
 };
 
-export default NavBarUser;
+export default NavBarRetrieveScopus;

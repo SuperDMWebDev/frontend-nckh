@@ -88,19 +88,19 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
       academicTitleGainYear: lecturer.academicTitleGainYear,
       contacts: [
         {
-          id: 1,
+          id: lecturer.contacts[0].id,
           contactTypeId: 1,
           value: data.email.email,
           update: true
         },
         {
-          id: 2,
+          id: lecturer.contacts[1].id,
           contactTypeId: 2,
           value: data.address.address,
           update: true
         },
         {
-          id: 3,
+          id: lecturer.contacts[2].id,
           contactTypeId: 3,
           value: data.phone.phone,
           update: true
@@ -363,14 +363,14 @@ export const editExpertises = async (lecturer: any, data: any, accountId: string
       academicTitleGainYear: lecturer.academicTitleGainYear,
       expertises: [
         {
-          id: 1,
+          id: lecturer.expertises[0].id,
           lecturerId: accountId,
           title: 'Lĩnh vực',
           specialization: data.field,
           update: true
         },
         {
-          id: 2,
+          id: lecturer.expertises[1].id,
           lecturerId: accountId,
           title: 'Chuyên ngành',
           specialization: data.specialized,

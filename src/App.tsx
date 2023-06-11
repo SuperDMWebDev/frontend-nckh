@@ -29,6 +29,8 @@ import EditProfileLecturer from './pages/UserPages/EditProfileLecturer/EditProfi
 import LecturerDetail from './pages/UserPages/LecturerDetail/LecturerDetail';
 import CreateLecturer from './pages/AdminPages/CreateLecturer/CreateLecturer';
 import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
+import MyArticles from './pages/UserPages/MyArticles/MyArticles';
+import NavBarRetrieveScopus from './components/User/NavBarRetrieveScopus/NavBarRetrieveScopus';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -45,7 +47,7 @@ const App = () => {
           <div>
             {scopusId === 'null' ? (
               <>
-                {isLogin ? <NavBarUser /> : <AnonymousNavBar />}
+                <NavBarRetrieveScopus />
                 <Routes>
                   <Route path="/" element={<RetrieveScopusAuthor />} />
                   <Route path="/*" element={<RetrieveScopusAuthor />} />
@@ -72,6 +74,7 @@ const App = () => {
                   <Route path="/profile/edit" element={<EditProfileLecturer />} />
                   <Route path="/create-article" element={<CreateArticle />} />
                   <Route path="/update-article/:id" element={<UpdateArticle />} />
+                  <Route path="/my-articles" element={<MyArticles />} />
                   <Route path="/test" element={<EditProfile />} />
                   <Route path="/article-detail/:id" element={<ArticleDetail />} />
                   <Route path="/settings" element={<Settings />} />
