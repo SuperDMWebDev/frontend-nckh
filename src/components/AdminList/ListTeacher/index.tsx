@@ -61,16 +61,14 @@ const ListTeacher: React.FC = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
-  }, [])
+  }, []);
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
-  }, [])
-
-
+  }, []);
 
   const handleSearch = (
     selectedKeys: string[],
@@ -163,7 +161,7 @@ const ListTeacher: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       width: '30%',
-      ...getColumnSearchProps('name'),
+      ...getColumnSearchProps('name')
       // onCell: () => {
       //   return {
       //     onClick: (e) => {
@@ -194,20 +192,22 @@ const ListTeacher: React.FC = () => {
     }
   ];
 
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const [lecturerList, setLecturerList] = useState<Lecturer>();
   const handleeOk = () => {
     signup(email);
     setOpen(false);
     window.location.reload();
-  }
+  };
 
   const dataAuthor = lecturerList?.map((item: Lecturer, index: number) => {
+    console.log('🚀 ~ file: index.tsx:204 ~ dataAuthor ~ item:', item);
+
     return {
       stt: index + 1,
       name: item.name,
-      currentPosition: item.currentDisciplines[0].universityName
-    }
+      currentPosition: item?.currentDisciplines ? item?.currentDisciplines[0].universityName : ''
+    };
   });
 
   console.log(dataAuthor);
@@ -223,40 +223,57 @@ const ListTeacher: React.FC = () => {
 
   console.log(lecturerList);
 
-  return <>
-    {
-      loading ? <Loader /> : <div>
-        <div className='header_table'>
-          <span className='title_table' style={{
-            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-          }}>Danh sách người dùng</span>
-          <button className='button2' onClick={() => setOpen(true)}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
-        </div>
-
-        <Table
-          pagination={{ pageSize: 7 }}
-          columns={columns}
-          dataSource={dataAuthor}
-          rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-        />
-
-        <Modal
-          className='title_modal'
-          title="Tạo tài khoản mới"
-          centered
-          open={open}
-          onOk={handleeOk}
-          onCancel={() => setOpen(false)}
-          width={800}
-        >
-          <div className='form-input-add'>
-            <label className='label-input-add'>Email</label>
-            <input type="text" className="email-input-add" placeholder='Nhập email ...' onChange={(e) => setEmail(e.target.value)} />
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div>
+          <div className="header_table">
+            <span
+              className="title_table"
+              style={{
+                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+              }}>
+              Danh sách người dùng
+            </span>
+            <button className="button2" onClick={() => setOpen(true)}>
+              <PlusOutlined style={{ marginRight: '10px' }} />
+              Thêm
+            </button>
           </div>
-        </Modal>
-      </div>
-    }
-  </>
+
+          <Table
+            pagination={{ pageSize: 7 }}
+            columns={columns}
+            dataSource={dataAuthor}
+            rowClassName={(record, index) =>
+              index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+            }
+          />
+
+          <Modal
+            className="title_modal"
+            title="Tạo tài khoản mới"
+            centered
+            open={open}
+            onOk={handleeOk}
+            onCancel={() => setOpen(false)}
+            width={800}>
+            <div className="form-input-add">
+              <label className="label-input-add">Email</label>
+              <input
+                type="text"
+                className="email-input-add"
+                placeholder="Nhập email ..."
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </Modal>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ListTeacher;
