@@ -364,14 +364,14 @@ export const editExpertises = async (lecturer: any, data: any, accountId: string
       academicTitleGainYear: lecturer.academicTitleGainYear,
       expertises: [
         {
-          id: 1,
+          id: lecturer.expertises[0].id,
           lecturerId: accountId,
           title: 'Lĩnh vực',
           specialization: data.field,
           update: true
         },
         {
-          id: 2,
+          id: lecturer.expertises[1].id,
           lecturerId: accountId,
           title: 'Chuyên ngành',
           specialization: data.specialized,

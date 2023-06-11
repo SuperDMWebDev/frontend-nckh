@@ -50,6 +50,7 @@ export default function Profile() {
     const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [address, setAddress] = useState<string>('');
+    const [link, setLink] = useState<string>('');
     const accountId = localStorage.getItem('accountId');
     const token = localStorage.getItem('accessToken');
     const [articleList, setArticleList] = useState<Article[]>();
@@ -89,25 +90,19 @@ export default function Profile() {
         data
             .then((result) => {
                 setLecturer(result);
+                setEmail(result.contacts[0].value);
+                setAddress(result.contacts[1].value);
+                setPhone(result.contacts[2].value);
+                setLink(result.contacts[3].value);
                 setPreviewAvatar(result.avatar);
                 result.workPositions.map((workPosition: any) => {
                     workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
                 });
-                result.bio !== null ? setBio(result.bio) : setBio('');
-                result.contacts.map((contact: any) => {
-                    if (contact.contactTypeName == "phone") {
-                        setPhone(contact.value);
-                    } else if (contact.contactTypeName == "address") {
-                        setAddress(contact.value);
-                    } else if (contact.contactTypeName == "email") {
-                        setEmail(contact.value);
-                    }
-                })
+                result.bio !== null || result.bio !== 'null' ? setBio(result.bio) : setBio('');
+
             })
             .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
-
-    const linkScopusProfile = '';
 
     console.log(lecturer);
 
@@ -169,6 +164,7 @@ export default function Profile() {
         const newData: Lecturer1 | any = { ...lecturer };
         newData.bio = bio;
         editBioProfile(newData, accountId);
+        window.location.reload();
     };
 
     const handleCancelBio = () => {
@@ -250,23 +246,51 @@ export default function Profile() {
                         <div>
                             <div className="field-profile-info">
                                 <PortraitIcon style={{ fontSize: '20px' }} />
-                                <span style={{ marginLeft: '5px' }}>{
-                                    !lecturer?.currentDisciplines[0].position ? <>
-                                        <span
-                                            style={{
-                                                fontSize: '13px',
-                                                fontStyle: 'italic',
-                                                marginLeft: '1px'
-                                            }}>
-                                            Chưa cập nhật
-                                        </span>
-                                    </> : lecturer?.currentDisciplines[0].position
-                                }</span>
+                                <span style={{ marginLeft: '5px' }}>
+                                    {
+                                        lecturer?.currentDisciplines == undefined ? <>
+                                            <span
+                                                style={{
+                                                    fontSize: '13px',
+                                                    fontStyle: 'italic',
+                                                    marginLeft: '1px'
+                                                }}>
+                                                Chưa cập nhật
+                                            </span>
+                                        </> : <>
+                                            {
+                                                !lecturer?.currentDisciplines[0].position ? <>
+                                                    <span
+                                                        style={{
+                                                            fontSize: '13px',
+                                                            fontStyle: 'italic',
+                                                            marginLeft: '1px'
+                                                        }}>
+                                                        Chưa cập nhật
+                                                    </span>
+                                                </> : lecturer?.currentDisciplines[0].position
+                                            }
+                                        </>
+                                    }
+                                </span>
                             </div>
                             <div className="field-profile-info">
                                 <PlaceIcon style={{ fontSize: '20px' }} />
                                 <span style={{ marginLeft: '5px' }}>
-                                    {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
+                                    {
+                                        lecturer?.currentDisciplines == undefined ? <>
+                                            <span
+                                                style={{
+                                                    fontSize: '13px',
+                                                    fontStyle: 'italic',
+                                                    marginLeft: '1px'
+                                                }}>
+                                                Chưa cập nhật
+                                            </span>
+                                        </> : <>
+                                            {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
+                                        </>
+                                    }
                                 </span>
                             </div>
                             <div className="field-profile-info">
@@ -447,7 +471,7 @@ export default function Profile() {
                                             <div className="field-profile-info">
                                                 <PortraitIcon style={{ fontSize: '24px' }} />
                                                 <span style={{ marginLeft: '5px' }}>{
-                                                    !lecturer?.currentDisciplines[0].position ? <>
+                                                    lecturer?.currentDisciplines == undefined ? <>
                                                         <span
                                                             style={{
                                                                 fontSize: '13px',
@@ -456,13 +480,39 @@ export default function Profile() {
                                                             }}>
                                                             Chưa cập nhật
                                                         </span>
-                                                    </> : lecturer?.currentDisciplines[0].position
+                                                    </> : <>
+                                                        {
+                                                            !lecturer?.currentDisciplines[0].position ? <>
+                                                                <span
+                                                                    style={{
+                                                                        fontSize: '13px',
+                                                                        fontStyle: 'italic',
+                                                                        marginLeft: '1px'
+                                                                    }}>
+                                                                    Chưa cập nhật
+                                                                </span>
+                                                            </> : lecturer?.currentDisciplines[0].position
+                                                        }
+                                                    </>
                                                 }</span>
                                             </div>
                                             <div className="field-profile-info">
                                                 <PlaceIcon style={{ fontSize: '24px' }} />
                                                 <span style={{ marginLeft: '5px', fontSize: "16px" }}>
-                                                    {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
+                                                    {
+                                                        lecturer?.currentDisciplines == undefined ? <>
+                                                            <span
+                                                                style={{
+                                                                    fontSize: '13px',
+                                                                    fontStyle: 'italic',
+                                                                    marginLeft: '1px'
+                                                                }}>
+                                                                Chưa cập nhật
+                                                            </span>
+                                                        </> : <>
+                                                            {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
+                                                        </>
+                                                    }
                                                 </span>
                                             </div>
                                             <div className="field-profile-info">
@@ -482,7 +532,7 @@ export default function Profile() {
                                             </div>
                                             <div className="field-profile-info">
                                                 <CalendarMonthIcon style={{ fontSize: '24px' }} />
-                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>1977-05-03</span>
+                                                <span style={{ marginLeft: '5px', fontSize: "16px" }}>{lecturer?.dateOfBirth}</span>
                                             </div>
                                             <div className="field-profile-info">
                                                 <EmailIcon style={{ fontSize: '24px' }} />
@@ -561,7 +611,7 @@ export default function Profile() {
                                         ) : null}
                                     </div>
                                     <p className="data_content">
-                                        {bio == '' || bio == null || bio == 'null' ? (
+                                        {lecturer?.bio == '' || lecturer?.bio == null || lecturer?.bio == 'null' ? (
                                             <p
                                                 style={{
                                                     fontSize: '13px',
@@ -571,7 +621,7 @@ export default function Profile() {
                                                 Chưa cập nhật
                                             </p>
                                         ) : (
-                                            bio
+                                            lecturer?.bio
                                         )}
                                     </p>
 

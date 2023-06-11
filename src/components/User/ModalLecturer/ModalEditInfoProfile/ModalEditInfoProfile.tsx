@@ -10,13 +10,13 @@ export default function ModalEditInfoProfile(props: any) {
     const accoundId = localStorage.getItem("accountId")
 
     const [newUniversity, setNewUniversity] = useState<string>("1");
-    const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>(lecturer?.currentDisciplines[0].position);
+    const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>();
     const [newGender, setNewGender] = useState<string>("Nam");
     const [newDateOfBirth, setNewDateOfBirth] = useState<string>(lecturer?.dateOfBirth);
-    const [newDepartmentName, setNewDepartmentName] = useState<string>(lecturer?.currentDisciplines[0].departmentName);
-    const [newEmail, setNewEmail] = useState<string>();
-    const [newAddress, setNewAddress] = useState<string>();
-    const [newPhone, setNewPhone] = useState<string>();
+    const [newDepartmentName, setNewDepartmentName] = useState<string>();
+    const [newEmail, setNewEmail] = useState<string>(lecturer.contacts[0].value);
+    const [newAddress, setNewAddress] = useState<string>(lecturer.contacts[1].value);
+    const [newPhone, setNewPhone] = useState<string>(lecturer.contacts[2].value);
     const [universitys, setUniversitys] = useState<any>([]);
     const [contactTypes, setContactTypes] = useState<any>([]);
 
@@ -31,6 +31,11 @@ export default function ModalEditInfoProfile(props: any) {
                     setNewEmail(contact.value);
                 }
             });
+        }
+
+        if (lecturer?.currentDisciplines !== undefined) {
+            setNewCurrentDisciplines(lecturer?.currentDisciplines[0].position);
+            setNewDepartmentName(lecturer?.currentDisciplines[0].departmentName);
         }
 
         const university = getAllUniversity();

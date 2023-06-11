@@ -61,10 +61,10 @@ const AnonymousNavBar = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title">Quản lý bài viết khoa học</div>
+          <div className="text__title_navbar">Quản lý bài viết khoa học</div>
         </div>
 
-        <div style={{ fontSize: '14px', cursor: 'pointer' }} onClick={handleLogin}>
+        <div style={{ fontSize: '18px', cursor: 'pointer', marginRight: "20px", fontWeight: "bold", fontFamily: "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif", color: "#4562aa" }} onClick={handleLogin}>
           Đăng nhập
         </div>
       </div>

@@ -76,6 +76,7 @@ const Styled = styled.div`
     background: none;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
+    margin-right: 60px;
   }
 
   .content_tab_name:hover {
@@ -124,6 +125,11 @@ const Styled = styled.div`
   .tab-selected {
     font-weight: bold;
     color: #3f51b5;
+    content: '';
+    width: auto;
+    height: 2px;
+    background: #4a5bf7;
+    display: block;
   }
 
   .add-article-btn {

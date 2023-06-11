@@ -2,7 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Styled from './style';
 import { getListArticleWithKeyword } from '../../../api/Article';
-import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
+import { getArticlesOfLecturers } from '../../../api/Article';
+import MyArticleCard from '../../../components/User/MyArticleCard/MyArticleCard';
+import { useNavigate } from 'react-router-dom';
+
 
 type Article = {
     [key: string]: any; // 👈️ variable key
@@ -10,6 +13,7 @@ type Article = {
 };
 
 export default function MyArticles() {
+    const navigate = useNavigate();
     const scrollTop = useRef<HTMLDivElement>(null);
     const [listArticles, setListArticles] = useState<Article[]>([]);
     const accountId = localStorage.getItem("accountId");
@@ -18,14 +22,18 @@ export default function MyArticles() {
         window.location.replace('http://localhost:5000/');
     };
 
-    const fetchListArticle = async (data: any) => {
-        console.log(data);
-        const res = await getListArticleWithKeyword(data);
+    const fetchListArticle = async (accountId: any) => {
+        let param = {
+            data: {
+                lecturerIds: [Number(accountId)]
+            }
+        };
+        const res = await getArticlesOfLecturers(param);
         setListArticles(res.data.data);
     };
 
     useEffect(() => {
-
+        fetchListArticle(accountId);
     }, []);
 
 
@@ -34,11 +42,13 @@ export default function MyArticles() {
 
     const itemsPerPage = 7;
     const maxVisibleButtons = 7;
+    const listArti = Object.values(listArticles);
+    const arr = listArti[0];
 
     const renderPageButtons = (): JSX.Element[] => {
         const visibleButtons: JSX.Element[] = [];
         const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
-        const endPage: number = Math.floor(listArticles.length / itemsPerPage + 1);
+        const endPage: number = Math.floor(arr?.slice(0).length / itemsPerPage + 1);
 
         for (let i = startPage; i <= endPage; i++) {
             visibleButtons.push(
@@ -55,100 +65,103 @@ export default function MyArticles() {
         return visibleButtons;
     };
 
-    const totalPages = listArticles.length;
+    const totalPages = arr?.slice(0).length;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentLecturers = listArticles.slice(indexOfFirstItem, indexOfLastItem);
-
-    console.log(totalPages, indexOfLastItem, indexOfFirstItem, currentLecturers);
+    const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (pageNumber: number) => {
         if (scrollTop.current) {
             scrollTop.current.scrollIntoView({ behavior: 'smooth' });
         }
-
         setCurrentPage(pageNumber);
     };
 
     return (
         <Styled>
             <div className="center">
-                <div className="btn-back-search" onClick={handleBackSearch}>
+                <div className="btn-back-search" style={{ marginTop: "20px", marginLeft: "40px" }} onClick={handleBackSearch}>
                     <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
-                </div>
-                <div
-                    style={{
-                        fontSize: '22px',
-                        margin: '12px',
-                        fontFamily: "monospace",
-                        fontWeight: "bold"
-                    }}>Các công bố khoa học
                 </div>
 
                 <div
                     style={{
                         backgroundColor: '#e6e4e4',
-                        width: '100%',
+                        width: '90%',
+                        borderRadius: "20px",
                         display: 'flex',
-                        height: "120px",
-                        justifyContent: 'center'
+                        height: "160px",
+                        justifyContent: 'center',
+                        alignItems: "center",
+                        marginTop: "20px"
                     }}>
+                    <div>
+                        <div
+                            style={{
+                                fontSize: '26px',
+                                margin: '12px',
+                                fontFamily: "monospace",
+                                fontWeight: "bolder",
+                                color: "#0056ce",
+                                display: "flex",
+                                justifyContent: "center"
+                            }}>CÁC CÔNG BỐ KHOA HỌC CỦA TÔI
+                        </div>
+                        <div className="add-article-container">
+                            <button className="btn btn-add-article-2" onClick={() => navigate('/create-article')}>
+                                Thêm bài báo khoa học
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div>
-                <div className="center" ref={scrollTop}>
+                <div className="center" style={{ marginLeft: "-80px" }} ref={scrollTop}>
                     <div className="content content_article">
-                        <div className="sort_article">
-                            <span
-                                style={{
-                                    marginRight: '20px',
-                                    fontSize: '16px',
-                                    color: '#0056ce',
-                                    fontWeight: 'bolder'
-                                }}>
-                                SORT BY
-                            </span>
-                            <button className="btn_sort">Most relevant</button>
-                            <button className="btn_sort">Most recent</button>
-                            <button className="btn_sort">Most cited</button>
-                        </div>
                         <div className="list_article">
-                            <div className="content-profile">
-                                {listArticles.length !== 0 ? (
-                                    listArticles[Number(accountId)].map((item: any) => <ArticleCard data={item} />)
-                                ) : (
-                                    <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                                        Chưa có bài báo khoa học nào.
-                                    </span>
-                                )}
+                            <div>
+                                <div style={{
+                                    marginBottom: "50px",
+                                    marginTop: "30px",
+                                    display: "flex",
+                                    justifyContent: "center"
+                                }}>
+                                    {/* Previous button */}
+                                    <button
+                                        className='btn-pre-next'
+                                        disabled={currentPage === 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                    >
+                                        Previous
+                                    </button>
+
+                                    {/* Page buttons */}
+                                    {renderPageButtons()}
+
+                                    {/* Next button */}
+                                    <button
+                                        className='btn-pre-next'
+                                        disabled={currentPage === totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div style={{
-                                marginBottom: "50px",
-                                marginTop: "30px"
-                            }}>
-                                {/* Previous button */}
-                                <button
-                                    className='btn-pre-next'
-                                    disabled={currentPage === 1}
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                >
-                                    Previous
-                                </button>
 
-                                {/* Page buttons */}
-                                {renderPageButtons()}
-
-                                {/* Next button */}
-                                <button
-                                    className='btn-pre-next'
-                                    disabled={currentPage === totalPages}
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                >
-                                    Next
-                                </button>
+                            <div className="content-profile">
+                                {currentLecturers ? currentLecturers?.map((item: any) => <MyArticleCard data={item} />) : <>
+                                    <div
+                                        style={{
+                                            fontSize: '14px',
+                                            marginTop: '10px',
+                                            fontStyle: 'italic',
+                                            marginLeft: "-70px"
+                                        }}>
+                                        Không tìm thấy bài báo khoa học nào!
+                                    </div>
+                                </>}
                             </div>
                         </div>
                     </div>

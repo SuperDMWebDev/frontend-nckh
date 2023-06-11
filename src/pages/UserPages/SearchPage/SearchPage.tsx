@@ -139,8 +139,6 @@ export default function SearchPage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLecturers = listArticles.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log(totalPages, indexOfLastItem, indexOfFirstItem, currentLecturers);
-
   const handlePageChange = (pageNumber: number) => {
     if (scrollTop.current) {
       scrollTop.current.scrollIntoView({ behavior: 'smooth' });
@@ -226,18 +224,33 @@ export default function SearchPage() {
         <div className="center" ref={scrollTop}>
           <div className="content content_article">
             <div className="sort_article">
-              <span
-                style={{
-                  marginRight: '20px',
-                  fontSize: '16px',
-                  color: '#0056ce',
-                  fontWeight: 'bolder'
+              <div>
+                <div style={{
+                  marginBottom: "50px",
+                  marginTop: "30px"
                 }}>
-                SORT BY
-              </span>
-              <button className="btn_sort">Most relevant</button>
-              <button className="btn_sort">Most recent</button>
-              <button className="btn_sort">Most cited</button>
+                  {/* Previous button */}
+                  <button
+                    className='btn-pre-next'
+                    disabled={currentPage === 1}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  >
+                    Previous
+                  </button>
+
+                  {/* Page buttons */}
+                  {renderPageButtons()}
+
+                  {/* Next button */}
+                  <button
+                    className='btn-pre-next'
+                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="list_article">
               {currentLecturers.length != 0 ? currentLecturers.map((item) => <ArticleCard data={item} />) : <>
@@ -251,33 +264,6 @@ export default function SearchPage() {
                   Không tìm thấy bài báo khoa học nào!
                 </div>
               </>}
-            </div>
-            <div>
-              <div style={{
-                marginBottom: "50px",
-                marginTop: "30px"
-              }}>
-                {/* Previous button */}
-                <button
-                  className='btn-pre-next'
-                  disabled={currentPage === 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Previous
-                </button>
-
-                {/* Page buttons */}
-                {renderPageButtons()}
-
-                {/* Next button */}
-                <button
-                  className='btn-pre-next'
-                  disabled={currentPage === totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Next
-                </button>
-              </div>
             </div>
           </div>
         </div>

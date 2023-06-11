@@ -42,6 +42,8 @@ export const retrieveScopusAccount = async (accountId: any, scopusId: any) => {
       }
     }
   );
+
+  return res;
 };
 
 export const signup = async (email: string) => {

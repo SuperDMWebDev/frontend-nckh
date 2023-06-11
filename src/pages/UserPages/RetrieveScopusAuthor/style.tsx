@@ -122,20 +122,26 @@ const Styled = styled.div`
 
   .name-label {
     position: absolute;
-    top: 0.6rem;
+    top: 0.7rem;
     left: 1.2rem;
     color: rgba(0, 0, 0, 0.5);
     font-size: 1.5rem;
     transition: 0.4s all;
     padding-inline: 0.25rem;
+    font-family: monospace;
   }
 
   .name-input:focus ~ .name-label,
   .name-input:valid ~ .name-label {
     top: -0.5rem;
     left: 0.5rem;
-    background-color: #fff;
-    font-size: 1rem;
+    background-color: #f9f9f9;
+    font-size: 14px;
+  }
+
+  .text-loading {
+    font-size: 14px;
+    font-family: monospace;
   }
 
   .radio-inputs {

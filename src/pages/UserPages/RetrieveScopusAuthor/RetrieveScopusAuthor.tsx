@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal';
 import { toast } from 'react-toastify';
 import { getScopusAuthors } from '../../../api/Lecturer';
 import { retrieveScopusAccount } from '../../../api/Account';
+import Loader from '../../../components/Loader/Loader';
 
 interface AuthorScopus {
   surname: string;
@@ -37,6 +38,8 @@ export default function RetrieveScopusAuthor() {
 
   const accountId = localStorage.getItem("accountId");
 
+  const [loading, setLoading] = useState(false);
+
   const handleConfirm = () => {
     if (firstName == '' || lastName == '') {
       toast.error('Bạn chưa điền đầy đủ thông tin để xác nhận!');
@@ -52,17 +55,24 @@ export default function RetrieveScopusAuthor() {
     }
   };
 
-  const handleConfirmAuthorScopus = () => {
+  const handleConfirmAuthorScopus = async () => {
     setFirstName('');
     setLastName('');
     handleClose();
     setScopusAuthors([]);
-    retrieveScopusAccount(accountId, scopusID);
-    toast.success("Xác nhận tài khoản Scopus thành công!")
-    localStorage.setItem("scopusId", scopusID);
-    // setTimeout(() => {
-    //   window.location.replace("http://localhost:5000/");
-    // }, 3000);
+    setLoading(true);
+    const data = await retrieveScopusAccount(accountId, scopusID);
+    setLoading(false);
+    if (data.data.data.lecturerId == null) {
+      toast.error("Truy xuất Scopus không thành công. Vui lòng thử lại!");
+    } else {
+      toast.success("Xác nhận tài khoản Scopus thành công!");
+      localStorage.setItem("scopusId", scopusID);
+      localStorage.setItem("lecturerId", data.data.data.lecturerId);
+      setTimeout(() => {
+        window.location.replace("http://localhost:5000/");
+      }, 2000);
+    }
   };
 
   const handleChoose = () => {
@@ -72,143 +82,150 @@ export default function RetrieveScopusAuthor() {
 
   return (
     <Styled>
-      <div className="form-body">
-        <div className="form-data">
-          <h1> Truy xuất tác giả Scopus </h1>
-          <div className="form-input">
-            <div className="wrapper">
-              <input
-                type="text"
-                className="name-input"
-                onChange={(e) => setFirstName(e.target.value)}
-                required={true}
-              />
-              <label className="name-label">Tên</label>
-            </div>
+      {
+        loading ? <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Loader />
+          <div className='text-loading'>Đang truy xuất dữ liệu ... </div>
+        </div> : <>
+          <div className="form-body">
+            <div className="form-data">
+              <h1> Truy xuất tác giả Scopus </h1>
+              <div className="form-input">
+                <div className="wrapper">
+                  <input
+                    type="text"
+                    className="name-input"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required={true}
+                  />
+                  <label className="name-label">Tên</label>
+                </div>
 
-            <div className="wrapper">
-              <input
-                type="text"
-                className="name-input"
-                onChange={(e) => setLastName(e.target.value)}
-                required={true}
-              />
-              <label className="name-label">Họ</label>
-            </div>
-          </div>
-          <div className="btn-confirm">
-            <button className="cta" onClick={handleConfirm}>
-              <span>Xác nhận</span>
-              <svg viewBox="0 0 13 10" height="10px" width="15px">
-                <path d="M1,5 L11,5"></path>
-                <polyline points="8 1 12 5 8 9"></polyline>
-              </svg>
-            </button>
-          </div>
+                <div className="wrapper">
+                  <input
+                    type="text"
+                    className="name-input"
+                    onChange={(e) => setLastName(e.target.value)}
+                    required={true}
+                  />
+                  <label className="name-label">Họ</label>
+                </div>
+              </div>
+              <div className="btn-confirm">
+                <button className="cta" onClick={handleConfirm}>
+                  <span>Xác nhận</span>
+                  <svg viewBox="0 0 13 10" height="10px" width="15px">
+                    <path d="M1,5 L11,5"></path>
+                    <polyline points="8 1 12 5 8 9"></polyline>
+                  </svg>
+                </button>
+              </div>
 
-          {scopusAuthors?.length == 0 ? (
-            <div
-              style={{
-                margin: '0 auto',
-                fontSize: '14px',
-                marginTop: '10px',
-                fontStyle: 'italic'
-              }}>
-              Không tìm thấy tài khoản nào!
-            </div>
-          ) : (
-            <>
-              <div className="author-list">
-                {!scopusAuthors ? null : <h3>Chọn tài khoản Scopus của bạn: </h3>}
+              {scopusAuthors?.length == 0 ? (
+                <div
+                  style={{
+                    margin: '0 auto',
+                    fontSize: '14px',
+                    marginTop: '10px',
+                    fontStyle: 'italic'
+                  }}>
+                  Không tìm thấy tài khoản nào!
+                </div>
+              ) : (
+                <>
+                  <div className="author-list">
+                    {!scopusAuthors ? null : <h3>Chọn tài khoản Scopus của bạn: </h3>}
 
-                {scopusAuthors?.map((scopusAuthor) => (
+                    {scopusAuthors?.map((scopusAuthor) => (
+                      <div
+                        key={scopusAuthor.scopusId}
+                        onChange={() => setScopusID(scopusAuthor.scopusId)}>
+                        <div className="radio-inputs">
+                          <label>
+                            <input className="radio-input" type="radio" name="engine" />
+                            <span className="radio-tile">
+                              <span className="radio-label">
+                                {scopusAuthor.givenName} {scopusAuthor.surname}
+                              </span>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    ))}
+
+                    {!scopusAuthors ? null : (
+                      <>
+                        <button className="btn-choose" onClick={handleChoose}>
+                          Chọn
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description">
+                <Box sx={style}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h5"
+                    component="h2"
+                    style={{
+                      margin: '0 auto',
+                      fontSize: '16px',
+                      marginLeft: '10px'
+                    }}>
+                    Xác nhận đây là tài khoản Scopus của bạn
+                  </Typography>
                   <div
-                    key={scopusAuthor.scopusId}
-                    onChange={() => setScopusID(scopusAuthor.scopusId)}>
-                    <div className="radio-inputs">
-                      <label>
-                        <input className="radio-input" type="radio" name="engine" />
-                        <span className="radio-tile">
-                          <span className="radio-label">
-                            {scopusAuthor.givenName} {scopusAuthor.surname}
-                          </span>
-                        </span>
-                      </label>
+                    className="button_notification"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-evenly',
+                      marginTop: '20px'
+                    }}>
+                    <div>
+                      <Button
+                        className="btn_notification"
+                        variant="contained"
+                        color="error"
+                        onClick={handleClose}
+                        style={{
+                          width: '100px',
+                          textTransform: 'none',
+                          height: '45px',
+                          fontSize: '14px'
+                        }}>
+                        Quay lại
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        className="btn_notification"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleConfirmAuthorScopus}
+                        style={{
+                          width: '100px',
+                          textTransform: 'none',
+                          marginBottom: '1rem',
+                          height: '45px',
+                          fontSize: '14px'
+                        }}>
+                        Xác nhận
+                      </Button>
                     </div>
                   </div>
-                ))}
-
-                {!scopusAuthors ? null : (
-                  <>
-                    <button className="btn-choose" onClick={handleChoose}>
-                      Chọn
-                    </button>
-                  </>
-                )}
-              </div>
-            </>
-          )}
-
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description">
-            <Box sx={style}>
-              <Typography
-                id="modal-modal-title"
-                variant="h5"
-                component="h2"
-                style={{
-                  margin: '0 auto',
-                  fontSize: '16px',
-                  marginLeft: '10px'
-                }}>
-                Xác nhận đây là tài khoản Scopus của bạn
-              </Typography>
-              <div
-                className="button_notification"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-evenly',
-                  marginTop: '20px'
-                }}>
-                <div>
-                  <Button
-                    className="btn_notification"
-                    variant="contained"
-                    color="error"
-                    onClick={handleClose}
-                    style={{
-                      width: '100px',
-                      textTransform: 'none',
-                      height: '45px',
-                      fontSize: '14px'
-                    }}>
-                    Quay lại
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    className="btn_notification"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleConfirmAuthorScopus}
-                    style={{
-                      width: '100px',
-                      textTransform: 'none',
-                      marginBottom: '1rem',
-                      height: '45px',
-                      fontSize: '14px'
-                    }}>
-                    Xác nhận
-                  </Button>
-                </div>
-              </div>
-            </Box>
-          </Modal>
-        </div>
-      </div>
+                </Box>
+              </Modal>
+            </div>
+          </div>
+        </>
+      }
     </Styled>
   );
 }

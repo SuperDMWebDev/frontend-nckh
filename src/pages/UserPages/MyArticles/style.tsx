@@ -147,6 +147,47 @@ const Styled = styled.div`
   border: none;
 }
 
+.card_article:hover {
+  background-color: #e5f1f4;;
+}
+
+ .add-article-container {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .btn-add-article-2 {
+    padding: 7px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #0056ce;
+    border-radius: 20px;
+    height: 40px;
+    width: auto;
+    margin-bottom: 10px;
+    color: #0056ce;
+  }
+  .btn-add-article-2:hover {
+    background-color: #0056ce;
+    color: white;
+  }
+
+  .btn-add-profile {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #323232;
+    border-radius: 20px;
+    height: 45px;
+    width: auto;
+    margin-bottom: 10px;
+  }
+  .btn-add-profile:hover {
+    background-color: #323232;
+    color: white;
+  }
+
 .active {
   background-color: #3b82f6;
   box-shadow: 0 0 0 5px #3b83f65f;
