@@ -20,6 +20,7 @@ const Styled = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
     align-items: center;
+    overflow-anchor: none;
   }
 
   .btn-back-search {

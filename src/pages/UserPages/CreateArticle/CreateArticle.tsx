@@ -46,23 +46,6 @@ const CreateArticle = () => {
   const [journalConferenceText, setJournalConferenceText] = useState('');
   const [journal, setJournal] = useState<string | null>();
   const [conference, setConference] = useState<string | null>();
-
-  const handleGetJournalConference = (e: any) => {
-    setJournalConferenceText(e.target.value);
-    if (journalOption.value == 1) {
-      setJournal(e.target.value);
-      setConference(null);
-    } else {
-      setConference(e.target.value);
-      setJournal(null);
-    }
-  };
-
-  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
-  const handleSelectJournalOption = (option: any) => {
-    setJournalOption(option);
-  };
-
   const [volume, setVolume] = useState<number>();
   const [day, setDay] = useState<number>();
   const [month, setMonth] = useState<number>();
@@ -81,6 +64,23 @@ const CreateArticle = () => {
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
   const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
+  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
+
+  const handleGetJournalConference = (e: any) => {
+    setJournalConferenceText(e.target.value);
+    if (journalOption.value == 1) {
+      setJournal(e.target.value);
+      setConference(null);
+    } else {
+      setConference(e.target.value);
+      setJournal(null);
+    }
+  };
+
+  const handleSelectJournalOption = (option: any) => {
+    setJournalOption(option);
+  };
+
   const handleSelect = (data: any) => {
     setSelectedTag(data);
   };
@@ -146,19 +146,20 @@ const CreateArticle = () => {
     }
   };
 
-  const handleGetArticleByDOI = async () => {
+  const handleGetArticleByDOI = async (e: any) => {
     var payload = {
       data: {
         doi: DOI
       }
     };
 
+    e.preventDefault();
+
     const res = await getArticleByDOI(payload);
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data[0];
-
           setName(data.name);
           setJournal(data.journal);
           setVolume(data.volume);
@@ -301,7 +302,7 @@ const CreateArticle = () => {
               style={{ borderRadius: '4px', padding: '8px 23px' }}
               type="primary"
               htmlType="submit"
-              onClick={() => handleGetArticleByDOI()}>
+              onClick={(e) => handleGetArticleByDOI(e)}>
               Add
             </Button>
           </div>
