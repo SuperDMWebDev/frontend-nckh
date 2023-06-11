@@ -94,6 +94,7 @@ const Styled = styled.div`
     font-weight: 600;
     padding: 10px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: block;
   }
 
   .dropdown-menu ul li:hover a {

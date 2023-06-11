@@ -15,21 +15,21 @@ const items: ItemType[] = [
     icon: <UserOutlined />,
     label: 'User'
   },
+  // {
+  //   key: '2',
+  //   icon: <BookOutlined />,
+  //   label: 'Scholar'
+  // },
   {
     key: '2',
-    icon: <BookOutlined />,
-    label: 'Scholar'
-  },
-  {
-    key: '3',
     icon: <SettingOutlined />,
     label: 'Configuration'
   },
-  {
-    key: '4',
-    icon: <DatabaseOutlined />,
-    label: 'Article'
-  }
+  // {
+  //   key: '4',
+  //   icon: <DatabaseOutlined />,
+  //   label: 'Article'
+  // }
 ];
 export default function Admin() {
   const [collapsed, setCollapsed] = useState(false);
@@ -55,15 +55,15 @@ export default function Admin() {
           {
             currentKey == '1' && <ListTeacher />
           }
-          {
+          {/* {
             currentKey == '2' && <ListScholar />
-          }
+          } */}
           {
-            currentKey == '3' && <div>Configuration</div>
+            currentKey == '2' && <div>Configuration</div>
           }
-          {
+          {/* {
             currentKey == '4' && <div><ListArticle /></div>
-          }
+          } */}
         </Content>
       </Layout>
     </Styled>

@@ -22,21 +22,21 @@ const items: ItemType[] = [
     icon: <UserOutlined />,
     label: 'Người dùng'
   },
+  // {
+  //   key: '2',
+  //   icon: <BookOutlined />,
+  //   label: 'Học giả'
+  // },
   {
     key: '2',
-    icon: <BookOutlined />,
-    label: 'Học giả'
-  },
-  {
-    key: '3',
     icon: <SettingOutlined />,
     label: 'Cấu hình'
   },
-  {
-    key: '4',
-    icon: <DatabaseOutlined />,
-    label: 'Bài báo khoa học'
-  }
+  // {
+  //   key: '4',
+  //   icon: <DatabaseOutlined />,
+  //   label: 'Bài báo khoa học'
+  // }
 ];
 
 const headerStyle: React.CSSProperties = {
@@ -114,8 +114,8 @@ export default function Admin() {
                 borderRadius: '10px'
               }}>
               {currentKey == '1' && <ListTeacher />}
-              {currentKey == '2' && <ListArticle />}
-              {currentKey == '3' && <Configuration />}
+              {/* {currentKey == '2' && <ListArticle />} */}
+              {currentKey == '2' && <Configuration />}
             </Content>
           </Layout>
         </Layout>

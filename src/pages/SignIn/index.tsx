@@ -62,7 +62,7 @@ const SignIn = () => {
     }
   });
   useEffect(() => {
-    document.title = 'HCMUS - Sign in';
+    document.title = 'HCMUS - Đăng nhập';
   }, []);
 
   return (
@@ -73,7 +73,7 @@ const SignIn = () => {
             <nav className="nav__left">
               <span>
                 <i className="fa fa-phone"></i>
-                <a href="tel:(028) 3835 4266">Call us : (028) 3835 4266</a>
+                <a href="tel:(028) 3835 4266">Điện thoại: (028) 3835 4266</a>
               </span>
               <span>
                 <i className="fa-regular fa-envelope"></i>{' '}
@@ -81,7 +81,7 @@ const SignIn = () => {
               </span>
             </nav>
             <div className="nav__right">
-              <span>You are not login</span>
+              <span>Bạn chưa đăng nhập</span>
             </div>
           </div>
         </nav>
@@ -100,7 +100,7 @@ const SignIn = () => {
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
-                <h2>Log in</h2>
+                <h2>Đăng nhập</h2>
                 <form
                   className="form-login"
                   method="post"
@@ -116,7 +116,7 @@ const SignIn = () => {
                       value={formik.values.email}
                       onChange={formik.handleChange}
                       type="text"
-                      placeholder="Input email"
+                      placeholder="Nhập email"
                       className="input-text"
                     />
                     {formik.errors.email && formik.touched.email && (
@@ -125,7 +125,7 @@ const SignIn = () => {
                   </div>
                   <div className="input-box">
                     <label htmlFor="password" className="input-label">
-                      Password
+                      Mật khẩu
                     </label>
                     <div className="pwd-container">
                       <input
@@ -134,7 +134,7 @@ const SignIn = () => {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         type={showPwd ? 'text' : 'password'}
-                        placeholder="Input password"
+                        placeholder="Nhập password"
                         className="input-text"
                       />
                       <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
@@ -152,20 +152,21 @@ const SignIn = () => {
                     )}
                   </div>
                   <div className="forgot-password">
-                    Forgot password?
-                    <Link to="/forgot-password" className="reset-link">
-                      Reset your password
+                    Quên mật khẩu?
+                    <Link to="/input-email" className="reset-link">
+                      Đặt lại mật khẩu
                     </Link>
                   </div>
                   <button type="submit" className="login-btn">
-                    Log in
+                    Đăng nhập
                   </button>
                 </form>
                 <hr className="card-line" />
 
                 <p className="text-disclaimer">
-                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
-                  and Children’s Privacy Policy.
+                  {/* By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                  and Children’s Privacy Policy. */}
+                  Bằng cách Đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi. Vui lòng đọc Chính sách quyền riêng tư và Quyền riêng tư của trẻ em.
                 </p>
               </div>
             </div>

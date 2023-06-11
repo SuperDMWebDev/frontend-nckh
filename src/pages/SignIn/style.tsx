@@ -101,6 +101,7 @@ const Styled = styled.div`
   }
   .signin-main {
     padding: 5rem 0rem;
+    padding-bottom: 12rem;
     width: 100%;
     height: fit-content;
     background-color: transparent;
