@@ -23,7 +23,6 @@ import { ROLE_USER } from './constants/constant';
 import AnonymousNavBar from './components/User/AnonymousNavBar/AnonymousNavBar';
 import CreateArticle from './pages/UserPages/CreateArticle/CreateArticle';
 import ArticleDetail from './pages/UserPages/ArticleDetail/ArticleDetail';
-import Settings from './pages/UserPages/Settings/Settings';
 import RetrieveScopusAuthor from './pages/UserPages/RetrieveScopusAuthor/RetrieveScopusAuthor';
 import EditProfileLecturer from './pages/UserPages/EditProfileLecturer/EditProfileLecturer';
 import LecturerDetail from './pages/UserPages/LecturerDetail/LecturerDetail';
@@ -77,7 +76,6 @@ const App = () => {
                   <Route path="/my-articles" element={<MyArticles />} />
                   <Route path="/test" element={<EditProfile />} />
                   <Route path="/article-detail/:id" element={<ArticleDetail />} />
-                  <Route path="/settings" element={<Settings />} />
                   <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
                 </Routes>
               </>
