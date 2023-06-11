@@ -19,15 +19,6 @@ const NavBarUser = () => {
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
   const accountId: string | null = localStorage.getItem('accountId');
-  console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
-
-  useEffect(() => {
-    // getInfoProfile(accountId)
-    //   .then((result) => {
-    //     setLecturer(result);
-    //   })
-    //   .catch((err) => console.log("Can't get data lecturer: ", err));
-  }, []);
 
   let menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -40,9 +31,7 @@ const NavBarUser = () => {
         }
       }
     };
-
     document.addEventListener('mousedown', handler);
-
     return () => {
       document.removeEventListener('mousedown', handler);
     };
@@ -149,8 +138,6 @@ const NavBarUser = () => {
               <div className="dropdown-menu__subTitle">Website User</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
-                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
                 <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
                 <DropdownItem
                   img={help}

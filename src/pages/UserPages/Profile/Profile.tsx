@@ -383,10 +383,10 @@ export default function Profile() {
               ]}>
               <div>
                 <div className="header-edit-profile">
-                  <h2>
-                    Tên tài khoản:{' '}
-                    <span style={{ marginLeft: '5px', fontSize: '18px' }}>{lecturer?.name}</span>
-                  </h2>
+                  <div style={{ fontSize: '16px' }}>
+                    <span style={{ fontWeight: '500' }}>Tên tài khoản:</span>
+                    <span style={{ marginLeft: '5px' }}>{lecturer?.name}</span>
+                  </div>
                   <p onClick={() => setOpenEditNameModal(true)}>Chỉnh sửa</p>
                 </div>
 
@@ -417,7 +417,7 @@ export default function Profile() {
 
               <div>
                 <div className="header-edit-profile">
-                  <h2>Ảnh đại diện</h2>
+                  <div style={{ fontSize: '16px', fontWeight: '500' }}>Ảnh đại diện</div>
                   <p onClick={() => setOpenEditAvatarModal(true)}>Chỉnh sửa</p>
                 </div>
 
@@ -448,12 +448,12 @@ export default function Profile() {
               </div>
 
               <div>
-                <div className="header-edit-profile">
-                  <h2>Thông tin cá nhân</h2>
+                <div style={{ marginBottom: '10px' }} className="header-edit-profile">
+                  <div style={{ fontSize: '16px', fontWeight: '500' }}>Thông tin cá nhân</div>
                   <p onClick={() => setOpenInfoModal(true)}>Chỉnh sửa</p>
                 </div>
 
-                <div className="">
+                <div style={{ marginLeft: '10px' }}>
                   <div>
                     <div>
                       <div className="field-profile-info">
@@ -477,8 +477,8 @@ export default function Profile() {
                       </div>
                       <div className="field-profile-info">
                         <PlaceIcon style={{ fontSize: '24px' }} />
-                        <span style={{ marginLeft: '5px', fontSize: '16px' }}>
-                          {lecturer?.currentDisciplines[0].departmentName} -{' '}
+                        <span style={{ marginLeft: '5px', fontSize: '14px' }}>
+                          {lecturer?.currentDisciplines[0].departmentName} -
                           {lecturer?.currentDisciplines[0].universityName}
                         </span>
                       </div>
@@ -503,11 +503,11 @@ export default function Profile() {
                       </div>
                       <div className="field-profile-info">
                         <CalendarMonthIcon style={{ fontSize: '24px' }} />
-                        <span style={{ marginLeft: '5px', fontSize: '16px' }}>1977-05-03</span>
+                        <span style={{ marginLeft: '5px', fontSize: '14px' }}>1977-05-03</span>
                       </div>
                       <div className="field-profile-info">
                         <EmailIcon style={{ fontSize: '24px' }} />
-                        <span style={{ marginLeft: '5px', fontSize: '16px' }}>
+                        <span style={{ marginLeft: '5px', fontSize: '14px' }}>
                           {!email ? (
                             <>
                               <span
@@ -526,7 +526,7 @@ export default function Profile() {
                       </div>
                       <div className="field-profile-info">
                         <PhoneAndroidIcon style={{ fontSize: '24px' }} />
-                        <span style={{ marginLeft: '5px', fontSize: '16px' }}>
+                        <span style={{ marginLeft: '5px', fontSize: '14px' }}>
                           {!phone ? (
                             <>
                               <span
@@ -545,7 +545,7 @@ export default function Profile() {
                       </div>
                       <div className="field-profile-info">
                         <HouseIcon style={{ fontSize: '24px' }} />
-                        <span style={{ marginLeft: '5px', fontSize: '16px' }}>
+                        <span style={{ marginLeft: '5px', fontSize: '14px' }}>
                           {!address ? (
                             <>
                               <span
@@ -716,13 +716,3 @@ export default function Profile() {
     </Styled>
   );
 }
-
-// git rebase origin/develop
-// git add
-// git stash
-
-/**
- 
-
-
- */

@@ -28,6 +28,20 @@ export default function SearchPage() {
   const [openOption, setOpenOption] = useState(false);
   let optionRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    let handler = (e: any) => {
+      if (optionRef.current !== null) {
+        if (!optionRef.current.contains(e.target)) {
+          setOpenOption(false);
+        }
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  });
+
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
       if (navigate_searchOption.label == 'Article') {
@@ -185,23 +199,9 @@ export default function SearchPage() {
       ) : (
         <div className="center">
           <div className="content content_article">
-            <div className="sort_article">
-              <span
-                style={{
-                  marginRight: '20px',
-                  fontSize: '16px',
-                  color: '#0056ce',
-                  fontWeight: 'bolder'
-                }}>
-                SORT BY
-              </span>
-              <button className="btn_sort">Most relevant</button>
-              <button className="btn_sort">Most recent</button>
-              <button className="btn_sort">Most cited</button>
-            </div>
             <div className="list_article">
-              {listArticles.length != 0 ? (
-                listArticles.map((item) => <ArticleCard data={item} />)
+              {listArticles?.length != 0 ? (
+                listArticles?.map((item) => <ArticleCard data={item} />)
               ) : (
                 <>
                   <div

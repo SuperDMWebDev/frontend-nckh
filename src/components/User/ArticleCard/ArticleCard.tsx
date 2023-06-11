@@ -22,7 +22,6 @@ const ArticleCard = (props: any) => {
               <div className="link_title" onClick={() => handleGoToDetail(data.id)}>
                 <p className="name">{data?.name}</p>
               </div>
-              <p className="role"> Admin </p>
             </div>
             <div className="user-field">{data?.journal}</div>
             <div className="user-field">Author A, Author B</div>
