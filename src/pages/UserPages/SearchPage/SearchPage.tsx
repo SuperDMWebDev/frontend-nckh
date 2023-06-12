@@ -107,14 +107,16 @@ export default function SearchPage() {
         keyword: navigate_searchInput
       };
       fetchListArticle(data);
+      setCurrentSearch('article');
     } else {
       const data = {
         searchOption: 'lecturers',
         keyword: navigate_searchInput
       };
       fetchListLectures(data);
+      setCurrentSearch('author');
     }
-  }, []);
+  }, [navigate_searchOption]);
 
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
@@ -136,8 +138,7 @@ export default function SearchPage() {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={i === currentPage ? 'active btn-pagination' : 'btn-pagination'}
-        >
+          className={i === currentPage ? 'active btn-pagination' : 'btn-pagination'}>
           {i}
         </button>
       );
@@ -169,14 +170,15 @@ export default function SearchPage() {
           style={{
             fontSize: '22px',
             margin: '12px',
-            fontFamily: "monospace",
-            fontWeight: "bold"
-          }}>{`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
+            fontFamily: 'monospace',
+            fontWeight: 'bold'
+          }}>
+          {`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
         </div>
 
         <div
           style={{
-            backgroundColor: '#e6e4e4',
+            backgroundColor: '#EFEFEF',
             width: '100%',
             display: 'flex',
             height: '120px',
@@ -215,56 +217,13 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {currentSearch != "article" ? (
+      {currentSearch != 'article' ? (
         <div className="center" ref={scrollTop}>
           <div className="list_article">
-            {listAuthors ? listAuthors.map((item) => <AuthorCard data={item} />) : <>
-              <div
-                style={{
-                  fontSize: '14px',
-                  marginTop: '10px',
-                  fontStyle: 'italic',
-                  marginLeft: "-70px"
-                }}>
-                Không tìm thấy tác giả nào!
-              </div>
-            </>}
-          </div>
-        </div>
-      ) : (
-        <div className="center" ref={scrollTop}>
-          <div className="content content_article">
-            <div className="sort_article">
-              <div>
-                <div style={{
-                  marginBottom: "50px",
-                  marginTop: "30px"
-                }}>
-                  {/* Previous button */}
-                  <button
-                    className='btn-pre-next'
-                    disabled={currentPage === 1}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    Previous
-                  </button>
-
-                  {/* Page buttons */}
-                  {renderPageButtons()}
-
-                  {/* Next button */}
-                  <button
-                    className='btn-pre-next'
-                    disabled={currentPage === totalPages}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="list_article">
-              {currentLecturers.length != 0 ? currentLecturers.map((item) => <ArticleCard data={item} />) : <>
+            {listAuthors ? (
+              listAuthors.map((item) => <AuthorCard data={item} />)
+            ) : (
+              <>
                 <div
                   style={{
                     fontSize: '14px',
@@ -275,7 +234,56 @@ export default function SearchPage() {
                   Không tìm thấy tác giả nào!
                 </div>
               </>
-              }
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="center" ref={scrollTop}>
+          <div className="content content_article">
+            <div className="list_article">
+              {currentLecturers.length != 0 ? (
+                currentLecturers.map((item) => <ArticleCard data={item} />)
+              ) : (
+                <>
+                  <div
+                    style={{
+                      fontSize: '14px',
+                      marginTop: '10px',
+                      fontStyle: 'italic',
+                      marginLeft: '-70px'
+                    }}>
+                    Không tìm thấy tác giả nào!
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="sort_article">
+              <div>
+                <div
+                  style={{
+                    marginBottom: '50px',
+                    marginTop: '30px'
+                  }}>
+                  {/* Previous button */}
+                  <button
+                    className="btn-pre-next"
+                    disabled={currentPage === 1}
+                    onClick={() => handlePageChange(currentPage - 1)}>
+                    Previous
+                  </button>
+
+                  {/* Page buttons */}
+                  {renderPageButtons()}
+
+                  {/* Next button */}
+                  <button
+                    className="btn-pre-next"
+                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}>
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

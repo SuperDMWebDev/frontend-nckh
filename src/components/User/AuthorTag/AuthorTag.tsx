@@ -74,6 +74,7 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
   return (
     <Styled>
       <div className="addLine">
+        <div style={{ fontSize: '16px', width: '100px' }}>Authors: </div>
         <Input
           placeholder="First name"
           value={firstName}

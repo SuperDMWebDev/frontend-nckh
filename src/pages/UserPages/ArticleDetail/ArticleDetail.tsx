@@ -21,7 +21,7 @@ export default function ArticleDetail() {
   const [authorList, setAuthorList] = useState<string[]>([]);
   const lecturerId = localStorage.getItem('lecturerId');
   const accountId = localStorage.getItem('accountId');
-  const [isEnableEdit, setIsEnableEdit] = useState<boolean>(false);
+  const [isEnableEdit, setIsEnableEdit] = useState<boolean>(true);
 
   const { confirm } = Modal;
 
@@ -40,7 +40,7 @@ export default function ArticleDetail() {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Xóa bài báo thành công!');
-          navigate('./search');
+          navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -62,7 +62,7 @@ export default function ArticleDetail() {
         try {
           handleDeleteArticle();
         } catch (e) {
-          return console.log('Lỗi rồi!');
+          return console.log('Error');
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -93,7 +93,7 @@ export default function ArticleDetail() {
     let nameList: string[] = [];
     // eslint-disable-next-line array-callback-return
     article?.authors.map((item: any) => {
-      if (item.lecturer_name !== undefined || item.lecturer_name !== null) {
+      if (item.lecturer_name !== undefined && item.lecturer_name !== null) {
         nameList.push(item.lecturer_name);
       } else {
         let name = `${item.lastName} ${item.firstName}`;
@@ -156,34 +156,85 @@ export default function ArticleDetail() {
             <div>Authors: </div>
             <ul>
               {authorList.map((item) => (
-                // eslint-disable-next-line react/jsx-key
                 <li>{item}</li>
               ))}
-              {/* <li>Grant,M</li>
-              <li>Foster,T</li>
-              <li>Dinh,DV</li>
-              <li>Willetts,J </li>
-              <li>Davis,G</li> */}
             </ul>
           </div>
           <div className="article-info">
             <div>
-              <p>Journal: {article.journal}</p>
-              <p>Publisher: IWA Publishing</p>
-              <p>Publication Type: Journal Article</p>
-              <p>
-                Citation: Journal of Water, Sanitation and Hygiene for Development, 2020, 10, (4),
-                pp. 659-669
-              </p>
-              <p>DOI: {article.DOI}</p>
-              <p>ISSN: {article.ISSN}</p>
-              <p>Scopus: {article.Scopus}</p>
-              <p>Issue Date: {article.year}</p>
+              {article.journal && (
+                <p>
+                  <span className="subTitle">Journal: </span>
+                  {article.journal}
+                </p>
+              )}
+              {article.conference && (
+                <p>
+                  <span className="subTitle">Conference:</span>
+                  {article.conference}
+                </p>
+              )}
+              {article.rank && (
+                <p>
+                  <span className="subTitle">Rank: </span>
+                  {article.rank}
+                </p>
+              )}
+              {article.DOI && (
+                <p>
+                  <span className="subTitle">DOI: </span>
+                  {article.DOI}
+                </p>
+              )}
+              {article.Scopus && (
+                <p>
+                  <span className="subTitle">Scopus: </span>
+                  {article.Scopus}
+                </p>
+              )}
+              {article.ISSN && (
+                <p>
+                  <span className="subTitle">ISSN: </span> {article.ISSN}
+                </p>
+              )}
+              {article.ISBN && (
+                <p>
+                  <span className="subTitle">ISBN:</span> {article.ISBN}
+                </p>
+              )}
+              {article.volume && (
+                <p>
+                  <span className="subTitle">Volume: </span>
+                  {article.volume}
+                </p>
+              )}
+              {article.PII && (
+                <p>
+                  <span className="subTitle">PII: </span>
+                  {article.PII}
+                </p>
+              )}
+              {article.PMID && (
+                <p>
+                  <span className="subTitle">PMID: </span>
+                  {article.PMID}
+                </p>
+              )}
+              {article.SGR && (
+                <p>
+                  <span className="subTitle">SGR:</span> {article.SGR}
+                </p>
+              )}
+              {article.year && (
+                <p>
+                  <span className="subTitle">Issue Date:</span> {article.year}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="article-content">
-            <h2>ABSTRACT: </h2>
+            <h4>ABSTRACT: </h4>
             <p>{article.abstract}</p>
           </div>
         </div>

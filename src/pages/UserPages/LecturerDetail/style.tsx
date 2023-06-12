@@ -87,7 +87,8 @@ const Styled = styled.div`
     margin-left: auto;
   }
 
-  .content_tab_name::after, .content_tab_name::before {
+  .content_tab_name::after,
+  .content_tab_name::before {
     content: '';
     width: 0%;
     height: 2px;
@@ -96,7 +97,8 @@ const Styled = styled.div`
     transition: 0.5s;
   }
 
-  .content_tab_name:hover::after, .content_tab_name:hover::before {
+  .content_tab_name:hover::after,
+  .content_tab_name:hover::before {
     width: 100%;
   }
 
@@ -108,7 +110,7 @@ const Styled = styled.div`
 
   .profile {
     background-color: #323232;
-    //height: 100vh;
+    height: min-content;
     border-radius: 20px;
     box-shadow: 0 0 20px hsla(0, 0%, 51%, 0.16);
     font-size: 14px;
@@ -197,7 +199,7 @@ const Styled = styled.div`
   }
 
   .field-profile {
-    margin-top: 30px;
+    margin-top: 50px;
     height: 45px;
     width: auto;
     padding: 10px;
@@ -617,7 +619,6 @@ const Styled = styled.div`
   .header_article input::placeholder {
     font-style: italic;
   }
-
 
   // style modal
   .modalStyle .img-avatar-edit {

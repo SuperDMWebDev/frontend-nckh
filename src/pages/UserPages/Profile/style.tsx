@@ -5,7 +5,7 @@ const Styled = styled.div`
     margin-top: 10px;
     width: 100%;
     height: 40px;
-    background-color: #f7f7f7;
+    background-color: #efefef;
     display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -122,6 +122,7 @@ const Styled = styled.div`
     display: flex;
     flex-direction: column;
     color: #f7f7f7;
+    height: min-content;
   }
 
   .tab-selected {

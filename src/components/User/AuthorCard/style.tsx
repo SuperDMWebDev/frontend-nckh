@@ -7,7 +7,6 @@ const Styled = styled.div`
 
     max-width: 750px;
     padding: 20px 0;
-    border-top: 1px solid #e5e5e5;
     padding: 20px 20px;
     cursor: pointer;
     transition: all 0.5s;
@@ -16,15 +15,17 @@ const Styled = styled.div`
 
     border-left: 0px;
     border-right: 0px;
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
+    /* border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5; */
 
-    padding-top: 30px;
+    padding-top: 20px;
     padding-bottom: 20px;
     background: #ffffff;
     backdrop-filter: blur(6px);
-    border-radius: 20px;
-    margin-bottom: 10px;
+
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
+    margin-bottom: 15px;
   }
 
   .container:hover {

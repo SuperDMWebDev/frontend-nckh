@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   .container {
-    width: 60%;
-    margin-bottom: 40px;
+    width: 50%;
+    height: 100%;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -38,7 +40,7 @@ const Styled = styled.div`
   }
 
   .content_tab_name {
-    color: #363636a1;
+    color: #3b3b3b;
     position: relative;
     font-size: 18px;
     text-decoration: none;
@@ -46,6 +48,18 @@ const Styled = styled.div`
     margin-bottom: 2px;
 
     font-weight: 500;
+  }
+
+  .flex-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .titleTag {
+    font-size: 15px;
+    margin-bottom: 10px;
   }
 
   .btnContainer {
@@ -73,6 +87,7 @@ const Styled = styled.div`
 
   .selectInputFull {
     font-size: 15px;
+    margin-bottom: 10px;
   }
 
   .row {
@@ -90,6 +105,11 @@ const Styled = styled.div`
     font-size: 20px;
     display: flex;
     align-items: center;
+  }
+
+  .doiInput {
+    font-size: 15px;
+    width: 100%;
   }
 `;
 

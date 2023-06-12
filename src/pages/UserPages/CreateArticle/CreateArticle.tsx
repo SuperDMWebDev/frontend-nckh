@@ -9,10 +9,10 @@ import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
 
 const { Search } = Input;
 
@@ -84,6 +84,7 @@ const conferenceRank: OptionSelectString[] = [
 ];
 
 const CreateArticle = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
 
@@ -203,6 +204,7 @@ const CreateArticle = () => {
   };
 
   const handleGetArticleByDOI = async () => {
+    setIsLoading(true);
     var payload = {
       data: {
         doi: DOI
@@ -211,15 +213,18 @@ const CreateArticle = () => {
 
     const res = await getArticleByDOI(payload);
     if (res) {
+      setIsLoading(false);
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data[0];
+
+          console.log('dataa', data);
           setName(data.name);
-          setJournal(data.journal);
+          setJournalConferenceText(data.journal);
           setVolume(data.volume);
-          setDay(data.day);
-          setMonth(data.month);
-          setYear(data.year);
+          setDay(parseInt(data.day));
+          setMonth(parseInt(data.month));
+          setYear(parseInt(data.year));
           setAbstract(data.abstract);
           setArXivID(data.ArXivID);
           setISBN(data.ISBN);
@@ -228,7 +233,6 @@ const CreateArticle = () => {
           setScopus(data.Scopus);
           setPII(data.PII);
           setSGR(data.SGR);
-          setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
           toast.success('Successfully get article data from DOI');
@@ -311,6 +315,7 @@ const CreateArticle = () => {
 
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
+
     const res = await createArticle(bodyFormData);
     if (res) {
       switch (res.status) {
@@ -337,12 +342,22 @@ const CreateArticle = () => {
 
   return (
     <Styled>
+      {isLoading && <LoaderLayer />}
       <div className="header_topbar">
-        <div className="content_tab_name">TẠO BÀI BÁO KHOA HỌC</div>
+        <div
+          className="content_tab_name"
+          style={{
+            fontSize: '22px',
+            margin: '12px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold'
+          }}>
+          TẠO BÀI BÁO KHOA HỌC
+        </div>
       </div>
       <div className="container">
         <div>
-          <div style={{ fontSize: '15px', marginBottom: '10px' }}>Nhập DOI để tìm kiếm bài báo</div>
+          <div style={{ fontSize: '15px', marginBottom: '5px' }}>Nhập DOI để tìm kiếm bài báo</div>
           <div className="flex-center">
             <div className="doiInput">
               <Search
@@ -420,7 +435,6 @@ const CreateArticle = () => {
             InputLabelProps={{ style: { fontSize: 15 } }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
-            type="number"
             fullWidth
           />
           <TextField
@@ -431,7 +445,6 @@ const CreateArticle = () => {
             InputLabelProps={{ style: { fontSize: 15 } }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
-            type="number"
             fullWidth
           />
           <TextField
@@ -442,7 +455,6 @@ const CreateArticle = () => {
             InputLabelProps={{ style: { fontSize: 15 } }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
-            type="number"
             fullWidth
           />
         </div>
@@ -554,7 +566,7 @@ const CreateArticle = () => {
               isMulti
             />
           </div>
-          <div>
+          <div style={{ marginTop: '20px' }}>
             <AuthorTag handleGetInputTag={handleGetAuthor} />
           </div>
         </div>
