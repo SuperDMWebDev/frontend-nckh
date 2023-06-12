@@ -148,8 +148,9 @@ const UpdateArticle = () => {
   };
 
   const [authorPayload, setAuthorPayload] = useState<any[]>([]);
-  const [notePayload, setNotePayload] = useState<any[]>([]);
   const [tagPayload, setTagPayload] = useState<any[]>([]);
+
+  const [authorFetch, setAuthorFetch] = useState<any[]>([]);
 
   const fetchTag = async () => {
     const res = await getTag();
@@ -202,6 +203,7 @@ const UpdateArticle = () => {
 
   const handleGetAuthor = (list: any) => {
     setAuthorPayload(list);
+    console.log('author truyen ra', list);
   };
 
   const handleGetTag = (list: any) => {
@@ -244,16 +246,30 @@ const UpdateArticle = () => {
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
+          //set authro select from detail
           const temp = data.authors.filter((e: any) => {
             return Object.keys(e).includes('lecturer_id');
           });
+          var listAuthorSelect: OptionSelect[] = [];
+          temp.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.lecturer_id,
+              label: item.lecturer_name
+            };
+            listAuthorSelect.push(obj);
+          });
+          setSelectedLecturer(listAuthorSelect);
 
-          console.log('tem', temp);
-
-          const source = lecturerList.map((e) => e.value);
-          console.log('source', source);
-
-          console.log(temp.filter((e: any) => source.includes(e.lecturer_id)));
+          // set author first + last name
+          var listTem = data.authors.filter((e: any) => {
+            return !Object.keys(e).includes('lecturer_id');
+          });
+          var news = listTem.map((x: any) => {
+            const newX = { ...x };
+            delete newX['id'];
+            return newX;
+          });
+          setAuthorFetch(news);
 
           break;
         }
@@ -618,7 +634,7 @@ const UpdateArticle = () => {
             />
           </div>
           <div style={{ marginTop: '20px' }}>
-            <AuthorTag handleGetInputTag={handleGetAuthor} />
+            <AuthorTag data={authorFetch} handleGetInputTag={handleGetAuthor} />
           </div>
         </div>
 

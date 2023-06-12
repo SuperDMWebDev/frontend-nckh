@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -43,9 +43,10 @@ const Tags = ({ data, handleDelete }: Props) => {
   );
 };
 
-const AuthorTag = ({ handleGetInputTag }: any) => {
+const AuthorTag = ({ data, handleGetInputTag }: any) => {
+  console.log('data truyen vo', data);
   const [names, setNames] = useState<string[]>([]);
-  const [authorPayLoads, setAuthorPayLoads] = useState<NAME[]>([]);
+  const [authorPayLoads, setAuthorPayLoads] = useState<NAME[]>(data);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -70,6 +71,15 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
     const newNames = names.filter((val) => val !== value);
     setNames(newNames);
   };
+
+  // const x = data.map((item: any) => {
+  //   var name = item.lastName.concat(' ', item.firstName);
+  //   var authorPayload = item;
+  //   setNames([...names, name]);
+  //   setAuthorPayLoads([...authorPayLoads, authorPayload]);
+  //   handleGetInputTag([...authorPayLoads, authorPayload]);
+  // });
+  for
 
   return (
     <Styled>
