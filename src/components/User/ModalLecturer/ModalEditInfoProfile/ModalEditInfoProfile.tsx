@@ -17,6 +17,7 @@ export default function ModalEditInfoProfile(props: any) {
   const [newEmail, setNewEmail] = useState<string>(lecturer.contacts[0].value);
   const [newAddress, setNewAddress] = useState<string>(lecturer.contacts[1].value);
   const [newPhone, setNewPhone] = useState<string>(lecturer.contacts[2].value);
+  const [newLink, setNewLink] = useState<string>(lecturer.contacts[3].value);
   const [universitys, setUniversitys] = useState<any>([]);
   const [contactTypes, setContactTypes] = useState<any>([]);
 
@@ -80,7 +81,8 @@ export default function ModalEditInfoProfile(props: any) {
           newDepartmentName: newDepartmentName,
           email: { email: newEmail, id: 1 },
           address: { address: newAddress, id: 2 },
-          phone: { phone: newPhone, id: 3 }
+          phone: { phone: newPhone, id: 3 },
+          link: { link: lecturer.contacts[3].value, id: 4 }
         }
 
         console.log(data);
@@ -134,7 +136,9 @@ export default function ModalEditInfoProfile(props: any) {
       newDepartmentName: newDepartmentName,
       email: { email: newEmail, id: 1 },
       address: { address: newAddress, id: 2 },
-      phone: { phone: newPhone, id: 3 }
+      phone: { phone: newPhone, id: 3 },
+      link: { link: lecturer.contacts[3].value, id: 4 }
+
     };
 
     console.log(data);

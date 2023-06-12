@@ -39,6 +39,8 @@ export default function LecturerDetail() {
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [link, setLink] = useState<string>('');
+  const [linkInner, setLinkInner] = useState<string>('');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
   const { id }: any = useParams();
@@ -77,19 +79,19 @@ export default function LecturerDetail() {
     data
       .then((result) => {
         setLecturer(result);
+        setEmail(result.contacts[0].value);
+        setAddress(result.contacts[1].value);
+        setPhone(result.contacts[2].value);
+        setLink(result.contacts[3].value);
+        if (result.contacts[3].value.length >= 25) {
+          setLinkInner(result.contacts[3].value.slice(0, 25) + "...");
+        } else {
+          setLinkInner(result.contacts[3].value);
+        }
         result.workPositions.map((workPosition: any) => {
           workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
         });
         result.bio !== null ? setBio(result.bio) : setBio('');
-        result.contacts.map((contact: any) => {
-          if (contact.contactTypeName == 'phone') {
-            setPhone(contact.value);
-          } else if (contact.contactTypeName == 'address') {
-            setAddress(contact.value);
-          } else if (contact.contactTypeName == 'email') {
-            setEmail(contact.value);
-          }
-        });
       })
       .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
@@ -151,8 +153,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+                lecturer?.avatar == '' ||
+                lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -233,15 +235,31 @@ export default function LecturerDetail() {
             <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
             <div className="field-profile-info">
               <AttachmentIcon style={{ fontSize: '20px' }} />
-              <a
-                style={{ marginLeft: '5px', color: 'white', textDecoration: 'none' }}
-                href="https://www.facebook.com/namduonggggg">
-                fb.com/namduonggggg
-              </a>
+              {!link ? (
+                <>
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      fontStyle: 'italic',
+                      marginLeft: '5px'
+                    }}>
+                    Chưa cập nhật
+                  </span>
+                </>
+              ) : (
+                <a
+                  style={{ width: "120px", height: "auto", marginLeft: '5px', color: 'white', textDecoration: 'none' }}
+                  href={link}
+                  target="_blank">
+                  {
+                    linkInner
+                  }
+                </a>
+              )}
             </div>
           </div>
 
-          <div className="line">.........</div>
+          <div className="line" style={{ marginBottom: "50px" }}>.........</div>
         </div>
         <div>
           {currentTab === 1 ? (
@@ -252,7 +270,7 @@ export default function LecturerDetail() {
                     <h2 className="title_content">TIỂU SỬ</h2>
                   </div>
                   <p className="data_content">
-                    {bio == '' ? (
+                    {lecturer?.bio == '' || lecturer?.bio == null || lecturer?.bio == 'null' ? (
                       <p
                         style={{
                           fontSize: '13px',
@@ -262,7 +280,7 @@ export default function LecturerDetail() {
                         Chưa cập nhật
                       </p>
                     ) : (
-                      bio
+                      lecturer?.bio
                     )}
                   </p>
                 </div>

@@ -143,17 +143,17 @@ const NavBarUser = () => {
             </div>
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-              <h3>Lecturer</h3>
+              <h3>{lecturer?.name}</h3>
               {/* <div className="dropdown-menu__subTitle">Website User</div> */}
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
+                <DropdownItem img={user} text={'Trang cá nhân'} value={'MyProfile'} />
+                <DropdownItem img={settings} text={'Cài đặt'} value={'Settings'} />
                 <DropdownItem
                   img={help}
-                  text={'Retrieve Scopus Author'}
+                  text={'Truy xuất tài khoản Scopus'}
                   value={'Retrieve Scopus Author'}
                 />
-                <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
+                <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
               </ul>
             </div>
           </div>

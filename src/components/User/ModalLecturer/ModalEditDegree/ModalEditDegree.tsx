@@ -105,7 +105,7 @@ export default function ModalEditDegree(props: any) {
     <div>
       <div className="content-profile">
         <div className="main_content">
-          <h2 className="title_content">BẰNG CẤP</h2>
+          <h2 className="title_content">ĐỀ TÀI, LUẬN ÁN</h2>
           {canEdit ? (
             <div
               className="btn-edit-card"
@@ -122,7 +122,7 @@ export default function ModalEditDegree(props: any) {
           ) : null}
 
           <Modal
-            title="Thêm thông tin bằng cấp"
+            title="Thêm thông tin"
             centered
             open={openAddModal}
             onOk={handleCreatDegree}
@@ -203,7 +203,7 @@ export default function ModalEditDegree(props: any) {
                 />
                 <span className="highlight-edit-profile"></span>
                 <span className="bar-edit-profile"></span>
-                <label className="label-edit-profile">Năm tốt nghiệp</label>
+                <label className="label-edit-profile">Năm hoàn thành</label>
               </div>
             </div>
           </Modal>

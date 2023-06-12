@@ -94,7 +94,7 @@ const NavBarRetrieveScopus = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>Quản lý bài viết khoa học</div>
+          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>QUẢN LÝ BÀI VIẾT KHOA HỌC</div>
         </div>
         <div className="navbar-tab">
         </div>
@@ -121,17 +121,8 @@ const NavBarRetrieveScopus = () => {
             </div>
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-              <h3>Lecturer</h3>
-              <div className="dropdown-menu__subTitle">Website User</div>
+              <div className="dropdown-menu__subTitle">Trang truy xuất Scopus</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
-                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
-                <DropdownItem
-                  img={help}
-                  text={'Retrieve Scopus Author'}
-                  value={'Retrieve Scopus Author'}
-                />
                 <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
               </ul>
             </div>

@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     <Styled>
       <section className="banner">
         <div className="content">
-          <div className="content_title">Quản lý bài viết khoa học</div>
+          <div className="content_title" style={{ fontSize: "60px" }}>QUẢN LÝ BÀI VIẾT KHOA HỌC</div>
           <div className="content_script" style={{
             fontSize: "24px"
           }}>

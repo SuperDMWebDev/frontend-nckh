@@ -78,6 +78,7 @@ export default function ModalEditWorkPosition(props: any) {
 
         console.log(data);
         editWorkPosition(lecturer, data, accountId);
+        window.location.reload();
     }
 
     const handleDeleteBook = () => {
@@ -196,7 +197,7 @@ export default function ModalEditWorkPosition(props: any) {
                                         <div>Chức vụ: {!workPosition.position ?
                                             <span style={{ fontStyle: "italic", fontSize: "13px" }}>Chưa cập nhật</span> : workPosition.position}</div>
                                         <div className="user-field">
-                                            Thời gian:
+                                            Thời gian:{" "}
                                             {
                                                 workPosition.fromDate == null || workPosition.toDate == null ?
                                                     <>
