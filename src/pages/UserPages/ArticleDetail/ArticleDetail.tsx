@@ -153,7 +153,7 @@ export default function ArticleDetail() {
           </div>
 
           <div className="article-author">
-            <div>Authors: </div>
+            <div>Tác giả: </div>
             <ul>
               {authorList.map((item) => (
                 <li>{item}</li>
@@ -164,13 +164,13 @@ export default function ArticleDetail() {
             <div>
               {article.journal && (
                 <p>
-                  <span className="subTitle">Journal: </span>
+                  <span className="subTitle">Bài báo: </span>
                   {article.journal}
                 </p>
               )}
               {article.conference && (
                 <p>
-                  <span className="subTitle">Conference:</span>
+                  <span className="subTitle">Hội nghị:</span>
                   {article.conference}
                 </p>
               )}
@@ -227,7 +227,7 @@ export default function ArticleDetail() {
               )}
               {article.year && (
                 <p>
-                  <span className="subTitle">Issue Date:</span> {article.year}
+                  <span className="subTitle">Ngày công bố:</span> {article.year}
                 </p>
               )}
             </div>

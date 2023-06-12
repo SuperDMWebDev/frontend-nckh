@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Button,
-  Cascader,
   DatePicker,
   Form,
   Input,
   InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect
+  Select
 } from 'antd';
 const { Option } = Select;
 import Styled from './style';
@@ -34,31 +29,31 @@ export default function EditProfile() {
         onValuesChange={onFormLayoutChange}
         size={componentSize as SizeType}
         style={{ maxWidth: 700 }}>
-        <Form.Item label="Fullname">
+        <Form.Item label="Họ tên">
           <Input />
         </Form.Item>
         <Form layout="inline" style={{ maxWidth: 700, marginLeft: '27px', marginBottom: '10px' }}>
-          <Form.Item label="Date of birth">
+          <Form.Item label="Ngày sinh">
             <DatePicker />
           </Form.Item>
-          <Form.Item label="Age">
+          <Form.Item label="Tuổi">
             <InputNumber />
           </Form.Item>
         </Form>
-        <Form.Item label="University">
+        <Form.Item label="Trường đại học">
           <Input />
         </Form.Item>
-        <Form.Item label="Address">
+        <Form.Item label="Địa chỉ">
           <Input />
         </Form.Item>
 
         <Form.Item label="Email">
           <Input />
         </Form.Item>
-        <Form.Item label="Gender">
+        <Form.Item label="Giới tính">
           <Select>
-            <Select.Option value="male">Male</Select.Option>
-            <Select.Option value="female">Female</Select.Option>
+            <Select.Option value="male">Nam</Select.Option>
+            <Select.Option value="female">Nữ</Select.Option>
           </Select>
         </Form.Item>
       </Form>
@@ -67,7 +62,7 @@ export default function EditProfile() {
         <input type="text" className="input" />
         <span className="highlight"></span>
         <span className="bar"></span>
-        <label>Name</label>
+        <label>Tên</label>
       </div>
     </Styled>
   );

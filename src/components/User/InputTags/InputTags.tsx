@@ -69,7 +69,7 @@ const InputTags = ({ handleGetInputTag }: any) => {
           margin="none"
           value={tag}
           onChange={(e) => setTag(e.target.value)}
-          placeholder={tags.length < 5 ? 'Enter tags' : ''}
+          placeholder={tags.length < 5 ? 'Nhập tag' : ''}
           inputProps={{ style: { fontSize: 15 } }}
           InputProps={{
             startAdornment: (

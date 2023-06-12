@@ -5,7 +5,6 @@ import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
 import httpStatus from 'http-status';
 import { useNavigate } from 'react-router-dom';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getListArticleWithKeyword } from '../../../api/Article';
 import { getListLecturerWithKeyword } from '../../../api/Lecturer';
 import { SEARCH_OPTION } from '../../../constants/constant';

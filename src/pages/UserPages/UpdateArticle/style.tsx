@@ -97,6 +97,7 @@ const Styled = styled.div`
   .ant-input {
     font-size: 15px;
     height: 38px;
+    width: 75%;
   }
 
   .ant-btn {

@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
-import user from '../../../assets/user.png';
-import edit from '../../../assets/edit.png';
-import inbox from '../../../assets/envelope.png';
-import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
-import { getInfoProfile } from '../../../api/Lecturer';
 
 type Lecturer = {
   [key: string]: any;
@@ -123,7 +118,7 @@ const NavBarRetrieveScopus = () => {
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <div className="dropdown-menu__subTitle">Trang truy xuất Scopus</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
+                <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
               </ul>
             </div>
           </div>
@@ -131,7 +126,7 @@ const NavBarRetrieveScopus = () => {
           <div>
             <ul>
               <li>
-                <a href="/signin">Log In</a>
+                <a href="/signin">Đăng nhập</a>
               </li>
               <li>
                 <a>Register</a>
