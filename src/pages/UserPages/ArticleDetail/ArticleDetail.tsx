@@ -7,7 +7,6 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { toast } from 'react-toastify';
 import { getLecturerIdFromAccountId } from '../../../utils/api';
-import { getIn } from 'formik';
 
 type Article = {
   [key: string]: any;
@@ -20,7 +19,6 @@ export default function ArticleDetail() {
 
   const [article, setArticle] = useState<Article>();
   const [authorList, setAuthorList] = useState<string[]>([]);
-  const role = localStorage.getItem('role');
   const lecturerId = localStorage.getItem('lecturerId');
   const accountId = localStorage.getItem('accountId');
   const [isEnableEdit, setIsEnableEdit] = useState<boolean>(false);
@@ -41,12 +39,12 @@ export default function ArticleDetail() {
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
-          toast.success('Delete article sucessfully');
+          toast.success('Xóa bài báo thành công!');
           navigate('./search');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.success('Fail to delete this article');
+          toast.success('Xóa bài báo thất bại!');
           navigate('/');
           break;
         }
@@ -58,13 +56,13 @@ export default function ArticleDetail() {
 
   function showConfirm() {
     confirm({
-      title: 'Do you want to delete this article?',
-      content: 'When clicked the OK button, this article will be deleted permanently.',
+      title: 'Bạn có muốn xóa bài báo này?',
+      content: 'Khi nhấp OK, bài báo này sẽ bị xóa vĩnh viễn.',
       async onOk() {
         try {
           handleDeleteArticle();
         } catch (e) {
-          return console.log('Oops errors!');
+          return console.log('Lỗi rồi!');
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function

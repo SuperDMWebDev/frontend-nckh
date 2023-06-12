@@ -15,8 +15,6 @@ import Loader from './components/Loader/Loader';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { defaultToastConfig } from './utils/config';
-import ResearchHomepage from './pages/AdminPages/ResearchHomepage';
-import Report from './pages/AdminPages/Report';
 import NavBarUser from './components/User/NavBarUser/NavBarUser';
 import Profile from './pages/UserPages/Profile/Profile';
 import { ROLE_USER } from './constants/constant';
@@ -87,12 +85,12 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/admin" element={<Admin />}></Route>
             <Route path="/" element={!isLogin ? <SignIn /> : <Navigate replace to="/admin" />} />
-            <Route path="/admin/create" element={<CreateLecturer />} />
-            <Route path="/home-page" element={<ResearchHomepage />} />
-            <Route path="/detail-page" element={<DetailPage />} />
-            <Route path="/test" element={<ModalTeacher />} />
+            {/* <Route path="/admin/create" element={<CreateLecturer />} /> */}
+            {/* <Route path="/home-page" element={<ResearchHomepage />} /> */}
+            {/* <Route path="/detail-page" element={<DetailPage />} />
+            <Route path="/test" element={<ModalTeacher />} /> */}
             <Route path="/loader" element={<Loader />} />
-            <Route path="/report" element={<Report />} />
+            {/* <Route path="/report" element={<Report />} /> */}
           </Routes>
         )}
       </BrowserRouter>

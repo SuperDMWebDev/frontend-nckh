@@ -11,7 +11,6 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { getInfoProfile } from '../../../api/Lecturer';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
@@ -28,8 +27,6 @@ import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
-import { toast } from 'react-toastify';
-
 
 type Article = {
     [key: string]: any; // 👈️ variable key
@@ -111,7 +108,6 @@ export default function Profile() {
         document.getElementById('1')?.classList.add('tab-selected');
         document.getElementById('2')?.classList.remove('tab-selected');
         document.getElementById('3')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
     };
 
     const handleTab2 = () => {
@@ -119,7 +115,6 @@ export default function Profile() {
         document.getElementById('2')?.classList.add('tab-selected');
         document.getElementById('1')?.classList.remove('tab-selected');
         document.getElementById('3')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
     };
 
     const handleTab3 = () => {
@@ -127,15 +122,6 @@ export default function Profile() {
         document.getElementById('3')?.classList.add('tab-selected');
         document.getElementById('1')?.classList.remove('tab-selected');
         document.getElementById('2')?.classList.remove('tab-selected');
-        document.getElementById('4')?.classList.remove('tab-selected');
-    };
-
-    const handleTab4 = () => {
-        setCurrentTab(4);
-        document.getElementById('4')?.classList.add('tab-selected');
-        document.getElementById('1')?.classList.remove('tab-selected');
-        document.getElementById('2')?.classList.remove('tab-selected');
-        document.getElementById('3')?.classList.remove('tab-selected');
     };
 
     const handleBackSearch = () => {
@@ -220,13 +206,8 @@ export default function Profile() {
                             CÔNG BỐ KHOA HỌC
                         </div>
                     </li>
-                    {/* <li className="content_tab">
-                        <div id="3" className="content_tab_name" onClick={handleTab3}>
-                            SCOPUS PROFILE
-                        </div>
-                    </li> */}
                     <li className="content_tab">
-                        <div id="4" className="content_tab_name" onClick={handleTab4}>
+                        <div id="3" className="content_tab_name" onClick={handleTab3}>
                             NGHIÊN CỨU
                         </div>
                     </li>

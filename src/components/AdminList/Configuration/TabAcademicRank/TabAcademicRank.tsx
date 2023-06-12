@@ -7,7 +7,6 @@ import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 import { createMultipleAcademicRanks, deleteMultipleAcademicRanks, getAllAcademicRanks, updateAcademicRank } from '../../../../api/Configuration';
 import { toast } from "react-toastify"
 
@@ -38,7 +37,6 @@ const TabAcademicRank: React.FC = () => {
 
   const [open, setOpen] = useState(false);
   const [openDel, setOpenDel] = useState(false);
-  const navigate = useNavigate();
 
   const locale = {
     emptyText: 'Không có dữ liệu',
