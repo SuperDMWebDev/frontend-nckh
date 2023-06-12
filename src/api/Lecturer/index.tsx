@@ -60,7 +60,7 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
       name: data.name,
       gender: data.gender,
       avatar: data.avatar,
-      dateOfBirth: '04/05/1979',
+      dateOfBirth: data.dateOfBirth,
       bio: data.bio,
       academicRankId: data.academicRankId,
       academicRankGainYear: data.academicRankGainYear,
@@ -104,6 +104,12 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
           contactTypeId: 3,
           value: data.phone.phone,
           update: true
+        },
+        {
+          id: lecturer.contacts[3].id,
+          contactTypeId: 4,
+          value: data.link.link,
+          update: true
         }
       ],
       currentDiscipline: {
@@ -114,6 +120,52 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
         position: data.newCurrentDisciplines,
         update: true
       }
+    }
+  });
+};
+
+export const editLinkProfile = async (lecturer: any, link: any, accountId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      contacts: [
+        {
+          id: lecturer.contacts[0].id,
+          contactTypeId: 1,
+          value: lecturer.contacts[0].value,
+          update: true
+        },
+        {
+          id: lecturer.contacts[1].id,
+          contactTypeId: 2,
+          value: lecturer.contacts[1].value,
+          update: true
+        },
+        {
+          id: lecturer.contacts[2].id,
+          contactTypeId: 3,
+          value: lecturer.contacts[2].value,
+          update: true
+        },
+        {
+          id: lecturer.contacts[3].id,
+          contactTypeId: 4,
+          value: link,
+          update: true
+        }
+      ]
     }
   });
 };

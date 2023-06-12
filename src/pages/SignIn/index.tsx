@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import Footer from '../../components/Footer';
+import { Button, Modal } from 'antd';
 
 const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
@@ -65,6 +66,13 @@ const SignIn = () => {
   useEffect(() => {
     document.title = 'HCMUS - Đăng nhập';
   }, []);
+
+  const [openChangePwdModal, setOpenChangePwdModal] = useState(false);
+  const [email, setEmail] = useState<string>("");
+
+  const handleSendEmail = () => {
+
+  }
 
   return (
     <Styled>
@@ -154,10 +162,43 @@ const SignIn = () => {
                   </div>
                   <div className="forgot-password">
                     Quên mật khẩu?
-                    <Link to="/input-email" className="reset-link">
+                    <span className="reset-link" onClick={() => setOpenChangePwdModal(true)}>
                       Đặt lại mật khẩu
-                    </Link>
+                    </span>
                   </div>
+                  <Modal
+                    title="Thay đổi mật khẩu"
+                    centered
+                    open={openChangePwdModal}
+                    onCancel={() => setOpenChangePwdModal(false)}
+                    width={700}
+                    footer={[
+                      <Button
+                        key="submit"
+                        style={{ backgroundColor: 'red', color: 'white' }}
+                        onClick={() => setOpenChangePwdModal(false)}>
+                        Hủy
+                      </Button>,
+                      <Button key="submit" type="primary" onClick={handleSendEmail}>
+                        Gửi
+                      </Button>
+                    ]}
+                    className="modalStyle">
+                    <div className="group">
+                      <input
+                        required={true}
+                        type="text"
+                        className="input-edit-profile"
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
+                      />
+                      <span className="highlight-edit-profile"></span>
+                      <span className="bar-edit-profile"></span>
+                      <label className="label-edit-profile">Email</label>
+                    </div>
+                  </Modal>
                   <button type="submit" className="login-btn">
                     Đăng nhập
                   </button>

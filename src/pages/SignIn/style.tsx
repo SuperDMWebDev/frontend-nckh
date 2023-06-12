@@ -277,8 +277,14 @@ const Styled = styled.div`
     line-height: 17px;
     margin: 1rem 0px 1.5rem;
   }
-  a.reset-link {
+  .reset-link {
     margin-left: 20px;
+    cursor: pointer;
+    color: #2e53f8;
+  }
+
+  .reset-link:hover {
+    text-decoration: underline;
   }
 `;
 

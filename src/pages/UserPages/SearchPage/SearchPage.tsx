@@ -163,9 +163,6 @@ export default function SearchPage() {
   return (
     <Styled>
       <div className="center">
-        <div className="btn-back-search" onClick={handleBackSearch}>
-          <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
-        </div>
         <div
           style={{
             fontSize: '22px',
