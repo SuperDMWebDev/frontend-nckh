@@ -223,10 +223,10 @@ const UpdateArticle = () => {
           const data = res.data.data;
           setArticle(data);
           setName(data.name);
-          if (journal == null) {
-            setJournalConferenceText(data.conference);
-          } else {
+          if (data.journal) {
             setJournalConferenceText(data.journal);
+          } else {
+            setJournalConferenceText(data.conference);
           }
           setVolume(data.volume);
           setDay(data.day);
@@ -384,8 +384,8 @@ const UpdateArticle = () => {
 
   useEffect(() => {
     fetchLecturer();
-    handleGetDetailArticle();
     fetchTag();
+    handleGetDetailArticle();
   }, []);
 
   return (
