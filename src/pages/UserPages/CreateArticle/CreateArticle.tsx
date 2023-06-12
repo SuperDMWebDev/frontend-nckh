@@ -218,7 +218,8 @@ const CreateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data[0];
 
-          console.log('dataa', data);
+          console.log('data doi', data);
+
           setName(data.name);
           setJournalConferenceText(data.journal);
           setVolume(data.volume);

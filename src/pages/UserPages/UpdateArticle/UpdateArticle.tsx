@@ -244,12 +244,16 @@ const UpdateArticle = () => {
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
-          // const temp = data.authors.filter((e: any) => {
-          //   return Object.keys(e).includes('lecturer_id');
-          // });
+          const temp = data.authors.filter((e: any) => {
+            return Object.keys(e).includes('lecturer_id');
+          });
 
-          // const source = lecturerList.map((e) => e.value);
-          // console.log(temp.filter((e: any) => source.includes(e.lecturer_id)));
+          console.log('tem', temp);
+
+          const source = lecturerList.map((e) => e.value);
+          console.log('source', source);
+
+          console.log(temp.filter((e: any) => source.includes(e.lecturer_id)));
 
           break;
         }
@@ -282,7 +286,7 @@ const UpdateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data[0];
           setName(data.name);
-          setJournal(data.journal);
+          setJournalConferenceText(data.journal);
           setVolume(data.volume);
           setDay(data.day);
           setMonth(data.month);
