@@ -1,5 +1,5 @@
 /* eslint-disable no-negated-condition */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from './style';
 import { useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import Footer from '../../components/Footer';
+
 const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();

@@ -9,21 +9,13 @@ import PlaceIcon from '@mui/icons-material/Place';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { getInfoProfile } from '../../../api/Lecturer';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate, useParams } from 'react-router-dom';
 import httpStatus from 'http-status';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 import "./LecturerDetail.css";
-import Avatar1 from 'react-avatar-edit'
-import { editBioProfile } from '../../../api/Lecturer';
-import { editAvatarProfile } from '../../../api/Lecturer';
-import { editNameProfile } from '../../../api/Lecturer';
-import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
-import { toast } from 'react-toastify';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
@@ -103,8 +95,6 @@ export default function LecturerDetail() {
       .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
 
-  const linkScopusProfile = '';
-
   console.log(lecturer);
 
   const handleTab1 = () => {
@@ -112,7 +102,6 @@ export default function LecturerDetail() {
     document.getElementById('1')?.classList.add('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab2 = () => {
@@ -120,7 +109,6 @@ export default function LecturerDetail() {
     document.getElementById('2')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab3 = () => {
@@ -128,15 +116,6 @@ export default function LecturerDetail() {
     document.getElementById('3')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
-  };
-
-  const handleTab4 = () => {
-    setCurrentTab(4);
-    document.getElementById('4')?.classList.add('tab-selected');
-    document.getElementById('1')?.classList.remove('tab-selected');
-    document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('3')?.classList.remove('tab-selected');
   };
 
   const handleBackSearch = () => {
@@ -161,7 +140,7 @@ export default function LecturerDetail() {
             </div>
           </li>
           <li className="content_tab">
-            <div id="4" className="content_tab_name" onClick={handleTab4}>
+            <div id="3" className="content_tab_name" onClick={handleTab3}>
               NGHIÊN CỨU
             </div>
           </li>

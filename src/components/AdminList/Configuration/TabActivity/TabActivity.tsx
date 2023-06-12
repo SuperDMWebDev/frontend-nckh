@@ -7,8 +7,7 @@ import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { createMultipleActivities, createMultipleContactTypes, deleteMultipleActivities, deleteMultipleContactTypes, getAllActivities, getAllContactTypes, updateActivity, updateContactType } from '../../../../api/Configuration';
+import { createMultipleActivities, deleteMultipleActivities, getAllActivities, updateActivity } from '../../../../api/Configuration';
 import { toast } from "react-toastify"
 
 // eslint-disable-next-line no-magic-numbers
@@ -39,7 +38,6 @@ const TabActivity: React.FC = () => {
 
     const [open, setOpen] = useState(false);
     const [openDel, setOpenDel] = useState(false);
-    const navigate = useNavigate();
 
     const locale = {
         emptyText: 'Không có dữ liệu',

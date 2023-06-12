@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import SearchInput from '../../../components/User/SearchInput/SearchInput';
 import Styled from './style';
 import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
 import httpStatus from 'http-status';
