@@ -144,7 +144,7 @@ const NavBarUser = () => {
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <h3>Lecturer</h3>
-              <div className="dropdown-menu__subTitle">Website User</div>
+              {/* <div className="dropdown-menu__subTitle">Website User</div> */}
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
                 <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
@@ -161,11 +161,11 @@ const NavBarUser = () => {
           <div>
             <ul>
               <li>
-                <a href="/signin">Log In</a>
+                <a href="/signin">Đăng nhập</a>
               </li>
-              <li>
+              {/* <li>
                 <a>Register</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         )}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 30px 50px;
     box-shadow: 0 3px 3px rgb(0 0 0 / 5%);
@@ -53,14 +53,14 @@ const Styled = styled.div`
     width: 220px;
     box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);
     transition: all 5s ease-in-out;
-    &__subTitle {
-      font-size: 14px;
-      color: #64626285;
-      font-weight: 700;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
+    // &__subTitle {
+    //   font-size: 14px;
+    //   color: #64626285;
+    //   font-weight: 700;
+    //   display: flex;
+    //   justify-content: center;
+    //   margin-bottom: 10px;
+    // }
   }
 
   .dropdown-menu.active {

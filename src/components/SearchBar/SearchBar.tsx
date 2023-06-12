@@ -23,7 +23,7 @@ const SearchBar: React.FC = () => {
       <div className="search--input">
         <input
           type="search"
-          placeholder="Search by name or keyword"
+          placeholder="Tìm kiếm bằng tên hoặc từ khóa"
           value={keyword}
           onChange={handleFilter}
           ref={inputRef}

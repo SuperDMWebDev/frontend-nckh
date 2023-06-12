@@ -4,7 +4,6 @@ import Styled from './style';
 import user from '../../../assets/user.png';
 import edit from '../../../assets/edit.png';
 import inbox from '../../../assets/envelope.png';
-import settings from '../../../assets/settings.png';
 import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
 import { getInfoProfile } from '../../../api/Lecturer';
@@ -128,7 +127,6 @@ const NavBarRetrieveScopus = () => {
                 <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
                 <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
                 <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
-                <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
                 <DropdownItem
                   img={help}
                   text={'Retrieve Scopus Author'}

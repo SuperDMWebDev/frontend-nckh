@@ -3,6 +3,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import styled from 'styled-components';
 import Styled from './style';
+import React from 'react';
 
 const PhoneStyled = styled('div')(({ theme }) => ({
   marginRight: '60px'

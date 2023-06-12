@@ -45,7 +45,7 @@ const SearchInput = ({ getSearchOption }: any) => {
         <input
           type="text"
           className="input_search"
-          placeholder="Search by name or keyword"
+          placeholder="Tìm kiếm bằng tên hoặc từ khóa"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onKeyDown={handleKeyDown}
