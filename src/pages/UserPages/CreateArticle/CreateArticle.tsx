@@ -21,6 +21,11 @@ type OptionSelect = {
   label: string;
 };
 
+type OptionSelectString = {
+  value: string;
+  label: string;
+};
+
 const journalOptionList: OptionSelect[] = [
   {
     value: 1,
@@ -32,20 +37,67 @@ const journalOptionList: OptionSelect[] = [
   }
 ];
 
+const journalRank: OptionSelectString[] = [
+  {
+    value: 'Q1',
+    label: 'Q1'
+  },
+  {
+    value: 'Q2',
+    label: 'Q2'
+  },
+  {
+    value: 'Q3',
+    label: 'Q3'
+  },
+  {
+    value: 'Q4',
+    label: 'Q4'
+  }
+];
+
+const conferenceRank: OptionSelectString[] = [
+  {
+    value: 'A++',
+    label: 'A++'
+  },
+  {
+    value: 'A+',
+    label: 'A+'
+  },
+  {
+    value: 'A',
+    label: 'A'
+  },
+  {
+    value: 'B',
+    label: 'B'
+  },
+  {
+    value: 'C',
+    label: 'C'
+  },
+  {
+    value: 'Unranked',
+    label: 'Unranked'
+  }
+];
+
 const CreateArticle = () => {
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
 
   const [DOI, setDOI] = useState('');
-
   const [name, setName] = useState('');
 
+  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
   const [journalConferenceText, setJournalConferenceText] = useState('');
   const [journal, setJournal] = useState<string | null>();
   const [conference, setConference] = useState<string | null>();
-  const [rank, setRank] = useState('');
+  const [rank, setRank] = useState<OptionSelectString>(journalRank[0]);
+  const [rankList, setRankList] = useState<OptionSelectString[]>(journalRank);
 
-  const [volume, setVolume] = useState<number>();
+  const [volume, setVolume] = useState('');
   const [day, setDay] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [year, setYear] = useState<number>();
@@ -63,7 +115,6 @@ const CreateArticle = () => {
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
   const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
-  const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
 
   const handleGetJournalConference = (e: any) => {
     setJournalConferenceText(e.target.value);
@@ -78,6 +129,17 @@ const CreateArticle = () => {
 
   const handleSelectJournalOption = (option: any) => {
     setJournalOption(option);
+    if (option.value == 1) {
+      setRank(journalRank[0]);
+      setRankList(journalRank);
+    } else {
+      setRank(conferenceRank[0]);
+      setRankList(conferenceRank);
+    }
+  };
+
+  const handleSelectRankOption = (option: any) => {
+    setRank(option);
   };
 
   const handleSelect = (data: any) => {
@@ -90,7 +152,7 @@ const CreateArticle = () => {
 
   const [authorPayload, setAuthorPayload] = useState<any[]>([]);
   const [urlPayload, setUrlPayload] = useState<any[]>([]);
-  const [notePayload, setNotePayload] = useState<any[]>([]);
+  const [tagPayload, setTagPayload] = useState<any[]>([]);
 
   const fetchTag = async () => {
     const res = await getTag();
@@ -147,8 +209,6 @@ const CreateArticle = () => {
       }
     };
 
-    // e.preventDefault();
-
     const res = await getArticleByDOI(payload);
     if (res) {
       switch (res.status) {
@@ -188,15 +248,15 @@ const CreateArticle = () => {
     setAuthorPayload(list);
   };
 
-  const handleGetNote = (list: any) => {
-    var notes: any[] = [];
+  const handleGetTag = (list: any) => {
+    var tags: any[] = [];
     list?.map((item: string) => {
       let obj = {
-        note: item
+        name: item
       };
-      notes.push(obj);
+      tags.push(obj);
     });
-    setNotePayload(notes);
+    setTagPayload(tags);
   };
 
   const handleBackSearch = () => {
@@ -204,6 +264,7 @@ const CreateArticle = () => {
   };
 
   const handleCreateArticle = async () => {
+    var rankPayload: any = rank.value;
     var tags: any[] = [];
     var authors: any[] = [
       {
@@ -215,12 +276,12 @@ const CreateArticle = () => {
       let obj = { tag_id: item.value };
       tags.push(obj);
     });
+    tagPayload?.map((item) => [tags.push(item)]);
 
     selectedLecturer?.map((item: { value: number; label: string }) => {
       let obj = { lecturerId: item.value };
       authors.push(obj);
     });
-
     authorPayload?.map((item) => {
       authors.push(item);
     });
@@ -229,8 +290,8 @@ const CreateArticle = () => {
       name,
       journal,
       conference,
+      rank: rankPayload,
       volume,
-      rank,
       day,
       month,
       year,
@@ -243,11 +304,9 @@ const CreateArticle = () => {
       Scopus,
       PII,
       SGR,
-      projectId,
       generalNote,
       tags,
-      authors,
-      notes: notePayload
+      authors
     };
 
     var bodyFormData = new FormData();
@@ -279,31 +338,33 @@ const CreateArticle = () => {
   return (
     <Styled>
       <div className="header_topbar">
-        {/* <div className="btn-back-search" onClick={handleBackSearch}>
-          <ArrowBackIcon /> quay lại trang cá nhân
-        </div> */}
         <div className="content_tab_name">TẠO BÀI BÁO KHOA HỌC</div>
       </div>
       <div className="container">
-        <div className="row">
-          <Search
-            placeholder="DOI"
-            value={DOI}
-            onChange={(e) => setDOI(e.target.value)}
-            onSearch={handleGetArticleByDOI}
-            enterButton
-          />
+        <div>
+          <div style={{ fontSize: '15px', marginBottom: '10px' }}>Nhập DOI để tìm kiếm bài báo</div>
+          <div className="flex-center">
+            <div className="doiInput">
+              <Search
+                placeholder="DOI"
+                value={DOI}
+                onChange={(e) => setDOI(e.target.value)}
+                onSearch={handleGetArticleByDOI}
+                enterButton
+              />
+            </div>
+          </div>
         </div>
 
         <TextField
-          id="outlined-basic"
-          label="Name"
+          label="Tên bài báo"
           variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          InputLabelProps={{ style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 15 } }}
+          size="small"
         />
-        <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-
         <div className="flex">
           <div className="selectInput">
             <Select
@@ -312,101 +373,190 @@ const CreateArticle = () => {
               onChange={(option) => handleSelectJournalOption(option)}
             />
           </div>
-
-          <Input
-            placeholder={journalOption.label}
+          <TextField
+            variant="outlined"
+            label={journalOption.label}
             value={journalConferenceText}
             onChange={(e) => handleGetJournalConference(e)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
           />
-          <div style={{ width: '170px' }}>
-            <Input placeholder="Rank" value={rank} onChange={(e) => setRank(e.target.value)} />
+          <div className="selectInput">
+            <Select
+              options={rankList}
+              value={rank}
+              onChange={(option) => handleSelectRankOption(option)}
+            />
           </div>
         </div>
 
-        <Input
-          placeholder="Volume"
+        <TextField
+          label="Volume"
+          variant="outlined"
           value={volume}
-          onChange={(e) => setVolume(parseInt(e.target.value))}
+          onChange={(e) => setVolume(e.target.value)}
+          InputLabelProps={{ style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 15 } }}
+          size="small"
         />
-
-        <Input
-          placeholder="Day"
-          value={day}
-          onChange={(e) => setDay(parseInt(e.target.value))}
-          type="number"
-        />
-
-        <Input
-          placeholder="Month"
-          value={month}
-          onChange={(e) => setMonth(parseInt(e.target.value))}
-          type="number"
-        />
-
-        <Input
-          placeholder="Year"
-          value={year}
-          onChange={(e) => setYear(parseInt(e.target.value))}
-          type="number"
-        />
-
-        <Input
-          placeholder="Abstract"
+        <TextField
+          label="Abstract"
+          variant="outlined"
           value={abstract}
+          multiline
           onChange={(e) => setAbstract(e.target.value)}
+          InputLabelProps={{ style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 15 } }}
+          size="small"
         />
-
-        <Input placeholder="ArXivID" value={ArXivID} onChange={(e) => setArXivID(e.target.value)} />
-
-        <Input placeholder="ISBN" value={ISBN} onChange={(e) => setISSN(e.target.value)} />
-
-        <Input placeholder="PMID" value={PMID} onChange={(e) => setPMID(e.target.value)} />
-
-        <Input placeholder="Scopus" value={Scopus} onChange={(e) => setScopus(e.target.value)} />
-
-        <Input placeholder="PII" value={PII} onChange={(e) => setPII(e.target.value)} />
-
-        <Input placeholder="SGR" value={SGR} onChange={(e) => setSGR(e.target.value)} />
-
-        <Input
-          placeholder="Project ID"
-          value={projectId}
-          onChange={(e) => setProjectId(e.target.value)}
-        />
-
-        <Input
-          placeholder="General Note"
-          value={generalNote}
-          onChange={(e) => setGeneralNote(e.target.value)}
-        />
-
-        <div className="selectInputFull">
-          <Select
-            options={tagList}
-            placeholder="Select tags"
-            value={selectedTag}
-            onChange={handleSelect}
-            isSearchable={true}
-            isMulti
+        <div className="flex-center">
+          <TextField
+            label="Ngày"
+            variant="outlined"
+            value={day}
+            onChange={(e) => setDay(parseInt(e.target.value))}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            type="number"
+            fullWidth
+          />
+          <TextField
+            label="Tháng"
+            variant="outlined"
+            value={month}
+            onChange={(e) => setMonth(parseInt(e.target.value))}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            type="number"
+            fullWidth
+          />
+          <TextField
+            label="Năm"
+            variant="outlined"
+            value={year}
+            onChange={(e) => setYear(parseInt(e.target.value))}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            type="number"
+            fullWidth
           />
         </div>
-        {/* <div style={{ marginTop: '20px' }}>
-            <InputTags />{' '}
-          </div> */}
 
-        <div className="selectInputFull">
-          <Select
-            options={lecturerList}
-            placeholder="Select lecturers"
-            value={selectedLecturer}
-            onChange={handleSelectLecturer}
-            isSearchable={true}
-            isMulti
+        <div className="flex">
+          <TextField
+            label="ArXivID"
+            variant="outlined"
+            value={ArXivID}
+            onChange={(e) => setArXivID(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
           />
+
+          <TextField
+            label="PMID"
+            variant="outlined"
+            value={PMID}
+            onChange={(e) => setPMID(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
+          />
+        </div>
+
+        <div className="flex">
+          <TextField
+            label="ISBN"
+            variant="outlined"
+            value={ISBN}
+            onChange={(e) => setISBN(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
+          />
+          <TextField
+            label="ISSN"
+            variant="outlined"
+            value={ISSN}
+            onChange={(e) => setISSN(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
+          />
+        </div>
+
+        <div className="flex">
+          <TextField
+            label="PII"
+            variant="outlined"
+            value={PII}
+            onChange={(e) => setPII(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
+          />
+          <TextField
+            label="SGR"
+            variant="outlined"
+            value={SGR}
+            onChange={(e) => setSGR(e.target.value)}
+            InputLabelProps={{ style: { fontSize: 15 } }}
+            inputProps={{ style: { fontSize: 15 } }}
+            size="small"
+            fullWidth
+          />
+        </div>
+
+        <TextField
+          label="General note"
+          variant="outlined"
+          value={generalNote}
+          onChange={(e) => setGeneralNote(e.target.value)}
+          InputLabelProps={{ style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 15 } }}
+          size="small"
+        />
+
+        <div>
+          <div className="titleTag">Chọn hoặc thêm mới tag</div>
+          <div className="selectInputFull">
+            <Select
+              options={tagList}
+              placeholder="Select tags"
+              value={selectedTag}
+              onChange={handleSelect}
+              isSearchable={true}
+              isMulti
+            />
+          </div>
+          <InputTags handleGetInputTag={handleGetTag} />
         </div>
 
         <div>
-          <AuthorTag handleGetInputTag={handleGetAuthor} />
+          <div className="titleTag">Chọn hoặc thêm mới tác giả</div>
+          <div className="selectInputFull">
+            <Select
+              options={lecturerList}
+              placeholder="Select lecturers"
+              value={selectedLecturer}
+              onChange={handleSelectLecturer}
+              isSearchable={true}
+              isMulti
+            />
+          </div>
+          <div>
+            <AuthorTag handleGetInputTag={handleGetAuthor} />
+          </div>
         </div>
 
         <div className="btnContainer">

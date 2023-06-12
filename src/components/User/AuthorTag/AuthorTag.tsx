@@ -4,6 +4,7 @@ import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
 import { Input } from 'antd';
+import { SettingFilled } from '@ant-design/icons';
 
 type Props = {
   data: string;
@@ -20,7 +21,7 @@ const Tags = ({ data, handleDelete }: Props) => {
     <Box
       sx={{
         background: '#e0e0e0',
-        height: '36px',
+        height: '34px',
         display: 'flex',
         padding: '4px 10px',
         margin: '0 0.5rem 0.5rem 0',
@@ -51,14 +52,18 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
 
   const handleOnSubmit = (firstName: string, lastName: string) => {
     if (firstName == '' || lastName == '') return;
-    var name = lastName.concat(' ', firstName);
-    var authorPayload = {
-      firstName: firstName,
-      lastName: lastName
-    };
-    setNames([...names, name]);
-    setAuthorPayLoads([...authorPayLoads, authorPayload]);
-    handleGetInputTag([...authorPayLoads, authorPayload]);
+    else {
+      var name = lastName.concat(' ', firstName);
+      var authorPayload = {
+        firstName: firstName,
+        lastName: lastName
+      };
+      setNames([...names, name]);
+      setAuthorPayLoads([...authorPayLoads, authorPayload]);
+      handleGetInputTag([...authorPayLoads, authorPayload]);
+      setFirstName('');
+      setLastName('');
+    }
   };
 
   const handleDelete = (value: string) => {
@@ -69,7 +74,6 @@ const AuthorTag = ({ handleGetInputTag }: any) => {
   return (
     <Styled>
       <div className="addLine">
-        <div style={{ fontSize: '16px', width: '100px' }}>Authors: </div>
         <Input
           placeholder="First name"
           value={firstName}
