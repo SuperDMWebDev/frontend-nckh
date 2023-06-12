@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   .container {
-    width: 60%;
-    margin-bottom: 40px;
+    width: 50%;
+    height: 100%;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -67,17 +69,35 @@ const Styled = styled.div`
     gap: 10px;
   }
 
+  .flex-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
   .selectInput {
     font-size: 15px;
     width: 170px;
+    z-index: 999;
+  }
+
+  .css-13cymwt-control {
+    /* height: 55px; */
   }
 
   .selectInputFull {
     font-size: 15px;
+    margin-bottom: 10px;
   }
 
-  .row {
-    font-size: 16px;
+  .doiInput {
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .ant-select-selection__placeholder {
+    color: blue;
   }
 
   .ant-input {
@@ -93,14 +113,19 @@ const Styled = styled.div`
     align-items: center;
   }
 
-  .MuiInputLabel-root {
+  .titleTag {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  /* .MuiInputLabel-root {
     font-size: 15px !important;
-    /* padding-bottom: 20px !important; */
+    padding-bottom: 20px !important;
   }
 
   .MuiInput-root {
-    /* height: 45px !important; */
-  }
+    height: 45px !important;
+  } */
 `;
 
 export default Styled;
