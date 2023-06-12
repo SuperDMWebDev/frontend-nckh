@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
 
 const { Search } = Input;
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -86,6 +87,7 @@ const conferenceRank: OptionSelectString[] = [
 ];
 
 const UpdateArticle = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const accountId: string | null = localStorage.getItem('accountId');
@@ -184,6 +186,7 @@ const UpdateArticle = () => {
             let obj: OptionSelect = { value: item.id, label: item.name };
             newData.push(obj);
           });
+
           setLecturerList(newData);
           break;
         }
@@ -219,7 +222,6 @@ const UpdateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data;
           setArticle(data);
-
           setName(data.name);
           if (journal == null) {
             setJournalConferenceText(data.conference);
@@ -241,6 +243,14 @@ const UpdateArticle = () => {
           setSGR(data.SGR);
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
+
+          // const temp = data.authors.filter((e: any) => {
+          //   return Object.keys(e).includes('lecturer_id');
+          // });
+
+          // const source = lecturerList.map((e) => e.value);
+          // console.log(temp.filter((e: any) => source.includes(e.lecturer_id)));
+
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -258,16 +268,16 @@ const UpdateArticle = () => {
   };
 
   const handleGetArticleByDOI = async () => {
+    setIsLoading(true);
     var payload = {
       data: {
         doi: DOI
       }
     };
 
-    // e.preventDefault();
-
     const res = await getArticleByDOI(payload);
     if (res) {
+      setIsLoading(false);
       switch (res.status) {
         case httpStatus.OK: {
           const data = res.data.data[0];
@@ -369,20 +379,17 @@ const UpdateArticle = () => {
   };
 
   useEffect(() => {
+    fetchLecturer();
     handleGetDetailArticle();
     fetchTag();
-    fetchLecturer();
   }, []);
 
   return (
     <Styled>
+      {isLoading && <LoaderLayer />}
       <div className="header_topbar">
-        {/* <div className="btn-back-search" onClick={() => navigate(-1)}>
-          <ArrowBackIcon /> quay lại
-        </div> */}
         <div className="content_tab_name">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
       </div>
-
       <div className="container">
         <div>
           <div style={{ fontSize: '15px', marginBottom: '10px' }}>Nhập DOI để tìm kiếm bài báo</div>

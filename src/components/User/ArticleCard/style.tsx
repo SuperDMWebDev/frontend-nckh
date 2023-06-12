@@ -3,22 +3,21 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .card_article {
     box-sizing: border-box;
-    max-width: 750px;
+    /* max-width: 750px; */
+
     height: auto;
     background: #ffffff;
     backdrop-filter: blur(6px);
     cursor: pointer;
+
     transition: all 0.5s;
     user-select: none;
     font-weight: bolder;
 
     border-left: 0px;
     border-right: 0px;
-    /* border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5; */
 
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 60px;
 
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
@@ -46,7 +45,7 @@ const Styled = styled.div`
 
   .left-part {
     margin: auto;
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

@@ -178,7 +178,7 @@ export default function SearchPage() {
 
         <div
           style={{
-            backgroundColor: '#e6e4e4',
+            backgroundColor: '#EFEFEF',
             width: '100%',
             display: 'flex',
             height: '120px',

@@ -315,6 +315,7 @@ const CreateArticle = () => {
 
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
+
     const res = await createArticle(bodyFormData);
     if (res) {
       switch (res.status) {

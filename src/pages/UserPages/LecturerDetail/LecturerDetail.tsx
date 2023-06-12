@@ -15,11 +15,10 @@ import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate, useParams } from 'react-router-dom';
 import httpStatus from 'http-status';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
-import "./LecturerDetail.css";
+import './LecturerDetail.css';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
-
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -83,14 +82,14 @@ export default function LecturerDetail() {
         });
         result.bio !== null ? setBio(result.bio) : setBio('');
         result.contacts.map((contact: any) => {
-          if (contact.contactTypeName == "phone") {
+          if (contact.contactTypeName == 'phone') {
             setPhone(contact.value);
-          } else if (contact.contactTypeName == "address") {
+          } else if (contact.contactTypeName == 'address') {
             setAddress(contact.value);
-          } else if (contact.contactTypeName == "email") {
+          } else if (contact.contactTypeName == 'email') {
             setEmail(contact.value);
           }
-        })
+        });
       })
       .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
@@ -150,7 +149,13 @@ export default function LecturerDetail() {
         <div className="profile">
           <img
             className="img-avatar"
-            src={lecturer?.avatar == null || lecturer?.avatar == "" || lecturer?.avatar == "data:image/png;base64," ? "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" : lecturer?.avatar}
+            src={
+              lecturer?.avatar == null ||
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
+                ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+                : lecturer?.avatar
+            }
             alt=""
           />
           <div className="name-profile">{lecturer?.name}</div>
@@ -160,65 +165,66 @@ export default function LecturerDetail() {
             <div>
               <div className="field-profile-info">
                 <PortraitIcon style={{ fontSize: '20px' }} />
-                <span style={{ marginLeft: '5px' }}>{
-                  !lecturer?.currentDisciplines[0].position ? null : lecturer?.currentDisciplines[0].position
-                }</span>
+                <span style={{ marginLeft: '5px' }}>
+                  {!lecturer?.currentDisciplines[0].position
+                    ? null
+                    : lecturer?.currentDisciplines[0].position}
+                </span>
               </div>
               <div className="field-profile-info">
                 <PlaceIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
-                  {lecturer?.currentDisciplines[0].departmentName} - {lecturer?.currentDisciplines[0].universityName}
+                  {lecturer?.currentDisciplines[0].departmentName} -{' '}
+                  {lecturer?.currentDisciplines[0].universityName}
                 </span>
               </div>
               <div className="field-profile-info">
                 <WcIcon style={{ fontSize: '20px' }} />
-                <span style={{ marginLeft: '5px' }}>{
-                  !lecturer?.gender ? <>
-                    <span
-                      style={{
-                        fontSize: '13px',
-                        fontStyle: 'italic',
-                        marginLeft: '1px'
-                      }}>
-                      Chưa cập nhật
-                    </span>
-                  </> : lecturer?.gender
-                }</span>
+                <span style={{ marginLeft: '5px' }}>
+                  {!lecturer?.gender ? (
+                    <>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontStyle: 'italic',
+                          marginLeft: '1px'
+                        }}>
+                        Chưa cập nhật
+                      </span>
+                    </>
+                  ) : (
+                    lecturer?.gender
+                  )}
+                </span>
               </div>
               <div className="field-profile-info">
                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>{lecturer?.dateOfBirth}</span>
               </div>
-              {
-                !email ? null : <>
+              {!email ? null : (
+                <>
                   <div className="field-profile-info">
                     <EmailIcon style={{ fontSize: '20px' }} />
-                    <span style={{ marginLeft: '5px' }}>{
-                      !email ? null : email
-                    }</span>
+                    <span style={{ marginLeft: '5px' }}>{!email ? null : email}</span>
                   </div>
                 </>
-              }
-              {
-                !phone ? null : <>
+              )}
+              {!phone ? null : (
+                <>
                   <div className="field-profile-info">
                     <PhoneAndroidIcon style={{ fontSize: '20px' }} />
-                    <span style={{ marginLeft: '5px' }}>{
-                      !phone ? null : phone
-                    }</span>
+                    <span style={{ marginLeft: '5px' }}>{!phone ? null : phone}</span>
                   </div>
                 </>
-              }
-              {
-                !address ? null : <>
+              )}
+              {!address ? null : (
+                <>
                   <div className="field-profile-info">
                     <HouseIcon style={{ fontSize: '20px' }} />
-                    <span style={{ marginLeft: '5px' }}>{
-                      !address ? null : address
-                    }</span>
+                    <span style={{ marginLeft: '5px' }}>{!address ? null : address}</span>
                   </div>
                 </>
-              }
+              )}
             </div>
           </div>
 
@@ -227,7 +233,11 @@ export default function LecturerDetail() {
             <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
             <div className="field-profile-info">
               <AttachmentIcon style={{ fontSize: '20px' }} />
-              <a style={{ marginLeft: '5px', color: "white", textDecoration: "none" }} href='https://www.facebook.com/namduonggggg' >fb.com/namduonggggg</a>
+              <a
+                style={{ marginLeft: '5px', color: 'white', textDecoration: 'none' }}
+                href="https://www.facebook.com/namduonggggg">
+                fb.com/namduonggggg
+              </a>
             </div>
           </div>
 
@@ -261,21 +271,25 @@ export default function LecturerDetail() {
               <div className="content-profile">
                 <div className="main_content">
                   <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
-                  {
-                    lecturer?.expertises == undefined ? <>
-                      <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                        Chưa cập nhật.
-                      </span>
-                    </> : <>
+                  {lecturer?.expertises == undefined ? (
+                    <>
+                      <span style={{ fontSize: '14px', fontStyle: 'italic' }}>Chưa cập nhật.</span>
+                    </>
+                  ) : (
+                    <>
                       {lecturer?.expertises.map((expertise: any) => (
-                        <div style={{ marginBottom: "2px" }} key={expertise.id.toString()}>
-                          <p className='data_content' style={{ marginBottom: "-5px" }}>
-                            <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span style={{ fontWeight: "bolder" }}>{expertise.title}</span>: {expertise.specialization}
+                        <div style={{ marginBottom: '2px' }} key={expertise.id.toString()}>
+                          <p className="data_content" style={{ marginBottom: '-5px' }}>
+                            <FiberManualRecordIcon
+                              style={{ fontSize: '9px', textAlign: 'center' }}
+                            />{' '}
+                            <span style={{ fontWeight: 'bolder' }}>{expertise.title}</span>:{' '}
+                            {expertise.specialization}
                           </p>
                         </div>
                       ))}
                     </>
-                  }
+                  )}
                 </div>
               </div>
 
@@ -286,7 +300,9 @@ export default function LecturerDetail() {
             <>
               <div className="content-profile">
                 <div className="main_content">
-                  <h2 className="title_content" style={{ marginBottom: "10px" }}>CÔNG BỐ KHOA HỌC</h2>
+                  <h2 className="title_content" style={{ marginBottom: '10px' }}>
+                    CÔNG BỐ KHOA HỌC
+                  </h2>
                   {articleList.length != 0 ? (
                     articleList[id].map((item: any) => <ArticleCard data={item} />)
                   ) : (
@@ -302,23 +318,25 @@ export default function LecturerDetail() {
               <div className="content-profile">
                 <div className="main_content">
                   <h2 className="title_content">HƯỚNG NGHIÊN CỨU</h2>
-                  {
-                    lecturer?.researchFields == undefined ? <>
-                      <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                        Chưa cập nhật.
-                      </span>
-                    </> : <>
+                  {lecturer?.researchFields == undefined ? (
+                    <>
+                      <span style={{ fontSize: '14px', fontStyle: 'italic' }}>Chưa cập nhật.</span>
+                    </>
+                  ) : (
+                    <>
                       {lecturer?.researchFields.map((researchField: any) => (
-                        <div style={{ marginBottom: "2px" }} key={researchField.id.toString()}>
-                          <p className='data_content' style={{ marginBottom: "-5px" }}>
-                            <FiberManualRecordIcon style={{ fontSize: "9px", textAlign: "center" }} /> <span>{researchField.researchName}</span>
+                        <div style={{ marginBottom: '2px' }} key={researchField.id.toString()}>
+                          <p className="data_content" style={{ marginBottom: '-5px' }}>
+                            <FiberManualRecordIcon
+                              style={{ fontSize: '9px', textAlign: 'center' }}
+                            />{' '}
+                            <span>{researchField.researchName}</span>
                             {researchField.note ? <span>({researchField.note})</span> : null}
                           </p>
                         </div>
                       ))}
                     </>
-                  }
-
+                  )}
                 </div>
               </div>
 
@@ -326,16 +344,15 @@ export default function LecturerDetail() {
             </>
           )}
         </div>
-      </div >
+      </div>
       <div className="footer"></div>
-    </Styled >
+    </Styled>
   );
 }
 
 // git rebase origin/develop
 // git add
 // git stash
-
 
 /**
  

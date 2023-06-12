@@ -9,16 +9,18 @@ const Styled = styled.div`
   }
 
   .article-title {
-    font-family: inherit;
     font-weight: 500;
     line-height: 1.1;
     font-size: 26px;
-    color: #72a9f6;
+    color: #0056ce;
     max-width: 600px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .article-author {
     display: flex;
+    justify-content: flex-start;
     font-size: 16px;
     font-weight: bold;
     margin-top: 15px;
@@ -32,25 +34,32 @@ const Styled = styled.div`
   .article-author li {
     display: inline;
     margin-right: 20px;
-    cursor: pointer;
+    font-weight: 500;
+    /* cursor: pointer; */
   }
 
   .article-author li:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
 
   .article-info {
     position: relative;
-    width: 90%;
-    margin: 0 auto;
+    width: 100%;
     border-top: 3px solid #f7f6f6;
+    margin: 0 auto;
     padding: 17px 0 0 0;
     font-size: 18px;
-    color: #939393;
-    font-weight: 200;
     min-height: 120px;
     margin-bottom: 15px;
     border-bottom: 3px solid #f7f6f6;
+
+    color: #3a3a3a;
+  }
+
+  .subTitle {
+    margin-right: 15px;
+    font-style: italic;
+    font-weight: 300;
   }
 
   .article-info div {
@@ -58,16 +67,19 @@ const Styled = styled.div`
     margin-bottom: 15px;
   }
 
+  .article-content {
+    margin-top: 20px;
+  }
+
   .article-content p {
-    color: #757575;
-    line-height: 24px;
+    color: #494949;
     font-size: 18px;
     font-weight: 300;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans',
-      'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-      'Noto Color Emoji';
-    font-size: 15px;
-    line-height: 21px;
+    line-height: 24px;
+    text-indent: 40px;
+    margin-top: 10px;
+
+    text-align: justify;
   }
 
   .button_delete {

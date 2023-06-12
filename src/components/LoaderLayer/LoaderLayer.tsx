@@ -1,5 +1,6 @@
 import React from 'react';
 import './LoaderLayer.css';
+import Portal from '../Portal/Portal';
 
 export default function LoaderLayer() {
   return (

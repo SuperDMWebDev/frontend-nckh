@@ -48,6 +48,18 @@ const Styled = styled.div`
     font-weight: 500;
   }
 
+  .flex-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .titleTag {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
   .btnContainer {
     display: flex;
     align-items: center;
@@ -73,6 +85,7 @@ const Styled = styled.div`
 
   .selectInputFull {
     font-size: 15px;
+    margin-bottom: 10px;
   }
 
   .row {
