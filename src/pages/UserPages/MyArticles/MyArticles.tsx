@@ -145,7 +145,7 @@ export default function MyArticles() {
                     className="btn-pre-next"
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}>
-                    Previous
+                    Trước
                   </button>
 
                   {/* Page buttons */}
@@ -156,7 +156,7 @@ export default function MyArticles() {
                     className="btn-pre-next"
                     disabled={currentPage === totalPages}
                     onClick={() => handlePageChange(currentPage + 1)}>
-                    Next
+                    Sau
                   </button>
                 </div>
               </div>

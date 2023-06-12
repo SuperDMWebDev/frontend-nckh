@@ -32,11 +32,11 @@ type OptionSelectString = {
 const journalOptionList: OptionSelect[] = [
   {
     value: 1,
-    label: 'Journal'
+    label: 'Bài báo'
   },
   {
     value: 2,
-    label: 'Conference'
+    label: 'Hội nghị'
   }
 ];
 
@@ -298,11 +298,11 @@ const UpdateArticle = () => {
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
-          toast.success('Successfully get article data from DOI');
+          toast.success('Lấy bài báo từ DOI thành công!');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.error('Fail to load article from given DOI');
+          toast.error('Lấy bài báo từ DOI thất bại!');
           break;
         }
         default:
@@ -363,12 +363,12 @@ const UpdateArticle = () => {
     if (res) {
       switch (res.status) {
         case httpStatus.OK: {
-          toast.success('Update article sucessfully');
+          toast.success('Cập nhật bài báo thành công!');
           navigate('/profile');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
-          toast.success('Fail to update article');
+          toast.success('Cập nhật bài báo thất bại!');
           navigate('/profile');
           break;
         }
@@ -577,7 +577,7 @@ const UpdateArticle = () => {
         </div>
 
         <TextField
-          label="General note"
+          label="Ghi chú"
           variant="outlined"
           value={generalNote}
           onChange={(e) => setGeneralNote(e.target.value)}
@@ -591,7 +591,7 @@ const UpdateArticle = () => {
           <div className="selectInputFull">
             <Select
               options={tagList}
-              placeholder="Select tags"
+              placeholder="Chọn tag"
               value={selectedTag}
               onChange={handleSelect}
               isSearchable={true}
@@ -606,7 +606,7 @@ const UpdateArticle = () => {
           <div className="selectInputFull">
             <Select
               options={lecturerList}
-              placeholder="Select lecturers"
+              placeholder="Chọn tác giả"
               value={selectedLecturer}
               onChange={handleSelectLecturer}
               isSearchable={true}
@@ -620,10 +620,10 @@ const UpdateArticle = () => {
 
         <div className="btnContainer">
           <Button size="large" variant="outlined" onClick={() => handleBackSearch()}>
-            Cancel
+            Hủy
           </Button>
           <Button size="large" variant="contained" onClick={() => handleUpdateArticle()}>
-            Submit
+            Lưu
           </Button>
         </div>
       </div>
