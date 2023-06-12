@@ -388,11 +388,20 @@ const UpdateArticle = () => {
     <Styled>
       {isLoading && <LoaderLayer />}
       <div className="header_topbar">
-        <div className="content_tab_name">CHỈNH SỬA BÀI BÁO KHOA HỌC</div>
+        <div
+          className="content_tab_name"
+          style={{
+            fontSize: '22px',
+            margin: '12px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold'
+          }}>
+          CHỈNH SỬA BÀI BÁO KHOA HỌC
+        </div>
       </div>
       <div className="container">
         <div>
-          <div style={{ fontSize: '15px', marginBottom: '10px' }}>Nhập DOI để tìm kiếm bài báo</div>
+          <div style={{ fontSize: '15px', marginBottom: '5px' }}>Nhập DOI để tìm kiếm bài báo</div>
           <div className="flex-center">
             <div className="doiInput">
               <Search
@@ -604,7 +613,7 @@ const UpdateArticle = () => {
               isMulti
             />
           </div>
-          <div>
+          <div style={{ marginTop: '20px' }}>
             <AuthorTag handleGetInputTag={handleGetAuthor} />
           </div>
         </div>

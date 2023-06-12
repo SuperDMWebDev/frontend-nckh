@@ -57,7 +57,7 @@ const Styled = styled.div`
   }
 
   .subTitle {
-    margin-right: 15px;
+    margin-right: 5px;
     font-style: italic;
     font-weight: 300;
   }

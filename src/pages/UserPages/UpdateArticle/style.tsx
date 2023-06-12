@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   .container {
-    width: 60%;
-    margin-bottom: 40px;
+    width: 50%;
+    height: 100%;
+    padding-bottom: 40px;
+    margin-bottom: 50px;
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -38,7 +40,7 @@ const Styled = styled.div`
   }
 
   .content_tab_name {
-    color: #363636a1;
+    color: #3b3b3b;
     position: relative;
     font-size: 18px;
     text-decoration: none;
@@ -103,6 +105,11 @@ const Styled = styled.div`
     font-size: 20px;
     display: flex;
     align-items: center;
+  }
+
+  .doiInput {
+    font-size: 15px;
+    width: 100%;
   }
 `;
 

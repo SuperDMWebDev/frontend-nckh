@@ -40,7 +40,7 @@ const Styled = styled.div`
   }
 
   .content_tab_name {
-    color: #363636a1;
+    color: #3b3b3b;
     position: relative;
     font-size: 18px;
     text-decoration: none;
