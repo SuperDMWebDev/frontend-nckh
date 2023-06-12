@@ -25,6 +25,10 @@ const Styled = styled.div`
     font-family: proxima-nova, sans-serif;
   }
 
+  .input_search:focus {
+    outline: none;
+  }
+
   .searchOption {
     background-color: #fff;
     border-radius: 0 50px 50px 0;

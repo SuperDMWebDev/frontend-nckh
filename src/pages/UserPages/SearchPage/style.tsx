@@ -99,6 +99,7 @@ const Styled = styled.div`
   .content {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -427,6 +428,10 @@ const Styled = styled.div`
     font-family: proxima-nova, sans-serif;
   }
 
+  .input_search:focus {
+    outline: none;
+  }
+
   .searchOption {
     background-color: #fff;
     border-radius: 0 50px 50px 0;
@@ -481,55 +486,54 @@ const Styled = styled.div`
     }
   }
 
-.btn-pre-next {
-  font-family: monospace;
-  background-color: #f3f7fe;
-  color: #3b82f6;
-  border: none;
-  border-radius: 8px;
-  width: 80px;
-  height: 35px;
-  border: 1px solid #3b82f6;
-  transition: .3s;
-  font-size: 13px;
-  margin-right: 5px;
-}
+  .btn-pre-next {
+    font-family: monospace;
+    background-color: #f3f7fe;
+    color: #3b82f6;
+    border: none;
+    border-radius: 8px;
+    width: 80px;
+    height: 35px;
+    border: 1px solid #3b82f6;
+    transition: 0.3s;
+    font-size: 13px;
+    margin-right: 5px;
+  }
 
-.btn-pre-next:hover {
-  background-color: #3b82f6;
-  box-shadow: 0 0 0 5px #3b83f65f;
-  color: #fff;
-  border: none;
-}
+  .btn-pre-next:hover {
+    background-color: #3b82f6;
+    box-shadow: 0 0 0 5px #3b83f65f;
+    color: #fff;
+    border: none;
+  }
 
-.btn-pagination {
-  height: 35px;
-  width: 35px;
-  font-family: monospace;
-  background-color: #f3f7fe;
-  color: #3b82f6;
-  border: none;
-  border-radius: 8px;
-  border: 1px solid #3b82f6;
-  transition: .3s;
-  font-size: 13px;
-  margin-right: 5px;
-}
+  .btn-pagination {
+    height: 35px;
+    width: 35px;
+    font-family: monospace;
+    background-color: #f3f7fe;
+    color: #3b82f6;
+    border: none;
+    border-radius: 8px;
+    border: 1px solid #3b82f6;
+    transition: 0.3s;
+    font-size: 13px;
+    margin-right: 5px;
+  }
 
-.btn-pagination:hover {
-  background-color: #3b82f6;
-  box-shadow: 0 0 0 5px #3b83f65f;
-  color: #fff;
-  border: none;
-}
+  .btn-pagination:hover {
+    background-color: #3b82f6;
+    box-shadow: 0 0 0 5px #3b83f65f;
+    color: #fff;
+    border: none;
+  }
 
-.active {
-  background-color: #3b82f6;
-  box-shadow: 0 0 0 5px #3b83f65f;
-  color: #fff;
-  border: none;
-}
-
+  .active {
+    background-color: #3b82f6;
+    box-shadow: 0 0 0 5px #3b83f65f;
+    color: #fff;
+    border: none;
+  }
 `;
 
 export default Styled;
