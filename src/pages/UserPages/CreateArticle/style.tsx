@@ -92,6 +92,15 @@ const Styled = styled.div`
     display: flex;
     align-items: center;
   }
+
+  .MuiInputLabel-root {
+    font-size: 15px !important;
+    /* padding-bottom: 20px !important; */
+  }
+
+  .MuiInput-root {
+    /* height: 45px !important; */
+  }
 `;
 
 export default Styled;

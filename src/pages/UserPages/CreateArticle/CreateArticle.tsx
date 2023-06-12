@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 const { Search } = Input;
 
@@ -294,6 +295,13 @@ const CreateArticle = () => {
           />
         </div>
 
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
 
         <div className="flex">
