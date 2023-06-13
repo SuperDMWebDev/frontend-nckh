@@ -27,21 +27,21 @@ const Styled = styled.div`
     margin-top: 15px;
   }
 
-  .article-author div {
+  .article-author_title {
     font-weight: normal;
     font-style: italic;
-    width: 64px;
+    width: 160px !important;
   }
 
-  .article-author li {
-    display: inline;
-    margin-right: 20px;
+  .article-author_list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     font-weight: 500;
-    /* cursor: pointer; */
   }
 
-  .article-author li:hover {
-    /* text-decoration: underline; */
+  .article-author_list div {
+    margin-right: 20px;
   }
 
   .article-info {

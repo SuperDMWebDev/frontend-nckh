@@ -110,7 +110,6 @@ const CreateArticle = () => {
   const [Scopus, setScopus] = useState('');
   const [PII, setPII] = useState('');
   const [SGR, setSGR] = useState('');
-  const [projectId, setProjectId] = useState('');
   const [generalNote, setGeneralNote] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
@@ -153,7 +152,6 @@ const CreateArticle = () => {
   };
 
   const [authorPayload, setAuthorPayload] = useState<any[]>([]);
-  const [urlPayload, setUrlPayload] = useState<any[]>([]);
   const [tagPayload, setTagPayload] = useState<any[]>([]);
 
   const fetchTag = async () => {
@@ -459,6 +457,7 @@ const CreateArticle = () => {
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
+            type="number"
           />
           <TextField
             label="Tháng"
@@ -469,6 +468,7 @@ const CreateArticle = () => {
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
+            type="number"
           />
           <TextField
             label="Năm"

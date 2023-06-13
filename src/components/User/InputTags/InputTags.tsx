@@ -24,7 +24,7 @@ const Tags = ({ data, handleDelete }: Props) => {
         borderRadius: '4px'
       }}>
       <div className="tag">
-        <Typography fontSize={15}>{data}</Typography>
+        <div style={{ fontSize: '15px', width: 'max-content' }}> {data}</div>
         <FontAwesomeIcon
           className="deleteicon"
           fontSize={14}

@@ -87,6 +87,9 @@ const conferenceRank: OptionSelectString[] = [
 ];
 
 const UpdateArticle = () => {
+  const handleBackSearch = () => {
+    navigate(`/article-detail/${id}`);
+  };
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -203,7 +206,6 @@ const UpdateArticle = () => {
 
   const handleGetAuthor = (list: any) => {
     setAuthorPayload(list);
-    console.log('author truyen ra', list);
   };
 
   const handleGetTag = (list: any) => {
@@ -246,6 +248,20 @@ const UpdateArticle = () => {
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
+          const tagSelect = data.tags.filter((e: any) => {
+            return Object.keys(e).includes('tag_id');
+          });
+
+          var listTagSelected: OptionSelect[] = [];
+          tagSelect.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.tag_id,
+              label: item.name
+            };
+            listTagSelected.push(obj);
+          });
+          setSelectedTag(listTagSelected);
+
           //set authro select from detail
           const temp = data.authors.filter((e: any) => {
             return Object.keys(e).includes('lecturer_id');
@@ -282,10 +298,6 @@ const UpdateArticle = () => {
           break;
       }
     }
-  };
-
-  const handleBackSearch = () => {
-    navigate(`/article-detail/${id}`);
   };
 
   const handleGetArticleByDOI = async () => {
