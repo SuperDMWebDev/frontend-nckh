@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography } from '@mui/material';
 import Styled from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
 import { Input } from 'antd';
-import { SettingFilled } from '@ant-design/icons';
 
 type Props = {
-  data: string;
-  handleDelete: (a: string) => void;
+  data: NAME;
+  handleDelete: (a: NAME) => void;
 };
 
 type NAME = {
@@ -31,7 +30,7 @@ const Tags = ({ data, handleDelete }: Props) => {
         borderRadius: '4px'
       }}>
       <div className="tag">
-        <Typography>{data}</Typography>
+        <Typography>{data.firstName.concat(' ', data.lastName)}</Typography>
         <FontAwesomeIcon
           className="deleteicon"
           fontSize={14}
@@ -67,19 +66,18 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
     }
   };
 
-  const handleDelete = (value: string) => {
-    const newNames = names.filter((val) => val !== value);
-    setNames(newNames);
+  const handleDelete = (data: NAME) => {
+    const newNames = authorPayLoads.filter(
+      (val) => val.firstName !== data.firstName && val.lastName !== data.lastName
+    );
+    setAuthorPayLoads(newNames);
+    handleGetInputTag(newNames);
   };
 
-  // const x = data.map((item: any) => {
-  //   var name = item.lastName.concat(' ', item.firstName);
-  //   var authorPayload = item;
-  //   setNames([...names, name]);
-  //   setAuthorPayLoads([...authorPayLoads, authorPayload]);
-  //   handleGetInputTag([...authorPayLoads, authorPayload]);
-  // });
-  for
+  useEffect(() => {
+    setAuthorPayLoads(data);
+    handleGetInputTag(data);
+  }, [data]);
 
   return (
     <Styled>
@@ -108,7 +106,7 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
         </button>
       </div>
       <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap', width: '700px' }}>
-        {names.map((data, index) => {
+        {authorPayLoads.map((data, index) => {
           return <Tags data={data} handleDelete={handleDelete} key={index} />;
         })}
       </Box>
