@@ -82,15 +82,15 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
   return (
     <Styled>
       <div className="addLine">
-        <div style={{ fontSize: '16px', width: '100px' }}>Authors: </div>
+        <div style={{ fontSize: '16px', width: '100px' }}>Tác giả: </div>
         <Input
-          placeholder="First name"
+          placeholder="Tên"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
 
         <Input
-          placeholder="Last name"
+          placeholder="Họ"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />

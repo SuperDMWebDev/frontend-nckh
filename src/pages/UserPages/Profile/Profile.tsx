@@ -11,7 +11,6 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { getInfoProfile } from '../../../api/Lecturer';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
@@ -22,13 +21,13 @@ import Avatar1 from 'react-avatar-edit';
 import { editBioProfile } from '../../../api/Lecturer';
 import { editAvatarProfile } from '../../../api/Lecturer';
 import { editNameProfile } from '../../../api/Lecturer';
+import { editLinkProfile } from '../../../api/Lecturer';
 import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
 import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
-import { toast } from 'react-toastify';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -50,6 +49,7 @@ export default function Profile() {
   const [email, setEmail] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const [linkInner, setLinkInner] = useState<string>('');
   const accountId = localStorage.getItem('accountId');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>();
@@ -94,6 +94,12 @@ export default function Profile() {
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
         setPreviewAvatar(result.avatar);
+
+        if (result.contacts[3].value.length >= 25) {
+          setLinkInner(result.contacts[3].value.slice(0, 25) + "...");
+        } else {
+          setLinkInner(result.contacts[3].value);
+        }
         result.workPositions.map((workPosition: any) => {
           workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
         });
@@ -109,7 +115,6 @@ export default function Profile() {
     document.getElementById('1')?.classList.add('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab2 = () => {
@@ -117,7 +122,6 @@ export default function Profile() {
     document.getElementById('2')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('3')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
   };
 
   const handleTab3 = () => {
@@ -125,15 +129,6 @@ export default function Profile() {
     document.getElementById('3')?.classList.add('tab-selected');
     document.getElementById('1')?.classList.remove('tab-selected');
     document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('4')?.classList.remove('tab-selected');
-  };
-
-  const handleTab4 = () => {
-    setCurrentTab(4);
-    document.getElementById('4')?.classList.add('tab-selected');
-    document.getElementById('1')?.classList.remove('tab-selected');
-    document.getElementById('2')?.classList.remove('tab-selected');
-    document.getElementById('3')?.classList.remove('tab-selected');
   };
 
   const handleBackSearch = () => {
@@ -147,6 +142,7 @@ export default function Profile() {
   // ----  MODAL ----
   const [openBioModal, setOpenBioModal] = useState(false);
   const [openInfoModal, setOpenInfoModal] = useState(false);
+  const [openLinkModal, setOpenLinkModal] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
   const [openEditNameModal, setOpenEditNameModal] = useState(false);
@@ -201,6 +197,11 @@ export default function Profile() {
     window.location.reload();
   };
 
+  const handleSaveLink = () => {
+    editLinkProfile(lecturer, link, accountId);
+    window.location.reload();
+  };
+
   return (
     <Styled>
       <div className="header_topbar">
@@ -218,13 +219,8 @@ export default function Profile() {
               CÔNG BỐ KHOA HỌC
             </div>
           </li>
-          {/* <li className="content_tab">
-                        <div id="3" className="content_tab_name" onClick={handleTab3}>
-                            SCOPUS PROFILE
-                        </div>
-                    </li> */}
           <li className="content_tab">
-            <div id="4" className="content_tab_name" onClick={handleTab4}>
+            <div id="3" className="content_tab_name" onClick={handleTab3}>
               NGHIÊN CỨU
             </div>
           </li>
@@ -236,8 +232,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+                lecturer?.avatar == '' ||
+                lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -390,13 +386,29 @@ export default function Profile() {
           <div className="line">.........</div>
           <div>
             <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
-            <div className="field-profile-info">
+            <div className="field-profile-info" style={{ width: "95%", height: "auto" }}>
               <AttachmentIcon style={{ fontSize: '20px' }} />
-              <a
-                style={{ marginLeft: '5px', color: 'white', textDecoration: 'none' }}
-                href="https://www.facebook.com/namduonggggg">
-                fb.com/namduonggggg
-              </a>
+              {!link ? (
+                <>
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      fontStyle: 'italic',
+                      marginLeft: '5px'
+                    }}>
+                    Chưa cập nhật
+                  </span>
+                </>
+              ) : (
+                <a
+                  style={{ width: "120px", height: "auto", marginLeft: '5px', color: 'white', textDecoration: 'none' }}
+                  href={link}
+                  target="_blank">
+                  {
+                    linkInner
+                  }
+                </a>
+              )}
             </div>
           </div>
 
@@ -465,14 +477,18 @@ export default function Profile() {
                   <p onClick={() => setOpenEditAvatarModal(true)}>Chỉnh sửa</p>
                 </div>
 
-                <div className="content">
+                <div className="content" style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}>
                   <img
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                      lecturer?.avatar == null ||
-                      lecturer?.avatar == '' ||
-                      lecturer?.avatar == 'data:image/png;base64,'
+                        lecturer?.avatar == null ||
+                        lecturer?.avatar == '' ||
+                        lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }
@@ -654,6 +670,61 @@ export default function Profile() {
                     </Modal>
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <div className="header-edit-profile">
+                  <h2>Thông tin liên quan</h2>
+                  <p onClick={() => setOpenLinkModal(true)}>Chỉnh sửa</p>
+                </div>
+
+                <div>
+                  <div className="field-profile-info">
+                    <AttachmentIcon style={{ fontSize: '20px' }} />
+                    {!link ? (
+                      <>
+                        <span
+                          style={{
+                            fontSize: '13px',
+                            fontStyle: 'italic',
+                            marginLeft: '5px'
+                          }}>
+                          Chưa cập nhật
+                        </span>
+                      </>
+                    ) : (
+                      <a
+                        style={{ marginLeft: '5px', color: 'black', textDecoration: 'none' }}
+                        href={link}>
+                        {link}
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                <Modal
+                  title="Chỉnh sửa thông tin liên quan"
+                  centered
+                  open={openLinkModal}
+                  onOk={handleSaveLink}
+                  onCancel={() => setOpenLinkModal(false)}
+                  width={700}
+                  className="modalStyle">
+                  <div className="group">
+                    <input
+                      required={true}
+                      type="text"
+                      className="input-edit-profile"
+                      value={link}
+                      onChange={(e) => {
+                        setLink(e.target.value);
+                      }}
+                    />
+                    <span className="highlight-edit-profile"></span>
+                    <span className="bar-edit-profile"></span>
+                    <label className="label-edit-profile">Đường dẫn</label>
+                  </div>
+                </Modal>
               </div>
             </Modal>
           </div>

@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
-import user from '../../../assets/user.png';
-import edit from '../../../assets/edit.png';
-import inbox from '../../../assets/envelope.png';
-import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
-import { getInfoProfile } from '../../../api/Lecturer';
 
 type Lecturer = {
   [key: string]: any;
@@ -94,7 +89,7 @@ const NavBarRetrieveScopus = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>Quản lý bài viết khoa học</div>
+          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>QUẢN LÝ BÀI VIẾT KHOA HỌC</div>
         </div>
         <div className="navbar-tab">
         </div>
@@ -121,18 +116,9 @@ const NavBarRetrieveScopus = () => {
             </div>
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-              <h3>Lecturer</h3>
-              <div className="dropdown-menu__subTitle">Website User</div>
+              <div className="dropdown-menu__subTitle">Trang truy xuất Scopus</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={edit} text={'Your Article'} value={'EditProfile'} />
-                <DropdownItem img={inbox} text={'Configuration'} value={'Configuration'} />
-                <DropdownItem
-                  img={help}
-                  text={'Retrieve Scopus Author'}
-                  value={'Retrieve Scopus Author'}
-                />
-                <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
+                <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
               </ul>
             </div>
           </div>
@@ -140,7 +126,7 @@ const NavBarRetrieveScopus = () => {
           <div>
             <ul>
               <li>
-                <a href="/signin">Log In</a>
+                <a href="/signin">Đăng nhập</a>
               </li>
               <li>
                 <a>Register</a>

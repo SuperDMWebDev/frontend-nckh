@@ -96,7 +96,7 @@ const Styled = styled.div`
   .form-data {
     width: 700px;
     height: auto;
-    border: 1px solid #a3a3a3;
+    border: 3px solid #c3c3c3;
     margin-top: 20px;
     color: black;
     background: rgba(215, 216, 216, 0.15);
@@ -118,6 +118,7 @@ const Styled = styled.div`
     width: 270px;
     height: 45px;
     border-radius: 5px;
+    border: 3px solid #c3c3c3;
   }
 
   .name-label {

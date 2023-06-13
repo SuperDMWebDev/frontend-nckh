@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
 import user from '../../../assets/user.png';
-import edit from '../../../assets/edit.png';
-import inbox from '../../../assets/envelope.png';
 import settings from '../../../assets/settings.png';
 import help from '../../../assets/question.png';
 import logout from '../../../assets/log-out.png';
@@ -55,9 +53,6 @@ const NavBarUser = () => {
     const handleChange = (value: string) => {
       if (value === 'MyProfile') {
         navigate('/profile');
-        setOpen(false);
-      } else if (value === 'Settings') {
-        navigate('/settings');
         setOpen(false);
       } else if (value === 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
@@ -143,17 +138,16 @@ const NavBarUser = () => {
             </div>
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
-              <h3>Lecturer</h3>
+              <h3>{lecturer?.name}</h3>
               {/* <div className="dropdown-menu__subTitle">Website User</div> */}
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={user} text={'Your Profile'} value={'MyProfile'} />
-                <DropdownItem img={settings} text={'Settings'} value={'Settings'} />
+                <DropdownItem img={user} text={'Trang cá nhân'} value={'MyProfile'} />
                 <DropdownItem
                   img={help}
-                  text={'Retrieve Scopus Author'}
+                  text={'Truy xuất tài khoản Scopus'}
                   value={'Retrieve Scopus Author'}
                 />
-                <DropdownItem img={logout} text={'Logout'} value={'Logout'} />
+                <DropdownItem img={logout} text={'Đăng xuất'} value={'logout'} />
               </ul>
             </div>
           </div>

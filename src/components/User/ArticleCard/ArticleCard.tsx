@@ -1,10 +1,5 @@
 import React from 'react';
 import Styled from './style';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
@@ -24,7 +19,7 @@ const ArticleCard = (props: any) => {
               </div>
             </div>
             <div className="user-field">{data?.journal}</div>
-            <div className="user-field">Author A, Author B</div>
+            <div className="user-field">Tác giả A, Tác giả B</div>
             <div className="user-position">{data?.abstract}</div>
           </div>
         </div>

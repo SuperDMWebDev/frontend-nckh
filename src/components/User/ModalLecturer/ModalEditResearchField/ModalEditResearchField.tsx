@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { Button, Modal } from 'antd';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { editExpertises } from '../../../../api/Lecturer';
 import AddIcon from '@mui/icons-material/Add';
 import { editResearchField } from '../../../../api/Lecturer';
 import { createResearchField } from '../../../../api/Lecturer';
