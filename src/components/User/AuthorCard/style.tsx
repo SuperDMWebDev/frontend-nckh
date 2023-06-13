@@ -5,7 +5,7 @@ const Styled = styled.div`
     display: flex;
     gap: 20px;
 
-    max-width: 750px;
+    /* max-width: 750px; */
     padding: 20px 0;
     padding: 20px 20px;
     cursor: pointer;
@@ -18,8 +18,7 @@ const Styled = styled.div`
     /* border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5; */
 
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 100px 20px 20px;
     background: #ffffff;
     backdrop-filter: blur(6px);
 
@@ -29,7 +28,7 @@ const Styled = styled.div`
   }
 
   .container:hover {
-    background-color: #caebff;
+    background-color: #efefef;
   }
 
   .name {

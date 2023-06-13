@@ -24,6 +24,10 @@ const Styled = styled.div`
     margin-bottom: 15px;
   }
 
+  .card_article:hover {
+    background-color: #efefef !important;
+  }
+
   .icon_more {
     font-weight: bold;
     font-size: 24px;

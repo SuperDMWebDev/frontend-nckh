@@ -85,9 +85,9 @@ const Styled = styled.div`
     border-right: 0px;
     border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5;
-
+    /* 
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 20px; */
   }
 
   .icon_more {

@@ -17,13 +17,10 @@ const Styled = styled.div`
     border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5;
 
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
     border-radius: 20px;
     margin-bottom: 10px;
   }
-  
+
   .icon_more {
     font-weight: bold;
     font-size: 24px;
@@ -44,19 +41,22 @@ const Styled = styled.div`
   }
 
   .left-part {
-    width: 80%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
 
   .right-part {
-    width: 20%;
+    width: 10%;
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
     font-weight: 300;
+    color: #3f51b5;
+    font-size: 16px;
+    font-weight: 500;
 
     &_group {
       display: flex;

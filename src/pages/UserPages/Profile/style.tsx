@@ -152,7 +152,7 @@ const Styled = styled.div`
   }
 
   .content-profile {
-    background-color: #efeeee;
+    background-color: #efefef;
     width: 840px;
     height: 100vh;
     margin-left: 20px;
@@ -339,30 +339,6 @@ const Styled = styled.div`
 
   .footer {
     height: 100px;
-  }
-
-  .card_article {
-    box-sizing: border-box;
-    width: 790px;
-    height: auto;
-    background: #ffffff;
-    backdrop-filter: blur(6px);
-    cursor: pointer;
-    transition: all 0.5s;
-    user-select: none;
-    font-weight: bolder;
-
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
-
-    border-radius: 5px;
-
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-    margin-bottom: 20px;
   }
 
   .icon_more {
