@@ -32,7 +32,7 @@ type OptionSelectString = {
 const journalOptionList: OptionSelect[] = [
   {
     value: 1,
-    label: 'Bài báo'
+    label: 'Tạp chí'
   },
   {
     value: 2,
@@ -87,6 +87,9 @@ const conferenceRank: OptionSelectString[] = [
 ];
 
 const UpdateArticle = () => {
+  const handleBackSearch = () => {
+    navigate(`/article-detail/${id}`);
+  };
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -148,8 +151,9 @@ const UpdateArticle = () => {
   };
 
   const [authorPayload, setAuthorPayload] = useState<any[]>([]);
-  const [notePayload, setNotePayload] = useState<any[]>([]);
   const [tagPayload, setTagPayload] = useState<any[]>([]);
+
+  const [authorFetch, setAuthorFetch] = useState<any[]>([]);
 
   const fetchTag = async () => {
     const res = await getTag();
@@ -223,10 +227,10 @@ const UpdateArticle = () => {
           const data = res.data.data;
           setArticle(data);
           setName(data.name);
-          if (journal == null) {
-            setJournalConferenceText(data.conference);
-          } else {
+          if (data.journal) {
             setJournalConferenceText(data.journal);
+          } else {
+            setJournalConferenceText(data.conference);
           }
           setVolume(data.volume);
           setDay(data.day);
@@ -244,12 +248,45 @@ const UpdateArticle = () => {
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
-          // const temp = data.authors.filter((e: any) => {
-          //   return Object.keys(e).includes('lecturer_id');
-          // });
+          const tagSelect = data.tags.filter((e: any) => {
+            return Object.keys(e).includes('tag_id');
+          });
 
-          // const source = lecturerList.map((e) => e.value);
-          // console.log(temp.filter((e: any) => source.includes(e.lecturer_id)));
+          var listTagSelected: OptionSelect[] = [];
+          tagSelect.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.tag_id,
+              label: item.name
+            };
+            listTagSelected.push(obj);
+          });
+          setSelectedTag(listTagSelected);
+
+          //set authro select from detail
+          const temp = data.authors.filter((e: any) => {
+            return Object.keys(e).includes('lecturer_id');
+          });
+
+          var listAuthorSelect: OptionSelect[] = [];
+          temp.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.lecturer_id,
+              label: item.lecturer_name
+            };
+            listAuthorSelect.push(obj);
+          });
+          setSelectedLecturer(listAuthorSelect);
+
+          // set author first + last name
+          var listTem = data.authors.filter((e: any) => {
+            return !Object.keys(e).includes('lecturer_id');
+          });
+          var news = listTem.map((x: any) => {
+            const newX = { ...x };
+            delete newX['id'];
+            return newX;
+          });
+          setAuthorFetch(news);
 
           break;
         }
@@ -261,10 +298,6 @@ const UpdateArticle = () => {
           break;
       }
     }
-  };
-
-  const handleBackSearch = () => {
-    navigate(`/article-detail/${id}`);
   };
 
   const handleGetArticleByDOI = async () => {
@@ -282,7 +315,7 @@ const UpdateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data[0];
           setName(data.name);
-          setJournal(data.journal);
+          setJournalConferenceText(data.journal);
           setVolume(data.volume);
           setDay(data.day);
           setMonth(data.month);
@@ -297,6 +330,25 @@ const UpdateArticle = () => {
           setSGR(data.SGR);
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
+
+          const temp = data.authors.filter((e: any) => {
+            return Object.keys(e).includes('lecturerId');
+          });
+          var listAuthorSelect: OptionSelect[] = [];
+          temp.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.lecturer_id,
+              label: item.lecturer_name
+            };
+            listAuthorSelect.push(obj);
+          });
+          setSelectedLecturer(listAuthorSelect);
+
+          // author tag
+          var listTem = data.authors.filter((e: any) => {
+            return !Object.keys(e).includes('lecturerId');
+          });
+          setAuthorFetch(listTem);
 
           toast.success('Lấy bài báo từ DOI thành công!');
           break;
@@ -380,8 +432,8 @@ const UpdateArticle = () => {
 
   useEffect(() => {
     fetchLecturer();
-    handleGetDetailArticle();
     fetchTag();
+    handleGetDetailArticle();
   }, []);
 
   return (
@@ -402,16 +454,14 @@ const UpdateArticle = () => {
       <div className="container">
         <div>
           <div style={{ fontSize: '15px', marginBottom: '5px' }}>Nhập DOI để tìm kiếm bài báo</div>
-          <div className="flex-center">
-            <div className="doiInput">
-              <Search
-                placeholder="DOI"
-                value={DOI}
-                onChange={(e) => setDOI(e.target.value)}
-                onSearch={handleGetArticleByDOI}
-                enterButton
-              />
-            </div>
+          <div className="doiInput">
+            <Search
+              placeholder="DOI"
+              value={DOI}
+              onChange={(e) => setDOI(e.target.value)}
+              onSearch={handleGetArticleByDOI}
+              enterButton
+            />
           </div>
         </div>
 
@@ -614,7 +664,7 @@ const UpdateArticle = () => {
             />
           </div>
           <div style={{ marginTop: '20px' }}>
-            <AuthorTag handleGetInputTag={handleGetAuthor} />
+            <AuthorTag data={authorFetch} handleGetInputTag={handleGetAuthor} />
           </div>
         </div>
 

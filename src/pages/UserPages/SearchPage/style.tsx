@@ -489,19 +489,19 @@ const Styled = styled.div`
   .btn-pre-next {
     font-family: monospace;
     background-color: #f3f7fe;
-    color: #3b82f6;
+    color: #3f51b5;
     border: none;
     border-radius: 8px;
-    width: 80px;
+    width: 35px;
     height: 35px;
-    border: 1px solid #3b82f6;
+    border: 1px solid #3f51b5;
     transition: 0.3s;
     font-size: 13px;
     margin-right: 5px;
   }
 
   .btn-pre-next:hover {
-    background-color: #3b82f6;
+    background-color: #3f51b5;
     box-shadow: 0 0 0 5px #3b83f65f;
     color: #fff;
     border: none;
@@ -512,24 +512,24 @@ const Styled = styled.div`
     width: 35px;
     font-family: monospace;
     background-color: #f3f7fe;
-    color: #3b82f6;
+    color: #3f51b5;
     border: none;
     border-radius: 8px;
-    border: 1px solid #3b82f6;
+    border: 1px solid #3f51b5;
     transition: 0.3s;
     font-size: 13px;
     margin-right: 5px;
   }
 
   .btn-pagination:hover {
-    background-color: #3b82f6;
+    background-color: #3f51b5;
     box-shadow: 0 0 0 5px #3b83f65f;
     color: #fff;
     border: none;
   }
 
   .active {
-    background-color: #3b82f6;
+    background-color: #3f51b5;
     box-shadow: 0 0 0 5px #3b83f65f;
     color: #fff;
     border: none;

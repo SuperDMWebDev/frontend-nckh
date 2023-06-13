@@ -9,7 +9,7 @@ import { getListArticleWithKeyword } from '../../../api/Article';
 import { getListLecturerWithKeyword } from '../../../api/Lecturer';
 import { SEARCH_OPTION } from '../../../constants/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -212,7 +212,6 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-
       {currentSearch != 'article' ? (
         <div className="center" ref={scrollTop}>
           <div className="list_article">
@@ -253,37 +252,37 @@ export default function SearchPage() {
                 </>
               )}
             </div>
-            <div className="sort_article">
-              <div>
-                <div
-                  style={{
-                    marginBottom: '50px',
-                    marginTop: '30px'
-                  }}>
-                  {/* Previous button */}
-                  <button
-                    className="btn-pre-next"
-                    disabled={currentPage === 1}
-                    onClick={() => handlePageChange(currentPage - 1)}>
-                    Trước
-                  </button>
-
-                  {/* Page buttons */}
-                  {renderPageButtons()}
-
-                  {/* Next button */}
-                  <button
-                    className="btn-pre-next"
-                    disabled={currentPage === totalPages}
-                    onClick={() => handlePageChange(currentPage + 1)}>
-                    Sau
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}
+      <div className="sort_article">
+        <div>
+          <div
+            style={{
+              marginBottom: '50px',
+              marginTop: '30px'
+            }}>
+            {/* Previous button */}
+            <button
+              className="btn-pre-next"
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}>
+              <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+            </button>
+
+            {/* Page buttons */}
+            {renderPageButtons()}
+
+            {/* Next button */}
+            <button
+              className="btn-pre-next"
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(currentPage + 1)}>
+              <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+            </button>
+          </div>
+        </div>
+      </div>
     </Styled>
   );
 }

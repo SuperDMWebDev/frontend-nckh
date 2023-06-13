@@ -29,7 +29,7 @@ type OptionSelectString = {
 const journalOptionList: OptionSelect[] = [
   {
     value: 1,
-    label: 'Bài báo'
+    label: 'Tạp chí'
   },
   {
     value: 2,
@@ -110,12 +110,12 @@ const CreateArticle = () => {
   const [Scopus, setScopus] = useState('');
   const [PII, setPII] = useState('');
   const [SGR, setSGR] = useState('');
-  const [projectId, setProjectId] = useState('');
   const [generalNote, setGeneralNote] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
   const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
+  const [authorFetch, setAuthorFetch] = useState<any[]>([]);
 
   const handleGetJournalConference = (e: any) => {
     setJournalConferenceText(e.target.value);
@@ -152,7 +152,6 @@ const CreateArticle = () => {
   };
 
   const [authorPayload, setAuthorPayload] = useState<any[]>([]);
-  const [urlPayload, setUrlPayload] = useState<any[]>([]);
   const [tagPayload, setTagPayload] = useState<any[]>([]);
 
   const fetchTag = async () => {
@@ -216,11 +215,15 @@ const CreateArticle = () => {
       setIsLoading(false);
       switch (res.status) {
         case httpStatus.OK: {
+          toast.success('Lấy bài báo từ DOI thành công!');
           const data = res.data.data[0];
 
-          console.log('dataa', data);
           setName(data.name);
-          setJournalConferenceText(data.journal);
+          if (data.journal) {
+            setJournalConferenceText(data.journal);
+          } else {
+            setJournalConferenceText(data.conference);
+          }
           setVolume(data.volume);
           setDay(parseInt(data.day));
           setMonth(parseInt(data.month));
@@ -235,7 +238,25 @@ const CreateArticle = () => {
           setSGR(data.SGR);
           setGeneralNote(data.generalNote);
 
-          toast.success('Lấy bài báo từ DOI thành công!');
+          //author select
+          const temp = data.authors.filter((e: any) => {
+            return Object.keys(e).includes('lecturerId');
+          });
+          var listAuthorSelect: OptionSelect[] = [];
+          temp.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.lecturer_id,
+              label: item.lecturer_name
+            };
+            listAuthorSelect.push(obj);
+          });
+          setSelectedLecturer(listAuthorSelect);
+
+          // author tag
+          var listTem = data.authors.filter((e: any) => {
+            return !Object.keys(e).includes('lecturerId');
+          });
+          setAuthorFetch(listTem);
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -335,6 +356,8 @@ const CreateArticle = () => {
     }
   };
 
+  console.log('tag', tagList);
+
   useEffect(() => {
     fetchTag();
     fetchLecturer();
@@ -358,16 +381,14 @@ const CreateArticle = () => {
       <div className="container">
         <div>
           <div style={{ fontSize: '15px', marginBottom: '5px' }}>Nhập DOI để tìm kiếm bài báo</div>
-          <div className="flex-center">
-            <div className="doiInput">
-              <Search
-                placeholder="DOI"
-                value={DOI}
-                onChange={(e) => setDOI(e.target.value)}
-                onSearch={handleGetArticleByDOI}
-                enterButton
-              />
-            </div>
+          <div className="doiInput">
+            <Search
+              placeholder="DOI"
+              value={DOI}
+              onChange={(e) => setDOI(e.target.value)}
+              onSearch={handleGetArticleByDOI}
+              enterButton
+            />
           </div>
         </div>
 
@@ -436,6 +457,7 @@ const CreateArticle = () => {
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
+            type="number"
           />
           <TextField
             label="Tháng"
@@ -446,6 +468,7 @@ const CreateArticle = () => {
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
+            type="number"
           />
           <TextField
             label="Năm"
@@ -567,7 +590,7 @@ const CreateArticle = () => {
             />
           </div>
           <div style={{ marginTop: '20px' }}>
-            <AuthorTag handleGetInputTag={handleGetAuthor} />
+            <AuthorTag data={authorFetch} handleGetInputTag={handleGetAuthor} />
           </div>
         </div>
 

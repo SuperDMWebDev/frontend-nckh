@@ -11,7 +11,7 @@ const Styled = styled.div`
   }
 
   .MuiTypography-root {
-    font-size: 16px;
+    font-size: 15x;
   }
 
   .tag {

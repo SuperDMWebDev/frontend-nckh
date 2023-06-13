@@ -153,12 +153,12 @@ export default function ArticleDetail() {
           </div>
 
           <div className="article-author">
-            <div>Tác giả: </div>
-            <ul>
+            <div className="article-author_title">Tác giả: </div>
+            <div className="article-author_list">
               {authorList.map((item) => (
-                <li>{item}</li>
+                <div>{item}</div>
               ))}
-            </ul>
+            </div>
           </div>
           <div className="article-info">
             <div>
