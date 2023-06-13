@@ -95,7 +95,8 @@ export default function ArticleDetail() {
     article?.authors.map((item: any) => {
       if (item.lecturer_name !== undefined && item.lecturer_name !== null) {
         nameList.push(item.lecturer_name);
-      } else {
+      }
+      if (item.lastName && item.firstName) {
         let name = `${item.lastName} ${item.firstName}`;
         nameList.push(name);
       }

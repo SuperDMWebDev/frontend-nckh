@@ -8,12 +8,11 @@ const Styled = styled.div`
     background-image: radial-gradient(circle at top, #0000 30%, #000 80%, #010103 90%),
       url('/assets/images/banner.jpg');
     background-position: 50%;
+    font-family: 'Open Sans', sans-serif;
     background-size: cover;
     opacity: 0.9;
     margin: 0;
     padding: 112px 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-      'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,7 +30,7 @@ const Styled = styled.div`
 
     &_title {
       color: #fff;
-      font-size: 70px;
+      font-size: 50px;
       margin-bottom: 54px;
     }
 
@@ -39,6 +38,7 @@ const Styled = styled.div`
       color: #fff;
       font-size: 28px;
       margin-bottom: 2.5rem;
+      max-width: 80%;
     }
   }
 

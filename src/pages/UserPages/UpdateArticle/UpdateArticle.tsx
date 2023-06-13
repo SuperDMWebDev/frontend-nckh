@@ -106,6 +106,13 @@ const UpdateArticle = () => {
   const [journalOption, setJournalOption] = useState<OptionSelect>(journalOptionList[0]);
   const handleSelectJournalOption = (option: any) => {
     setJournalOption(option);
+    if (option.value == 1) {
+      setRank(journalRank[0]);
+      setRankList(journalRank);
+    } else {
+      setRank(conferenceRank[0]);
+      setRankList(conferenceRank);
+    }
   };
   const handleGetJournalConference = (e: any) => {
     setJournalConferenceText(e.target.value);
@@ -228,10 +235,15 @@ const UpdateArticle = () => {
           setArticle(data);
           setName(data.name);
           if (data.journal) {
+            setJournalOption(journalOptionList[0]);
             setJournalConferenceText(data.journal);
+            setRankList(journalRank);
           } else {
             setJournalConferenceText(data.conference);
+            setJournalOption(journalOptionList[1]);
+            setRankList(conferenceRank);
           }
+          setRank({ value: data.rank, label: data.rank });
           setVolume(data.volume);
           setDay(data.day);
           setMonth(data.month);
@@ -245,7 +257,6 @@ const UpdateArticle = () => {
           setScopus(data.Scopus);
           setPII(data.PII);
           setSGR(data.SGR);
-          setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
           const tagSelect = data.tags.filter((e: any) => {
@@ -315,7 +326,16 @@ const UpdateArticle = () => {
         case httpStatus.OK: {
           const data = res.data.data[0];
           setName(data.name);
-          setJournalConferenceText(data.journal);
+          if (data.journal) {
+            setJournalOption(journalOptionList[0]);
+            setJournalConferenceText(data.journal);
+            setRankList(journalRank);
+          } else {
+            setJournalConferenceText(data.conference);
+            setJournalOption(journalOptionList[1]);
+            setRankList(conferenceRank);
+          }
+          setRank({ value: data.rank, label: data.rank });
           setVolume(data.volume);
           setDay(data.day);
           setMonth(data.month);
@@ -328,7 +348,6 @@ const UpdateArticle = () => {
           setScopus(data.Scopus);
           setPII(data.PII);
           setSGR(data.SGR);
-          setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
 
           const temp = data.authors.filter((e: any) => {

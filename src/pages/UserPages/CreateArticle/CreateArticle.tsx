@@ -220,10 +220,15 @@ const CreateArticle = () => {
 
           setName(data.name);
           if (data.journal) {
+            setJournalOption(journalOptionList[0]);
             setJournalConferenceText(data.journal);
+            setRankList(journalRank);
           } else {
             setJournalConferenceText(data.conference);
+            setJournalOption(journalOptionList[1]);
+            setRankList(conferenceRank);
           }
+          setRank({ value: data.rank, label: data.rank });
           setVolume(data.volume);
           setDay(parseInt(data.day));
           setMonth(parseInt(data.month));

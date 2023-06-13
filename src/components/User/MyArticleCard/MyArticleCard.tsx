@@ -22,9 +22,7 @@ const MyArticleCard = (props: any) => {
             <div className="user-field">Tác giả A, Tác giả B</div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          <div className="right-part">
-            Rank: B
-          </div>
+          {data?.rank && <div className="right-part">Rank {data?.rank}</div>}
         </div>
 
         {/* <div className="card-bottom-part">
