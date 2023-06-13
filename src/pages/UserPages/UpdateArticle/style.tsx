@@ -108,9 +108,9 @@ const Styled = styled.div`
     align-items: center;
   }
 
-  .doiInput {
+  .doiInput input {
     font-size: 15px;
-    width: 100%;
+    width: 100% !important;
   }
 `;
 

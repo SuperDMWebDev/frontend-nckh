@@ -32,7 +32,7 @@ type OptionSelectString = {
 const journalOptionList: OptionSelect[] = [
   {
     value: 1,
-    label: 'Bài báo'
+    label: 'Tạp chí'
   },
   {
     value: 2,
@@ -250,6 +250,7 @@ const UpdateArticle = () => {
           const temp = data.authors.filter((e: any) => {
             return Object.keys(e).includes('lecturer_id');
           });
+
           var listAuthorSelect: OptionSelect[] = [];
           temp.map((item: any) => {
             var obj: OptionSelect = {
@@ -317,6 +318,25 @@ const UpdateArticle = () => {
           setSGR(data.SGR);
           setProjectId(data.projectId);
           setGeneralNote(data.generalNote);
+
+          const temp = data.authors.filter((e: any) => {
+            return Object.keys(e).includes('lecturerId');
+          });
+          var listAuthorSelect: OptionSelect[] = [];
+          temp.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.lecturer_id,
+              label: item.lecturer_name
+            };
+            listAuthorSelect.push(obj);
+          });
+          setSelectedLecturer(listAuthorSelect);
+
+          // author tag
+          var listTem = data.authors.filter((e: any) => {
+            return !Object.keys(e).includes('lecturerId');
+          });
+          setAuthorFetch(listTem);
 
           toast.success('Lấy bài báo từ DOI thành công!');
           break;
@@ -422,16 +442,14 @@ const UpdateArticle = () => {
       <div className="container">
         <div>
           <div style={{ fontSize: '15px', marginBottom: '5px' }}>Nhập DOI để tìm kiếm bài báo</div>
-          <div className="flex-center">
-            <div className="doiInput">
-              <Search
-                placeholder="DOI"
-                value={DOI}
-                onChange={(e) => setDOI(e.target.value)}
-                onSearch={handleGetArticleByDOI}
-                enterButton
-              />
-            </div>
+          <div className="doiInput">
+            <Search
+              placeholder="DOI"
+              value={DOI}
+              onChange={(e) => setDOI(e.target.value)}
+              onSearch={handleGetArticleByDOI}
+              enterButton
+            />
           </div>
         </div>
 

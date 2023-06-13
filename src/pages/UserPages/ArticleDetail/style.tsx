@@ -21,6 +21,7 @@ const Styled = styled.div`
   .article-author {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     font-size: 16px;
     font-weight: bold;
     margin-top: 15px;
@@ -29,6 +30,7 @@ const Styled = styled.div`
   .article-author div {
     font-weight: normal;
     font-style: italic;
+    width: 64px;
   }
 
   .article-author li {

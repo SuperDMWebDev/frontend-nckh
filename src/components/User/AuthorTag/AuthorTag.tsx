@@ -20,7 +20,7 @@ const Tags = ({ data, handleDelete }: Props) => {
     <Box
       sx={{
         background: '#e0e0e0',
-        height: '34px',
+        height: '32px',
         display: 'flex',
         padding: '4px 10px',
         margin: '0 0.5rem 0.5rem 0',
@@ -30,7 +30,7 @@ const Tags = ({ data, handleDelete }: Props) => {
         borderRadius: '4px'
       }}>
       <div className="tag">
-        <Typography>{data.firstName.concat(' ', data.lastName)}</Typography>
+        <Typography>{data?.lastName?.concat(' ', data?.firstName)}</Typography>
         <FontAwesomeIcon
           className="deleteicon"
           fontSize={14}
@@ -43,7 +43,6 @@ const Tags = ({ data, handleDelete }: Props) => {
 };
 
 const AuthorTag = ({ data, handleGetInputTag }: any) => {
-  console.log('data truyen vo', data);
   const [names, setNames] = useState<string[]>([]);
   const [authorPayLoads, setAuthorPayLoads] = useState<NAME[]>(data);
 
@@ -83,17 +82,9 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
     <Styled>
       <div className="addLine">
         <div style={{ fontSize: '16px', width: '100px' }}>Tác giả: </div>
-        <Input
-          placeholder="Tên"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
+        <Input placeholder="Tên" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 
-        <Input
-          placeholder="Họ"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
+        <Input placeholder="Họ" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 
         <button style={{ border: 'none', background: 'transparent' }}>
           <FontAwesomeIcon
@@ -106,7 +97,7 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
         </button>
       </div>
       <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap', width: '700px' }}>
-        {authorPayLoads.map((data, index) => {
+        {authorPayLoads?.map((data, index) => {
           return <Tags data={data} handleDelete={handleDelete} key={index} />;
         })}
       </Box>

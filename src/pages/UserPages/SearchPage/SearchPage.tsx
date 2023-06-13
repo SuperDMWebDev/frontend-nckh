@@ -169,7 +169,7 @@ export default function SearchPage() {
             fontFamily: 'monospace',
             fontWeight: 'bold'
           }}>
-          {`${navigate_searchOption.label.toUpperCase()}S SEARCH`}
+          {`TÌM KIẾM ${navigate_searchOption.label.toUpperCase()}`}
         </div>
 
         <div
@@ -184,7 +184,7 @@ export default function SearchPage() {
             <input
               type="text"
               className="input_search"
-              placeholder="Search by name or keyword"
+              placeholder="Tìm kiếm theo tên hoặc keyword"
               value={navigate_searchInput}
               onChange={(e) => setNavigate_searchInput(e.target.value)}
               onKeyDown={handleKeyDown}
