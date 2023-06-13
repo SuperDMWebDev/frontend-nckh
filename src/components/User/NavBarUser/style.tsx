@@ -19,7 +19,8 @@ const Styled = styled.div`
   }
 
   .navbar-tab li {
-    margin-left: 60px;
+    margin-left: 140px;
+    font-weight: 400;
   }
 
   ul {

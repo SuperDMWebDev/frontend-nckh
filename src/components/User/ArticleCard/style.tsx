@@ -6,6 +6,7 @@ const Styled = styled.div`
     /* max-width: 750px; */
 
     height: auto;
+    width: 850px;
     background: #ffffff;
     backdrop-filter: blur(6px);
     cursor: pointer;
@@ -129,6 +130,44 @@ const Styled = styled.div`
   .position {
   }
 
+  .right-part-1 {
+    color: #3f51b5;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    width: 10%;
+  }
+
+  .right-part {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    font-weight: 300;
+    color: #3f51b5;
+    font-size: 16px;
+    font-weight: 500;
+
+    &_group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+    }
+
+    &__num {
+      display: inline-block;
+      font-size: 18px;
+      margin: auto;
+    }
+
+    &__title {
+      font-size: 13px;
+      margin-right: auto;
+    }
+  }
+
   .card-bottom-part {
     display: flex;
     justify-content: flex-start;
@@ -154,6 +193,10 @@ const Styled = styled.div`
       text-decoration: underline;
       color: #0145a4;
     }
+  }
+
+  .article-author_list2 {
+    font-size: 12px;
   }
 `;
 

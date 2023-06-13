@@ -97,7 +97,7 @@ export default function MyArticles() {
                 margin: '12px',
                 fontFamily: 'monospace',
                 fontWeight: 'bolder',
-                color: '#3f51b5',
+                color: 'black',
                 display: 'flex',
                 justifyContent: 'center'
               }}>

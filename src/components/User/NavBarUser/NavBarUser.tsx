@@ -57,7 +57,7 @@ const NavBarUser = () => {
       } else if (value === 'Retrieve Scopus Author') {
         navigate('/retrieve-scopus-author');
         setOpen(false);
-      } else if (value === 'Logout') {
+      } else if (value === 'logout') {
         localStorage.removeItem('accountId');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('scopusId');
