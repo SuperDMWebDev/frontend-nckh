@@ -159,15 +159,15 @@ const Styled = styled.div`
     padding: 7px 15px;
     font-size: 12px;
     font-weight: bold;
-    border: 2px solid #3f51b5;
+    border: 2px solid black;
     border-radius: 20px;
     height: 40px;
     width: auto;
     margin-bottom: 10px;
-    color: #3f51b5;
+    color: black;
   }
   .btn-add-article-2:hover {
-    background-color: #3f51b5;
+    background-color: black;
     color: white;
   }
 

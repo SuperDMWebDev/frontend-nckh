@@ -22,23 +22,28 @@ const AuthorCard = (props: any) => {
               <p className="name" onClick={() => handleLink(data.id)}>{data.name}</p>
             </a>
           </div>
-          <div className="user-field">{
-            data.currentDisciplines == undefined ? <>
-              <span
-                style={{
-                  fontSize: '13px',
-                  fontStyle: 'italic',
-                  marginLeft: '1px'
-                }}>
-                Chưa cập nhật
-              </span>
-            </> : <>
-              {data.currentDisciplines[0].departmentName} - {data.currentDisciplines[0].universityName}
-            </>
-          }</div>
+          <div className="user-field" style={{
+            fontStyle: "normal"
+          }}>{
+              data.currentDisciplines == undefined ? <>
+                <span
+                  style={{
+                    fontSize: '13px',
+                    fontStyle: 'italic',
+                    marginLeft: '1px'
+                  }}>
+                  Chưa cập nhật
+                </span>
+              </> : <>
+                {data.currentDisciplines[0].departmentName} - {data.currentDisciplines[0].universityName}
+              </>
+            }</div>
           <div className="user-position">
-            <span className="right_availability_title" style={{ fontSize: "13px" }}>Chức vụ: </span>
-            <span className="position">
+            <span className="right_availability_title" style={{ fontSize: "13px", fontStyle: "normal" }}>Chức vụ: </span>
+            <span className="user-field" style={{
+              fontStyle: "normal",
+              fontSize: "13px"
+            }}>
               {
                 data.currentDisciplines == undefined ? <>
                   <span
@@ -76,7 +81,7 @@ const AuthorCard = (props: any) => {
             {
               data.researchFields == undefined ? null :
                 data.researchFields.map((item: any) => (
-                  <div className="right_category" style={{ marginRight: "5px" }}>{item.researchName}</div>
+                  <div className="right_category" style={{ marginRight: "5px", fontWeight: "400" }}>{item.researchName}</div>
                 ))
             }
           </div>

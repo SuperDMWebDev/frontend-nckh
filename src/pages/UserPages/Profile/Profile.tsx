@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Styled from './style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmailIcon from '@mui/icons-material/Email';
@@ -15,7 +15,7 @@ import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
 import httpStatus from 'http-status';
-import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
+import ArticleProfileCard from '../../../components/User/ArticleProfileCard/ArticleProfileCard';
 import './Profile.css';
 import Avatar1 from 'react-avatar-edit';
 import { editBioProfile } from '../../../api/Lecturer';
@@ -28,6 +28,8 @@ import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -52,7 +54,7 @@ export default function Profile() {
   const [linkInner, setLinkInner] = useState<string>('');
   const accountId = localStorage.getItem('accountId');
   const token = localStorage.getItem('accessToken');
-  const [articleList, setArticleList] = useState<Article[]>();
+  const [articleList, setArticleList] = useState<Article[]>([]);
   const [previewAvatar, setPreviewAvatar] = useState<string>('');
 
   const fetchArticle = async () => {
@@ -201,6 +203,48 @@ export default function Profile() {
     editLinkProfile(lecturer, link, accountId);
     window.location.reload();
   };
+
+  // PAGINATION ARTICLES
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const maxVisibleButtons = 5;
+  const scrollTop = useRef<HTMLDivElement>(null);
+  const listArti = Object.values(articleList);
+  const arr = listArti[0];
+
+  const totalPages = arr?.slice(0).length
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber: number) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPageButtons = (): JSX.Element[] => {
+    const visibleButtons: JSX.Element[] = [];
+    const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    const endPage: number = Math.floor(totalPages / itemsPerPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      visibleButtons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={i === currentPage ? 'btn-pagination-active' : 'btn-pagination'}>
+          {i}
+        </button>
+      );
+    }
+
+    return visibleButtons;
+  };
+
+
 
   return (
     <Styled>
@@ -801,19 +845,56 @@ export default function Profile() {
             </>
           ) : currentTab === 2 ? (
             <>
-              <div className="add-article-container">
+              <div className="add-article-container" ref={scrollTop}>
                 <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
                   Thêm bài báo khoa học
                 </button>
               </div>
               <div className="content-profile">
-                {articleList ? (
-                  articleList[Number(accountId)].map((item: any) => <ArticleCard data={item} />)
+                {currentLecturers ? (
+                  currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (
-                  <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                    Chưa có bài báo khoa học nào.
-                  </span>
+                  <>
+                    <div
+                      style={{
+                        fontSize: '14px',
+                        marginTop: '10px',
+                        fontStyle: 'italic',
+                        marginLeft: '-70px'
+                      }}>
+                      Không tìm thấy bài báo khoa học nào!
+                    </div>
+                  </>
                 )}
+
+                <div>
+                  <div
+                    style={{
+                      marginBottom: '50px',
+                      marginTop: '30px',
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}>
+                    {/* Previous button */}
+                    <button
+                      className="btn-pre-next"
+                      disabled={currentPage === 1}
+                      onClick={() => handlePageChange(currentPage - 1)}>
+                      <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+                    </button>
+
+                    {/* Page buttons */}
+                    {renderPageButtons()}
+
+                    {/* Next button */}
+                    <button
+                      className="btn-pre-next"
+                      disabled={currentPage === totalPages}
+                      onClick={() => handlePageChange(currentPage + 1)}>
+                      <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+                    </button>
+                  </div>
+                </div>
               </div>
             </>
           ) : (
@@ -822,50 +903,9 @@ export default function Profile() {
               <ModalEditBook lecturer={lecturer} canEdit={true} />
             </>
           )}
-          {/* // ) : currentTab === 3 ? (
-                    //     <>
-                    //         <div className="content-profile">
-                    //             <span style={{ fontSize: '14px' }}>
-                    //                 {linkScopusProfile === '' ? (
-                    //                     <div className="scopus-profile">
-                    //                         <button className="btn btn-add-profile">Connect Scopus profile</button>
-                    //                         <p>
-                    //                             If you have more than one Scopus author profile and/or there are mistakes in
-                    //                             your profile, please go to the&nbsp;
-                    //                             <a href="https://www.scopus.com/feedback/author/home.uri">
-                    //                                 Scopus Author Feedback Wizard
-                    //                             </a>
-                    //                             &nbsp;to request a correction
-                    //                         </p>
-                    //                     </div>
-                    //                 ) : (
-                    //                     <div className="scopus-profile link">
-                    //                         <h3>Link to Scopus Profile: </h3>
-                    //                         <a href={linkScopusProfile}>{linkScopusProfile}</a>
-                    //                     </div>
-                    //                 )}
-                    //             </span>
-                    //         </div>
-                    //     </>
-                    // ) : (
-                    //     <>
-                    //         <ModalEditResearchField lecturer={lecturer} canEdit={true} />
-                    //         <ModalEditBook lecturer={lecturer} canEdit={true} />
-                    //     </>
-                    // )} */}
         </div>
       </div>
       <div className="footer"></div>
     </Styled>
   );
 }
-
-// git rebase origin/develop
-// git add
-// git stash
-
-/**
- 
-
-
- */

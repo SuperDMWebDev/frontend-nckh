@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Styled from './style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmailIcon from '@mui/icons-material/Email';
@@ -14,11 +14,13 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate, useParams } from 'react-router-dom';
 import httpStatus from 'http-status';
-import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
+import ArticleProfileCard from '../../../components/User/ArticleProfileCard/ArticleProfileCard';
 import './LecturerDetail.css';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -121,6 +123,46 @@ export default function LecturerDetail() {
 
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
+  };
+
+  // PAGINATION ARTICLES
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const maxVisibleButtons = 5;
+  const scrollTop = useRef<HTMLDivElement>(null);
+  const listArti = Object.values(articleList);
+  const arr = listArti[0];
+
+  const totalPages = arr?.slice(0).length
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber: number) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPageButtons = (): JSX.Element[] => {
+    const visibleButtons: JSX.Element[] = [];
+    const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    const endPage: number = Math.floor(totalPages / itemsPerPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      visibleButtons.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={i === currentPage ? 'btn-pagination-active' : 'btn-pagination'}>
+          {i}
+        </button>
+      );
+    }
+
+    return visibleButtons;
   };
 
   return (
@@ -318,16 +360,55 @@ export default function LecturerDetail() {
             <>
               <div className="content-profile">
                 <div className="main_content">
-                  <h2 className="title_content" style={{ marginBottom: '10px' }}>
+                  <h2 className="title_content" style={{ marginBottom: '10px' }} ref={scrollTop}>
                     CÔNG BỐ KHOA HỌC
                   </h2>
-                  {articleList.length != 0 ? (
-                    articleList[id].map((item: any) => <ArticleCard data={item} />)
-                  ) : (
-                    <span style={{ fontSize: '14px', fontStyle: 'italic' }}>
-                      Chưa có bài báo khoa học nào.
-                    </span>
-                  )}
+                  <div>
+                    {currentLecturers ? (
+                      currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
+                    ) : (
+                      <>
+                        <div
+                          style={{
+                            fontSize: '14px',
+                            marginTop: '10px',
+                            fontStyle: 'italic',
+                            marginLeft: '-70px'
+                          }}>
+                          Không tìm thấy bài báo khoa học nào!
+                        </div>
+                      </>
+                    )}
+
+                    <div>
+                      <div
+                        style={{
+                          marginBottom: '50px',
+                          marginTop: '30px',
+                          display: 'flex',
+                          justifyContent: 'center'
+                        }}>
+                        {/* Previous button */}
+                        <button
+                          className="btn-pre-next"
+                          disabled={currentPage === 1}
+                          onClick={() => handlePageChange(currentPage - 1)}>
+                          <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+                        </button>
+
+                        {/* Page buttons */}
+                        {renderPageButtons()}
+
+                        {/* Next button */}
+                        <button
+                          className="btn-pre-next"
+                          disabled={currentPage === totalPages}
+                          onClick={() => handlePageChange(currentPage + 1)}>
+                          <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Styled from './style';
 
-const MyArticleCard = (props: any) => {
+const ArticleProfileCard = (props: any) => {
   const { data } = props;
   console.log(data);
-
   const [authorList, setAuthorList] = useState<string[]>([]);
 
   const getAuthorList = (data: any) => {
@@ -49,8 +48,7 @@ const MyArticleCard = (props: any) => {
                 <div className="article-author_list2" style={{
                   display: "flex",
                   flexWrap: "wrap",
-                  flexDirection: "row",
-                  fontSize: "12px"
+                  flexDirection: "row"
                 }}>
                   {authorList.map((item) => (
                     <div style={{ marginRight: "4px" }}>{item},</div>
@@ -60,11 +58,11 @@ const MyArticleCard = (props: any) => {
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          {data?.rank && <div className="right-part">Rank {data?.rank}</div>}
+          {data?.rank && <div className="right-part-1">Rank {data?.rank}</div>}
         </div>
       </div>
     </Styled>
   );
 };
 
-export default MyArticleCard;
+export default ArticleProfileCard;

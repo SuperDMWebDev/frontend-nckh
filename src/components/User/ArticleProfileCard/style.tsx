@@ -3,20 +3,19 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .card_article {
     box-sizing: border-box;
-    width: 850px;
+    /* max-width: 750px; */
+
     height: auto;
     background: #ffffff;
     backdrop-filter: blur(6px);
     cursor: pointer;
+
     transition: all 0.5s;
     user-select: none;
     font-weight: bolder;
 
     border-left: 0px;
     border-right: 0px;
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
-    margin-bottom: 10px;
 
     padding: 20px 60px;
 
@@ -27,6 +26,14 @@ const Styled = styled.div`
 
   .card_article:hover {
     background-color: #efefef !important;
+  }
+
+  .right-part-1 {
+    color: #3f51b5;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    width: 12%;
   }
 
   .icon_more {
@@ -49,22 +56,20 @@ const Styled = styled.div`
   }
 
   .left-part {
-    width: 90%;
+    margin: auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
 
   .right-part {
-    width: 10%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
     font-weight: 300;
-    color: #3f51b5;
-    font-size: 16px;
-    font-weight: 500;
 
     &_group {
       display: flex;
@@ -157,6 +162,10 @@ const Styled = styled.div`
       text-decoration: underline;
       color: #0145a4;
     }
+  }
+
+  .article-author_list2 {
+    font-size: 12px;
   }
 `;
 

@@ -66,7 +66,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() {}
+      onCancel() { }
     });
   }
 

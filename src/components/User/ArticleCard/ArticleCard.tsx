@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from './style';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
+  const [authorList, setAuthorList] = useState<string[]>([]);
+
+  const getAuthorList = (data: any) => {
+    let nameList: string[] = [];
+    // eslint-disable-next-line array-callback-return
+    data?.authors.map((item: any) => {
+      if (item.lecturer_name !== undefined && item.lecturer_name !== null) {
+        nameList.push(item.lecturer_name);
+      }
+      if (item.lastName && item.firstName) {
+        let name = `${item.lastName} ${item.firstName}`;
+        nameList.push(name);
+      }
+    });
+
+    setAuthorList(nameList);
+  };
+
+  useEffect(() => {
+    getAuthorList(data);
+  }, [data]);
 
   const handleGoToDetail = (id: any) => {
     window.location.replace(`http://localhost:5000/article-detail/${id}`);
@@ -19,25 +40,23 @@ const ArticleCard = (props: any) => {
               </div>
             </div>
             <div className="user-field">{data?.journal}</div>
-            <div className="user-field">Tác giả A, Tác giả B</div>
+            <div>
+              <div style={{ display: "inline" }}>
+                <div className="article-author_list2" style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  flexDirection: "row"
+                }}>
+                  {authorList.map((item) => (
+                    <div style={{ marginRight: "4px" }}>{item},</div>
+                  ))}
+                </div>
+              </div>
+            </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
+          {data?.rank && <div className="right-part-1">Rank {data?.rank}</div>}
         </div>
-
-        {/* <div className="card-bottom-part">
-          <div className="card-bottom-part__group">
-            <FontAwesomeIcon icon={faAdd} />
-            <div className="card-bottom-part__item">Add to library</div>
-          </div>
-          <div className="card-bottom-part__group">
-            <FontAwesomeIcon icon={faFilePdf} />
-            <div className="card-bottom-part__item">Sign in to view PDF</div>
-          </div>
-          <div className="card-bottom-part__group">
-            <FontAwesomeIcon icon={faNewspaper} />
-            <div className="card-bottom-part__item">Related</div>
-          </div>
-        </div> */}
       </div>
     </Styled>
   );
