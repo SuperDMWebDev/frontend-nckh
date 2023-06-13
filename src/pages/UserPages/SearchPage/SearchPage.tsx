@@ -20,7 +20,7 @@ export default function SearchPage() {
 
   const [currentSearch, setCurrentSearch] = useState<string>(location.state.searchOption.value);
 
-  const [navigate_searchOption, setNavigate_searchOption] = useState(location.state.searchOption);
+  const [navigate_searchOption, setNavigate_searchOption] = useState(SEARCH_OPTION[0]);
   const [navigate_searchInput, setNavigate_searchInput] = useState(location.state.searchInput);
 
   const [openOption, setOpenOption] = useState(false);
@@ -43,7 +43,7 @@ export default function SearchPage() {
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
-      if (navigate_searchOption.label == 'Article') {
+      if (navigate_searchOption.label == 'Bài báo') {
         const data = {
           searchOption: 'articles',
           keyword: navigate_searchInput
@@ -100,7 +100,7 @@ export default function SearchPage() {
   };
 
   useEffect(() => {
-    if (navigate_searchOption.label == 'Article') {
+    if (navigate_searchOption.label == 'Bài báo') {
       const data = {
         searchOption: 'articles',
         keyword: navigate_searchInput
@@ -184,7 +184,7 @@ export default function SearchPage() {
             <input
               type="text"
               className="input_search"
-              placeholder="Tìm kiếm theo tên hoặc keyword"
+              placeholder="Tìm kiếm bằng tên hoặc từ khóa"
               value={navigate_searchInput}
               onChange={(e) => setNavigate_searchInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -247,7 +247,7 @@ export default function SearchPage() {
                       fontStyle: 'italic',
                       marginLeft: '-70px'
                     }}>
-                    Không tìm thấy tác giả nào!
+                    Không tìm thấy bài báo nào!
                   </div>
                 </>
               )}
