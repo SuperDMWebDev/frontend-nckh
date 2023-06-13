@@ -91,9 +91,9 @@ const Styled = styled.div`
     margin-bottom: 10px;
   }
 
-  .doiInput {
+  .doiInput input {
     font-size: 15px;
-    width: 100%;
+    width: 100% !important;
   }
 
   .ant-select-selection__placeholder {
