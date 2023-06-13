@@ -525,7 +525,7 @@ const UpdateArticle = () => {
           variant="outlined"
           value={volume}
           onChange={(e) => setVolume(e.target.value)}
-          InputLabelProps={{ style: { fontSize: 15 } }}
+          InputLabelProps={{ style: { fontSize: 13 }, shrink: volume != '' }}
           inputProps={{ style: { fontSize: 15 } }}
           size="small"
         />

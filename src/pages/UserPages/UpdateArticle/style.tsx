@@ -112,6 +112,10 @@ const Styled = styled.div`
     font-size: 15px;
     width: 100% !important;
   }
+
+  .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+    left: -5px !important;
+  }
 `;
 
 export default Styled;
