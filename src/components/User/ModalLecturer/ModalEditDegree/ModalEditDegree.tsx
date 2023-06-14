@@ -15,6 +15,7 @@ export default function ModalEditDegree(props: any) {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const accountId = localStorage.getItem('accountId');
+  const lecturerId = localStorage.getItem('lecturerId');
   const [universitys, setUniversitys] = useState<any>([]);
   const [academicTitles, setAcademicTitles] = useState<any>([]);
 
@@ -69,7 +70,7 @@ export default function ModalEditDegree(props: any) {
       graduationDate: newYear,
       academicTitleId: newAcademicTitle
     };
-    createDegree(lecturer, data, accountId);
+    createDegree(lecturer, data, lecturerId);
     window.location.reload();
   };
 
@@ -81,13 +82,13 @@ export default function ModalEditDegree(props: any) {
       graduationDate: year,
       specialization: specialization
     };
-    editDegree(lecturer, data, accountId);
+    editDegree(lecturer, data, lecturerId);
     console.log(data);
     window.location.reload();
   };
 
   const handleDeleteBook = () => {
-    deleteDegree(lecturer, idDegree, accountId);
+    deleteDegree(lecturer, idDegree, lecturerId);
     window.location.reload();
   };
 

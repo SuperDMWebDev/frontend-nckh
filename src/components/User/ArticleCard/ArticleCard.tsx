@@ -55,7 +55,9 @@ const ArticleCard = (props: any) => {
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          {data?.rank && <div className="right-part-1">Rank {data?.rank}</div>}
+          <div className='right-part-1'>
+            {data?.rank && data?.rank != 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+          </div>
         </div>
       </div>
     </Styled>

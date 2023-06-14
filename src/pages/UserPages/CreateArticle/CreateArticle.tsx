@@ -87,6 +87,7 @@ const CreateArticle = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
+  const lecturerId: string | null = localStorage.getItem('lecturerId');
 
   const [DOI, setDOI] = useState('');
   const [name, setName] = useState('');
@@ -315,7 +316,7 @@ const CreateArticle = () => {
     var tags: any[] = [];
     var authors: any[] = [
       {
-        lecturerId: parseInt(accountId!)
+        lecturerId: parseInt(lecturerId!)
       }
     ];
 

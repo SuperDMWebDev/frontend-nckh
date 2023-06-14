@@ -20,7 +20,9 @@ export default function SearchPage() {
 
   const [currentSearch, setCurrentSearch] = useState<string>(location.state.searchOption.value);
 
-  const [navigate_searchOption, setNavigate_searchOption] = useState(SEARCH_OPTION[0]);
+  console.log(currentSearch);
+
+  const [navigate_searchOption, setNavigate_searchOption] = useState(location.state.searchOption ? location.state.searchOption : SEARCH_OPTION[0]);
   const [navigate_searchInput, setNavigate_searchInput] = useState(location.state.searchInput);
 
   const [openOption, setOpenOption] = useState(false);

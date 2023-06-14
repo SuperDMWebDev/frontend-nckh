@@ -7,6 +7,7 @@ type Lecturer1 = {
 };
 
 const token = localStorage.getItem('accessToken');
+const lecturerId = localStorage.getItem("lecturerId");
 
 const handleError = (error: any) => {
   const { response, message } = error;
@@ -50,8 +51,8 @@ export const getListLecturerWithKeyword = async (data: any) => {
   }
 };
 
-export const editBioProfile = async (data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editBioProfile = async (data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -68,11 +69,11 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
       academicTitleGainYear: data.academicTitleGainYear
     }
   });
-  return(res.data.code);
+  return (res.data.code);
 };
 
-export const editInfoProfile = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editInfoProfile = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -115,7 +116,7 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
       ],
       currentDiscipline: {
         id: lecturer.currentDisciplines[0].id,
-        lecturerId: accountId,
+        lecturerId: lecturerId,
         departmentName: data.newDepartmentName,
         universityId: data.newUniversity,
         position: data.newCurrentDisciplines,
@@ -125,8 +126,8 @@ export const editInfoProfile = async (lecturer: any, data: any, accountId: strin
   });
 };
 
-export const editLinkProfile = async (lecturer: any, link: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editLinkProfile = async (lecturer: any, link: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -174,9 +175,9 @@ export const editLinkProfile = async (lecturer: any, link: any, accountId: strin
 export const editNameProfile = async (
   lecturer: any,
   newName: string | undefined,
-  accountId: string | null
+  lecturerId: string | null
 ) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -195,8 +196,8 @@ export const editNameProfile = async (
   });
 };
 
-export const addNewBook = async (lecturer: any, newBook: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const addNewBook = async (lecturer: any, newBook: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -224,8 +225,8 @@ export const addNewBook = async (lecturer: any, newBook: any, accountId: string 
   });
 };
 
-export const createDegree = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const createDegree = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -254,8 +255,8 @@ export const createDegree = async (lecturer: any, data: any, accountId: string |
   });
 };
 
-export const deleteDegree = async (lecturer: any, idDegree: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const deleteDegree = async (lecturer: any, idDegree: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -280,8 +281,8 @@ export const deleteDegree = async (lecturer: any, idDegree: any, accountId: stri
   });
 };
 
-export const editDegree = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editDegree = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -311,8 +312,8 @@ export const editDegree = async (lecturer: any, data: any, accountId: string | n
   });
 };
 
-export const editWorkPosition = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editWorkPosition = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -342,8 +343,8 @@ export const editWorkPosition = async (lecturer: any, data: any, accountId: stri
   });
 };
 
-export const updateBook = async (lecturer: any, book: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const updateBook = async (lecturer: any, book: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -372,8 +373,8 @@ export const updateBook = async (lecturer: any, book: any, accountId: string | n
   });
 };
 
-export const deleteBook = async (lecturer: any, idBook: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const deleteBook = async (lecturer: any, idBook: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -398,8 +399,8 @@ export const deleteBook = async (lecturer: any, idBook: any, accountId: string |
   });
 };
 
-export const editExpertises = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editExpertises = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -417,14 +418,14 @@ export const editExpertises = async (lecturer: any, data: any, accountId: string
       expertises: [
         {
           id: lecturer.expertises[0].id,
-          lecturerId: accountId,
+          lecturerId: lecturerId,
           title: 'Lĩnh vực',
           specialization: data.field,
           update: true
         },
         {
           id: lecturer.expertises[1].id,
-          lecturerId: accountId,
+          lecturerId: lecturerId,
           title: 'Chuyên ngành',
           specialization: data.specialized,
           update: true
@@ -434,8 +435,8 @@ export const editExpertises = async (lecturer: any, data: any, accountId: string
   });
 };
 
-export const editResearchField = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const editResearchField = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -462,8 +463,8 @@ export const editResearchField = async (lecturer: any, data: any, accountId: str
   });
 };
 
-export const createResearchField = async (lecturer: any, data: any, accountId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+export const createResearchField = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
@@ -512,9 +513,9 @@ export const createLecturer = async (data: any) => {
 export const editAvatarProfile = async (
   lecturer: any,
   AvatarURL: string,
-  accountId: string | null
+  lecturerId: string | null
 ) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${accountId}/update`, {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
