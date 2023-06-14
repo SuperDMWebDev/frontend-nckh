@@ -317,7 +317,7 @@ const TabContact: React.FC = () => {
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Trường" value={name} onChange={handleInputChange} />
+                            <Input placeholder="Nhập trường đại học" value={name} onChange={handleInputChange} />
                         </Form.Item>
 
                         <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>

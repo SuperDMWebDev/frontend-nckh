@@ -35,7 +35,7 @@ const App = () => {
       <ToastContainer {...defaultToastConfig} />
 
       <BrowserRouter>
-        {roleUser !== '0' ? (
+        {roleUser === '0' ? (
           <div>
             {scopusId === 'null' ? (
               <>

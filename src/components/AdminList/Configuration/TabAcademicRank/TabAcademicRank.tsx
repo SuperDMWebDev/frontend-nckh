@@ -324,7 +324,7 @@ const TabAcademicRank: React.FC = () => {
               style={{ maxWidth: 500 }}
             >
               <Form.Item label="Tên" name="name">
-                <Input placeholder="Học hàm" value={name} onChange={handleInputChange} />
+                <Input placeholder="Nhập học hàm" value={name} onChange={handleInputChange} />
               </Form.Item>
 
               <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
