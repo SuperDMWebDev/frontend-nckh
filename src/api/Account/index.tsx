@@ -52,6 +52,7 @@ export const signup = async (email: string) => {
     password: 'Nam12345678@',
     password2: 'Nam12345678@'
   });
+  return res.data.code;
 };
 
 export const getEmailByAccountId = async (accountId: string) => {

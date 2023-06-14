@@ -9,7 +9,7 @@ import { Modal } from 'antd';
 import Loader from '../../Loader/Loader';
 import './style.css';
 import { getAllAccounts, signup } from '../../../api/Account';
-import { getListLecturers } from '../../../api/Lecturer';
+import { createLecturer, editBioProfile, getListLecturers } from '../../../api/Lecturer';
 import { toast } from "react-toastify";
 
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -21,6 +21,12 @@ interface DataType {
 }
 interface DataId {
   id: number;
+}
+interface DataName {
+  name: string;
+}
+interface DataEmail {
+  email: string;
 }
 
 interface Lecturer {
@@ -53,6 +59,9 @@ const ListTeacher: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dataId, setDataId] = useState<DataId[]>([]);
+
+  const [successEmail, setSuccessEmail] = useState<boolean>(false);
+  const [successName, setSuccessName] = useState<boolean>(false);
 
   const locale = {
     emptyText: 'Không có dữ liệu',
@@ -105,47 +114,89 @@ const ListTeacher: React.FC = () => {
       setOpenDel(true);
     }
   };
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
   const onFinish = () => {
-    // if (formType === 'create') {
-    //   const dataName: DataName[] = [];
-    //   dataName.push({ name: name });
-    //   const payload: any = {
-    //     data: dataName
-    //   }
-    //   if (name === '') {
-    //     toast.error('Bạn chưa nhập liên hệ!');
-    //   } else {
-    //     createMultipleContactTypes(payload).then((code) => {
-    //       if (code === 0) {
-    //         toast.success('Tạo liên hệ thành công!');
-    //       } else {
-    //         toast.error('Tạo liên hệ thất bại!');
-    //       }
-    //       getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
-    //       setOpen(false);
-    //     });
-    //   }
-    // } else {
-    //   const dataUpdate: DataType = { id: id, name: name };
-    //   if (dataUpdate.name === '') {
-    //     toast.error('Bạn chưa nhập liên hệ!');
-    //   } else {
-    //     updateContactType(dataUpdate).then((code) => {
-    //       if (code === 0) {
-    //         toast.success('Cập nhật liên hệ thành công!');
-    //       } else {
-    //         toast.error('Cập nhật liên hệ thất bại!');
-    //       }
-    //       getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
-    //       setOpen(false);
-    //     });
-    //   }
-    // }
+    if (formType === 'create') {
+      const dataName: DataName[] = [];
+      dataName.push({ name: name });
+      const payload: any = {
+        data: dataName
+      }
+      if (name === '' || email === '') {
+        toast.error('Bạn chưa nhập đầy đủ dữ liệu!');
+      } else {
+        signup(email).then((code) => {
+          if (code === 0) {
+            setSuccessEmail(true);
+          } else {
+            setSuccessEmail(false);
+          }
+        });
+        //createLecturer(payload);
+        // .then((code) => {
+        //   if (code === 0) {
+        //     toast.success('Tạo liên hệ thành công!');
+        //   } else {
+        //     toast.error('Tạo liên hệ thất bại!');
+        //   }
+        //   getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+        //   setOpen(false);
+        // });
+        if (successEmail === false) {
+          toast.error('Người dùng này đã tồn tại!');
+        }
+        else {
+          toast.success('Tạo người dùng thành công!');
+        }
+      }
+    } else {
+      const dataUpdate: DataName = { name: name };
+      if (dataUpdate.name === '') {
+        toast.error('Bạn chưa nhập dữ liệu!');
+      } else {
+        editBioProfile(dataUpdate, id.toString()).then((code) => {
+          if (code === 0) {
+            toast.success('Cập nhật người dùng thành công!');
+          } else {
+            toast.error('Cập nhật người dùng thất bại!');
+          }
+        });
+      }
+    }
+
+    getListLecturers().then((result) => {
+      setLecturerList(result.data.data);
+    });
+    getAllAccounts().then((result) => {
+      setAccountList(result.data.data);
+    });
+
+    const dataArray: DataType[] = [];
+    accountList.map((itemAccount: Account, index: number) => {
+      const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+      if (idx >= 0) {
+        const newData: DataType = {
+          id: itemAccount.id,
+          name: lecturerList[idx].name,
+          email: itemAccount.email
+        };
+        dataArray.push(newData);
+      }
+    });
+
+    if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
+      setData(dataArray);
+    }
+    
+    setOpen(false);
   };
+
   const onDelete = () => {
     // const temp: any = {
     //   data: dataId
@@ -315,12 +366,14 @@ const ListTeacher: React.FC = () => {
     const dataArray: DataType[] = [];
     accountList.map((itemAccount: Account, index: number) => {
       const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
-      const newData: DataType = {
-        id: itemAccount.id,
-        name: lecturerList[idx].name,
-        email: itemAccount.email
-      };
-      dataArray.push(newData);
+      if (idx >= 0) {
+        const newData: DataType = {
+          id: itemAccount.id,
+          name: lecturerList[idx].name,
+          email: itemAccount.email
+        };
+        dataArray.push(newData);
+      }
     });
 
     if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
@@ -382,14 +435,14 @@ const ListTeacher: React.FC = () => {
             >
               <Form.Item label="Email" name="email">
                 {formType === 'create' ? (
-                  <Input placeholder="Nhập email" value={email} onChange={handleInputChange} />
+                  <Input placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
                 ) : (
                   <Input value={email} disabled />
                 )}
               </Form.Item>
 
               <Form.Item label="Họ tên" name="name">
-                <Input placeholder="Nhập họ tên" value={name} onChange={handleInputChange} />
+                <Input placeholder="Nhập họ tên" value={name} onChange={handleInputChangeName} />
               </Form.Item>
 
               <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
