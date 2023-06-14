@@ -8,6 +8,7 @@ export default function ModalEditExpertises(props: any) {
     const { lecturer, canEdit } = props;
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
+    const lecturerId = localStorage.getItem("lecturerId");
 
     const [field, setField] = useState<string>("");
     const [specialized, setSpecialized] = useState<string>("");
@@ -27,7 +28,7 @@ export default function ModalEditExpertises(props: any) {
             field: editField,
             specialized: editSpecialized
         }
-        editExpertises(lecturer, data, accountId);
+        editExpertises(lecturer, data, lecturerId);
         window.location.reload();
     };
 

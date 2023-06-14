@@ -13,6 +13,7 @@ const NavBarRetrieveScopus = () => {
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
   const accountId: string | null = localStorage.getItem('accountId');
+  const lecturerId: string | null = localStorage.getItem('lecturerId');
   console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const NavBarRetrieveScopus = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('scopusId');
         localStorage.removeItem('role');
+        localStorage.removeItem('lecturerId');
         navigate('/signin');
         // eslint-disable-next-line no-self-assign
         window.location.href = window.location.href;
@@ -108,9 +110,9 @@ const NavBarRetrieveScopus = () => {
                 className="avatar"
                 src={
                   lecturer === undefined ||
-                  lecturer?.avatar === null ||
-                  lecturer?.avatar === '' ||
-                  lecturer?.avatar === 'data:image/png;base64,'
+                    lecturer?.avatar === null ||
+                    lecturer?.avatar === '' ||
+                    lecturer?.avatar === 'data:image/png;base64,'
                     ? '/assets/images/default_avatar.jpg'
                     : lecturer?.avatar
                 }

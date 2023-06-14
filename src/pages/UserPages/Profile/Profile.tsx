@@ -61,7 +61,7 @@ export default function Profile() {
   const fetchArticle = async () => {
     let param = {
       data: {
-        lecturerIds: [Number(accountId)]
+        lecturerIds: [Number(lecturerId)]
       }
     };
 
@@ -160,7 +160,7 @@ export default function Profile() {
     }, 3000);
     const newData: Lecturer1 | any = { ...lecturer };
     newData.bio = bio;
-    editBioProfile(newData, accountId);
+    editBioProfile(newData, lecturerId);
     window.location.reload();
   };
 
@@ -192,16 +192,16 @@ export default function Profile() {
   const onCrop = (view: string) => {
     console.log(view);
     setPreviewAvatar(view);
-    editAvatarProfile(lecturer, view, accountId);
+    editAvatarProfile(lecturer, view, lecturerId);
   };
 
   const handleSaveName = () => {
-    editNameProfile(lecturer, newName, accountId);
+    editNameProfile(lecturer, newName, lecturerId);
     window.location.reload();
   };
 
   const handleSaveLink = () => {
-    editLinkProfile(lecturer, link, accountId);
+    editLinkProfile(lecturer, link, lecturerId);
     window.location.reload();
   };
 
@@ -275,8 +275,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+                lecturer?.avatar == '' ||
+                lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -535,9 +535,9 @@ export default function Profile() {
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                      lecturer?.avatar == null ||
-                      lecturer?.avatar == '' ||
-                      lecturer?.avatar == 'data:image/png;base64,'
+                        lecturer?.avatar == null ||
+                        lecturer?.avatar == '' ||
+                        lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }

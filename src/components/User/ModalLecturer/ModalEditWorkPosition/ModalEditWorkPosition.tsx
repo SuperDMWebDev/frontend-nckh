@@ -11,6 +11,7 @@ export default function ModalEditWorkPosition(props: any) {
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
+    const lecturerId = localStorage.getItem("lecturerId");
     const [universitys, setUniversitys] = useState<any>([]);
 
     // EDIT
@@ -77,7 +78,7 @@ export default function ModalEditWorkPosition(props: any) {
         }
 
         console.log(data);
-        editWorkPosition(lecturer, data, accountId);
+        editWorkPosition(lecturer, data, lecturerId);
         window.location.reload();
     }
 

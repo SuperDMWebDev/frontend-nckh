@@ -23,6 +23,7 @@ import LecturerDetail from './pages/UserPages/LecturerDetail/LecturerDetail';
 import UpdateArticle from './pages/UserPages/UpdateArticle/UpdateArticle';
 import MyArticles from './pages/UserPages/MyArticles/MyArticles';
 import NavBarRetrieveScopus from './components/User/NavBarRetrieveScopus/NavBarRetrieveScopus';
+import ResetPassword from './pages/UserPages/ResetPassword/ResetPassword';
 
 const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
@@ -70,6 +71,7 @@ const App = () => {
                   <Route path="/test" element={<EditProfile />} />
                   <Route path="/article-detail/:id" element={<ArticleDetail />} />
                   <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
                 </Routes>
               </>
             )}

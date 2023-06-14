@@ -12,6 +12,7 @@ export default function ModalEditResearchField(props: any) {
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
+    const lecturerId = localStorage.getItem("lecturerId");
 
     //create
     const [researchField, setResearchField] = useState<string>();
@@ -28,7 +29,7 @@ export default function ModalEditResearchField(props: any) {
             researchName: researchField,
             note: note
         }
-        createResearchField(lecturer, data, accountId);
+        createResearchField(lecturer, data, lecturerId);
         window.location.reload();
     };
 
@@ -39,7 +40,7 @@ export default function ModalEditResearchField(props: any) {
             researchName: newResearchField,
             note: newNote
         }
-        editResearchField(lecturer, data, accountId);
+        editResearchField(lecturer, data, lecturerId);
         window.location.reload();
     };
 

@@ -94,6 +94,7 @@ const UpdateArticle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const accountId: string | null = localStorage.getItem('accountId');
+  const lecturerId: string | null = localStorage.getItem('lecturerId');
   const [article, setArticle] = useState<any>();
 
   const [DOI, setDOI] = useState('');
@@ -407,7 +408,7 @@ const UpdateArticle = () => {
     var tags: any[] = [];
     var authors: any[] = [
       {
-        lecturerId: parseInt(accountId!)
+        lecturerId: parseInt(lecturerId!)
       }
     ];
 

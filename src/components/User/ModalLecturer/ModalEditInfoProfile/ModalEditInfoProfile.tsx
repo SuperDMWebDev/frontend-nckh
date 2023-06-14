@@ -8,6 +8,7 @@ import { getAllContactType } from '../../../../api/Lecturer';
 export default function ModalEditInfoProfile(props: any) {
   const lecturer = props.props;
   const accoundId = localStorage.getItem('accountId');
+  const lecturerId = localStorage.getItem('lecturerId');
 
   const [newUniversity, setNewUniversity] = useState<string>("1");
   const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>();
@@ -72,24 +73,6 @@ export default function ModalEditInfoProfile(props: any) {
         { value: "Nữ", label: "Nữ" },
       ];
 
-      const handleSaveEdit = () => {
-        const data = {
-          newUniversity: newUniversity,
-          newCurrentDisciplines: newCurrentDisciplines,
-          newGender: newGender,
-          newDateOfBirth: newDateOfBirth,
-          newDepartmentName: newDepartmentName,
-          email: { email: newEmail, id: 1 },
-          address: { address: newAddress, id: 2 },
-          phone: { phone: newPhone, id: 3 },
-          link: { link: lecturer.contacts[3].value, id: 4 }
-        }
-
-        console.log(data);
-        editInfoProfile(lecturer, data, accoundId);
-        window.location.reload();
-      }
-
       const university = getAllUniversity();
       university
         .then((res) => {
@@ -127,6 +110,24 @@ export default function ModalEditInfoProfile(props: any) {
     { value: 'Nữ', label: 'Nữ' }
   ];
 
+  // const handleSaveEdit = () => {
+  //   const data = {
+  //     newUniversity: newUniversity,
+  //     newCurrentDisciplines: newCurrentDisciplines,
+  //     newGender: newGender,
+  //     newDateOfBirth: newDateOfBirth,
+  //     newDepartmentName: newDepartmentName,
+  //     email: { email: newEmail, id: 1 },
+  //     address: { address: newAddress, id: 2 },
+  //     phone: { phone: newPhone, id: 3 },
+  //     link: { link: lecturer.contacts[3].value, id: 4 }
+  //   };
+
+  //   console.log(data);
+  //   editInfoProfile(lecturer, data, lecturerId);
+  //   window.location.reload();
+  // };
+
   const handleSaveEdit = () => {
     const data = {
       newUniversity: newUniversity,
@@ -138,11 +139,10 @@ export default function ModalEditInfoProfile(props: any) {
       address: { address: newAddress, id: 2 },
       phone: { phone: newPhone, id: 3 },
       link: { link: lecturer.contacts[3].value, id: 4 }
-
-    };
+    }
 
     console.log(data);
-    editInfoProfile(lecturer, data, accoundId);
+    editInfoProfile(lecturer, data, lecturerId);
     window.location.reload();
   };
 

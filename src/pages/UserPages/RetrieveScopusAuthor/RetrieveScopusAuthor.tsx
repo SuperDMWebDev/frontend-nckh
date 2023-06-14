@@ -37,6 +37,7 @@ export default function RetrieveScopusAuthor() {
   const handleClose = () => setOpen(false);
 
   const accountId = localStorage.getItem('accountId');
+  const lecturerId = localStorage.getItem('lecturerId');
 
   const [loading, setLoading] = useState(false);
 

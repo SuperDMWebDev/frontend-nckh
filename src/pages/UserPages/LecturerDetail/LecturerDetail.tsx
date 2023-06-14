@@ -210,16 +210,57 @@ export default function LecturerDetail() {
               <div className="field-profile-info">
                 <PortraitIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
-                  {!lecturer?.currentDisciplines[0].position
-                    ? null
-                    : lecturer?.currentDisciplines[0].position}
+                  {lecturer?.currentDisciplines == undefined ? (
+                    <>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontStyle: 'italic',
+                          marginLeft: '1px'
+                        }}>
+                        Chưa cập nhật
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {!lecturer?.currentDisciplines[0].position ? (
+                        <>
+                          <span
+                            style={{
+                              fontSize: '13px',
+                              fontStyle: 'italic',
+                              marginLeft: '1px'
+                            }}>
+                            Chưa cập nhật
+                          </span>
+                        </>
+                      ) : (
+                        lecturer?.currentDisciplines[0].position
+                      )}
+                    </>
+                  )}
                 </span>
               </div>
               <div className="field-profile-info">
                 <PlaceIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
-                  {lecturer?.currentDisciplines[0].departmentName} -{' '}
-                  {lecturer?.currentDisciplines[0].universityName}
+                  {lecturer?.currentDisciplines == undefined ? (
+                    <>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontStyle: 'italic',
+                          marginLeft: '1px'
+                        }}>
+                        Chưa cập nhật
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {lecturer?.currentDisciplines[0].departmentName} -{' '}
+                      {lecturer?.currentDisciplines[0].universityName}
+                    </>
+                  )}
                 </span>
               </div>
               <div className="field-profile-info">

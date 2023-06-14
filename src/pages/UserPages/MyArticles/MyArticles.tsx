@@ -18,15 +18,16 @@ export default function MyArticles() {
   const scrollTop = useRef<HTMLDivElement>(null);
   const [listArticles, setListArticles] = useState<Article[]>([]);
   const accountId = localStorage.getItem('accountId');
+  const lecturerId = localStorage.getItem('lecturerId');
 
   const handleBackSearch = () => {
     window.location.replace('http://localhost:5000/');
   };
 
-  const fetchListArticle = async (accountId: any) => {
+  const fetchListArticle = async (lecturerId: any) => {
     let param = {
       data: {
-        lecturerIds: [Number(accountId)]
+        lecturerIds: [Number(lecturerId)]
       }
     };
     const res = await getArticlesOfLecturers(param);
@@ -34,7 +35,7 @@ export default function MyArticles() {
   };
 
   useEffect(() => {
-    fetchListArticle(accountId);
+    fetchListArticle(lecturerId);
   }, []);
 
   //PAGINATION

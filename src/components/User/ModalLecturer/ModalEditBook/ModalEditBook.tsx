@@ -11,6 +11,7 @@ export default function ModalEditBook(props: any) {
     const [openAddModal, setOpenAddModal] = useState<boolean>(false);
     const [openEditModal, setOpenEditModal] = useState<boolean>(false);
     const accountId = localStorage.getItem("accountId");
+    const lecturerId = localStorage.getItem("lecturerId");
 
     // EDIT
     const [idBook, setIdBook] = useState<string>();
@@ -41,7 +42,7 @@ export default function ModalEditBook(props: any) {
             "coAuthors": newNameAuthor
         }
 
-        addNewBook(lecturer, newBook, accountId);
+        addNewBook(lecturer, newBook, lecturerId);
         window.location.reload();
     };
 
@@ -53,12 +54,12 @@ export default function ModalEditBook(props: any) {
             "publicYear": year,
             "coAuthors": nameAuthor
         }
-        updateBook(lecturer, book, accountId);
+        updateBook(lecturer, book, lecturerId);
         window.location.reload();
     }
 
     const handleDeleteBook = () => {
-        deleteBook(lecturer, idBook, accountId);
+        deleteBook(lecturer, idBook, lecturerId);
         window.location.reload();
     }
 
