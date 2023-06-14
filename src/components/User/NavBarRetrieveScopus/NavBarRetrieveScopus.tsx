@@ -79,20 +79,22 @@ const NavBarRetrieveScopus = () => {
     );
   }
 
-
   return (
     <Styled>
       <div className="container">
-        <div className="logo" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div
+          className="logo"
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <a href="/">
             <div className="container_logo">
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title_navbar" style={{ marginLeft: "20px" }}>QUẢN LÝ BÀI VIẾT KHOA HỌC</div>
+          <div className="text__title_navbar" style={{ marginLeft: '20px' }}>
+            SciConnect
+          </div>
         </div>
-        <div className="navbar-tab">
-        </div>
+        <div className="navbar-tab"></div>
 
         {logined ? (
           <div className="menu-container" ref={menuRef}>
@@ -106,9 +108,9 @@ const NavBarRetrieveScopus = () => {
                 className="avatar"
                 src={
                   lecturer === undefined ||
-                    lecturer?.avatar === null ||
-                    lecturer?.avatar === '' ||
-                    lecturer?.avatar === 'data:image/png;base64,'
+                  lecturer?.avatar === null ||
+                  lecturer?.avatar === '' ||
+                  lecturer?.avatar === 'data:image/png;base64,'
                     ? '/assets/images/default_avatar.jpg'
                     : lecturer?.avatar
                 }
