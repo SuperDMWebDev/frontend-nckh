@@ -8,7 +8,7 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PlusOutlined } from '@ant-design/icons';
 import { createMultipleContactTypes, deleteMultipleContactTypes, getAllContactTypes, updateContactType } from '../../../../api/Configuration';
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line no-magic-numbers
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -317,7 +317,7 @@ const TabContact: React.FC = () => {
                         style={{ maxWidth: 500 }}
                     >
                         <Form.Item label="Tên" name="name">
-                            <Input placeholder="Liên hệ" value={name} onChange={handleInputChange} />
+                            <Input placeholder="Nhập liên hệ" value={name} onChange={handleInputChange} />
                         </Form.Item>
 
                         <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>

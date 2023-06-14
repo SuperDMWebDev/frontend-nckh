@@ -13,8 +13,14 @@ const handleError = (error: any) => {
 
 export const getAllAccounts = async () => {
   try {
-    const res = await axios.get(`${BASE_URL}accounts`);
-    return res.data.data;
+    const res = await axios.get(`${BASE_URL}accounts`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    return res;
   } catch (error) {
     return handleError(error);
   }

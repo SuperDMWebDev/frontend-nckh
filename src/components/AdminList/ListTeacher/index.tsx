@@ -1,79 +1,77 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, MoreOutlined, DeleteOutlined } from '@ant-design/icons';
-import type { InputRef } from 'antd';
+import { SearchOutlined, EditOutlined, MinusOutlined } from '@ant-design/icons';
+import { Form, InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
-import type { MenuProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { Dropdown } from 'antd';
 import { Modal } from 'antd';
-import ModalTeacher from '../ModalTeacher';
 import Loader from '../../Loader/Loader';
 import './style.css';
-import { useNavigate } from 'react-router-dom';
-import { signup } from '../../../api/Account';
+import { getAllAccounts, signup } from '../../../api/Account';
 import { getListLecturers } from '../../../api/Lecturer';
+import { toast } from "react-toastify";
+
+type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
-  stt: number;
+  id: number;
   name: string;
-  currentPosition: string;
+  email: string;
+}
+interface DataId {
+  id: number;
 }
 
-type DataIndex = keyof DataType;
-
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    stt: i,
-    name: `Member. ${i}`,
-    currentPosition: 'string'
-  });
-}
-
-// Menu Dropdown
-const items: MenuProps['items'] = [
-  {
-    label: (
-      <div className="button_delete" onClick={(e) => console.log(e.target)}>
-        <DeleteOutlined style={{ marginRight: '10px' }} />
-        Delete
-      </div>
-    ),
-    key: 'delete'
-  }
-];
-
-type Lecturer = {
+interface Lecturer {
   [key: string]: any; // 👈️ variable key
   name: string;
-};
+}
+interface Account {
+  [key: string]: any; // 👈️ variable key
+  email: string;
+}
 
 const ListTeacher: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
+  const [formType, setFormType] = useState<'create' | 'update'>('create');
+  const [componentSize, setComponentSize] = useState<SizeType | 'large'>('large');
+  const [form] = Form.useForm();
+
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [openDel, setOpenDel] = useState(false);
+
+  const [lecturerList, setLecturerList] = useState<Lecturer[]>([]);
+  const [accountList, setAccountList] = useState<Account[]>([]);
+  const [data, setData] = useState<DataType[]>([]);
+
+  const [id, setId] = useState(0);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [dataId, setDataId] = useState<DataId[]>([]);
+
+  const locale = {
+    emptyText: 'Không có dữ liệu',
+  };
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
   }, []);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  }, []);
+  const onFormLayoutChange = ({ size }: { size: SizeType }) => {
+    setComponentSize(size);
+  };
 
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: DataIndex
+    dataIndex: keyof DataType
   ) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -85,7 +83,117 @@ const ListTeacher: React.FC = () => {
     setSearchText('');
   };
 
-  const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
+  const handleCreate = () => {
+    setFormType('create');
+    form.setFieldsValue({ name: '', email: '' });
+    setOpen(true);
+  };
+  const handleUpdate = (record: DataType) => {
+    setFormType('update');
+    setId(record.id);
+    form.setFieldsValue({ name: record.name, email: record.email });
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+    setOpenDel(false);
+  };
+  const handleDelete = () => {
+    if (dataId.length === 0) {
+      toast.error('Bạn chưa chọn người dùng nào để xóa!');
+    } else {
+      setOpenDel(true);
+    }
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const onFinish = () => {
+    // if (formType === 'create') {
+    //   const dataName: DataName[] = [];
+    //   dataName.push({ name: name });
+    //   const payload: any = {
+    //     data: dataName
+    //   }
+    //   if (name === '') {
+    //     toast.error('Bạn chưa nhập liên hệ!');
+    //   } else {
+    //     createMultipleContactTypes(payload).then((code) => {
+    //       if (code === 0) {
+    //         toast.success('Tạo liên hệ thành công!');
+    //       } else {
+    //         toast.error('Tạo liên hệ thất bại!');
+    //       }
+    //       getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+    //       setOpen(false);
+    //     });
+    //   }
+    // } else {
+    //   const dataUpdate: DataType = { id: id, name: name };
+    //   if (dataUpdate.name === '') {
+    //     toast.error('Bạn chưa nhập liên hệ!');
+    //   } else {
+    //     updateContactType(dataUpdate).then((code) => {
+    //       if (code === 0) {
+    //         toast.success('Cập nhật liên hệ thành công!');
+    //       } else {
+    //         toast.error('Cập nhật liên hệ thất bại!');
+    //       }
+    //       getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+    //       setOpen(false);
+    //     });
+    //   }
+    // }
+  };
+  const onDelete = () => {
+    // const temp: any = {
+    //   data: dataId
+    // }
+    // const payload: any = {
+    //   data: temp
+    // }
+    // deleteMultipleContactTypes(payload).then((code) => {
+    //   if (code === 0) {
+    //     toast.success('Xóa liên hệ thành công!');
+    //     getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
+    //   } else {
+    //     toast.error('Xóa liên hệ thất bại!');
+    //   }
+    //   setOpenDel(false);
+    // });
+  };
+
+  const rowSelection = {
+    onSelect: (record: any, selected: boolean) => {
+      if (!selected) {
+        const index = dataId.findIndex((item) => item.id === record.id);
+        dataId.splice(index, 1);
+        setDataId(dataId);
+      } else {
+        dataId.push({ id: record.id });
+        setDataId(dataId);
+      }
+    },
+    onSelectAll: (selected: any, selectedRows: any) => {
+      if (!selected) {
+        while (dataId.length != 0) {
+          dataId.splice(0, 1);
+        }
+        setDataId(dataId);
+      } else {
+        while (dataId.length != 0) {
+          dataId.splice(0, 1);
+        }
+        selectedRows.map((item: DataType) => {
+          dataId.push({ id: item.id });
+        });
+        setDataId(dataId);
+      }
+    },
+  };
+
+  const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
@@ -150,11 +258,11 @@ const ListTeacher: React.FC = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'STT',
-      dataIndex: 'stt',
-      key: 'stt',
-      width: '10%',
-      ...getColumnSearchProps('stt')
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+      width: '3%',
+      ...getColumnSearchProps('id')
     },
     {
       title: 'Họ và tên',
@@ -162,20 +270,13 @@ const ListTeacher: React.FC = () => {
       key: 'name',
       width: '30%',
       ...getColumnSearchProps('name')
-      // onCell: () => {
-      //   return {
-      //     onClick: (e) => {
-      //       navigate('/detail-page');
-      //     }
-      //   };
-      // }
     },
     {
-      title: 'Vị trí hiện tại',
-      dataIndex: 'currentPosition',
-      key: 'currentPosition',
-      width: '60%',
-      ...getColumnSearchProps('currentPosition')
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      width: '64%',
+      ...getColumnSearchProps('email')
     },
     {
       title: '',
@@ -183,45 +284,50 @@ const ListTeacher: React.FC = () => {
       key: 'x',
       width: '3%',
       render: (text, record) => (
-        <div style={{ cursor: 'pointer' }} onClick={() => console.log(record.stt, text)}>
-          <Dropdown menu={{ items }}>
-            <MoreOutlined />
-          </Dropdown>
-        </div>
+        <EditOutlined className="edit-button" style={{ cursor: "pointer" }}
+          onClick={() => handleUpdate(record)}
+        />
       )
     }
   ];
 
-  const [email, setEmail] = useState<string>('');
-  const [lecturerList, setLecturerList] = useState<Lecturer>();
-  const handleeOk = () => {
-    signup(email);
-    setOpen(false);
-    window.location.reload();
-  };
-
-  const dataAuthor = lecturerList?.map((item: Lecturer, index: number) => {
-    console.log('🚀 ~ file: index.tsx:204 ~ dataAuthor ~ item:', item);
-
-    return {
-      stt: index + 1,
-      name: item.name,
-      currentPosition: item?.currentDisciplines ? item?.currentDisciplines[0].universityName : ''
-    };
-  });
-
-  console.log(dataAuthor);
-
-  useEffect(() => {
-    const data: Promise<Lecturer> = getListLecturers();
-    data
-      .then((result) => {
+  const fetchLecturerList = () => {
+    useEffect(() => {
+      getListLecturers().then((result) => {
         setLecturerList(result.data.data);
       })
-      .catch((err) => console.log("Can't get data lecturer: ", err));
-  }, []);
+        .catch((err) => console.log("Can't get data lecturer: ", err));
+    }, []);
+  };
+  const fetchAccountList = () => {
+    useEffect(() => {
+      getAllAccounts().then((result) => {
+        setAccountList(result.data.data);
+      })
+        .catch((err) => console.log("Can't get data lecturer: ", err));
+    }, []);
+  };
 
-  console.log(lecturerList);
+  const fetchData = () => {
+    fetchLecturerList();
+    fetchAccountList();
+
+    const dataArray: DataType[] = [];
+    accountList.map((itemAccount: Account, index: number) => {
+      const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+      const newData: DataType = {
+        id: itemAccount.id,
+        name: lecturerList[idx].name,
+        email: itemAccount.email
+      };
+      dataArray.push(newData);
+    });
+
+    if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
+      setData(dataArray);
+    }
+  };
+  fetchData();
 
   return (
     <>
@@ -234,19 +340,18 @@ const ListTeacher: React.FC = () => {
               className="title_table"
               style={{
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-              }}>
-              Danh sách người dùng
-            </span>
-            <button className="button2" onClick={() => setOpen(true)}>
-              <PlusOutlined style={{ marginRight: '10px' }} />
-              Thêm
-            </button>
+              }}>Danh sách người dùng</span>
+            <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+            <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
           </div>
 
           <Table
+            rowKey="id"
+            rowSelection={{ type: 'checkbox', ...rowSelection }}
             pagination={{ pageSize: 7 }}
             columns={columns}
-            dataSource={dataAuthor}
+            locale={locale}
+            dataSource={data}
             rowClassName={(record, index) =>
               index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
             }
@@ -254,21 +359,67 @@ const ListTeacher: React.FC = () => {
 
           <Modal
             className="title_modal"
-            title="Tạo tài khoản mới"
+            title={formType === "create" ? "Thêm người dùng" : "Sửa người dùng"}
             centered
             open={open}
-            onOk={handleeOk}
-            onCancel={() => setOpen(false)}
-            width={800}>
-            <div className="form-input-add">
-              <label className="label-input-add">Email</label>
-              <input
-                type="text"
-                className="email-input-add"
-                placeholder="Nhập email ..."
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+            onOk={() => setOpen(false)}
+            onCancel={handleCancel}
+            width={500}
+            destroyOnClose
+            footer={[]}
+          >
+            <Form
+              form={form}
+              className="modalTeacher modal-popup"
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 14 }}
+              layout="horizontal"
+              onFinish={() => onFinish()}
+              initialValues={{ size: componentSize }}
+              onValuesChange={onFormLayoutChange}
+              size={componentSize as SizeType}
+              style={{ maxWidth: 500 }}
+            >
+              <Form.Item label="Email" name="email">
+                {formType === 'create' ? (
+                  <Input placeholder="Nhập email" value={email} onChange={handleInputChange} />
+                ) : (
+                  <Input value={email} disabled />
+                )}
+              </Form.Item>
+
+              <Form.Item label="Họ tên" name="name">
+                <Input placeholder="Nhập họ tên" value={name} onChange={handleInputChange} />
+              </Form.Item>
+
+              <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
+                <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                  Thoát
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  OK
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
+          <Modal
+            className='title_modal'
+            centered
+            open={openDel}
+            onOk={() => setOpenDel(false)}
+            onCancel={handleCancel}
+            width={500}
+            destroyOnClose
+            footer={[
+              <Button type="primary" htmlType="submit" onClick={onDelete}>
+                Có
+              </Button>,
+              <Button className='btn-cancel' key="back" onClick={handleCancel}>
+                Không
+              </Button>
+            ]}
+          >
+            Bạn có chắc muốn xóa người dùng này không?
           </Modal>
         </div>
       )}
