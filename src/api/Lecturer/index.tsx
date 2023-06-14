@@ -68,6 +68,7 @@ export const editBioProfile = async (data: any, accountId: string | null) => {
       academicTitleGainYear: data.academicTitleGainYear
     }
   });
+  return(res.data.code);
 };
 
 export const editInfoProfile = async (lecturer: any, data: any, accountId: string | null) => {
