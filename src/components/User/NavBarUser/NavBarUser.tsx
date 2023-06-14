@@ -131,9 +131,9 @@ const NavBarUser = () => {
                 className="avatar"
                 src={
                   lecturer === undefined ||
-                    lecturer?.avatar === null ||
-                    lecturer?.avatar === '' ||
-                    lecturer?.avatar === 'data:image/png;base64,'
+                  lecturer?.avatar === null ||
+                  lecturer?.avatar === '' ||
+                  lecturer?.avatar === 'data:image/png;base64,'
                     ? '/assets/images/default_avatar.jpg'
                     : lecturer?.avatar
                 }
