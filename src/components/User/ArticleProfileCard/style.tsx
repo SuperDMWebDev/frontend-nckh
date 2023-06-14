@@ -17,7 +17,7 @@ const Styled = styled.div`
     border-left: 0px;
     border-right: 0px;
 
-    padding: 20px 60px;
+    padding: 20px;
 
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
@@ -64,12 +64,15 @@ const Styled = styled.div`
   }
 
   .right-part {
-    width: 20%;
+    width: 10%;
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
     font-weight: 300;
+    color: #3f51b5;
+    font-size: 16px;
+    font-weight: 500;
 
     &_group {
       display: flex;

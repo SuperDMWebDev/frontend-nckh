@@ -114,7 +114,7 @@ const Styled = styled.div`
   }
 
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
-    left: -5px !important;
+    left: -4px !important;
   }
 `;
 
