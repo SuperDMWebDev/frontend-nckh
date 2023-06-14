@@ -93,6 +93,7 @@ const NavBarUser = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
+          <div className="text__title_navbar">SciConnect</div>
         </div>
         <div className="navbar-tab">
           <ul>
@@ -128,9 +129,9 @@ const NavBarUser = () => {
                 className="avatar"
                 src={
                   lecturer === undefined ||
-                    lecturer?.avatar === null ||
-                    lecturer?.avatar === '' ||
-                    lecturer?.avatar === 'data:image/png;base64,'
+                  lecturer?.avatar === null ||
+                  lecturer?.avatar === '' ||
+                  lecturer?.avatar === 'data:image/png;base64,'
                     ? '/assets/images/default_avatar.jpg'
                     : lecturer?.avatar
                 }
@@ -140,7 +141,7 @@ const NavBarUser = () => {
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <h3>{lecturer?.name}</h3>
               {/* <div className="dropdown-menu__subTitle">Website User</div> */}
-              <ul style={{ display: 'flex', flexDirection: 'column' }}>
+              <ul style={{ display: 'flex', flexDirection: 'column', paddingLeft: '0px' }}>
                 <DropdownItem img={user} text={'Trang cá nhân'} value={'MyProfile'} />
                 <DropdownItem
                   img={help}

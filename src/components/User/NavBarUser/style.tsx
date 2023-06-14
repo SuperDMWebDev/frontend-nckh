@@ -17,28 +17,34 @@ const Styled = styled.div`
       }
     }
   }
-
-  .navbar-tab li {
-    margin-left: 140px;
-    font-weight: 400;
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
   }
 
-  ul {
+  .text__title_navbar {
+    font-size: 20px;
+    color: #4562aa;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+  }
+  .navbar-tab {
+    width: 80%;
+    margin: 0 auto;
+}
+  }
+  .navbar-tab ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
     background-color: transparent !important;
 
     display: flex;
-    align-items: space-between;
-  }
-
-  li {
-    margin-right: 42px;
-  }
-
-  li:last-child {
-    margin-right: 0;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 500px;
   }
 
   li:hover a {
@@ -73,11 +79,11 @@ const Styled = styled.div`
     position: relative;
   }
   .menu-trigger {
-    width: 200px;
+    width: auto;
     display: flex;
     justify-content: flex-end;
     &__space {
-      margin-right: 150px;
+      margin-right: 50px;
     }
   }
 
@@ -92,7 +98,7 @@ const Styled = styled.div`
   .dropdown-menu {
     position: absolute;
     top: 70px;
-    right: 200px;
+    left: -100px;
     background-color: #fff;
     border-radius: 8px;
     padding: 10px 20px;

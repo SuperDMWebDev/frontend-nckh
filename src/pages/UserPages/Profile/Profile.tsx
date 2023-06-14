@@ -53,6 +53,7 @@ export default function Profile() {
   const [link, setLink] = useState<string>('');
   const [linkInner, setLinkInner] = useState<string>('');
   const accountId = localStorage.getItem('accountId');
+  const lecturerId = localStorage.getItem('lecturerId');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [previewAvatar, setPreviewAvatar] = useState<string>('');
@@ -87,7 +88,7 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const data: Promise<Lecturer1> = getInfoProfile(accountId);
+    const data: Promise<Lecturer1> = getInfoProfile(lecturerId);
     data
       .then((result) => {
         setLecturer(result);
@@ -98,7 +99,7 @@ export default function Profile() {
         setPreviewAvatar(result.avatar);
 
         if (result.contacts[3].value.length >= 25) {
-          setLinkInner(result.contacts[3].value.slice(0, 25) + "...");
+          setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
         } else {
           setLinkInner(result.contacts[3].value);
         }
@@ -212,7 +213,7 @@ export default function Profile() {
   const listArti = Object.values(articleList);
   const arr = listArti[0];
 
-  const totalPages = arr?.slice(0).length
+  const totalPages = arr?.slice(0).length;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
@@ -244,8 +245,6 @@ export default function Profile() {
     return visibleButtons;
   };
 
-
-
   return (
     <Styled>
       <div className="header_topbar">
@@ -276,8 +275,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -430,7 +429,7 @@ export default function Profile() {
           <div className="line">.........</div>
           <div>
             <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
-            <div className="field-profile-info" style={{ width: "95%", height: "auto" }}>
+            <div className="field-profile-info" style={{ width: '95%', height: 'auto' }}>
               <AttachmentIcon style={{ fontSize: '20px' }} />
               {!link ? (
                 <>
@@ -445,12 +444,16 @@ export default function Profile() {
                 </>
               ) : (
                 <a
-                  style={{ width: "120px", height: "auto", marginLeft: '5px', color: 'white', textDecoration: 'none' }}
+                  style={{
+                    width: '120px',
+                    height: 'auto',
+                    marginLeft: '5px',
+                    color: 'white',
+                    textDecoration: 'none'
+                  }}
                   href={link}
                   target="_blank">
-                  {
-                    linkInner
-                  }
+                  {linkInner}
                 </a>
               )}
             </div>
@@ -521,18 +524,20 @@ export default function Profile() {
                   <p onClick={() => setOpenEditAvatarModal(true)}>Chỉnh sửa</p>
                 </div>
 
-                <div className="content" style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}>
+                <div
+                  className="content"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
                   <img
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                        lecturer?.avatar == null ||
-                        lecturer?.avatar == '' ||
-                        lecturer?.avatar == 'data:image/png;base64,'
+                      lecturer?.avatar == null ||
+                      lecturer?.avatar == '' ||
+                      lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }
