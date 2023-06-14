@@ -30,7 +30,7 @@ const Styled = styled.div`
   .article-author_title {
     font-weight: normal;
     font-style: italic;
-    width: 160px !important;
+    width: 10% !important;
   }
 
   .article-author_list {
@@ -38,6 +38,8 @@ const Styled = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     font-weight: 500;
+    width: 90%;
+    margin-bottom: 20px;
   }
 
   .article-author_list div {

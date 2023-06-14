@@ -66,7 +66,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() { }
+      onCancel() {}
     });
   }
 
@@ -226,7 +226,12 @@ export default function ArticleDetail() {
                   <span className="subTitle">SGR:</span> {article.SGR}
                 </p>
               )}
-              {article.year && (
+              {article.day && article.month && article.year ? (
+                <p>
+                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} -
+                  {article.year}
+                </p>
+              ) : (
                 <p>
                   <span className="subTitle">Ngày công bố:</span> {article.year}
                 </p>

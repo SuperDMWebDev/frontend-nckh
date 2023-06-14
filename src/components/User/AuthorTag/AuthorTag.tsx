@@ -96,7 +96,7 @@ const AuthorTag = ({ data, handleGetInputTag }: any) => {
           />
         </button>
       </div>
-      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap', width: '700px' }}>
+      <Box sx={{ margin: '0 0 0 0', display: 'flex', flexWrap: 'wrap' }}>
         {authorPayLoads?.map((data, index) => {
           return <Tags data={data} handleDelete={handleDelete} key={index} />;
         })}

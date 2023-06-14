@@ -26,7 +26,7 @@ const ArticleProfileCard = (props: any) => {
     getAuthorList(data);
   }, [data]);
 
-  console.log(authorList)
+  console.log(authorList);
 
   const handleGoToDetail = (id: any) => {
     window.location.replace(`http://localhost:5000/article-detail/${id}`);
@@ -44,21 +44,25 @@ const ArticleProfileCard = (props: any) => {
             </div>
             <div className="user-field">{data?.journal}</div>
             <div>
-              <div style={{ display: "inline" }}>
-                <div className="article-author_list2" style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  flexDirection: "row"
-                }}>
+              <div style={{ display: 'inline' }}>
+                <div
+                  className="article-author_list2"
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    flexDirection: 'row'
+                  }}>
                   {authorList.map((item) => (
-                    <div style={{ marginRight: "4px" }}>{item},</div>
+                    <div style={{ marginRight: '4px' }}>{item},</div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          {data?.rank && <div className="right-part-1">Rank {data?.rank}</div>}
+          <div className="right-part">
+            {data?.rank && data?.rank != 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+          </div>
         </div>
       </div>
     </Styled>

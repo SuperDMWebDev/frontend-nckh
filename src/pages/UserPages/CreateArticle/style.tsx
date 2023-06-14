@@ -119,14 +119,9 @@ const Styled = styled.div`
     margin-bottom: 10px;
   }
 
-  /* .MuiInputLabel-root {
-    font-size: 15px !important;
-    padding-bottom: 20px !important;
+  .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+    left: -4px !important;
   }
-
-  .MuiInput-root {
-    height: 45px !important;
-  } */
 `;
 
 export default Styled;

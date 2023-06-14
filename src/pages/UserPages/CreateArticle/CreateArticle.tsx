@@ -243,6 +243,21 @@ const CreateArticle = () => {
           setSGR(data.SGR);
           setGeneralNote(data.generalNote);
 
+          // tag select
+          const tagSelect = data.tags.filter((e: any) => {
+            return Object.keys(e).includes('tag_id');
+          });
+
+          var listTagSelected: OptionSelect[] = [];
+          tagSelect.map((item: any) => {
+            var obj: OptionSelect = {
+              value: item.tag_id,
+              label: item.tag_name
+            };
+            listTagSelected.push(obj);
+          });
+          setSelectedTag(listTagSelected);
+
           //author select
           const temp = data.authors.filter((e: any) => {
             return Object.keys(e).includes('lecturerId');
@@ -250,10 +265,12 @@ const CreateArticle = () => {
           var listAuthorSelect: OptionSelect[] = [];
           temp.map((item: any) => {
             var obj: OptionSelect = {
-              value: item.lecturer_id,
-              label: item.lecturer_name
+              value: item.lecturerId,
+              label: item.lecturerName
             };
-            listAuthorSelect.push(obj);
+            if (obj.label) {
+              listAuthorSelect.push(obj);
+            }
           });
           setSelectedLecturer(listAuthorSelect);
 
@@ -347,7 +364,7 @@ const CreateArticle = () => {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Tạo bài báo mới thành công!');
-          navigate('/profile');
+          navigate('/my-articles');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
@@ -361,8 +378,7 @@ const CreateArticle = () => {
     }
   };
 
-  console.log('tag', tagList);
-
+  console.log('dat', day);
   useEffect(() => {
     fetchTag();
     fetchLecturer();
@@ -458,7 +474,7 @@ const CreateArticle = () => {
             variant="outlined"
             value={day}
             onChange={(e) => setDay(parseInt(e.target.value))}
-            InputLabelProps={{ style: { fontSize: 15 } }}
+            InputLabelProps={{ style: { fontSize: 15 }, shrink: day != undefined }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
@@ -469,7 +485,7 @@ const CreateArticle = () => {
             variant="outlined"
             value={month}
             onChange={(e) => setMonth(parseInt(e.target.value))}
-            InputLabelProps={{ style: { fontSize: 15 } }}
+            InputLabelProps={{ style: { fontSize: 15 }, shrink: month != undefined }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
@@ -480,7 +496,7 @@ const CreateArticle = () => {
             variant="outlined"
             value={year}
             onChange={(e) => setYear(parseInt(e.target.value))}
-            InputLabelProps={{ style: { fontSize: 15 } }}
+            InputLabelProps={{ style: { fontSize: 15 }, shrink: year != undefined }}
             inputProps={{ style: { fontSize: 15 } }}
             size="small"
             fullWidth
@@ -579,7 +595,7 @@ const CreateArticle = () => {
               isMulti
             />
           </div>
-          <InputTags handleGetInputTag={handleGetTag} />
+          {/* <InputTags handleGetInputTag={handleGetTag} /> */}
         </div>
 
         <div>
