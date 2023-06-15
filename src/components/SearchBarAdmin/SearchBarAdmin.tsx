@@ -19,10 +19,7 @@ function DropdownItem(props: DropdownType) {
     } else if (value === 'Retrieve Scopus Author') {
       navigate('/retrieve-scopus-author');
     } else if (value === 'Logout') {
-      localStorage.removeItem('accountId');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('scopusId');
-      localStorage.removeItem('role');
+      localStorage.clear();
       navigate('/signin');
       // eslint-disable-next-line no-self-assign
       window.location.href = window.location.href;

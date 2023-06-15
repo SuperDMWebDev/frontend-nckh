@@ -60,11 +60,7 @@ const NavBarRetrieveScopus = () => {
         navigate('/retrieve-scopus-author');
         setOpen(false);
       } else if (value === 'Logout') {
-        localStorage.removeItem('accountId');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('scopusId');
-        localStorage.removeItem('role');
-        localStorage.removeItem('lecturerId');
+        localStorage.clear();
         navigate('/signin');
         // eslint-disable-next-line no-self-assign
         window.location.href = window.location.href;
@@ -110,9 +106,9 @@ const NavBarRetrieveScopus = () => {
                 className="avatar"
                 src={
                   lecturer === undefined ||
-                    lecturer?.avatar === null ||
-                    lecturer?.avatar === '' ||
-                    lecturer?.avatar === 'data:image/png;base64,'
+                  lecturer?.avatar === null ||
+                  lecturer?.avatar === '' ||
+                  lecturer?.avatar === 'data:image/png;base64,'
                     ? '/assets/images/default_avatar.jpg'
                     : lecturer?.avatar
                 }

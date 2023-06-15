@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+// @ts-nocheck
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Styled from './style';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmailIcon from '@mui/icons-material/Email';
@@ -10,7 +11,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { getInfoProfile } from '../../../api/Lecturer';
+import { getInfoProfile, uploadFileLecturer } from '../../../api/Lecturer';
 import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +31,7 @@ import ModalEditResearchField from '../../../components/User/ModalLecturer/Modal
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import FileUpload from '../../../components/FileUpload';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -57,6 +59,11 @@ export default function Profile() {
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [previewAvatar, setPreviewAvatar] = useState<string>('');
+  const [files, setFiles] = useState<any[]>([]);
+
+  useEffect(() => {
+    console.log('files change ', files);
+  }, [files]);
 
   const fetchArticle = async () => {
     let param = {
@@ -82,6 +89,10 @@ export default function Profile() {
       }
     }
   };
+
+  const handleUploadFile = useCallback(() => {
+    uploadFileLecturer(files, lecturerId);
+  }, [files, lecturerId]);
 
   useEffect(() => {
     fetchArticle();
@@ -210,8 +221,8 @@ export default function Profile() {
   const itemsPerPage = 5;
   const maxVisibleButtons = 5;
   const scrollTop = useRef<HTMLDivElement>(null);
-  const listArti = Object.values(articleList);
-  const arr = listArti[0];
+  const listArticle = Object.values(articleList);
+  const arr = listArticle[0];
 
   const totalPages = arr?.slice(0).length;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -275,8 +286,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -503,7 +514,7 @@ export default function Profile() {
                   className="modalStyle">
                   <div className="group">
                     <input
-                      required={true}
+                      required
                       type="text"
                       className="input-edit-profile"
                       value={newName}
@@ -535,9 +546,9 @@ export default function Profile() {
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                        lecturer?.avatar == null ||
-                        lecturer?.avatar == '' ||
-                        lecturer?.avatar == 'data:image/png;base64,'
+                      lecturer?.avatar == null ||
+                      lecturer?.avatar == '' ||
+                      lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }
@@ -755,23 +766,17 @@ export default function Profile() {
                   title="Chỉnh sửa thông tin liên quan"
                   centered
                   open={openLinkModal}
-                  onOk={handleSaveLink}
+                  onOk={handleUploadFile}
                   onCancel={() => setOpenLinkModal(false)}
                   width={700}
                   className="modalStyle">
                   <div className="group">
-                    <input
-                      required={true}
-                      type="text"
-                      className="input-edit-profile"
-                      value={link}
-                      onChange={(e) => {
-                        setLink(e.target.value);
-                      }}
-                    />
-                    <span className="highlight-edit-profile"></span>
-                    <span className="bar-edit-profile"></span>
-                    <label className="label-edit-profile">Đường dẫn</label>
+                    <FileUpload files={files} setFiles={setFiles} />
+                    {files.map((file, index) => (
+                      <p className="file" key={index}>
+                        {file.name}
+                      </p>
+                    ))}
                   </div>
                 </Modal>
               </div>
