@@ -102,14 +102,6 @@ export default function ArticleDetail() {
       }
     });
 
-    if (lecturerId) {
-      article?.authors.forEach((item: any) => {
-        if (item?.lecturer_id && item.lecturer_id.toString() === lecturerId) {
-          setIsEnableEdit(true);
-        }
-      });
-    }
-
     setAuthorList(nameList);
   };
 
@@ -121,6 +113,12 @@ export default function ArticleDetail() {
           const { lecturerId } = response.data;
           localStorage.setItem('lecturerId', lecturerId);
         }
+      }
+
+      if (accountId) {
+        setIsEnableEdit(true);
+      } else {
+        setIsEnableEdit(false);
       }
     };
     getInfo();
