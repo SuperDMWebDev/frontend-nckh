@@ -84,6 +84,7 @@ const Styled = styled.div`
     h1 {
       font-size: 25px;
       font-weight: 500;
+      font-family: emoji;
     }
   }
 

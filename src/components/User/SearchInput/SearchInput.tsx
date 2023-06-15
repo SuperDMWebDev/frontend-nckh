@@ -1,15 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { SEARCH_OPTION } from '../../../constants/constant';
 
-const SearchInput = ({ getSearchOption }: any) => {
+const SearchInput = () => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState<string>('');
   const [openOption, setOpenOption] = useState(false);
   const [searchOption, setSearchOption] = useState(SEARCH_OPTION[0]);
+  const [searchIconClicked, setSearchIconClicked] = useState(false);
 
   let optionRef = useRef<HTMLDivElement>(null);
 
@@ -23,9 +25,13 @@ const SearchInput = ({ getSearchOption }: any) => {
     }
   };
 
+  const handleClearSearch = () => {
+    setSearchInput('');
+  };
+
   useEffect(() => {
     let handler = (e: any) => {
-      if (optionRef.current != null) {
+      if (optionRef.current !== null) {
         if (!optionRef.current.contains(e.target)) {
           setOpenOption(false);
         }
@@ -42,14 +48,26 @@ const SearchInput = ({ getSearchOption }: any) => {
   return (
     <Styled>
       <div className="searchContainer">
-        <input
-          type="text"
-          className="input_search"
-          placeholder="Tìm kiếm theo tên hoặc từ khóa"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+        <div className="searchText">
+          <div
+            className={`searchIcon ${searchIconClicked ? 'active' : ''}`}
+            onClick={() => goToSearchPage()}>
+            <FontAwesomeIcon icon={faSearch} style={{ fontSize: '20px' }} />
+          </div>
+          <input
+            type="text"
+            className="input_search"
+            placeholder="Tìm kiếm theo tên hoặc từ khóa"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          {searchInput && (
+            <div className="clearIcon" onClick={handleClearSearch}>
+              <FontAwesomeIcon icon={faTimes} style={{ fontSize: '20px' }} />
+            </div>
+          )}
+        </div>
         <div className="searchOption">
           <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
             <div>{searchOption.label}</div>
@@ -57,8 +75,9 @@ const SearchInput = ({ getSearchOption }: any) => {
           </div>
           {openOption && (
             <div className="searchOption_option" ref={optionRef}>
-              {SEARCH_OPTION.map((item) => (
+              {SEARCH_OPTION.map((item, index) => (
                 <div
+                  key={index}
                   className="searchOption_option_item"
                   onClick={() => {
                     setSearchOption(item);

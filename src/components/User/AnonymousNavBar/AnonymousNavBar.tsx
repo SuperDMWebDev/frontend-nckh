@@ -52,6 +52,10 @@ const AnonymousNavBar = () => {
     navigate('/signin');
   };
 
+  const navigateToHomePage = () => {
+    navigate('/');
+  };
+
   return (
     <Styled>
       <div className="container">
@@ -61,7 +65,9 @@ const AnonymousNavBar = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title_navbar">SciConnect</div>
+          <div className="text__title_navbar" onClick={() => navigateToHomePage()}>
+            SciConnect
+          </div>
         </div>
 
         <div

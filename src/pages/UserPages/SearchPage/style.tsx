@@ -9,6 +9,78 @@ const Styled = styled.div`
     position: relative;
   }
 
+  .disabled {
+    /* Apply the desired styles for the disabled button */
+    opacity: 0.5; /* Example: Reducing opacity */
+    pointer-events: none; /* Example: Disable pointer events */
+    /* Add any other styles you want */
+  }
+
+  .searchPage__title {
+    margin: 20px 0px;
+    font-size: 22px;
+    font-family: monospace;
+  }
+
+  .searchContainer {
+    max-width: 656px;
+    height: 60px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+  }
+
+  .input_search {
+    box-sizing: border-box;
+    color: rgb(50, 50, 50);
+    background: rgb(255, 255, 255);
+    border: none;
+    height: 60px;
+    width: 500px;
+    font-size: 16px;
+    padding: 12px 40px 12px 40px;
+    line-height: 1;
+    border-radius: 50px 0 0 50px;
+    font-family: proxima-nova, sans-serif;
+  }
+
+  .input_search:focus {
+    outline: none;
+  }
+
+  .searchText {
+    position: relative;
+    height: 60px;
+    border-right: #ddd 1px solid;
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .clearIcon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .clearIcon svg {
+    color: #999;
+  }
+
+  .clearIcon:hover svg {
+    color: #555;
+  }
+
   .list_article {
     margin-top: 2rem;
   }
@@ -85,7 +157,7 @@ const Styled = styled.div`
     border-right: 0px;
     border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5;
-    /* 
+    /*
     padding-top: 20px;
     padding-bottom: 20px; */
   }
@@ -402,34 +474,6 @@ const Styled = styled.div`
       margin-top: 15px;
       background-color: #dadada;
     }
-  }
-
-  .searchContainer {
-    max-width: 656px;
-    height: 80px;
-    margin: 15px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-  }
-
-  .input_search {
-    box-sizing: border-box;
-    color: rgb(50, 50, 50);
-    background: rgb(255, 255, 255);
-    border: none;
-    height: 60px;
-    width: 500px;
-    font-size: 16px;
-    padding: 12px 40px 12px 40px;
-    line-height: 1;
-    border-radius: 50px 0 0 50px;
-    font-family: proxima-nova, sans-serif;
-  }
-
-  .input_search:focus {
-    outline: none;
   }
 
   .searchOption {

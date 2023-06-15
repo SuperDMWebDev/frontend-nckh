@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
+  margin-bottom: 50px;
+
   .searchContainer {
     max-width: 656px;
     height: 80px;
@@ -9,6 +11,24 @@ const Styled = styled.div`
     justify-content: center;
     align-items: center;
     border: none;
+  }
+
+  .searchText {
+    position: relative;
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+  .searchIcon.active {
+    color: blue;
   }
 
   .input_search {
@@ -23,10 +43,27 @@ const Styled = styled.div`
     line-height: 1;
     border-radius: 50px 0 0 50px;
     font-family: proxima-nova, sans-serif;
+    border-right: #ddd 1px solid;
   }
 
   .input_search:focus {
     outline: none;
+  }
+
+  .clearIcon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .clearIcon svg {
+    color: #999;
+  }
+
+  .clearIcon:hover svg {
+    color: #555;
   }
 
   .searchOption {

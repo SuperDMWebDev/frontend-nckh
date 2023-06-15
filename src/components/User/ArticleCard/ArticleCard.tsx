@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Styled from './style';
+import { useNavigate } from 'react-router-dom';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
   const [authorList, setAuthorList] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const getAuthorList = (data: any) => {
     let nameList: string[] = [];
@@ -26,7 +28,7 @@ const ArticleCard = (props: any) => {
   }, [data]);
 
   const handleGoToDetail = (id: any) => {
-    window.location.replace(`http://localhost:5000/article-detail/${id}`);
+    navigate(`/article-detail/${id}`);
   };
 
   return (
@@ -41,22 +43,26 @@ const ArticleCard = (props: any) => {
             </div>
             <div className="user-field">{data?.journal}</div>
             <div>
-              <div style={{ display: "inline" }}>
-                <div className="article-author_list2" style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  flexDirection: "row"
-                }}>
-                  {authorList.map((item) => (
-                    <div style={{ marginRight: "4px" }}>{item},</div>
+              <div style={{ display: 'inline' }}>
+                <div
+                  className="article-author_list2"
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    flexDirection: 'row'
+                  }}>
+                  {authorList.map((item, index) => (
+                    <div key={`author-list-${index}`} style={{ marginRight: '4px' }}>
+                      {item},
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          <div className='right-part-1'>
-            {data?.rank && data?.rank != 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+          <div className="right-part-1">
+            {data?.rank && data?.rank !== 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
           </div>
         </div>
       </div>

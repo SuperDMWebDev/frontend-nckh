@@ -182,6 +182,7 @@ const Styled = styled.div`
     color: #4562aa;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 
