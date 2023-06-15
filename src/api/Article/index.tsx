@@ -48,7 +48,11 @@ export const getDetailArticle = async (id: any) => {
 export const createArticle = async (data: any) => {
   try {
     const query = `${BASE_URL}articles/create`;
-    const res = await axios.post(query, data);
+    const res = await axios.post(query, data, {
+      headers: {
+        'Content-type': 'multipart/form-data'
+      }
+    });
 
     return res;
   } catch (error) {

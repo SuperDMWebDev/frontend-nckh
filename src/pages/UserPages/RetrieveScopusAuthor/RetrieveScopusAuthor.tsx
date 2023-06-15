@@ -64,12 +64,12 @@ export default function RetrieveScopusAuthor() {
     setLoading(true);
     const data = await retrieveScopusAccount(accountId, scopusID);
     setLoading(false);
-    if (data.data.data.lecturerId == null) {
+    if (data.data.lecturerId == null) {
       toast.error('Truy xuất Scopus không thành công. Vui lòng thử lại!');
     } else {
       toast.success('Xác nhận tài khoản Scopus thành công!');
       localStorage.setItem('scopusId', scopusID);
-      localStorage.setItem('lecturerId', data.data.data.lecturerId);
+      localStorage.setItem('lecturerId', data.data.lecturerId);
       setTimeout(() => {
         window.location.replace('http://localhost:5000/');
       }, 2000);

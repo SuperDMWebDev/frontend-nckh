@@ -112,6 +112,18 @@ const Styled = styled.div`
   .button_update:hover {
     color: #001be4;
   }
+
+  .file-section {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .fileTitle {
+    font-style: italic;
+  }
 `;
 
 export default Styled;
