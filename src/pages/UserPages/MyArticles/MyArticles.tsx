@@ -43,13 +43,16 @@ export default function MyArticles() {
 
   const itemsPerPage = 7;
   const maxVisibleButtons = 7;
-  const listArti = Object.values(listArticles);
-  const arr = listArti[0];
+  const arr = Object.values(listArticles)[0];
+  const totalPages = Math.ceil(arr?.length / itemsPerPage);
+  useEffect(() => {
+    console.log('currentPage ', currentPage, totalPages);
+  }, [currentPage, totalPages]);
 
   const renderPageButtons = (): JSX.Element[] => {
     const visibleButtons: JSX.Element[] = [];
     const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
-    const endPage: number = Math.floor(arr?.slice(0).length / itemsPerPage + 1);
+    const endPage: number = totalPages;
 
     for (let i = startPage; i <= endPage; i++) {
       visibleButtons.push(
@@ -65,7 +68,6 @@ export default function MyArticles() {
     return visibleButtons;
   };
 
-  const totalPages = arr?.slice(0).length;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
@@ -144,8 +146,8 @@ export default function MyArticles() {
                 }}>
                 {/* Previous button */}
                 <button
-                  className="btn-pre-next"
-                  disabled={currentPage === 1}
+                  className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
+                  disabled={currentPage <= 1}
                   onClick={() => handlePageChange(currentPage - 1)}>
                   <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
                 </button>
@@ -155,8 +157,8 @@ export default function MyArticles() {
 
                 {/* Next button */}
                 <button
-                  className="btn-pre-next"
-                  disabled={currentPage === totalPages}
+                  className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
+                  disabled={currentPage >= totalPages}
                   onClick={() => handlePageChange(currentPage + 1)}>
                   <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
                 </button>
