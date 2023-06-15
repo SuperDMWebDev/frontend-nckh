@@ -79,11 +79,7 @@ const Styled = styled.div`
   .selectInput {
     font-size: 15px;
     width: 170px;
-    z-index: 999;
-  }
-
-  .css-13cymwt-control {
-    /* height: 55px; */
+    /* z-index: 999; */
   }
 
   .selectInputFull {

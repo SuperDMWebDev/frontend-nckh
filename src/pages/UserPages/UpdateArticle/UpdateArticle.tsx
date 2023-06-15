@@ -519,6 +519,7 @@ const UpdateArticle = () => {
             <Select
               options={journalOptionList}
               value={journalOption}
+              styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
               onChange={(option) => handleSelectJournalOption(option)}
             />
           </div>
