@@ -4,6 +4,7 @@ import { editInfoProfile } from '../../../../api/Lecturer';
 import './style.css';
 import { getAllUniversity } from '../../../../api/Lecturer';
 import { getAllContactType } from '../../../../api/Lecturer';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export default function ModalEditInfoProfile(props: any) {
   const lecturer = props.props;
@@ -21,6 +22,7 @@ export default function ModalEditInfoProfile(props: any) {
   const [newLink, setNewLink] = useState<string>(lecturer.contacts[3].value);
   const [universitys, setUniversitys] = useState<any>([]);
   const [contactTypes, setContactTypes] = useState<any>([]);
+  const flagCreate = lecturer.currentDisciplines == undefined ? true : false;
 
   useEffect(() => {
     if (lecturer.contacts !== undefined) {
@@ -138,7 +140,8 @@ export default function ModalEditInfoProfile(props: any) {
       email: { email: newEmail, id: 1 },
       address: { address: newAddress, id: 2 },
       phone: { phone: newPhone, id: 3 },
-      link: { link: lecturer.contacts[3].value, id: 4 }
+      link: { link: lecturer.contacts[3].value, id: 4 },
+      flagCreate: flagCreate
     }
 
     console.log(data);
