@@ -607,3 +607,19 @@ export const uploadFileLecturer = async (files: File[], id: any) => {
     return handleError(error);
   }
 };
+
+export const deleteFileLecturer = async (fileId: any, lecturerId: any) => {
+  try {
+    const query = `${BASE_URL}lecturers/delete-file`;
+    const res = await axios.delete(query, {
+      data: {
+        fileId,
+        lecturerId
+      }
+    });
+
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
