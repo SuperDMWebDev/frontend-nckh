@@ -175,8 +175,8 @@ export default function RetrieveScopusAuthor() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 style={{
-                  border: "none",
-                  borderRadius: "10px"
+                  border: 'none',
+                  borderRadius: '10px'
                 }}>
                 <Box sx={style}>
                   <Typography

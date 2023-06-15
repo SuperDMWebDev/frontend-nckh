@@ -159,6 +159,7 @@ export default function ArticleDetail() {
               ))}
             </div>
           </div>
+
           <div className="article-info">
             <div>
               {article.journal && (
@@ -234,6 +235,30 @@ export default function ArticleDetail() {
                   <span className="subTitle">Ngày công bố:</span> {article.year}
                 </p>
               )}
+            </div>
+          </div>
+
+          <div className="file-section">
+            <div className="fileTitle">Tập tin: </div>
+            <div className="field-profile-info">
+              {!article.files
+                ? null
+                : article.files.map((item: any, index: any) => (
+                    <div key={index}>
+                      <a
+                        style={{
+                          width: '120px',
+                          height: 'auto',
+                          marginLeft: '5px',
+                          textDecoration: 'none'
+                        }}
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {item.original_file_name}
+                      </a>
+                    </div>
+                  ))}
             </div>
           </div>
 

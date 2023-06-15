@@ -79,11 +79,7 @@ const Styled = styled.div`
   .selectInput {
     font-size: 15px;
     width: 170px;
-    z-index: 999;
-  }
-
-  .css-13cymwt-control {
-    /* height: 55px; */
+    /* z-index: 999; */
   }
 
   .selectInputFull {
@@ -121,6 +117,12 @@ const Styled = styled.div`
 
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
     left: -4px !important;
+  }
+
+  .file {
+    font-size: 16px;
+    color: #1677ff;
+    margin-top: 5px;
   }
 `;
 

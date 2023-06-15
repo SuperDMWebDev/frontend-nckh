@@ -13,6 +13,7 @@ import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
+import FileUpload from '../../../components/FileUpload';
 
 const { Search } = Input;
 
@@ -117,6 +118,8 @@ const CreateArticle = () => {
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
   const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
   const [authorFetch, setAuthorFetch] = useState<any[]>([]);
+
+  const [files, setFiles] = useState<any[]>([]);
 
   const handleGetJournalConference = (e: any) => {
     setJournalConferenceText(e.target.value);
@@ -358,7 +361,11 @@ const CreateArticle = () => {
     };
 
     var bodyFormData = new FormData();
+
     bodyFormData.append('data', JSON.stringify(data));
+    files.forEach((file) => {
+      bodyFormData.append('files', file);
+    });
 
     const res = await createArticle(bodyFormData);
     if (res) {
@@ -614,6 +621,15 @@ const CreateArticle = () => {
           <div style={{ marginTop: '20px' }}>
             <AuthorTag data={authorFetch} handleGetInputTag={handleGetAuthor} />
           </div>
+        </div>
+
+        <div style={{ marginBottom: '30px' }}>
+          <FileUpload files={files} setFiles={setFiles} />
+          {files.map((file, index) => (
+            <p className="file" key={index}>
+              {file.name}
+            </p>
+          ))}
         </div>
 
         <div className="btnContainer">

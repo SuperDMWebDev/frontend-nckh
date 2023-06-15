@@ -641,7 +641,6 @@ export const getListLecturers = async () => {
 };
 
 export const uploadFileLecturer = async (files: File[], id: any) => {
-  console.log('🚀 ~ file: index.tsx:590 ~ uploadFileLecturer ~ files:', files, id);
   try {
     const query = `${BASE_URL}lecturers/upload-file`;
     const formData = new FormData();

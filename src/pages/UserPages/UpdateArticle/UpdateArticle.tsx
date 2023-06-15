@@ -15,6 +15,7 @@ import AuthorTag from '../../../components/User/AuthorTag/AuthorTag';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
+import FileUpload from '../../../components/FileUpload';
 
 const { Search } = Input;
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -163,6 +164,8 @@ const UpdateArticle = () => {
 
   const [authorFetch, setAuthorFetch] = useState<any[]>([]);
 
+  const [files, setFiles] = useState<any[]>([]);
+
   const fetchTag = async () => {
     const res = await getTag();
     if (res) {
@@ -281,12 +284,14 @@ const UpdateArticle = () => {
 
           var listAuthorSelect: OptionSelect[] = [];
           temp.map((item: any) => {
-            var obj: OptionSelect = {
-              value: item.lecturer_id,
-              label: item.lecturer_name
-            };
-            if (obj.label) {
-              listAuthorSelect.push(obj);
+            if (lecturerId != item.lecturer_id) {
+              var obj: OptionSelect = {
+                value: item.lecturer_id,
+                label: item.lecturer_name
+              };
+              if (obj.label) {
+                listAuthorSelect.push(obj);
+              }
             }
           });
           setSelectedLecturer(listAuthorSelect);
@@ -451,6 +456,10 @@ const UpdateArticle = () => {
     };
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));
+    files.forEach((file) => {
+      bodyFormData.append('files', file);
+    });
+
     const res = await updateArticle(bodyFormData, id);
     if (res) {
       switch (res.status) {
@@ -519,6 +528,7 @@ const UpdateArticle = () => {
             <Select
               options={journalOptionList}
               value={journalOption}
+              styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
               onChange={(option) => handleSelectJournalOption(option)}
             />
           </div>
@@ -706,6 +716,15 @@ const UpdateArticle = () => {
           <div style={{ marginTop: '20px' }}>
             <AuthorTag data={authorFetch} handleGetInputTag={handleGetAuthor} />
           </div>
+        </div>
+
+        <div style={{ marginBottom: '30px' }}>
+          <FileUpload files={files} setFiles={setFiles} />
+          {files.map((file, index) => (
+            <p className="file" key={index}>
+              {file.name}
+            </p>
+          ))}
         </div>
 
         <div className="btnContainer">

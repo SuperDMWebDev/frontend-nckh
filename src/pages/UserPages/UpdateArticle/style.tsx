@@ -116,6 +116,12 @@ const Styled = styled.div`
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
     left: -4px !important;
   }
+
+  .file {
+    font-size: 16px;
+    color: #1677ff;
+    margin-top: 5px;
+  }
 `;
 
 export default Styled;
