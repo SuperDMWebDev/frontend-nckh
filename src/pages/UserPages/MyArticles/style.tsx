@@ -9,6 +9,13 @@ const Styled = styled.div`
     position: relative;
   }
 
+  .disabled {
+    /* Apply the desired styles for the disabled button */
+    opacity: 0.5; /* Example: Reducing opacity */
+    pointer-events: none; /* Example: Disable pointer events */
+    /* Add any other styles you want */
+  }
+
   .list_article {
     margin-top: 2rem;
   }
