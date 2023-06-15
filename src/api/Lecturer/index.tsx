@@ -73,57 +73,110 @@ export const editBioProfile = async (data: any, lecturerId: string | null) => {
 };
 
 export const editInfoProfile = async (lecturer: any, data: any, lecturerId: string | null) => {
-  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    data: {
-      id: lecturer.id,
-      name: lecturer.name,
-      gender: data.newGender,
-      avatar: lecturer.avatar,
-      dateOfBirth: data.newDateOfBirth,
-      bio: lecturer.bio,
-      academicRankId: lecturer.academicRankId,
-      academicRankGainYear: lecturer.academicRankGainYear,
-      academicTitleId: lecturer.academicTitleId,
-      academicTitleGainYear: lecturer.academicTitleGainYear,
-      contacts: [
-        {
-          id: lecturer.contacts[0].id,
-          contactTypeId: 1,
-          value: data.email.email,
-          update: true
-        },
-        {
-          id: lecturer.contacts[1].id,
-          contactTypeId: 2,
-          value: data.address.address,
-          update: true
-        },
-        {
-          id: lecturer.contacts[2].id,
-          contactTypeId: 3,
-          value: data.phone.phone,
-          update: true
-        },
-        {
-          id: lecturer.contacts[3].id,
-          contactTypeId: 4,
-          value: data.link.link,
+  if (data.flagCreate == false) {
+    const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        id: lecturer.id,
+        name: lecturer.name,
+        gender: data.newGender,
+        avatar: lecturer.avatar,
+        dateOfBirth: data.newDateOfBirth,
+        bio: lecturer.bio,
+        academicRankId: lecturer.academicRankId,
+        academicRankGainYear: lecturer.academicRankGainYear,
+        academicTitleId: lecturer.academicTitleId,
+        academicTitleGainYear: lecturer.academicTitleGainYear,
+        contacts: [
+          {
+            id: lecturer.contacts[0].id,
+            contactTypeId: 1,
+            value: data.email.email,
+            update: true
+          },
+          {
+            id: lecturer.contacts[1].id,
+            contactTypeId: 2,
+            value: data.address.address,
+            update: true
+          },
+          {
+            id: lecturer.contacts[2].id,
+            contactTypeId: 3,
+            value: data.phone.phone,
+            update: true
+          },
+          {
+            id: lecturer.contacts[3].id,
+            contactTypeId: 4,
+            value: data.link.link,
+            update: true
+          }
+        ],
+        currentDiscipline: {
+          id: lecturer.currentDisciplines[0].id,
+          lecturerId: lecturerId,
+          departmentName: data.newDepartmentName,
+          universityId: data.newUniversity,
+          position: data.newCurrentDisciplines,
           update: true
         }
-      ],
-      currentDiscipline: {
-        id: lecturer.currentDisciplines[0].id,
-        lecturerId: lecturerId,
-        departmentName: data.newDepartmentName,
-        universityId: data.newUniversity,
-        position: data.newCurrentDisciplines,
-        update: true
       }
-    }
-  });
+    });
+  } else {
+    const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        id: lecturer.id,
+        name: lecturer.name,
+        gender: data.newGender,
+        avatar: lecturer.avatar,
+        dateOfBirth: data.newDateOfBirth,
+        bio: lecturer.bio,
+        academicRankId: lecturer.academicRankId,
+        academicRankGainYear: lecturer.academicRankGainYear,
+        academicTitleId: lecturer.academicTitleId,
+        academicTitleGainYear: lecturer.academicTitleGainYear,
+        contacts: [
+          {
+            id: lecturer.contacts[0].id,
+            contactTypeId: 1,
+            value: data.email.email,
+            update: true
+          },
+          {
+            id: lecturer.contacts[1].id,
+            contactTypeId: 2,
+            value: data.address.address,
+            update: true
+          },
+          {
+            id: lecturer.contacts[2].id,
+            contactTypeId: 3,
+            value: data.phone.phone,
+            update: true
+          },
+          {
+            id: lecturer.contacts[3].id,
+            contactTypeId: 4,
+            value: data.link.link,
+            update: true
+          }
+        ],
+        currentDiscipline: {
+          lecturerId: lecturerId,
+          departmentName: data.newDepartmentName,
+          universityId: data.newUniversity,
+          position: data.newCurrentDisciplines,
+          create: true
+        }
+      }
+    });
+  }
 };
 
 export const editLinkProfile = async (lecturer: any, link: any, lecturerId: string | null) => {
