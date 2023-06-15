@@ -7,7 +7,7 @@ type Lecturer1 = {
 };
 
 const token = localStorage.getItem('accessToken');
-const lecturerId = localStorage.getItem("lecturerId");
+const lecturerId = localStorage.getItem('lecturerId');
 
 const handleError = (error: any) => {
   const { response, message } = error;
@@ -69,7 +69,7 @@ export const editBioProfile = async (data: any, lecturerId: string | null) => {
       academicTitleGainYear: data.academicTitleGainYear
     }
   });
-  return (res.data.code);
+  return res.data.code;
 };
 
 export const editInfoProfile = async (lecturer: any, data: any, lecturerId: string | null) => {
@@ -581,6 +581,27 @@ export const getListLecturers = async () => {
   try {
     const query = `${BASE_URL}lecturers/fetch?pageOffset=1&limitSize=10`;
     const res = await axios.get(query);
+    return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const uploadFileLecturer = async (files: File[], id: any) => {
+  console.log('🚀 ~ file: index.tsx:590 ~ uploadFileLecturer ~ files:', files, id);
+  try {
+    const query = `${BASE_URL}lecturers/upload-file`;
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
+    formData.append('id', id);
+    const res = await axios.post(query, formData, {
+      headers: {
+        'Content-type': 'multipart/form-data'
+      }
+    });
+
     return res;
   } catch (error) {
     return handleError(error);

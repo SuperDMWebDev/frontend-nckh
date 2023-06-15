@@ -29,6 +29,7 @@ const App = () => {
   const isLogin = !!localStorage.getItem('accessToken');
   console.log('🚀 ~ file: App.tsx:35 ~ App ~ isLogin:', isLogin);
   const scopusId = localStorage.getItem('scopusId');
+  console.log('🚀 ~ file: App.tsx:31 ~ App ~ scopusId:', scopusId);
   const roleUser = localStorage.getItem('role');
 
   return (

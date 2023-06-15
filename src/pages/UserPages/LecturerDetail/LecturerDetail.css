@@ -1,129 +1,136 @@
 .modalStyle .img-avatar-edit {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin: 0 auto;
-    margin-top: 30px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 
 .modalStyle .header-edit-profile {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .modalStyle .header-edit-profile h2 {
-    font-weight: bold;
-    font-size: 22px;
+  font-weight: bold;
+  font-size: 22px;
 }
 
 .modalStyle .header-edit-profile p {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .modalStyle .header-edit-profile p:hover {
-    color: blue;
-    text-decoration: underline;
+  color: blue;
+  text-decoration: underline;
 }
 
 .modalStyle .content {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .group {
-    position: relative;
-    margin-top: 40px;
-    margin-left: 20px;
-    margin-bottom: 40px;
+  position: relative;
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-bottom: 40px;
+}
+
+.group .file {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
 }
 
 .input-edit-profile {
-    font-size: 16px;
-    padding: 5px 5px 5px 5px;
-    display: block;
-    width: 600px;
-    border: none;
-    border-bottom: 1px solid #515151;
-    background: transparent;
+  font-size: 16px;
+  padding: 5px 5px 5px 5px;
+  display: block;
+  width: 600px;
+  border: none;
+  border-bottom: 1px solid #515151;
+  background: transparent;
 }
 
 .input-edit-profile:focus {
-    outline: none;
+  outline: none;
 }
 
 .label-edit-profile {
-    color: #999;
-    font-size: 18px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 5px;
-    top: 5px;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
 }
 
-.input-edit-profile:focus~.label-edit-profile,
-.input-edit-profile:valid~.label-edit-profile {
-    top: -20px;
-    font-size: 14px;
-    color: #5264AE;
+.input-edit-profile:focus ~ .label-edit-profile,
+.input-edit-profile:valid ~ .label-edit-profile {
+  top: -20px;
+  font-size: 14px;
+  color: #5264ae;
 }
 
 .bar-edit-profile {
-    position: relative;
-    display: block;
-    width: 600px;
+  position: relative;
+  display: block;
+  width: 600px;
 }
 
 .bar-edit-profile:before,
 .bar-edit-profile:after {
-    content: '';
-    height: 2px;
-    width: 0;
-    bottom: 1px;
-    position: absolute;
-    background: #5264AE;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #5264ae;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
 }
 
 .bar-edit-profile:before {
-    left: 50%;
+  left: 50%;
 }
 
 .bar-edit-profile:after {
-    right: 50%;
+  right: 50%;
 }
 
-.input-edit-profile:focus~.bar-edit-profile:before,
-.input-edit-profile:focus~.bar-edit-profile:after {
-    width: 50%;
+.input-edit-profile:focus ~ .bar-edit-profile:before,
+.input-edit-profile:focus ~ .bar-edit-profile:after {
+  width: 50%;
 }
 
 .highlight-edit-profile {
-    position: absolute;
-    height: 60%;
-    width: 100px;
-    top: 25%;
-    left: 0;
-    pointer-events: none;
-    opacity: 0.5;
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
-.input-edit-profile:focus~.highlight-edit-profile {
-    animation: inputHighlighter 0.3s ease;
+.input-edit-profile:focus ~ .highlight-edit-profile {
+  animation: inputHighlighter 0.3s ease;
 }
 
 @keyframes inputHighlighter {
-    from {
-        background: #5264AE;
-    }
+  from {
+    background: #5264ae;
+  }
 
-    to {
-        width: 0;
-        background: transparent;
-    }
+  to {
+    width: 0;
+    background: transparent;
+  }
 }

@@ -16,7 +16,6 @@ const NavBarUser = () => {
   const [logined, setLogined] = useState(true);
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
-  const accountId: string | null = localStorage.getItem('accountId');
   const lectureId: string | null = localStorage.getItem('lecturerId');
   console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
@@ -40,6 +39,7 @@ const NavBarUser = () => {
       }
     };
     document.addEventListener('mousedown', handler);
+
     return () => {
       document.removeEventListener('mousedown', handler);
     };
@@ -59,11 +59,7 @@ const NavBarUser = () => {
         navigate('/retrieve-scopus-author');
         setOpen(false);
       } else if (value === 'logout') {
-        localStorage.removeItem('accountId');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('scopusId');
-        localStorage.removeItem('role');
-        localStorage.removeItem('lectureId');
+        localStorage.clear();
         navigate('/signin');
         // eslint-disable-next-line no-self-assign
         window.location.href = window.location.href;
