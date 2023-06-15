@@ -65,13 +65,13 @@ export default function RetrieveScopusAuthor() {
     const data = await retrieveScopusAccount(accountId, scopusID);
     setLoading(false);
     if (data.data.data.lecturerId == null) {
-      toast.error("Truy xuất Scopus không thành công. Vui lòng thử lại!");
+      toast.error('Truy xuất Scopus không thành công. Vui lòng thử lại!');
     } else {
-      toast.success("Xác nhận tài khoản Scopus thành công!");
-      localStorage.setItem("scopusId", scopusID);
-      localStorage.setItem("lecturerId", data.data.data.lecturerId);
+      toast.success('Xác nhận tài khoản Scopus thành công!');
+      localStorage.setItem('scopusId', scopusID);
+      localStorage.setItem('lecturerId', data.data.data.lecturerId);
       setTimeout(() => {
-        window.location.replace("http://localhost:5000/");
+        window.location.replace('http://localhost:5000/');
       }, 2000);
     }
   };
@@ -82,11 +82,19 @@ export default function RetrieveScopusAuthor() {
 
   return (
     <Styled>
-      {
-        loading ? <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      {loading ? (
+        <div
+          style={{
+            marginTop: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
           <Loader />
-          <div className='text-loading'>Đang truy xuất dữ liệu ... </div>
-        </div> : <>
+          <div className="text-loading">Đang truy xuất dữ liệu ... </div>
+        </div>
+      ) : (
+        <>
           <div className="form-body">
             <div className="form-data">
               <h1> Truy xuất tác giả Scopus </h1>
@@ -112,12 +120,8 @@ export default function RetrieveScopusAuthor() {
                 </div>
               </div>
               <div className="btn-confirm">
-                <button className="cta" onClick={handleConfirm}>
-                  <span>Xác nhận</span>
-                  <svg viewBox="0 0 13 10" height="10px" width="15px">
-                    <path d="M1,5 L11,5"></path>
-                    <polyline points="8 1 12 5 8 9"></polyline>
-                  </svg>
+                <button className="button" onClick={handleConfirm}>
+                  Xác nhận
                 </button>
               </div>
 
@@ -192,13 +196,13 @@ export default function RetrieveScopusAuthor() {
                       <Button
                         className="btn_notification"
                         variant="contained"
-                        color="error"
                         onClick={handleClose}
                         style={{
                           width: '100px',
                           textTransform: 'none',
                           height: '45px',
-                          fontSize: '14px'
+                          fontSize: '14px',
+                          backgroundColor: '#cccccc'
                         }}>
                         Quay lại
                       </Button>
@@ -225,7 +229,7 @@ export default function RetrieveScopusAuthor() {
             </div>
           </div>
         </>
-      }
+      )}
     </Styled>
   );
 }
