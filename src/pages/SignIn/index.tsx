@@ -10,6 +10,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import Footer from '../../components/Footer';
 import { Button, Modal } from 'antd';
+import { forgetPassword } from '../../api/Account';
 
 const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
@@ -68,11 +69,19 @@ const SignIn = () => {
   }, []);
 
   const [openChangePwdModal, setOpenChangePwdModal] = useState(false);
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
 
-  const handleSendEmail = () => {
-
-  }
+  const handleSendEmail = async () => {
+    const res: any = await forgetPassword(email);
+    console.log('🚀 ~ file: index.tsx:75 ~ handleSendEmail ~ res:', res);
+    if (res.code === 0) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
+    setOpenChangePwdModal(false);
+    setEmail('');
+  };
 
   return (
     <Styled>
@@ -175,11 +184,11 @@ const SignIn = () => {
                     footer={[
                       <Button
                         key="submit"
-                        style={{ backgroundColor: 'red', color: 'white' }}
+                        style={{ backgroundColor: 'gray', color: 'white' }}
                         onClick={() => setOpenChangePwdModal(false)}>
                         Hủy
                       </Button>,
-                      <Button key="submit" type="primary" onClick={handleSendEmail}>
+                      <Button key="submit" type="primary" onClick={() => handleSendEmail()}>
                         Gửi
                       </Button>
                     ]}
@@ -208,7 +217,8 @@ const SignIn = () => {
                 <p className="text-disclaimer">
                   {/* By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
                   and Children’s Privacy Policy. */}
-                  Bằng cách Đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi. Vui lòng đọc Chính sách quyền riêng tư và Quyền riêng tư của trẻ em.
+                  Bằng cách Đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi. Vui lòng
+                  đọc Chính sách quyền riêng tư và Quyền riêng tư của trẻ em.
                 </p>
               </div>
             </div>

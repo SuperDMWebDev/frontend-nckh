@@ -1,33 +1,119 @@
-import React from 'react';
-import './style.css'
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Styled from './style';
+import { toast } from 'react-toastify';
+import { resetPassword } from '../../../api/Account';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 export default function ResetPassword() {
-    return (
-        <div className='reset-password-form'>
-            <form className="form">
-                <p className="form-title">Khôi phục mật khẩu</p>
-                <div className="input-container">
-                    <input placeholder="Mật khẩu mới" type="password" />
-                    <span>
-                        <svg stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
-                        </svg>
-                    </span>
-                </div>
-                <div className="input-container">
-                    <input placeholder="Nhập lại mật khẩu" type="password" className='input-reset-pwd' />
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<any>({}); // State variable to track form validation errors
+  const navigate = useNavigate();
 
-                    <span>
-                        <svg stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
-                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
-                        </svg>
-                    </span>
-                </div>
-                <button className="submit" type="submit">
-                    Xác nhận
-                </button>
-            </form>
-        </div>
-    )
+  const schema = Yup.object().shape({
+    newPassword: Yup.string()
+      .required('New password is required.')
+      .min(8, 'Password is too short - should be at least 8 characters')
+      .matches(/^(?=.*[A-Z])/, 'Must contain at least one uppercase character')
+      .matches(/^(?=.*[0-9])/, 'Must contain at least one number')
+      .matches(/^(?=.*[!@#%&])/, 'Must contain at least one special character'),
+    confirmPassword: Yup.string()
+      .required('Confirm password is required.')
+      .oneOf([Yup.ref('newPassword')], 'Passwords do not match.')
+  });
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    // Validate the form fields
+    try {
+      await schema.validate({ newPassword, confirmPassword }, { abortEarly: false });
+    } catch (error) {
+      const validationErrors: any = {};
+      error.inner.forEach((err: any) => {
+        validationErrors[err.path] = err.message;
+      });
+
+      setErrors(validationErrors);
+
+      return;
+    }
+
+    if (newPassword === confirmPassword) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      if (token && newPassword) {
+        const res = await resetPassword(token, newPassword);
+        console.log('🚀 ~ file: ResetPassword.tsx:23 ~ handleSubmit ~ res:', res);
+        if (res.code === 0) {
+          toast.success(res.message);
+          navigate('/signin');
+        } else {
+          toast.error(res.message);
+        }
+      } else {
+        toast.error('Check your token and password');
+      }
+    } else {
+      toast.error('Passwords do not match!');
+    }
+
+    // Reset the form fields
+    setNewPassword('');
+    setConfirmPassword('');
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  return (
+    <Styled>
+      <div className="reset-password-form">
+        <h1>Password Reset</h1>
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="new-password">New Password:</label>
+          <div className="password-input">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="new-password"
+              name="newPassword"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              required
+            />
+            <span className="password-toggle" onClick={toggleShowPassword}>
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </span>
+          </div>
+          {errors.newPassword && <span className="error">{errors.newPassword}</span>}
+
+          <label htmlFor="confirm-password">Confirm Password:</label>
+          <div className="password-input">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="confirm-password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              required
+            />
+            <span className="password-toggle" onClick={toggleShowPassword}>
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </span>
+          </div>
+          {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+
+          {errors.general && <span className="error">{errors.general}</span>}
+
+          <input type="submit" value="Reset Password" />
+        </form>
+      </div>
+    </Styled>
+  );
 }

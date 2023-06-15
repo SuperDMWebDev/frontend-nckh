@@ -13,13 +13,11 @@ const handleError = (error: any) => {
 
 export const getAllAccounts = async () => {
   try {
-    const res = await axios.get(`${BASE_URL}accounts`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    const res = await axios.get(`${BASE_URL}accounts`, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    );
+    });
     return res;
   } catch (error) {
     return handleError(error);
@@ -34,16 +32,32 @@ export const createAccount = async (account_create: any) => {
   });
 };
 
+export const resetPassword = async (token: any, password: any) => {
+  const res = await axios.post(`${BASE_URL}auth/forget-change-password`, {
+    token,
+    password
+  });
+
+  return res.data;
+};
+
+export const forgetPassword = async (email: any) => {
+  const res = await axios.post(`${BASE_URL}auth/forget-password`, {
+    email
+  });
+
+  return res.data;
+};
+
 export const retrieveScopusAccount = async (accountId: any, scopusId: any) => {
   const res = await axios.post(`${BASE_URL}scopus/author/save`, {
     data: {
       scopusAuthorId: scopusId,
       accountId: accountId
     }
-  }
-  );
+  });
 
-  return res;
+  return res.data;
 };
 
 export const signup = async (email: string) => {
@@ -56,14 +70,11 @@ export const signup = async (email: string) => {
 };
 
 export const getEmailByAccountId = async (accountId: string) => {
-  const res = await axios.get(
-    `${BASE_URL}accounts/${accountId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+  const res = await axios.get(`${BASE_URL}accounts/${accountId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  );
+  });
 
   return res.data.data.email;
 };

@@ -4,5 +4,8 @@ export const defaultToastConfig = {
   hideProgressBar: false,
   closeOnClick: true,
   limit: 1,
-  draggable: false
+  draggable: false,
+  toastStyle: {
+    fontSize: '16px'
+  }
 };
