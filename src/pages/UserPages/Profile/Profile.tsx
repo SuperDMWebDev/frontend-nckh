@@ -11,7 +11,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { getInfoProfile, uploadFileLecturer } from '../../../api/Lecturer';
+import { deleteFileLecturer, getInfoProfile, uploadFileLecturer } from '../../../api/Lecturer';
 import { Button, Modal } from 'antd';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
@@ -32,6 +32,8 @@ import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalE
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import FileUpload from '../../../components/FileUpload';
+import { toast } from 'react-toastify';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -59,11 +61,18 @@ export default function Profile() {
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [previewAvatar, setPreviewAvatar] = useState<string>('');
+  const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
 
-  useEffect(() => {
-    console.log('files change ', files);
-  }, [files]);
+  // ----  MODAL ----
+  const [openBioModal, setOpenBioModal] = useState(false);
+  const [openInfoModal, setOpenInfoModal] = useState(false);
+  const [openLinkModal, setOpenLinkModal] = useState(false);
+  const [openEditProfile, setOpenEditProfile] = useState(false);
+  const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
+  const [openEditNameModal, setOpenEditNameModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [newName, setNewName] = useState<string | undefined>();
 
   const fetchArticle = async () => {
     let param = {
@@ -90,24 +99,17 @@ export default function Profile() {
     }
   };
 
-  const handleUploadFile = useCallback(() => {
-    uploadFileLecturer(files, lecturerId);
-  }, [files, lecturerId]);
-
-  useEffect(() => {
-    fetchArticle();
-  }, []);
-
-  useEffect(() => {
-    const data: Promise<Lecturer1> = getInfoProfile(lecturerId);
-    data
+  const getInfoLecturer = useCallback(() => {
+    getInfoProfile(lecturerId)
       .then((result) => {
+        console.log('🚀 ~ file: Profile.tsx:99 ~ .then ~ result:', result);
         setLecturer(result);
         setEmail(result.contacts[0].value);
         setAddress(result.contacts[1].value);
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
         setPreviewAvatar(result.avatar);
+        setLecturerFiles(result.lecturerFiles);
 
         if (result.contacts[3].value.length >= 25) {
           setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
@@ -120,7 +122,39 @@ export default function Profile() {
         result.bio !== null || result.bio !== 'null' ? setBio(result.bio) : setBio('');
       })
       .catch((err) => console.log("Can't get data lecturer: ", err));
+  }, [lecturerId]);
+
+  const handleUploadFile = useCallback(async () => {
+    const { data } = await uploadFileLecturer(files, lecturerId);
+    if (data.code === 0) {
+      toast.success(data.message);
+      setOpenLinkModal(false);
+      await getInfoLecturer();
+    } else {
+      toast.error(data.message);
+    }
+  }, [files, lecturerId, getInfoLecturer]);
+
+  const handleDeleteLecturerFile = useCallback(
+    async (fileId) => {
+      const { data } = await deleteFileLecturer(fileId, lecturerId);
+      if (data.code === 0) {
+        toast.success(data.message);
+        await getInfoLecturer();
+      } else {
+        toast.error(data.message);
+      }
+    },
+    [lecturerId]
+  );
+
+  useEffect(() => {
+    fetchArticle();
   }, []);
+
+  useEffect(() => {
+    getInfoLecturer();
+  }, [getInfoLecturer]);
 
   console.log(lecturer);
 
@@ -152,16 +186,6 @@ export default function Profile() {
   const handleLinkArticleDetail = () => {
     window.location.replace('/profile/article-detail');
   };
-
-  // ----  MODAL ----
-  const [openBioModal, setOpenBioModal] = useState(false);
-  const [openInfoModal, setOpenInfoModal] = useState(false);
-  const [openLinkModal, setOpenLinkModal] = useState(false);
-  const [openEditProfile, setOpenEditProfile] = useState(false);
-  const [openEditAvatarModal, setOpenEditAvatarModal] = useState(false);
-  const [openEditNameModal, setOpenEditNameModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [newName, setNewName] = useState<string | undefined>();
 
   const handleOkBio = () => {
     setLoading(true);
@@ -441,9 +465,9 @@ export default function Profile() {
           <div>
             <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
             <div className="field-profile-info" style={{ width: '95%', height: 'auto' }}>
-              <AttachmentIcon style={{ fontSize: '20px' }} />
-              {!link ? (
+              {!lecturerFiles ? (
                 <>
+                  <AttachmentIcon style={{ fontSize: '20px' }} />
                   <span
                     style={{
                       fontSize: '13px',
@@ -454,18 +478,24 @@ export default function Profile() {
                   </span>
                 </>
               ) : (
-                <a
-                  style={{
-                    width: '120px',
-                    height: 'auto',
-                    marginLeft: '5px',
-                    color: 'white',
-                    textDecoration: 'none'
-                  }}
-                  href={link}
-                  target="_blank">
-                  {linkInner}
-                </a>
+                lecturerFiles.map((item, index) => (
+                  <div key={index}>
+                    <AttachmentIcon style={{ fontSize: '20px' }} />
+                    <a
+                      style={{
+                        width: '120px',
+                        height: 'auto',
+                        marginLeft: '5px',
+                        color: 'white',
+                        textDecoration: 'none'
+                      }}
+                      href={item.filePath}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {item.originalFileName}
+                    </a>
+                  </div>
+                ))
               )}
             </div>
           </div>
@@ -740,9 +770,9 @@ export default function Profile() {
 
                 <div>
                   <div className="field-profile-info">
-                    <AttachmentIcon style={{ fontSize: '20px' }} />
-                    {!link ? (
+                    {!lecturerFiles ? (
                       <>
+                        <AttachmentIcon style={{ fontSize: '20px' }} />
                         <span
                           style={{
                             fontSize: '13px',
@@ -753,11 +783,27 @@ export default function Profile() {
                         </span>
                       </>
                     ) : (
-                      <a
-                        style={{ marginLeft: '5px', color: 'black', textDecoration: 'none' }}
-                        href={link}>
-                        {link}
-                      </a>
+                      lecturerFiles.map((item, index) => (
+                        <div key={index}>
+                          <AttachmentIcon style={{ fontSize: '20px' }} />
+                          <a
+                            style={{
+                              width: '120px',
+                              height: 'auto',
+                              marginLeft: '5px',
+                              textDecoration: 'none'
+                            }}
+                            href={item.filePath}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            {item.originalFileName}
+                          </a>
+                          <DeleteIcon
+                            style={{ fontSize: '20px', marginLeft: '5px', cursor: 'pointer' }}
+                            onClick={() => handleDeleteLecturerFile(item.id)}
+                          />
+                        </div>
+                      ))
                     )}
                   </div>
                 </div>
@@ -766,7 +812,7 @@ export default function Profile() {
                   title="Chỉnh sửa thông tin liên quan"
                   centered
                   open={openLinkModal}
-                  onOk={handleUploadFile}
+                  onOk={() => handleUploadFile()}
                   onCancel={() => setOpenLinkModal(false)}
                   width={700}
                   className="modalStyle">
