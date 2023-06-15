@@ -106,7 +106,7 @@ const SignIn = () => {
         <div className="signin__logo">
           <div className="container">
             <nav className="navbar">
-              <a href="#" className="navbar__logo">
+              <a href="/" className="navbar__logo">
                 <span className="logo">
                   <img className="navbar__image" src="/assets/images/logo_hcmus.jpg" alt="logo" />
                 </span>

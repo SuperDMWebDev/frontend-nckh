@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const Styled = styled.div`
   .banner {
-    height: calc(100vh - 80px);
     filter: none;
     background-color: #010103;
     background-image: radial-gradient(circle at top, #0000 30%, #000 80%, #010103 90%),

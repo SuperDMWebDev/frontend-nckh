@@ -8,6 +8,12 @@ type Lecturer = {
   name: string;
 };
 
+interface DropdownType {
+  img: string;
+  text: string;
+  value: string;
+}
+
 const NavBarRetrieveScopus = () => {
   const [logined, setLogined] = useState(true);
   const [open, setOpen] = useState(false);
@@ -43,11 +49,6 @@ const NavBarRetrieveScopus = () => {
     };
   });
 
-  interface DropdownType {
-    img: string;
-    text: string;
-    value: string;
-  }
   function DropdownItem(props: DropdownType) {
     const handleChange = (value: string) => {
       if (value === 'MyProfile') {
@@ -77,6 +78,10 @@ const NavBarRetrieveScopus = () => {
     );
   }
 
+  const navigateToHomePage = () => {
+    navigate('/');
+  };
+
   return (
     <Styled>
       <div className="container">
@@ -88,7 +93,10 @@ const NavBarRetrieveScopus = () => {
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>
           </a>
-          <div className="text__title_navbar" style={{ marginLeft: '20px' }}>
+          <div
+            className="text__title_navbar"
+            style={{ marginLeft: '20px' }}
+            onClick={() => navigateToHomePage()}>
             SciConnect
           </div>
         </div>

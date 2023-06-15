@@ -31,10 +31,15 @@ const HomePage: React.FC = () => {
     <Styled>
       <section className="banner">
         <div className="content">
-          <div className="content_title" style={{ fontSize: "60px" }}>QUẢN LÝ BÀI VIẾT KHOA HỌC</div>
-          <div className="content_script" style={{
-            fontSize: "24px"
-          }}>
+          <div className="content_title" style={{ fontSize: '60px' }}>
+            QUẢN LÝ BÀI VIẾT KHOA HỌC
+          </div>
+          <div
+            className="content_script"
+            style={{
+              fontSize: '24px',
+              marginBottom: '50px'
+            }}>
             Ứng dụng của chúng tôi cung cấp một nền tảng toàn diện và dễ sử dụng để quản lý các công
             bố khoa học. Cho dù bạn là một nhà nghiên cứu, nhà khoa học hoặc chuyên gia học thuật,
             ứng dụng của chúng tôi được thiết kế để tối ưu hóa toàn bộ thời gian và công sức của bạn

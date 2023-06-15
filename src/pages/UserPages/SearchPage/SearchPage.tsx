@@ -1,15 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Styled from './style';
 import AuthorCard from '../../../components/User/AuthorCard/AuthorCard';
 import httpStatus from 'http-status';
-import { useNavigate } from 'react-router-dom';
 import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 import { getListArticleWithKeyword } from '../../../api/Article';
 import { getListLecturerWithKeyword } from '../../../api/Lecturer';
 import { SEARCH_OPTION } from '../../../constants/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleDown,
+  faArrowLeft,
+  faArrowRight,
+  faTimes,
+  faSearch
+} from '@fortawesome/free-solid-svg-icons';
+
+const itemsPerPage = 7;
+const maxVisibleButtons = 7;
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -17,18 +25,32 @@ export default function SearchPage() {
 
   const [listArticles, setListArticles] = useState([]);
   const [listAuthors, setListAuthors] = useState([]);
-
-  const [currentSearch, setCurrentSearch] = useState<string>(location.state.searchOption.value);
-
-  console.log(currentSearch);
-
-  const [navigate_searchOption, setNavigate_searchOption] = useState(location.state.searchOption ? location.state.searchOption : SEARCH_OPTION[0]);
-  const [navigate_searchInput, setNavigate_searchInput] = useState(location.state.searchInput);
-
+  const [navigate_searchOption, setNavigate_searchOption] = useState(
+    location.state ? location.state.searchOption : SEARCH_OPTION[0]
+  );
+  const [currentSearch, setCurrentSearch] = useState<string>(
+    location.state ? location.state.searchOption.value : SEARCH_OPTION[0].value
+  );
+  const [navigate_searchInput, setNavigate_searchInput] = useState(
+    location.state && location.state.searchInput ? location.state.searchInput : ''
+  );
   const [openOption, setOpenOption] = useState(false);
-  let optionRef = useRef<HTMLDivElement>(null);
+  const optionRef = useRef<HTMLDivElement>(null);
   const scrollTop = useRef<HTMLDivElement>(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const checkCurrentSearch = useCallback(() => {
+    if (currentSearch === SEARCH_OPTION[0].value) {
+      return true;
+    }
+
+    return false;
+  }, [currentSearch]);
+
+  useEffect(() => {
+    console.log('currentSearch ', currentSearch, currentPage);
+  }, [currentSearch, currentPage]);
   useEffect(() => {
     let handler = (e: any) => {
       if (optionRef.current !== null) {
@@ -38,71 +60,105 @@ export default function SearchPage() {
       }
     };
     document.addEventListener('mousedown', handler);
+
     return () => {
       document.removeEventListener('mousedown', handler);
     };
   });
 
-  const handleKeyDown = (event: any) => {
+  useEffect(() => {
+    setTotalPages(
+      checkCurrentSearch()
+        ? Math.ceil(listAuthors.length / itemsPerPage)
+        : Math.ceil(listArticles.length / itemsPerPage)
+    );
+  }, [listAuthors, listArticles, checkCurrentSearch]);
+
+  const fetchListArticle = useCallback(
+    async (data: any) => {
+      const res = await getListArticleWithKeyword(data);
+      if (res) {
+        switch (res.status) {
+          case httpStatus.OK: {
+            const data = res.data.data;
+            setListArticles(data);
+            break;
+          }
+          case httpStatus.UNAUTHORIZED: {
+            navigate('/');
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    },
+    [navigate]
+  );
+
+  const fetchListLectures = useCallback(
+    async (data: any) => {
+      const res = await getListLecturerWithKeyword(data);
+      console.log('🚀 ~ file: SearchPage.tsx:103 ~ res:', res);
+      if (res) {
+        switch (res.status) {
+          case httpStatus.OK: {
+            const data = res.data.data;
+            setListAuthors(data);
+            break;
+          }
+          case httpStatus.UNAUTHORIZED: {
+            navigate('/');
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    },
+    [navigate]
+  );
+
+  const handleKeyDown = async (event: any) => {
     if (event.key === 'Enter') {
-      if (navigate_searchOption.label == 'Bài báo') {
+      if (navigate_searchOption.label === 'Bài báo') {
         const data = {
           searchOption: 'articles',
           keyword: navigate_searchInput
         };
-        fetchListArticle(data);
+        await fetchListArticle(data);
         setCurrentSearch('article');
       } else {
         const data = {
           searchOption: 'lecturers',
           keyword: navigate_searchInput
         };
-        fetchListLectures(data);
+        await fetchListLectures(data);
         setCurrentSearch('author');
       }
     }
   };
 
-  const fetchListArticle = async (data: any) => {
-    const res = await getListArticleWithKeyword(data);
-    if (res) {
-      switch (res.status) {
-        case httpStatus.OK: {
-          const data = res.data.data;
-          setListArticles(data);
-          break;
-        }
-        case httpStatus.UNAUTHORIZED: {
-          navigate('/');
-          break;
-        }
-        default:
-          break;
-      }
-    }
-  };
-
-  const fetchListLectures = async (data: any) => {
-    const res = await getListLecturerWithKeyword(data);
-    if (res) {
-      switch (res.status) {
-        case httpStatus.OK: {
-          const data = res.data.data;
-          setListAuthors(data);
-          break;
-        }
-        case httpStatus.UNAUTHORIZED: {
-          navigate('/');
-          break;
-        }
-        default:
-          break;
-      }
+  const handleSearch = async () => {
+    if (navigate_searchOption.label === 'Bài báo') {
+      const data = {
+        searchOption: 'articles',
+        keyword: navigate_searchInput
+      };
+      await fetchListArticle(data);
+      setCurrentSearch('article');
+    } else {
+      const data = {
+        searchOption: 'lecturers',
+        keyword: navigate_searchInput
+      };
+      await fetchListLectures(data);
+      setCurrentSearch('author');
     }
   };
 
   useEffect(() => {
-    if (navigate_searchOption.label == 'Bài báo') {
+    if (navigate_searchOption.label === 'Bài báo') {
       const data = {
         searchOption: 'articles',
         keyword: navigate_searchInput
@@ -117,22 +173,20 @@ export default function SearchPage() {
       fetchListLectures(data);
       setCurrentSearch('author');
     }
-  }, [navigate_searchOption]);
+  }, [fetchListArticle, fetchListLectures, navigate_searchInput, navigate_searchOption]);
 
-  const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/');
+  const handlePageChange = (pageNumber: number) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setCurrentPage(pageNumber);
   };
 
-  // PAGINATION
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const itemsPerPage = 7;
-  const maxVisibleButtons = 7;
-
-  const renderPageButtons = (): JSX.Element[] => {
+  const renderPageButtons = useCallback(() => {
     const visibleButtons: JSX.Element[] = [];
     const startPage: number = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
-    const endPage: number = Math.floor(listArticles.length / itemsPerPage + 1);
+    const endPage: number = Math.min(startPage + maxVisibleButtons - 1, totalPages);
 
     for (let i = startPage; i <= endPage; i++) {
       visibleButtons.push(
@@ -146,31 +200,16 @@ export default function SearchPage() {
     }
 
     return visibleButtons;
-  };
+  }, [currentPage, totalPages]);
 
-  const totalPages = listArticles.length;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentLecturers = listArticles.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (pageNumber: number) => {
-    if (scrollTop.current) {
-      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    setCurrentPage(pageNumber);
+  const handleClearSearch = () => {
+    setNavigate_searchInput('');
   };
 
   return (
     <Styled>
       <div className="center">
-        <div
-          style={{
-            fontSize: '22px',
-            margin: '12px',
-            fontFamily: 'monospace',
-            fontWeight: 'bold'
-          }}>
+        <div className="searchPage__title">
           {`TÌM KIẾM ${navigate_searchOption.label.toUpperCase()}`}
         </div>
 
@@ -183,14 +222,25 @@ export default function SearchPage() {
             justifyContent: 'center'
           }}>
           <div className="searchContainer">
-            <input
-              type="text"
-              className="input_search"
-              placeholder="Tìm kiếm bằng tên hoặc từ khóa"
-              value={navigate_searchInput}
-              onChange={(e) => setNavigate_searchInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
+            <div className="searchText">
+              <div className={`searchIcon`} onClick={() => handleSearch()}>
+                <FontAwesomeIcon icon={faSearch} style={{ fontSize: '20px' }} />
+              </div>
+
+              <input
+                type="text"
+                className="input_search"
+                placeholder="Tìm kiếm bằng tên hoặc từ khóa"
+                value={navigate_searchInput}
+                onChange={(e) => setNavigate_searchInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              {navigate_searchInput && (
+                <div className="clearIcon" onClick={() => handleClearSearch()}>
+                  <FontAwesomeIcon icon={faTimes} style={{ fontSize: '20px' }} />
+                </div>
+              )}
+            </div>
             <div className="searchOption">
               <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
                 <div>{navigate_searchOption.label}</div>
@@ -198,8 +248,9 @@ export default function SearchPage() {
               </div>
               {openOption && (
                 <div className="searchOption_option" ref={optionRef}>
-                  {SEARCH_OPTION.map((item) => (
+                  {SEARCH_OPTION.map((item, index) => (
                     <div
+                      key={`searchOption-${index}`}
                       className="searchOption_option_item"
                       onClick={() => {
                         setNavigate_searchOption(item);
@@ -214,11 +265,13 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-      {currentSearch != 'article' ? (
+      {currentSearch !== 'article' ? (
         <div className="center" ref={scrollTop}>
           <div className="list_article">
-            {listAuthors ? (
-              listAuthors.map((item) => <AuthorCard data={item} />)
+            {listAuthors.length !== 0 ? (
+              listAuthors
+                .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                .map((item, index) => <AuthorCard key={`author-card-${index}`} data={item} />)
             ) : (
               <>
                 <div
@@ -238,8 +291,10 @@ export default function SearchPage() {
         <div className="center" ref={scrollTop}>
           <div className="content content_article">
             <div className="list_article">
-              {currentLecturers.length != 0 ? (
-                currentLecturers.map((item) => <ArticleCard data={item} />)
+              {listArticles.length !== 0 ? (
+                listArticles
+                  .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                  .map((item, index) => <ArticleCard key={`article-card-${index}`} data={item} />)
               ) : (
                 <>
                   <div
@@ -264,21 +319,18 @@ export default function SearchPage() {
               marginBottom: '50px',
               marginTop: '30px'
             }}>
-            {/* Previous button */}
             <button
-              className="btn-pre-next"
-              disabled={currentPage === 1}
+              className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
+              disabled={currentPage <= 1}
               onClick={() => handlePageChange(currentPage - 1)}>
               <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
             </button>
 
-            {/* Page buttons */}
             {renderPageButtons()}
 
-            {/* Next button */}
             <button
-              className="btn-pre-next"
-              disabled={currentPage === totalPages}
+              className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
+              disabled={currentPage >= totalPages}
               onClick={() => handlePageChange(currentPage + 1)}>
               <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
             </button>
