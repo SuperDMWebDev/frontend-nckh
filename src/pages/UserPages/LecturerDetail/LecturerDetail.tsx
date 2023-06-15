@@ -45,6 +45,7 @@ export default function LecturerDetail() {
   const [linkInner, setLinkInner] = useState<string>('');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
+  const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const { id }: any = useParams();
 
   const fetchArticle = async () => {
@@ -85,6 +86,7 @@ export default function LecturerDetail() {
         setAddress(result.contacts[1].value);
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
+        setLecturerFiles(result.lecturerFiles);
         if (result.contacts[3].value.length >= 25) {
           setLinkInner(result.contacts[3].value.slice(0, 25) + "...");
         } else {
@@ -315,11 +317,11 @@ export default function LecturerDetail() {
 
           <div className="line">.........</div>
           <div>
-            <h4 className="field-profile">THÔNG TIN LIÊN QUAN</h4>
-            <div className="field-profile-info">
-              <AttachmentIcon style={{ fontSize: '20px' }} />
-              {!link ? (
+            <h4 className="field-profile">THÔNG TIN BỔ SUNG</h4>
+            <div className="field-profile-info" style={{ width: '95%', height: 'auto' }}>
+              {!lecturerFiles ? (
                 <>
+                  <AttachmentIcon style={{ fontSize: '20px' }} />
                   <span
                     style={{
                       fontSize: '13px',
@@ -330,14 +332,24 @@ export default function LecturerDetail() {
                   </span>
                 </>
               ) : (
-                <a
-                  style={{ width: "120px", height: "auto", marginLeft: '5px', color: 'white', textDecoration: 'none' }}
-                  href={link}
-                  target="_blank">
-                  {
-                    linkInner
-                  }
-                </a>
+                lecturerFiles.map((item, index) => (
+                  <div key={index}>
+                    <AttachmentIcon style={{ fontSize: '20px' }} />
+                    <a
+                      style={{
+                        width: '120px',
+                        height: 'auto',
+                        marginLeft: '5px',
+                        color: 'white',
+                        textDecoration: 'none'
+                      }}
+                      href={item.filePath}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {item.originalFileName}
+                    </a>
+                  </div>
+                ))
               )}
             </div>
           </div>

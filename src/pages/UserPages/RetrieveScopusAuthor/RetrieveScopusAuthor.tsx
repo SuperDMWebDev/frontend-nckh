@@ -63,8 +63,9 @@ export default function RetrieveScopusAuthor() {
     setScopusAuthors([]);
     setLoading(true);
     const data = await retrieveScopusAccount(accountId, scopusID);
+    console.log(data);
     setLoading(false);
-    if (data.data.lecturerId == null) {
+    if (data.data.lecturerId == undefined) {
       toast.error('Truy xuất Scopus không thành công. Vui lòng thử lại!');
     } else {
       toast.success('Xác nhận tài khoản Scopus thành công!');
@@ -172,7 +173,11 @@ export default function RetrieveScopusAuthor() {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description">
+                aria-describedby="modal-modal-description"
+                style={{
+                  border: 'none',
+                  borderRadius: '10px'
+                }}>
                 <Box sx={style}>
                   <Typography
                     id="modal-modal-title"
