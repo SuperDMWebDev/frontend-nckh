@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Styled from './style';
-import { getListArticleWithKeyword } from '../../../api/Article';
 import { getArticlesOfLecturers } from '../../../api/Article';
 import MyArticleCard from '../../../components/User/MyArticleCard/MyArticleCard';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +15,6 @@ export default function MyArticles() {
   const navigate = useNavigate();
   const scrollTop = useRef<HTMLDivElement>(null);
   const [listArticles, setListArticles] = useState<Article[]>([]);
-  const accountId = localStorage.getItem('accountId');
   const lecturerId = localStorage.getItem('lecturerId');
 
   const handleBackSearch = () => {
@@ -45,9 +42,7 @@ export default function MyArticles() {
   const maxVisibleButtons = 7;
   const arr = Object.values(listArticles)[0];
   const totalPages = Math.ceil(arr?.length / itemsPerPage);
-  useEffect(() => {
-    console.log('currentPage ', currentPage, totalPages);
-  }, [currentPage, totalPages]);
+  useEffect(() => {}, [currentPage, totalPages]);
 
   const renderPageButtons = (): JSX.Element[] => {
     const visibleButtons: JSX.Element[] = [];

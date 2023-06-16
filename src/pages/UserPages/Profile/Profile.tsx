@@ -102,7 +102,6 @@ export default function Profile() {
   const getInfoLecturer = useCallback(() => {
     getInfoProfile(lecturerId)
       .then((result) => {
-        console.log('🚀 ~ file: Profile.tsx:99 ~ .then ~ result:', result);
         setLecturer(result);
         setEmail(result.contacts[0].value);
         setAddress(result.contacts[1].value);
@@ -155,8 +154,6 @@ export default function Profile() {
   useEffect(() => {
     getInfoLecturer();
   }, [getInfoLecturer]);
-
-  console.log(lecturer);
 
   const handleTab1 = () => {
     setCurrentTab(1);
@@ -225,7 +222,6 @@ export default function Profile() {
   };
 
   const onCrop = (view: string) => {
-    console.log(view);
     setPreviewAvatar(view);
     editAvatarProfile(lecturer, view, lecturerId);
   };

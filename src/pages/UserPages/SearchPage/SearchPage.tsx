@@ -54,9 +54,7 @@ export default function SearchPage() {
     return false;
   }, [currentSearch]);
 
-  useEffect(() => {
-    console.log('currentSearch ', currentSearch, currentPage);
-  }, [currentSearch, currentPage]);
+  useEffect(() => {}, [currentSearch, currentPage]);
   useEffect(() => {
     let handler = (e: any) => {
       if (optionRef.current !== null) {

@@ -3,7 +3,6 @@ import Styled from './style';
 
 const MyArticleCard = (props: any) => {
   const { data } = props;
-  console.log(data);
 
   const [authorList, setAuthorList] = useState<string[]>([]);
 

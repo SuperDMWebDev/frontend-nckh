@@ -63,7 +63,6 @@ export default function RetrieveScopusAuthor() {
     setScopusAuthors([]);
     setLoading(true);
     const data = await retrieveScopusAccount(accountId, scopusID);
-    console.log(data);
     setLoading(false);
     if (data.data.lecturerId == undefined) {
       toast.error('Truy xuất Scopus không thành công. Vui lòng thử lại!');

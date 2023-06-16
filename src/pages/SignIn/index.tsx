@@ -73,7 +73,6 @@ const SignIn = () => {
 
   const handleSendEmail = async () => {
     const res: any = await forgetPassword(email);
-    console.log('🚀 ~ file: index.tsx:75 ~ handleSendEmail ~ res:', res);
     if (res.code === 0) {
       toast.success(res.message);
     } else {

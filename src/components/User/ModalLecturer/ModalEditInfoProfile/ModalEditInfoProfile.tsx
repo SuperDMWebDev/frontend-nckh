@@ -11,9 +11,9 @@ export default function ModalEditInfoProfile(props: any) {
   const accoundId = localStorage.getItem('accountId');
   const lecturerId = localStorage.getItem('lecturerId');
 
-  const [newUniversity, setNewUniversity] = useState<string>("1");
+  const [newUniversity, setNewUniversity] = useState<string>('1');
   const [newCurrentDisciplines, setNewCurrentDisciplines] = useState<string>();
-  const [newGender, setNewGender] = useState<string>("Nam");
+  const [newGender, setNewGender] = useState<string>('Nam');
   const [newDateOfBirth, setNewDateOfBirth] = useState<string>(lecturer?.dateOfBirth);
   const [newDepartmentName, setNewDepartmentName] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>(lecturer.contacts[0].value);
@@ -41,23 +41,28 @@ export default function ModalEditInfoProfile(props: any) {
         }
 
         const university = getAllUniversity();
-        university.then((res) => {
-          setUniversitys(res.data.data);
-          res.data.data.map((u: any) => {
-            u.name == lecturer?.currentDisciplines[0].universityName ? setNewUniversity(u.id) : null;
+        university
+          .then((res) => {
+            setUniversitys(res.data.data);
+            res.data.data.map((u: any) => {
+              u.name == lecturer?.currentDisciplines[0].universityName
+                ? setNewUniversity(u.id)
+                : null;
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        }).catch((err) => {
-          console.log(err);
-        });
 
         const contactTypes = getAllContactType();
-        contactTypes.then((res) => {
-          console.log(res);
-          setContactTypes(res.data.data);
-        }).catch((err) => {
-          console.log(err);
-        });
-
+        contactTypes
+          .then((res) => {
+            console.log(res);
+            setContactTypes(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }, []);
 
       console.log(newUniversity);
@@ -71,8 +76,8 @@ export default function ModalEditInfoProfile(props: any) {
       };
 
       const optionsGender = [
-        { value: "Nam", label: "Nam" },
-        { value: "Nữ", label: "Nữ" },
+        { value: 'Nam', label: 'Nam' },
+        { value: 'Nữ', label: 'Nữ' }
       ];
 
       const university = getAllUniversity();
@@ -80,7 +85,9 @@ export default function ModalEditInfoProfile(props: any) {
         .then((res) => {
           setUniversitys(res.data.data);
           res.data.data.map((u: any) => {
-            u.name == lecturer?.currentDisciplines[0].universityName ? setNewUniversity(u.id) : null;
+            u.name == lecturer?.currentDisciplines[0].universityName
+              ? setNewUniversity(u.id)
+              : null;
           });
         })
         .catch((err) => {
@@ -112,24 +119,6 @@ export default function ModalEditInfoProfile(props: any) {
     { value: 'Nữ', label: 'Nữ' }
   ];
 
-  // const handleSaveEdit = () => {
-  //   const data = {
-  //     newUniversity: newUniversity,
-  //     newCurrentDisciplines: newCurrentDisciplines,
-  //     newGender: newGender,
-  //     newDateOfBirth: newDateOfBirth,
-  //     newDepartmentName: newDepartmentName,
-  //     email: { email: newEmail, id: 1 },
-  //     address: { address: newAddress, id: 2 },
-  //     phone: { phone: newPhone, id: 3 },
-  //     link: { link: lecturer.contacts[3].value, id: 4 }
-  //   };
-
-  //   console.log(data);
-  //   editInfoProfile(lecturer, data, lecturerId);
-  //   window.location.reload();
-  // };
-
   const handleSaveEdit = () => {
     const data = {
       newUniversity: newUniversity,
@@ -142,9 +131,8 @@ export default function ModalEditInfoProfile(props: any) {
       phone: { phone: newPhone, id: 3 },
       link: { link: lecturer.contacts[3].value, id: 4 },
       flagCreate: flagCreate
-    }
+    };
 
-    console.log(data);
     editInfoProfile(lecturer, data, lecturerId);
     window.location.reload();
   };

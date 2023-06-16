@@ -17,16 +17,6 @@ const NavBarRetrieveScopus = () => {
   const [logined, setLogined] = useState(true);
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
-  const accountId: string | null = localStorage.getItem('accountId');
-  const lecturerId: string | null = localStorage.getItem('lecturerId');
-
-  useEffect(() => {
-    // getInfoProfile(accountId)
-    //   .then((result) => {
-    //     setLecturer(result);
-    //   })
-    //   .catch((err) => console.log("Can't get data lecturer: ", err));
-  }, []);
 
   let menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();

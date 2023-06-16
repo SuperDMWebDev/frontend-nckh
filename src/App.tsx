@@ -56,14 +56,7 @@ const App = () => {
                     element={!isLogin ? <SignIn /> : <Navigate replace to="/" />}
                   />
                   <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
-                  <Route path="/profile" element={<Profile />}>
-                    {/* <Route
-                  index
-                  path="/about"
-
-                /> */}
-                  </Route>
-                  {/* <Route path="/profile/edit" element={<EditProfileLecturer />} /> */}
+                  <Route path="/profile" element={<Profile />}></Route>
                   <Route path="/create-article" element={<CreateArticle />} />
                   <Route path="/update-article/:id" element={<UpdateArticle />} />
                   <Route path="/my-articles" element={<MyArticles />} />
@@ -81,12 +74,7 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/admin" element={<Admin />}></Route>
             <Route path="/" element={!isLogin ? <SignIn /> : <Navigate replace to="/admin" />} />
-            {/* <Route path="/admin/create" element={<CreateLecturer />} /> */}
-            {/* <Route path="/home-page" element={<ResearchHomepage />} /> */}
-            {/* <Route path="/detail-page" element={<DetailPage />} />
-            <Route path="/test" element={<ModalTeacher />} /> */}
             <Route path="/loader" element={<Loader />} />
-            {/* <Route path="/report" element={<Report />} /> */}
           </Routes>
         )}
       </BrowserRouter>
@@ -95,8 +83,3 @@ const App = () => {
 };
 
 export default App;
-
-// git fetch -a
-// git pull origin develop
-// fix conflict neu co
-// git push
