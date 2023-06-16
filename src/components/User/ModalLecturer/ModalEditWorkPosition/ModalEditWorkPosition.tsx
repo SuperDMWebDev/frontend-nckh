@@ -82,9 +82,9 @@ export default function ModalEditWorkPosition(props: any) {
     window.location.reload();
   };
 
-  const handleDeleteBook = () => {};
+  const handleDeleteBook = () => { };
 
-  const handleChangeUniversity = (event: any) => {};
+  const handleChangeUniversity = (event: any) => { };
 
   const handleNewFromYearChange = (event: any) => {
     setNewFromDate(event.target.value);
@@ -289,7 +289,7 @@ export default function ModalEditWorkPosition(props: any) {
                   />
                   <span className="highlight-edit-profile"></span>
                   <span className="bar-edit-profile"></span>
-                  <label className="label-edit-profile">Chuyên ngành</label>
+                  <label className="label-edit-profile">Chức vụ</label>
                 </div>
 
                 <div className="form-input">

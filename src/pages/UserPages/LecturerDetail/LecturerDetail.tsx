@@ -123,7 +123,7 @@ export default function LecturerDetail() {
   };
 
   const handleBackSearch = () => {
-    navigate('/');
+    navigate('/search');
   };
 
   // PAGINATION ARTICLES
@@ -180,7 +180,7 @@ export default function LecturerDetail() {
           </li>
           <li className="content_tab">
             <div id="2" className="content_tab_name" onClick={handleTab2}>
-              BÀI BÁO KHOA HỌC
+              CÔNG BỐ KHOA HỌC
             </div>
           </li>
           <li className="content_tab">
@@ -196,8 +196,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+                lecturer?.avatar == '' ||
+                lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
