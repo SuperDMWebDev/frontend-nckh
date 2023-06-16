@@ -8,6 +8,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import Loader from '../../Loader/Loader';
 import './style.css';
+import Typography from '@mui/material/Typography';
 import { deleteAccount, getAllAccounts, signup } from '../../../api/Account';
 import { createLecturer, editBioProfile, getListLecturers } from '../../../api/Lecturer';
 import { toast } from "react-toastify";
@@ -15,6 +16,7 @@ import { toast } from "react-toastify";
 type SizeType = Parameters<typeof Form>[0]['size'];
 
 interface DataType {
+  index: number,
   id: number;
   name: string;
   email: string;
@@ -59,7 +61,6 @@ const ListTeacher: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dataId, setDataId] = useState<DataId[]>([]);
-
   const [successEmail, setSuccessEmail] = useState<boolean>(false);
   const [successName, setSuccessName] = useState<boolean>(false);
 
@@ -121,23 +122,16 @@ const ListTeacher: React.FC = () => {
     const payload: any = {
       data: dataName
     }
-    if (name === '' || email === '') {
+    if (email === '') {
       toast.error('Bạn chưa nhập đầy đủ dữ liệu!');
     } else {
       signup(email).then((code) => {
         if (code === 0) {
-          setSuccessEmail(true);
+          toast.success('Tạo người dùng thành công!');
         } else {
-          setSuccessEmail(false);
+          toast.error('Tạo tài khoản không thành công!');
         }
       });
-
-      if (successEmail === false) {
-        toast.error('Người dùng này đã tồn tại!');
-      }
-      else {
-        toast.success('Tạo người dùng thành công!');
-      }
     }
 
     getListLecturers().then((result) => {
@@ -152,6 +146,7 @@ const ListTeacher: React.FC = () => {
       const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
       if (idx >= 0) {
         const newData: DataType = {
+          index: 0,
           id: itemAccount.id,
           name: lecturerList[idx].name,
           email: itemAccount.email
@@ -166,6 +161,7 @@ const ListTeacher: React.FC = () => {
 
     setOpen(false);
   };
+  console.log(data);
 
   const onDelete = (accountId: string) => {
     deleteAccount(accountId).then((code) => {
@@ -183,6 +179,7 @@ const ListTeacher: React.FC = () => {
           const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
           if (idx >= 0) {
             const newData: DataType = {
+              index: 0,
               id: itemAccount.id,
               name: lecturerList[idx].name,
               email: itemAccount.email
@@ -295,11 +292,11 @@ const ListTeacher: React.FC = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
+      title: 'STT',
+      dataIndex: 'index',
+      key: 'index',
       width: '3%',
-      ...getColumnSearchProps('id')
+      ...getColumnSearchProps('index')
     },
     {
       title: 'Họ và tên',
@@ -334,25 +331,31 @@ const ListTeacher: React.FC = () => {
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
+  console.log(lecturerList);
   const fetchAccountList = () => {
     useEffect(() => {
       getAllAccounts().then((result) => {
-        //setAccountList(result.data.data);
+        setAccountList(result.data.data);
         console.log(result);
       })
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
+  fetchAccountList();
+
+  const handleAddAccount = () => {
+    console.log(email);
+  }
 
   const fetchData = () => {
     fetchLecturerList();
-    // fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList.map((itemAccount: Account, index: number) => {
       const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
       if (idx >= 0) {
         const newData: DataType = {
+          index: 0,
           id: itemAccount.id,
           name: lecturerList[idx].name,
           email: itemAccount.email
@@ -366,6 +369,17 @@ const ListTeacher: React.FC = () => {
     }
   };
   fetchData();
+
+  const dataTable = data.map((item, index) => {
+    item.index = index + 1;
+    console.log(index);
+  });
+
+  for (let i = 0; i < data.length; i++) {
+
+  }
+
+  console.log("dataTable: ", dataTable);
 
   return (
     <>
@@ -417,15 +431,15 @@ const ListTeacher: React.FC = () => {
               size={componentSize as SizeType}
               style={{ maxWidth: 500 }}
             >
-              <Form.Item label="Email" name="email">
-                <Input placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
+              <Form.Item label="Email" name="email" className='form-add-account'>
+                <Input className='input-add-account' placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
               </Form.Item>
 
               <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
                 <Button className='btn-cancel' key="back" onClick={handleCancel}>
                   Thoát
                 </Button>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" onClick={handleAddAccount}>
                   OK
                 </Button>
               </Form.Item>
@@ -448,7 +462,25 @@ const ListTeacher: React.FC = () => {
               </Button>
             ]}
           >
-            Bạn có chắc muốn xóa người dùng này không?
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "20px",
+              marginBottom: "20px"
+            }}>
+              <Typography
+                id="modal-modal-title"
+                variant="h5"
+                component="h2"
+                style={{
+                  margin: '0 auto',
+                  fontSize: '16px',
+                  marginLeft: '10px'
+                }}>
+                Bạn có chắc muốn xóa người dùng này không?
+              </Typography>
+            </div>
           </Modal>
         </div>
       )}
