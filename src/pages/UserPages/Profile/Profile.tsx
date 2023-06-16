@@ -180,7 +180,7 @@ export default function Profile() {
   };
 
   const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/');
+    navigate('/');
   };
 
   const handleLinkArticleDetail = () => {

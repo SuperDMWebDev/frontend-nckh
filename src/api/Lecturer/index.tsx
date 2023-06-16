@@ -42,7 +42,8 @@ export const getScopusAuthors = async (firstnam: string, lastname: string) => {
 
 export const getListLecturerWithKeyword = async (data: any) => {
   try {
-    const query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
+    const universityIds = data?.universityIds.join(',');
+    const query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}&sort=${data?.sort}&universityIds=${universityIds}`;
     const res = await axios.get(query);
 
     return res;

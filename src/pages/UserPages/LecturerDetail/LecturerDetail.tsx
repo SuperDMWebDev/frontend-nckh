@@ -88,7 +88,7 @@ export default function LecturerDetail() {
         setLink(result.contacts[3].value);
         setLecturerFiles(result.lecturerFiles);
         if (result.contacts[3].value.length >= 25) {
-          setLinkInner(result.contacts[3].value.slice(0, 25) + "...");
+          setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
         } else {
           setLinkInner(result.contacts[3].value);
         }
@@ -124,7 +124,7 @@ export default function LecturerDetail() {
   };
 
   const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/');
+    navigate('/');
   };
 
   // PAGINATION ARTICLES
@@ -135,7 +135,7 @@ export default function LecturerDetail() {
   const listArti = Object.values(articleList);
   const arr = listArti[0];
 
-  const totalPages = arr?.slice(0).length
+  const totalPages = arr?.slice(0).length;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
@@ -197,8 +197,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -354,7 +354,9 @@ export default function LecturerDetail() {
             </div>
           </div>
 
-          <div className="line" style={{ marginBottom: "50px" }}>.........</div>
+          <div className="line" style={{ marginBottom: '50px' }}>
+            .........
+          </div>
         </div>
         <div>
           {currentTab === 1 ? (
@@ -446,7 +448,11 @@ export default function LecturerDetail() {
                           className="btn-pre-next"
                           disabled={currentPage === 1}
                           onClick={() => handlePageChange(currentPage - 1)}>
-                          <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+                          <FontAwesomeIcon
+                            className="deleteicon"
+                            fontSize={14}
+                            icon={faArrowLeft}
+                          />
                         </button>
 
                         {/* Page buttons */}
@@ -457,7 +463,11 @@ export default function LecturerDetail() {
                           className="btn-pre-next"
                           disabled={currentPage === totalPages}
                           onClick={() => handlePageChange(currentPage + 1)}>
-                          <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+                          <FontAwesomeIcon
+                            className="deleteicon"
+                            fontSize={14}
+                            icon={faArrowRight}
+                          />
                         </button>
                       </div>
                     </div>
@@ -507,7 +517,7 @@ export default function LecturerDetail() {
 // git stash
 
 /**
- 
+
 
 
  */

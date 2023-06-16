@@ -3,10 +3,8 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .card_article {
     box-sizing: border-box;
-    /* max-width: 750px; */
 
     height: auto;
-    width: 850px;
     background: #ffffff;
     backdrop-filter: blur(6px);
     cursor: pointer;
@@ -23,6 +21,7 @@ const Styled = styled.div`
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
     margin-bottom: 15px;
+    width: 100%;
   }
 
   .card_article:hover {
@@ -36,9 +35,6 @@ const Styled = styled.div`
   }
 
   .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .card-top-part {
