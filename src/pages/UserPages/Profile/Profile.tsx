@@ -177,7 +177,7 @@ export default function Profile() {
   };
 
   const handleBackSearch = () => {
-    navigate('/');
+    navigate('/search');
   };
 
   const handleLinkArticleDetail = () => {

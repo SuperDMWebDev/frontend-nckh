@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
         <SearchInput />
 
         <div className="popularSearch">
-          Từ khóa tìm kiếm phổ biến: Tran Minh Triet, Nguyen Van Vu
+          Từ khóa tìm kiếm phổ biến: Tran Minh Triet, Le Hoai Bac
         </div>
       </section>
     </Styled>

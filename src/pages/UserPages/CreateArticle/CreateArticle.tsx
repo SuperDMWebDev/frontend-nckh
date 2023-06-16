@@ -226,11 +226,15 @@ const CreateArticle = () => {
           if (data.journal) {
             setJournalOption(journalOptionList[0]);
             setJournalConferenceText(data.journal);
+            setJournal(data.journal);
+            setConference(null);
             setRankList(journalRank);
           } else {
             setJournalConferenceText(data.conference);
             setJournalOption(journalOptionList[1]);
             setRankList(conferenceRank);
+            setJournal(null);
+            setConference(data.conference);
           }
           setRank({ value: data.rank, label: data.rank });
           setVolume(data.volume);

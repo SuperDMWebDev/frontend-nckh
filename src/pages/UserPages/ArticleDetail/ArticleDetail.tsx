@@ -42,12 +42,12 @@ export default function ArticleDetail() {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Xóa bài báo thành công!');
-          navigate('/profile');
+          navigate('/my-articles');
           break;
         }
         case httpStatus.UNAUTHORIZED: {
           toast.success('Xóa bài báo thất bại!');
-          navigate('/');
+          navigate('/my-articles');
           break;
         }
         default:
@@ -68,7 +68,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() {}
+      onCancel() { }
     });
   }
 

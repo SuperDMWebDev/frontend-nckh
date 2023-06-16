@@ -33,6 +33,7 @@ const SignIn = () => {
     onSubmit: async (value) => {
       try {
         const responseSignIn = await loginUser(value.email, value.password);
+        console.log(responseSignIn);
         let {
           data: { token, message, code, expire, accountId, role, lecturerInfo }
         } = responseSignIn;

@@ -79,7 +79,7 @@ export default function ModalEditExpertises(props: any) {
                     ) : null}
                     <div className="name-book">
                       <p className="name">
-                        Lĩnh vực: {expertise.title ? expertise.title : 'Chưa cập nhật'}
+                        Lĩnh vực: {expertise.title ? expertise.title : 'Công nghệ thông tin'}
                       </p>
                     </div>
                     <div>

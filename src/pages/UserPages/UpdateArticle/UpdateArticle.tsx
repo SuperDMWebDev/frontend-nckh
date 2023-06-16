@@ -242,10 +242,14 @@ const UpdateArticle = () => {
             setJournalOption(journalOptionList[0]);
             setJournalConferenceText(data.journal);
             setRankList(journalRank);
+            setJournal(data.journal);
+            setConference(null);
           } else {
             setJournalConferenceText(data.conference);
             setJournalOption(journalOptionList[1]);
             setRankList(conferenceRank);
+            setJournal(null);
+            setConference(data.conference);
           }
           setRank({ value: data.rank, label: data.rank });
           setVolume(data.volume);
