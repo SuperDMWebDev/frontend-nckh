@@ -11,7 +11,6 @@ interface FileUploadProps {
 const FileUpload: React.FC<FileUploadProps> = ({ setFiles, files }) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      console.log('🚀 ~ file: index.tsx:6 ~ onDrop ~ acceptedFiles:', files, acceptedFiles);
       setFiles([...files, ...acceptedFiles]);
     },
     [files, setFiles]

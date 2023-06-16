@@ -102,7 +102,6 @@ export default function Profile() {
   const getInfoLecturer = useCallback(() => {
     getInfoProfile(lecturerId)
       .then((result) => {
-        console.log('🚀 ~ file: Profile.tsx:99 ~ .then ~ result:', result);
         setLecturer(result);
         setEmail(result.contacts[0].value);
         setAddress(result.contacts[1].value);
@@ -155,8 +154,6 @@ export default function Profile() {
   useEffect(() => {
     getInfoLecturer();
   }, [getInfoLecturer]);
-
-  console.log(lecturer);
 
   const handleTab1 = () => {
     setCurrentTab(1);
@@ -225,7 +222,6 @@ export default function Profile() {
   };
 
   const onCrop = (view: string) => {
-    console.log(view);
     setPreviewAvatar(view);
     editAvatarProfile(lecturer, view, lecturerId);
   };
@@ -310,8 +306,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -576,9 +572,9 @@ export default function Profile() {
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                        lecturer?.avatar == null ||
-                        lecturer?.avatar == '' ||
-                        lecturer?.avatar == 'data:image/png;base64,'
+                      lecturer?.avatar == null ||
+                      lecturer?.avatar == '' ||
+                      lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }

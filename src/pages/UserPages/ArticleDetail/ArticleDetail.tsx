@@ -7,6 +7,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { toast } from 'react-toastify';
 import { getLecturerIdFromAccountId } from '../../../utils/api';
+import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
 
 type Article = {
   [key: string]: any;
@@ -14,6 +15,7 @@ type Article = {
 };
 
 export default function ArticleDetail() {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -133,6 +135,7 @@ export default function ArticleDetail() {
 
   return (
     <Styled>
+      {isLoading && <LoaderLayer />}
       {article && (
         <div className="detail-article-body">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -239,11 +242,11 @@ export default function ArticleDetail() {
           </div>
 
           <div className="file-section">
-            <div className="fileTitle">Tập tin: </div>
-            <div className="field-profile-info">
-              {!article.files
-                ? null
-                : article.files.map((item: any, index: any) => (
+            {!article.files ? null : (
+              <>
+                <div className="fileTitle">Tập tin: </div>
+                <div className="fileList">
+                  {article.files.map((item: any, index: any) => (
                     <div key={index}>
                       <a
                         style={{
@@ -259,7 +262,9 @@ export default function ArticleDetail() {
                       </a>
                     </div>
                   ))}
-            </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="article-content">

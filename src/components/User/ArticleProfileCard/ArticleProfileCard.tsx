@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ArticleProfileCard = (props: any) => {
   const { data } = props;
-  console.log(data);
   const [authorList, setAuthorList] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -27,8 +26,6 @@ const ArticleProfileCard = (props: any) => {
   useEffect(() => {
     getAuthorList(data);
   }, [data]);
-
-  console.log(authorList);
 
   const handleGoToDetail = (id: any) => {
     navigate(`/article-detail/${id}`);

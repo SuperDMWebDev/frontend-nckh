@@ -174,7 +174,6 @@ const Styled = styled.div`
   }
 
   .name-profile {
-    font-family: proxima-nova, sans-serif;
     font-size: 23px;
     line-height: 26px;
     color: #ffffff;
@@ -204,7 +203,7 @@ const Styled = styled.div`
     height: 45px;
     width: auto;
     padding: 10px;
-    border: 2px solid white;
+    border: 1px solid white;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -617,8 +616,8 @@ const Styled = styled.div`
 
   .btn-edit-card {
     position: absolute;
-    right: 10px;
-    top: 0px;
+    right: 15px;
+    top: 15px;
     cursor: pointer;
     font-size: 14px;
   }

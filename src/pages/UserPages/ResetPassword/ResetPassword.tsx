@@ -48,7 +48,6 @@ export default function ResetPassword() {
       const token = urlParams.get('token');
       if (token && newPassword) {
         const res = await resetPassword(token, newPassword);
-        console.log('🚀 ~ file: ResetPassword.tsx:23 ~ handleSubmit ~ res:', res);
         if (res.code === 0) {
           toast.success(res.message);
           navigate('/signin');

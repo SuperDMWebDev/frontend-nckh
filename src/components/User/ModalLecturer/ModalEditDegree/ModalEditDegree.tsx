@@ -83,7 +83,6 @@ export default function ModalEditDegree(props: any) {
       specialization: specialization
     };
     editDegree(lecturer, data, lecturerId);
-    console.log(data);
     window.location.reload();
   };
 

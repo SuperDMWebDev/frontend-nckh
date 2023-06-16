@@ -100,8 +100,6 @@ export default function LecturerDetail() {
       .catch((err) => console.log("Can't get data lecturer: ", err));
   }, []);
 
-  console.log(lecturer);
-
   const handleTab1 = () => {
     setCurrentTab(1);
     document.getElementById('1')?.classList.add('tab-selected');

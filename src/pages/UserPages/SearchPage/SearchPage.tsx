@@ -25,6 +25,12 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const customIconStyle = {
+    fontWeight: 300,
+    fontSize: '20px',
+    color: '#949494'
+  };
+
   const [listArticles, setListArticles] = useState([]);
   const [listAuthors, setListAuthors] = useState([]);
   const [navigate_searchOption, setNavigate_searchOption] = useState(
@@ -121,7 +127,6 @@ export default function SearchPage() {
   const fetchListLectures = useCallback(
     async (data: any) => {
       const res = await getListLecturerWithKeyword(data);
-      console.log('🚀 ~ file: SearchPage.tsx:103 ~ res:', res);
       if (res) {
         switch (res.status) {
           case httpStatus.OK: {
@@ -284,7 +289,7 @@ export default function SearchPage() {
           <div className="searchContainer">
             <div className="searchText">
               <div className={`searchIcon`} onClick={() => handleSearch()}>
-                <FontAwesomeIcon icon={faSearch} style={{ fontSize: '20px' }} />
+                <FontAwesomeIcon icon={faSearch} style={customIconStyle} />
               </div>
 
               <input
@@ -297,14 +302,14 @@ export default function SearchPage() {
               />
               {navigate_searchInput && (
                 <div className="clearIcon" onClick={() => handleClearSearch()}>
-                  <FontAwesomeIcon icon={faTimes} style={{ fontSize: '20px' }} />
+                  <FontAwesomeIcon icon={faTimes} style={customIconStyle} />
                 </div>
               )}
             </div>
             <div className="searchOption">
               <div className="searchOption_title" onClick={() => setOpenOption(!openOption)}>
                 <div>{navigate_searchOption.label}</div>
-                <FontAwesomeIcon icon={faAngleDown} />
+                <FontAwesomeIcon icon={faAngleDown} style={customIconStyle} />
               </div>
               {openOption && (
                 <div className="searchOption_option" ref={optionRef}>

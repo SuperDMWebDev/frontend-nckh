@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Styled from './style';
 import { useNavigate } from 'react-router-dom';
 
-import logout from '../../assets/log-out.png';
-
 interface DropdownType {
   img: string;
   text: string;
@@ -77,7 +75,7 @@ export default function SearchBarAdmin() {
             <h3>Admin</h3>
             {/* <div className="dropdown-menu__subTitle">Trang quản lý</div> */}
             <ul>
-              <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
+              <DropdownItem img="/assets/icons/log-out.png" text={'Đăng xuất'} value={'Logout'} />
             </ul>
           </div>
         </div>
