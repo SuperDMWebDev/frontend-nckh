@@ -16,7 +16,7 @@ import {
   faSearch,
   faAnglesDown
 } from '@fortawesome/free-solid-svg-icons';
-import { getAllUniversities } from '../../../api/Configuration';
+import { getAllFilterUniversities } from '../../../api/Configuration';
 
 const itemsPerPage = 7;
 const maxVisibleButtons = 7;
@@ -75,7 +75,7 @@ export default function SearchPage() {
   });
 
   const updateUniversities = useCallback(async () => {
-    const response = await getAllUniversities();
+    const response = await getAllFilterUniversities();
     response.map((item: any) => {
       return {
         ...item,

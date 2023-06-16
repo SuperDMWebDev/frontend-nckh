@@ -173,9 +173,20 @@ export const updateActivity = async (data: any) => {
 export const getAllUniversities = async () => {
   try {
     const res = await axios.get(`${BASE_URL}configs/university/fetch-all`);
+
     return res.data.data;
   } catch (error) {
     return handleError(error);
+  }
+};
+
+export const getAllFilterUniversities = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}configs/university/fetch-all-to-filter`);
+
+    return res.data.data;
+  } catch (err) {
+    return handleError(err);
   }
 };
 
