@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined, EditOutlined, MinusOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, MinusOutlined, DeleteFilled } from '@ant-design/icons';
 import { Form, InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
@@ -8,7 +8,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import Loader from '../../Loader/Loader';
 import './style.css';
-import { getAllAccounts, signup } from '../../../api/Account';
+import { deleteAccount, getAllAccounts, signup } from '../../../api/Account';
 import { createLecturer, editBioProfile, getListLecturers } from '../../../api/Lecturer';
 import { toast } from "react-toastify";
 
@@ -107,66 +107,36 @@ const ListTeacher: React.FC = () => {
     setOpen(false);
     setOpenDel(false);
   };
-  const handleDelete = () => {
-    if (dataId.length === 0) {
-      toast.error('Bạn chưa chọn người dùng nào để xóa!');
-    } else {
-      setOpenDel(true);
-    }
+  const handleDelete = (record: DataType) => {
+    setId(record.id);
+    setOpenDel(true);
   };
   const handleInputChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-  const handleInputChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
 
   const onFinish = () => {
-    if (formType === 'create') {
-      const dataName: DataName[] = [];
-      dataName.push({ name: name });
-      const payload: any = {
-        data: dataName
-      }
-      if (name === '' || email === '') {
-        toast.error('Bạn chưa nhập đầy đủ dữ liệu!');
-      } else {
-        signup(email).then((code) => {
-          if (code === 0) {
-            setSuccessEmail(true);
-          } else {
-            setSuccessEmail(false);
-          }
-        });
-        //createLecturer(payload);
-        // .then((code) => {
-        //   if (code === 0) {
-        //     toast.success('Tạo liên hệ thành công!');
-        //   } else {
-        //     toast.error('Tạo liên hệ thất bại!');
-        //   }
-        //   getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
-        //   setOpen(false);
-        // });
-        if (successEmail === false) {
-          toast.error('Người dùng này đã tồn tại!');
-        }
-        else {
-          toast.success('Tạo người dùng thành công!');
-        }
-      }
+    const dataName: DataName[] = [];
+    dataName.push({ name: name });
+    const payload: any = {
+      data: dataName
+    }
+    if (name === '' || email === '') {
+      toast.error('Bạn chưa nhập đầy đủ dữ liệu!');
     } else {
-      const dataUpdate: DataName = { name: name };
-      if (dataUpdate.name === '') {
-        toast.error('Bạn chưa nhập dữ liệu!');
-      } else {
-        editBioProfile(dataUpdate, id.toString()).then((code) => {
-          if (code === 0) {
-            toast.success('Cập nhật người dùng thành công!');
-          } else {
-            toast.error('Cập nhật người dùng thất bại!');
-          }
-        });
+      signup(email).then((code) => {
+        if (code === 0) {
+          setSuccessEmail(true);
+        } else {
+          setSuccessEmail(false);
+        }
+      });
+
+      if (successEmail === false) {
+        toast.error('Người dùng này đã tồn tại!');
+      }
+      else {
+        toast.success('Tạo người dùng thành công!');
       }
     }
 
@@ -193,26 +163,42 @@ const ListTeacher: React.FC = () => {
     if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
       setData(dataArray);
     }
-    
+
     setOpen(false);
   };
 
-  const onDelete = () => {
-    // const temp: any = {
-    //   data: dataId
-    // }
-    // const payload: any = {
-    //   data: temp
-    // }
-    // deleteMultipleContactTypes(payload).then((code) => {
-    //   if (code === 0) {
-    //     toast.success('Xóa liên hệ thành công!');
-    //     getAllContactTypes().then((contactTypes) => setContactTypes(contactTypes));
-    //   } else {
-    //     toast.error('Xóa liên hệ thất bại!');
-    //   }
-    //   setOpenDel(false);
-    // });
+  const onDelete = (accountId: string) => {
+    deleteAccount(accountId).then((code) => {
+      if (code === 0) {
+        toast.success('Xóa người dùng thành công!');
+        getListLecturers().then((result) => {
+          setLecturerList(result.data.data);
+        });
+        getAllAccounts().then((result) => {
+          setAccountList(result.data.data);
+        });
+
+        const dataArray: DataType[] = [];
+        accountList.map((itemAccount: Account, index: number) => {
+          const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+          if (idx >= 0) {
+            const newData: DataType = {
+              id: itemAccount.id,
+              name: lecturerList[idx].name,
+              email: itemAccount.email
+            };
+            dataArray.push(newData);
+          }
+        });
+
+        if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
+          setData(dataArray);
+        }
+      } else {
+        toast.error('Xóa liên hệ thất bại!');
+      }
+      setOpenDel(false);
+    });
   };
 
   const rowSelection = {
@@ -335,9 +321,7 @@ const ListTeacher: React.FC = () => {
       key: 'x',
       width: '3%',
       render: (text, record) => (
-        <EditOutlined className="edit-button" style={{ cursor: "pointer" }}
-          onClick={() => handleUpdate(record)}
-        />
+        <DeleteFilled className="del-button" style={{ cursor: "pointer" }} onClick={() => handleDelete(record)} />
       )
     }
   ];
@@ -353,7 +337,8 @@ const ListTeacher: React.FC = () => {
   const fetchAccountList = () => {
     useEffect(() => {
       getAllAccounts().then((result) => {
-        setAccountList(result.data.data);
+        //setAccountList(result.data.data);
+        console.log(result);
       })
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
@@ -361,7 +346,7 @@ const ListTeacher: React.FC = () => {
 
   const fetchData = () => {
     fetchLecturerList();
-    fetchAccountList();
+    // fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList.map((itemAccount: Account, index: number) => {
@@ -395,7 +380,6 @@ const ListTeacher: React.FC = () => {
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
               }}>Danh sách người dùng</span>
             <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
-            <button className='button2' onClick={handleDelete} style={{ marginLeft: "10px" }}><MinusOutlined style={{ marginRight: "10px" }} />Xóa</button>
           </div>
 
           <Table
@@ -412,7 +396,7 @@ const ListTeacher: React.FC = () => {
 
           <Modal
             className="title_modal"
-            title={formType === "create" ? "Thêm người dùng" : "Sửa người dùng"}
+            title="Thêm người dùng"
             centered
             open={open}
             onOk={() => setOpen(false)}
@@ -434,15 +418,7 @@ const ListTeacher: React.FC = () => {
               style={{ maxWidth: 500 }}
             >
               <Form.Item label="Email" name="email">
-                {formType === 'create' ? (
-                  <Input placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
-                ) : (
-                  <Input value={email} disabled />
-                )}
-              </Form.Item>
-
-              <Form.Item label="Họ tên" name="name">
-                <Input placeholder="Nhập họ tên" value={name} onChange={handleInputChangeName} />
+                <Input placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
               </Form.Item>
 
               <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
@@ -464,7 +440,7 @@ const ListTeacher: React.FC = () => {
             width={500}
             destroyOnClose
             footer={[
-              <Button type="primary" htmlType="submit" onClick={onDelete}>
+              <Button type="primary" htmlType="submit" onClick={() => onDelete(id.toString())}>
                 Có
               </Button>,
               <Button className='btn-cancel' key="back" onClick={handleCancel}>
