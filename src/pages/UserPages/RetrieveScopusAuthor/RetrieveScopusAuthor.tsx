@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { getScopusAuthors } from '../../../api/Lecturer';
 import { retrieveScopusAccount } from '../../../api/Account';
 import Loader from '../../../components/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthorScopus {
   surname: string;
@@ -28,6 +29,8 @@ const style = {
 };
 
 export default function RetrieveScopusAuthor() {
+  const navigate = useNavigate();
+
   const [scopusAuthors, setScopusAuthors] = useState<AuthorScopus[]>();
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -71,7 +74,7 @@ export default function RetrieveScopusAuthor() {
       localStorage.setItem('scopusId', scopusID);
       localStorage.setItem('lecturerId', data.data.lecturerId);
       setTimeout(() => {
-        window.location.replace('http://localhost:5000/');
+        navigate('/');
       }, 2000);
     }
   };

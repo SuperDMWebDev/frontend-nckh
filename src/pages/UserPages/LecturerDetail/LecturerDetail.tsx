@@ -122,7 +122,7 @@ export default function LecturerDetail() {
   };
 
   const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/');
+    navigate('/');
   };
 
   // PAGINATION ARTICLES
@@ -515,7 +515,7 @@ export default function LecturerDetail() {
 // git stash
 
 /**
- 
+
 
 
  */

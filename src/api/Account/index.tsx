@@ -78,3 +78,12 @@ export const getEmailByAccountId = async (accountId: string) => {
 
   return res.data.data.email;
 };
+
+export const deleteAccount = async (accountId: string) => {
+  const res = await axios.delete(`${BASE_URL}accounts/${accountId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return res.data.code;
+};
