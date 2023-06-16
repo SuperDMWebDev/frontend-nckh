@@ -269,6 +269,12 @@ export default function SearchPage() {
     setDisplayAllItems(!displayAllItems);
   };
 
+  const handleChangeSearchOption = (item: any) => {
+    setNavigate_searchOption(item);
+    setOpenOption(false);
+    setCurrentPage(1);
+  };
+
   const visibleUniversityList = displayAllItems ? universityList : universityList.slice(0, 10);
 
   return (
@@ -318,8 +324,7 @@ export default function SearchPage() {
                       key={`searchOption-${index}`}
                       className="searchOption_option_item"
                       onClick={() => {
-                        setNavigate_searchOption(item);
-                        setOpenOption(false);
+                        handleChangeSearchOption(item);
                       }}>
                       {item.label}
                     </div>
