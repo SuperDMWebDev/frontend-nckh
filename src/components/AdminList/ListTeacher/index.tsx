@@ -123,18 +123,18 @@ const ListTeacher: React.FC = () => {
           getAllAccounts().then((result) => {
             setAccountList(result.data.data);
           });
-  
+
           const dataArray: DataType[] = [];
           accountList.map((itemAccount: Account, index: number) => {
-              const newData: DataType = {
-                index: index,
-                id: itemAccount.id,
-                name: "New user",
-                email: itemAccount.email
-              };
-              dataArray.push(newData);
+            const newData: DataType = {
+              index: index,
+              id: itemAccount.id,
+              name: "New user",
+              email: itemAccount.email
+            };
+            dataArray.push(newData);
           });
-  
+
           if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
             setData(dataArray);
           }
@@ -333,24 +333,28 @@ const ListTeacher: React.FC = () => {
     fetchAccountList();
 
     const dataArray: DataType[] = [];
-    accountList.map((itemAccount: Account, index: number) => {
-      const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
-      if (idx >= 0) {
-        const newData: DataType = {
-          index: index,
-          id: itemAccount.id,
-          name: lecturerList[idx].name,
-          email: itemAccount.email
-        };
-        dataArray.push(newData);
-      } else {
-        const newData: DataType = {
-          index: index,
-          id: itemAccount.id,
-          name: "New user",
-          email: itemAccount.email
-        };
-        dataArray.push(newData);
+    accountList?.map((itemAccount: Account, index: number) => {
+      console.log(itemAccount);
+      console.log("itemAccount: ", itemAccount);
+      if (itemAccount.role == 1) {
+        const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+        if (idx >= 0) {
+          const newData: DataType = {
+            index: index,
+            id: itemAccount.id,
+            name: lecturerList[idx].name,
+            email: itemAccount.email
+          };
+          dataArray.push(newData);
+        } else {
+          const newData: DataType = {
+            index: index,
+            id: itemAccount.id,
+            name: "New user",
+            email: itemAccount.email
+          };
+          dataArray.push(newData);
+        }
       }
     });
 
@@ -360,16 +364,12 @@ const ListTeacher: React.FC = () => {
   };
   fetchData();
 
-  // const dataTable = data.map((item, index) => {
-  //   item.index = index + 1;
-  //   console.log(index);
-  // });
+  const dataTable = data.map((item, index) => {
+    item.index = index + 1;
+    console.log(index);
+  });
 
-  // for (let i = 0; i < data.length; i++) {
-
-  // }
-
-  // console.log("dataTable: ", dataTable);
+  console.log("dataTable: ", data);
 
   return (
     <>

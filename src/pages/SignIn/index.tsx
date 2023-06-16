@@ -39,11 +39,11 @@ const SignIn = () => {
         if (code !== 0) {
           toast.error(message);
         } else {
-          role = role.toString();
-          accountId = accountId.toString();
           localStorage.setItem('accessToken', token);
           localStorage.setItem('accountId', accountId);
           localStorage.setItem('role', role);
+          role = role.toString();
+          accountId = accountId.toString();
           if (lecturerInfo) {
             localStorage.setItem('lecturerId', lecturerInfo.id);
           }
