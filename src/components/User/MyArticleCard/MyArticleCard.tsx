@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Styled from './style';
+import { useNavigate } from 'react-router-dom';
 
 const MyArticleCard = (props: any) => {
   const { data } = props;
-  console.log(data);
-
+  const navigate = useNavigate();
   const [authorList, setAuthorList] = useState<string[]>([]);
 
   const getAuthorList = (data: any) => {
@@ -30,7 +30,7 @@ const MyArticleCard = (props: any) => {
   console.log(authorList);
 
   const handleGoToDetail = (id: any) => {
-    window.location.replace(`http://localhost:5000/article-detail/${id}`);
+    navigate(`/article-detail/${id}`);
   };
 
   return (

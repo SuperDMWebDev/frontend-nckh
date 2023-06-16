@@ -13,8 +13,10 @@ import {
   faArrowLeft,
   faArrowRight,
   faTimes,
-  faSearch
+  faSearch,
+  faAnglesDown
 } from '@fortawesome/free-solid-svg-icons';
+import { getAllUniversities } from '../../../api/Configuration';
 
 const itemsPerPage = 7;
 const maxVisibleButtons = 7;
@@ -39,6 +41,9 @@ export default function SearchPage() {
   const scrollTop = useRef<HTMLDivElement>(null);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedValue, setSelectedValue] = useState('asc');
+  const [universityList, setUniversityList] = useState<any[]>([]);
+  const [displayAllItems, setDisplayAllItems] = useState(false);
 
   const checkCurrentSearch = useCallback(() => {
     if (currentSearch === SEARCH_OPTION[0].value) {
@@ -48,9 +53,6 @@ export default function SearchPage() {
     return false;
   }, [currentSearch]);
 
-  useEffect(() => {
-    console.log('currentSearch ', currentSearch, currentPage);
-  }, [currentSearch, currentPage]);
   useEffect(() => {
     let handler = (e: any) => {
       if (optionRef.current !== null) {
@@ -66,6 +68,22 @@ export default function SearchPage() {
     };
   });
 
+  const updateUniversities = useCallback(async () => {
+    const response = await getAllUniversities();
+    response.map((item: any) => {
+      return {
+        ...item,
+        checked: false
+      };
+    });
+    if (response) {
+      setUniversityList(response);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
   useEffect(() => {
     setTotalPages(
       checkCurrentSearch()
@@ -73,6 +91,10 @@ export default function SearchPage() {
         : Math.ceil(listArticles.length / itemsPerPage)
     );
   }, [listAuthors, listArticles, checkCurrentSearch]);
+
+  useEffect(() => {
+    updateUniversities();
+  }, [updateUniversities]);
 
   const fetchListArticle = useCallback(
     async (data: any) => {
@@ -119,61 +141,47 @@ export default function SearchPage() {
     [navigate]
   );
 
-  const handleKeyDown = async (event: any) => {
-    if (event.key === 'Enter') {
-      if (navigate_searchOption.label === 'Bài báo') {
-        const data = {
-          searchOption: 'articles',
-          keyword: navigate_searchInput
-        };
-        await fetchListArticle(data);
-        setCurrentSearch('article');
-      } else {
-        const data = {
-          searchOption: 'lecturers',
-          keyword: navigate_searchInput
-        };
-        await fetchListLectures(data);
-        setCurrentSearch('author');
+  const handleSearch = useCallback(async () => {
+    let universityIds: any[] = [];
+    universityList.map((university) => {
+      if (university.checked) {
+        universityIds.push(university.id);
       }
-    }
-  };
+    });
 
-  const handleSearch = async () => {
     if (navigate_searchOption.label === 'Bài báo') {
       const data = {
         searchOption: 'articles',
-        keyword: navigate_searchInput
+        keyword: navigate_searchInput,
+        sort: selectedValue,
+        universityIds
       };
       await fetchListArticle(data);
       setCurrentSearch('article');
     } else {
       const data = {
         searchOption: 'lecturers',
-        keyword: navigate_searchInput
+        keyword: navigate_searchInput,
+        sort: selectedValue,
+        universityIds
       };
       await fetchListLectures(data);
       setCurrentSearch('author');
     }
-  };
+  }, [
+    fetchListArticle,
+    fetchListLectures,
+    navigate_searchInput,
+    navigate_searchOption.label,
+    selectedValue,
+    universityList
+  ]);
 
-  useEffect(() => {
-    if (navigate_searchOption.label === 'Bài báo') {
-      const data = {
-        searchOption: 'articles',
-        keyword: navigate_searchInput
-      };
-      fetchListArticle(data);
-      setCurrentSearch('article');
-    } else {
-      const data = {
-        searchOption: 'lecturers',
-        keyword: navigate_searchInput
-      };
-      fetchListLectures(data);
-      setCurrentSearch('author');
+  const handleKeyDown = async (event: any) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
-  }, [fetchListArticle, fetchListLectures, navigate_searchInput, navigate_searchOption]);
+  };
 
   const handlePageChange = (pageNumber: number) => {
     if (scrollTop.current) {
@@ -205,6 +213,58 @@ export default function SearchPage() {
   const handleClearSearch = () => {
     setNavigate_searchInput('');
   };
+
+  const handleSelectChange = (event: any) => {
+    event.preventDefault();
+
+    const { value } = event.target;
+
+    setSelectedValue(value);
+  };
+
+  const totalItems = checkCurrentSearch() ? listAuthors.length : listArticles.length;
+  const itemStart = (currentPage - 1) * itemsPerPage + 1;
+  const itemEnd = Math.min(currentPage * itemsPerPage, totalItems);
+
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, universityId: any) => {
+    const isChecked = e.target.checked;
+    console.log('item checkbox ', isChecked, universityId);
+
+    let updatedList = universityList.map((university) => {
+      if (university.id === universityId) {
+        return { ...university, checked: isChecked };
+      }
+
+      return university;
+    });
+
+    setUniversityList(updatedList);
+  };
+
+  const resetCheckedUniversity = () => {
+    let updatedList = universityList.map((university) => {
+      return { ...university, checked: false };
+    });
+
+    setUniversityList(updatedList);
+  };
+
+  const countUniversityChecked = useCallback(() => {
+    let count = 0;
+    universityList.forEach((university) => {
+      if (university.checked) {
+        count++;
+      }
+    });
+
+    return `${count} selected`;
+  }, [universityList]);
+
+  const handleShowMore = () => {
+    setDisplayAllItems(!displayAllItems);
+  };
+
+  const visibleUniversityList = displayAllItems ? universityList : universityList.slice(0, 10);
 
   return (
     <Styled>
@@ -265,78 +325,161 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-      {currentSearch !== 'article' ? (
-        <div className="center" ref={scrollTop}>
-          <div className="list_article">
-            {listAuthors.length !== 0 ? (
-              listAuthors
-                .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-                .map((item, index) => <AuthorCard key={`author-card-${index}`} data={item} />)
-            ) : (
-              <>
-                <div
-                  style={{
-                    fontSize: '14px',
-                    marginTop: '10px',
-                    fontStyle: 'italic',
-                    marginLeft: '-70px'
-                  }}>
-                  Không tìm thấy tác giả nào!
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="center" ref={scrollTop}>
-          <div className="content content_article">
-            <div className="list_article">
-              {listArticles.length !== 0 ? (
-                listArticles
-                  .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-                  .map((item, index) => <ArticleCard key={`article-card-${index}`} data={item} />)
-              ) : (
-                <>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      marginTop: '10px',
-                      fontStyle: 'italic',
-                      marginLeft: '-70px'
-                    }}>
-                    Không tìm thấy bài báo nào!
-                  </div>
-                </>
+      <div className="layout_main">
+        <div className="result__left">
+          <h2 className="sideBar__heading">Bộ lọc</h2>
+          <div className="filter_university">
+            <h3 className="sideBar__subHeading">
+              <i className="fas fa-university"></i>
+              <span>Trường đại học</span>
+            </h3>
+            <div className="sideBar__optionsHead">
+              <div className="university--count">{countUniversityChecked()}</div>
+              <button onClick={() => resetCheckedUniversity()}>Reset</button>
+            </div>
+            <div className="sideBar_item_container">
+              {visibleUniversityList.length > 0 &&
+                visibleUniversityList.map((item: any, index: any) => {
+                  return (
+                    <div className="sideBar_item" key={item.id}>
+                      <input
+                        type="checkbox"
+                        onChange={(e) => handleCheckBoxChange(e, item.id)}
+                        checked={item.checked}
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  );
+                })}
+              {!displayAllItems && universityList.length > 10 && (
+                <button className="show-button" onClick={handleShowMore}>
+                  Show More
+                </button>
+              )}
+              {displayAllItems && (
+                <button className="show-button show-less" onClick={handleShowMore}>
+                  Show Less
+                </button>
               )}
             </div>
           </div>
         </div>
-      )}
-      <div className="sort_article">
-        <div>
-          <div
-            style={{
-              marginBottom: '50px',
-              marginTop: '30px'
-            }}>
-            <button
-              className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
-              disabled={currentPage <= 1}
-              onClick={() => handlePageChange(currentPage - 1)}>
-              <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
-            </button>
+        <div className="result__buffer"></div>
+        <div className="result__pagination">
+          <div className="sort_container">
+            <div className="pagination_bar_left">
+              <div className="dropdown_discovery">
+                <label htmlFor="i11">Sắp xếp theo</label>
+                <div className="select-container">
+                  <select
+                    id="i11"
+                    aria-label="sort order"
+                    value={selectedValue}
+                    onChange={handleSelectChange}
+                    className="custom_select">
+                    <option value="asc">Tên (A-Z)</option>
+                    <option value="desc">Tên (Z-A)</option>
+                  </select>
+                  <FontAwesomeIcon icon={faAngleDown} className="dropdown-icon" />
+                </div>
+              </div>
+            </div>
+            <div className="pagination_bar_middle">
+              <div>
+                <div className="pagination_button__container">
+                  <button
+                    className={`btn-pre-next btn-left${currentPage <= 1 ? ' disabled' : ''}`}
+                    disabled={currentPage <= 1}
+                    onClick={() => handlePageChange(currentPage - 1)}>
+                    <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+                  </button>
 
-            {renderPageButtons()}
+                  {renderPageButtons()}
 
-            <button
-              className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
-              disabled={currentPage >= totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}>
-              <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
-            </button>
+                  <button
+                    className={`btn-pre-next btn-right${
+                      currentPage >= totalPages ? ' disabled' : ''
+                    }`}
+                    disabled={currentPage >= totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}>
+                    <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="pagination_bar_right">
+              <div>
+                <strong>{itemStart}</strong> - <strong>{itemEnd}</strong> trên tổng số{' '}
+                <strong>{totalItems}</strong>
+              </div>
+            </div>
+          </div>
+          <div className="list_container">
+            {currentSearch !== 'article' ? (
+              <div ref={scrollTop}>
+                <div className="list_article">
+                  {listAuthors.length !== 0 ? (
+                    listAuthors
+                      .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                      .map((item, index) => <AuthorCard key={`author-card-${index}`} data={item} />)
+                  ) : (
+                    <>
+                      <div
+                        style={{
+                          fontSize: '14px',
+                          marginTop: '10px',
+                          fontStyle: 'italic',
+                          marginLeft: '-70px'
+                        }}>
+                        Không tìm thấy tác giả nào!
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div ref={scrollTop}>
+                <div className="content content_article">
+                  <div className="list_article">
+                    {listArticles.length !== 0 ? (
+                      listArticles
+                        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                        .map((item, index) => (
+                          <ArticleCard key={`article-card-${index}`} data={item} />
+                        ))
+                    ) : (
+                      <>
+                        <div
+                          style={{
+                            fontSize: '14px',
+                            marginTop: '10px',
+                            fontStyle: 'italic',
+                            marginLeft: '-70px'
+                          }}>
+                          Không tìm thấy bài báo nào!
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="logo-container">
+            <img src="/assets/images/logo_hcmus.jpg" alt="HCMUS Logo" className="logo" />
+          </div>
+          <div className="info-container">
+            <p className="info">HCMUS - Ho Chi Minh City University of Science</p>
+            <p className="info">
+              227 Nguyễn Văn Cừ, Quận 5, TP.HCM, Việt Nam - (028) 38.354.266 - (028) 38.324.467
+            </p>
+          </div>
+        </div>
+      </footer>
     </Styled>
   );
 }

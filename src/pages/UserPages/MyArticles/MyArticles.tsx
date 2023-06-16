@@ -21,7 +21,7 @@ export default function MyArticles() {
   const lecturerId = localStorage.getItem('lecturerId');
 
   const handleBackSearch = () => {
-    window.location.replace('http://localhost:5000/');
+    navigate('/');
   };
 
   const fetchListArticle = async (lecturerId: any) => {

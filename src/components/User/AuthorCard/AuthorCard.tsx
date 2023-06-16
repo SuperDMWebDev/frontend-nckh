@@ -11,7 +11,7 @@ const AuthorCard = (props: any) => {
 
   return (
     <Styled>
-      <div className="container" key={data.id} onClick={() => handleLink(data.id)}>
+      <div className="item-container" key={data.id} onClick={() => handleLink(data.id)}>
         <div className="left">
           <img
             className="left_img"

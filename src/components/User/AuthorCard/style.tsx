@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
-  .container {
+  .item-container {
     display: flex;
     gap: 20px;
 
@@ -47,6 +47,9 @@ const Styled = styled.div`
 
   .right {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     &_availability {
       display: flex;

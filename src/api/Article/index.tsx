@@ -84,12 +84,9 @@ export const deleteArticle = async (data: any) => {
 
 export const getListArticleWithKeyword = async (data: any) => {
   try {
-    var query = '';
-    if (data.keyword !== '') {
-      query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}`;
-    } else {
-      query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=10`;
-    }
+    const universityIds = data?.universityIds.join(',');
+    let query = `${BASE_URL}${data.searchOption}/fetch?pageOffset=1&limitSize=10&keyword=${data.keyword}&sort=${data?.sort}&universityIds=${universityIds}`;
+
     const res = await axios.get(query);
 
     return res;
