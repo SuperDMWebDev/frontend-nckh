@@ -89,7 +89,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     handleSearch();
-  }, []);
+  }, [navigate_searchOption]);
   useEffect(() => {
     setTotalPages(
       checkCurrentSearch()
