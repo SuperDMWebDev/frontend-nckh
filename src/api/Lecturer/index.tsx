@@ -454,6 +454,7 @@ export const deleteBook = async (lecturer: any, idBook: any, lecturerId: string 
 };
 
 export const editExpertises = async (lecturer: any, data: any, lecturerId: string | null) => {
+  console.log('🚀 ~ file: index.tsx:457 ~ editExpertises ~ data:', data);
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -471,18 +472,40 @@ export const editExpertises = async (lecturer: any, data: any, lecturerId: strin
       academicTitleGainYear: lecturer.academicTitleGainYear,
       expertises: [
         {
-          id: lecturer.expertises[0].id,
-          lecturerId: lecturerId,
-          title: 'Lĩnh vực',
-          specialization: data.field,
+          id: data.id,
+          lecturerId: lecturer.id,
+          title: data.title,
+          specialization: data.specialization,
           update: true
-        },
+        }
+      ]
+    }
+  });
+};
+
+export const addExpertises = async (lecturer: any, data: any, lecturerId: string | null) => {
+  console.log('🚀 ~ file: index.tsx:457 ~ editExpertises ~ data:', data);
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      expertises: [
         {
-          id: lecturer.expertises[1].id,
-          lecturerId: lecturerId,
-          title: 'Chuyên ngành',
-          specialization: data.specialized,
-          update: true
+          lecturerId: lecturer.id,
+          title: data.title,
+          specialization: data.specialization,
+          create: true
         }
       ]
     }

@@ -891,7 +891,11 @@ export default function Profile() {
                   </Modal>
                 </div>
               </div>
-              <ModalEditExpertises lecturer={lecturer} canEdit={true} />
+              <ModalEditExpertises
+                lecturer={lecturer}
+                canEdit={true}
+                getInfoLecturer={getInfoLecturer}
+              />
               <ModalEditDegree lecturer={lecturer} canEdit={true} />
               <ModalEditWorkPosition lecturer={lecturer} canEdit={true} />
             </>
