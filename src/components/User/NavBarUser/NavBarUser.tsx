@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
-import user from '../../../assets/user.png';
-import settings from '../../../assets/settings.png';
-import help from '../../../assets/question.png';
-import logout from '../../../assets/log-out.png';
 import { getInfoProfile } from '../../../api/Lecturer';
 
 type Lecturer = {
@@ -17,7 +13,6 @@ const NavBarUser = () => {
   const [open, setOpen] = useState(false);
   const [lecturer, setLecturer] = useState<Lecturer>();
   const lectureId: string | null = localStorage.getItem('lecturerId');
-  console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
   useEffect(() => {
     getInfoProfile(lectureId)
@@ -78,7 +73,7 @@ const NavBarUser = () => {
 
   const handleClickSearch = () => {
     navigate('/search', {
-      state: { searchInput: '', searchOption: { label: 'Author', value: 'author' } }
+      state: { searchInput: '', searchOption: { label: 'Tác giả', value: 'author' } }
     });
   };
 
@@ -144,15 +139,18 @@ const NavBarUser = () => {
 
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <h3>{lecturer?.name}</h3>
-              {/* <div className="dropdown-menu__subTitle">Website User</div> */}
               <ul style={{ display: 'flex', flexDirection: 'column', paddingLeft: '0px' }}>
-                <DropdownItem img={user} text={'Trang cá nhân'} value={'MyProfile'} />
                 <DropdownItem
-                  img={help}
+                  img="/assets/icons/user.png"
+                  text={'Trang cá nhân'}
+                  value={'MyProfile'}
+                />
+                <DropdownItem
+                  img="/assets/icons/question.png"
                   text={'Truy xuất tài khoản Scopus'}
                   value={'Retrieve Scopus Author'}
                 />
-                <DropdownItem img={logout} text={'Đăng xuất'} value={'logout'} />
+                <DropdownItem img="/assets/icons/log-out.png" text={'Đăng xuất'} value={'logout'} />
               </ul>
             </div>
           </div>

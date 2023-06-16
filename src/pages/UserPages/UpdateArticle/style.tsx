@@ -119,7 +119,7 @@ const Styled = styled.div`
 
   .file {
     font-size: 16px;
-    color: #1677ff;
+    color: #00539a;
     margin-top: 5px;
   }
 `;

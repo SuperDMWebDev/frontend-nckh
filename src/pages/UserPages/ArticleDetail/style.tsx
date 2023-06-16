@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .detail-article-body {
     width: 900px;
-    height: 100vh;
+    padding-bottom: 50px;
     margin: 0 auto;
     margin-top: 20px;
   }
@@ -73,6 +73,7 @@ const Styled = styled.div`
 
   .article-content {
     margin-top: 20px;
+    margin-bottom: 40px;
   }
 
   .article-content p {
@@ -116,13 +117,21 @@ const Styled = styled.div`
   .file-section {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
     align-items: center;
     font-size: 16px;
   }
 
   .fileTitle {
     font-style: italic;
+    width: 10%;
+  }
+
+  .fileList {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    width: 90%;
   }
 `;
 

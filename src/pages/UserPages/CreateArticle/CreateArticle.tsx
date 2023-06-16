@@ -268,12 +268,14 @@ const CreateArticle = () => {
           });
           var listAuthorSelect: OptionSelect[] = [];
           temp.map((item: any) => {
-            var obj: OptionSelect = {
-              value: item.lecturerId,
-              label: item.lecturerName
-            };
-            if (obj.label) {
-              listAuthorSelect.push(obj);
+            if (lecturerId != item.lecturerId) {
+              var obj: OptionSelect = {
+                value: item.lecturerId,
+                label: item.lecturerName
+              };
+              if (obj.label) {
+                listAuthorSelect.push(obj);
+              }
             }
           });
           setSelectedLecturer(listAuthorSelect);
@@ -386,7 +388,6 @@ const CreateArticle = () => {
     }
   };
 
-  console.log('dat', day);
   useEffect(() => {
     fetchTag();
     fetchLecturer();
@@ -603,7 +604,6 @@ const CreateArticle = () => {
               isMulti
             />
           </div>
-          {/* <InputTags handleGetInputTag={handleGetTag} /> */}
         </div>
 
         <div>

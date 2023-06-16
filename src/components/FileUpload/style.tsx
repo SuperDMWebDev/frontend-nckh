@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .dropzone {
     border: 2px dashed #999;
+    color: #00539a;
     border-radius: 4px;
     padding: 40px;
     text-align: center;

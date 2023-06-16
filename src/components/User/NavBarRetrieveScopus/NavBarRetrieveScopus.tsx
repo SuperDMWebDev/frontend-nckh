@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './style';
-import logout from '../../../assets/log-out.png';
 
 type Lecturer = {
   [key: string]: any;
@@ -20,7 +19,6 @@ const NavBarRetrieveScopus = () => {
   const [lecturer, setLecturer] = useState<Lecturer>();
   const accountId: string | null = localStorage.getItem('accountId');
   const lecturerId: string | null = localStorage.getItem('lecturerId');
-  console.log('🚀 ~ file: NavBarUser.tsx:21 ~ NavBarUser ~ lecturer:', lecturer);
 
   useEffect(() => {
     // getInfoProfile(accountId)
@@ -126,7 +124,7 @@ const NavBarRetrieveScopus = () => {
             <div className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
               <div className="dropdown-menu__subTitle">Trang truy xuất Scopus</div>
               <ul style={{ display: 'flex', flexDirection: 'column' }}>
-                <DropdownItem img={logout} text={'Đăng xuất'} value={'Logout'} />
+                <DropdownItem img="/assets/icons/log-out.png" text={'Đăng xuất'} value={'Logout'} />
               </ul>
             </div>
           </div>

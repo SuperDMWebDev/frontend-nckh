@@ -41,7 +41,7 @@ const Styled = styled.div`
     height: 60px;
     width: 500px;
     font-size: 16px;
-    padding: 12px 40px 12px 40px;
+    padding: 12px 40px 12px 60px;
     line-height: 1;
     border-radius: 50px 0 0 50px;
     font-family: proxima-nova, sans-serif;
@@ -59,7 +59,7 @@ const Styled = styled.div`
 
   .searchIcon {
     position: absolute;
-    left: 10px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
