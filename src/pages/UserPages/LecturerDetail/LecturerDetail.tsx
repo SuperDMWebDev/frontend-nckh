@@ -21,6 +21,7 @@ import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDeg
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -381,31 +382,7 @@ export default function LecturerDetail() {
                 </div>
               </div>
 
-              <div className="content-profile">
-                <div className="main_content">
-                  <h2 className="title_content">LĨNH VỰC CHUYÊN MÔN</h2>
-                  {lecturer?.expertises == undefined ? (
-                    <>
-                      <span style={{ fontSize: '14px', fontStyle: 'italic' }}>Chưa cập nhật.</span>
-                    </>
-                  ) : (
-                    <>
-                      {lecturer?.expertises.map((expertise: any) => (
-                        <div style={{ marginBottom: '2px' }} key={expertise.id.toString()}>
-                          <p className="data_content" style={{ marginBottom: '-5px' }}>
-                            <FiberManualRecordIcon
-                              style={{ fontSize: '9px', textAlign: 'center' }}
-                            />{' '}
-                            <span style={{ fontWeight: 'bolder' }}>{expertise.title}</span>:{' '}
-                            {expertise.specialization}
-                          </p>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-              </div>
-
+              <ModalEditExpertises lecturer={lecturer} canEdit={false} />
               <ModalEditDegree lecturer={lecturer} canEdit={false} />
               <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
             </>
