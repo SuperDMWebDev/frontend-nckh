@@ -98,12 +98,6 @@ const ListTeacher: React.FC = () => {
     form.setFieldsValue({ name: '', email: '' });
     setOpen(true);
   };
-  const handleUpdate = (record: DataType) => {
-    setFormType('update');
-    setId(record.id);
-    form.setFieldsValue({ name: record.name, email: record.email });
-    setOpen(true);
-  };
   const handleCancel = () => {
     setOpen(false);
     setOpenDel(false);
@@ -119,49 +113,39 @@ const ListTeacher: React.FC = () => {
   const onFinish = () => {
     const dataName: DataName[] = [];
     dataName.push({ name: name });
-    const payload: any = {
-      data: dataName
-    }
     if (email === '') {
       toast.error('Bạn chưa nhập đầy đủ dữ liệu!');
     } else {
       signup(email).then((code) => {
         if (code === 0) {
           toast.success('Tạo người dùng thành công!');
+
+          getAllAccounts().then((result) => {
+            setAccountList(result.data.data);
+          });
+  
+          const dataArray: DataType[] = [];
+          accountList.map((itemAccount: Account, index: number) => {
+              const newData: DataType = {
+                index: index,
+                id: itemAccount.id,
+                name: "New user",
+                email: itemAccount.email
+              };
+              dataArray.push(newData);
+          });
+  
+          if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
+            setData(dataArray);
+          }
         } else {
           toast.error('Tạo tài khoản không thành công!');
         }
       });
     }
 
-    getListLecturers().then((result) => {
-      setLecturerList(result.data.data);
-    });
-    getAllAccounts().then((result) => {
-      setAccountList(result.data.data);
-    });
-
-    const dataArray: DataType[] = [];
-    accountList.map((itemAccount: Account, index: number) => {
-      const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
-      if (idx >= 0) {
-        const newData: DataType = {
-          index: 0,
-          id: itemAccount.id,
-          name: lecturerList[idx].name,
-          email: itemAccount.email
-        };
-        dataArray.push(newData);
-      }
-    });
-
-    if (JSON.stringify(dataArray) !== JSON.stringify(data)) {
-      setData(dataArray);
-    }
-
     setOpen(false);
   };
-  console.log(data);
 
   const onDelete = (accountId: string) => {
     deleteAccount(accountId).then((code) => {
@@ -179,7 +163,7 @@ const ListTeacher: React.FC = () => {
           const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
           if (idx >= 0) {
             const newData: DataType = {
-              index: 0,
+              index: index,
               id: itemAccount.id,
               name: lecturerList[idx].name,
               email: itemAccount.email
@@ -192,7 +176,7 @@ const ListTeacher: React.FC = () => {
           setData(dataArray);
         }
       } else {
-        toast.error('Xóa liên hệ thất bại!');
+        toast.error('Xóa người dùng thất bại!');
       }
       setOpenDel(false);
     });
@@ -295,7 +279,7 @@ const ListTeacher: React.FC = () => {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
-      width: '3%',
+      width: '5%',
       ...getColumnSearchProps('index')
     },
     {
@@ -331,17 +315,14 @@ const ListTeacher: React.FC = () => {
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
-  console.log(lecturerList);
   const fetchAccountList = () => {
     useEffect(() => {
       getAllAccounts().then((result) => {
         setAccountList(result.data.data);
-        console.log(result);
       })
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
-  fetchAccountList();
 
   const handleAddAccount = () => {
     console.log(email);
@@ -349,15 +330,24 @@ const ListTeacher: React.FC = () => {
 
   const fetchData = () => {
     fetchLecturerList();
+    fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList.map((itemAccount: Account, index: number) => {
       const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
       if (idx >= 0) {
         const newData: DataType = {
-          index: 0,
+          index: index,
           id: itemAccount.id,
           name: lecturerList[idx].name,
+          email: itemAccount.email
+        };
+        dataArray.push(newData);
+      } else {
+        const newData: DataType = {
+          index: index,
+          id: itemAccount.id,
+          name: "New user",
           email: itemAccount.email
         };
         dataArray.push(newData);
@@ -370,16 +360,16 @@ const ListTeacher: React.FC = () => {
   };
   fetchData();
 
-  const dataTable = data.map((item, index) => {
-    item.index = index + 1;
-    console.log(index);
-  });
+  // const dataTable = data.map((item, index) => {
+  //   item.index = index + 1;
+  //   console.log(index);
+  // });
 
-  for (let i = 0; i < data.length; i++) {
+  // for (let i = 0; i < data.length; i++) {
 
-  }
+  // }
 
-  console.log("dataTable: ", dataTable);
+  // console.log("dataTable: ", dataTable);
 
   return (
     <>
@@ -398,7 +388,7 @@ const ListTeacher: React.FC = () => {
 
           <Table
             rowKey="id"
-            rowSelection={{ type: 'checkbox', ...rowSelection }}
+            // rowSelection={{ type: 'checkbox', ...rowSelection }}
             pagination={{ pageSize: 7 }}
             columns={columns}
             locale={locale}
