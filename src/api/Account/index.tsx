@@ -12,6 +12,7 @@ const handleError = (error: any) => {
 };
 
 export const getAllAccounts = async () => {
+  const token = localStorage.getItem('accessToken');
   try {
     const res = await axios.get(`${BASE_URL}accounts`, {
       headers: {

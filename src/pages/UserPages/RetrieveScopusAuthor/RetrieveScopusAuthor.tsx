@@ -74,7 +74,8 @@ export default function RetrieveScopusAuthor() {
       localStorage.setItem('scopusId', scopusID);
       localStorage.setItem('lecturerId', data.data.lecturerId);
       setTimeout(() => {
-        navigate('/');
+        // navigate('/');
+        window.location.reload();
       }, 2000);
     }
   };
