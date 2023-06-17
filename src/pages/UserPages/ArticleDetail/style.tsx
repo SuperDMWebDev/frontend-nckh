@@ -133,6 +133,12 @@ const Styled = styled.div`
     gap: 20px;
     width: 90%;
   }
+
+  .breadcrumb {
+    margin-left: 45px;
+    background: #fff;
+    margin-top: 20px;
+  }
 `;
 
 export default Styled;

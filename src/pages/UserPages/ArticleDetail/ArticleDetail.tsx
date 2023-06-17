@@ -8,6 +8,9 @@ import { Modal } from 'antd';
 import { toast } from 'react-toastify';
 import { getLecturerIdFromAccountId } from '../../../utils/api';
 import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 type Article = {
   [key: string]: any;
@@ -68,7 +71,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() { }
+      onCancel() {}
     });
   }
 
@@ -136,6 +139,19 @@ export default function ArticleDetail() {
   return (
     <Styled>
       {isLoading && <LoaderLayer />}
+      <div className="breadcrumb">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link fontSize={14} underline="hover" color="#0056ce" href="/">
+            Trang chủ
+          </Link>
+          <Link fontSize={14} underline="hover" color="#0056ce" href="/search">
+            Tìm kiếm
+          </Link>
+          <Typography fontSize={14} color="text.primary">
+            Chi tiết
+          </Typography>
+        </Breadcrumbs>
+      </div>
       {article && (
         <div className="detail-article-body">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -157,9 +173,11 @@ export default function ArticleDetail() {
           <div className="article-author">
             <div className="article-author_title">Tác giả: </div>
             <div className="article-author_list">
-              {authorList.map((item) => (
-                <div>{item}</div>
-              ))}
+              {authorList
+                .map((item) => {
+                  return item;
+                })
+                .join(', ')}
             </div>
           </div>
 
@@ -167,7 +185,7 @@ export default function ArticleDetail() {
             <div>
               {article.journal && (
                 <p>
-                  <span className="subTitle">Bài báo: </span>
+                  <span className="subTitle">Tạp chí: </span>
                   {article.journal}
                 </p>
               )}
@@ -244,7 +262,7 @@ export default function ArticleDetail() {
           <div className="file-section">
             {!article.files ? null : (
               <>
-                <div className="fileTitle">Tập tin: </div>
+                <div className="fileTitle">Bài báo: </div>
                 <div className="fileList">
                   {article.files.map((item: any, index: any) => (
                     <div key={index}>
