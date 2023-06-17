@@ -406,47 +406,6 @@ const Styled = styled.div`
     align-items: center;
   }
 
-  .card-top-part {
-    width: 100%;
-    height: 70%;
-    padding: 15px;
-    display: flex;
-  }
-
-  .left-part {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-
-  .right-part {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    font-weight: 300;
-
-    &_group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: center;
-    }
-
-    &__num {
-      display: inline-block;
-      font-size: 18px;
-      margin: auto;
-    }
-
-    &__title {
-      font-size: 13px;
-      margin-right: auto;
-    }
-  }
-
   .user-name {
     display: flex;
     align-items: center;

@@ -186,7 +186,9 @@ export default function ArticleDetail() {
               {article.journal && (
                 <p>
                   <span className="subTitle">Tạp chí: </span>
-                  {article.journal}
+                  <a href={article.journalUrl} target="_blank">
+                    {article.journal}
+                  </a>
                 </p>
               )}
               {article.conference && (

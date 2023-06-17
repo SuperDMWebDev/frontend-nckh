@@ -46,30 +46,25 @@ const Styled = styled.div`
 
   .left-part {
     margin: auto;
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
 
   .right-part {
+    color: #3f51b5;
     width: 20%;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
-    font-weight: 300;
-
-    &_group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: center;
-    }
+    font-weight: 400;
 
     &__num {
       display: inline-block;
-      font-size: 18px;
+      font-size: 30px;
       margin: auto;
     }
 
@@ -127,41 +122,10 @@ const Styled = styled.div`
   }
 
   .right-part-1 {
-    color: #3f51b5;
     font-size: 16px;
     font-weight: 500;
     display: flex;
     width: 10%;
-  }
-
-  .right-part {
-    width: 10%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    font-weight: 300;
-    color: #3f51b5;
-    font-size: 16px;
-    font-weight: 500;
-
-    &_group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: center;
-    }
-
-    &__num {
-      display: inline-block;
-      font-size: 18px;
-      margin: auto;
-    }
-
-    &__title {
-      font-size: 13px;
-      margin-right: auto;
-    }
   }
 
   .card-bottom-part {
@@ -193,6 +157,13 @@ const Styled = styled.div`
 
   .article-author_list2 {
     font-size: 12px;
+  }
+
+  .citationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
