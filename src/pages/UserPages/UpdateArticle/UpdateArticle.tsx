@@ -325,12 +325,22 @@ const UpdateArticle = () => {
 
   const handleGetArticleByDOI = async () => {
     setIsLoading(true);
-    var payload = {
-      data: {
-        doi: DOI
-      }
-    };
-
+    var fullLinkDoi = DOI.includes('doi.org');
+    var payload = {};
+    if (fullLinkDoi) {
+      var doi = DOI.split('doi.org/')[1];
+      payload = {
+        data: {
+          doi: doi
+        }
+      };
+    } else {
+      payload = {
+        data: {
+          doi: DOI
+        }
+      };
+    }
     const res = await getArticleByDOI(payload);
     if (res) {
       setIsLoading(false);
@@ -571,7 +581,7 @@ const UpdateArticle = () => {
           multiline
           onChange={(e) => setAbstract(e.target.value)}
           InputLabelProps={{ style: { fontSize: 15 }, shrink: abstract != '' }}
-          inputProps={{ style: { fontSize: 15 } }}
+          inputProps={{ style: { fontSize: 15, lineHeight: 1.5 } }}
           size="small"
         />
         <div className="flex-center">
