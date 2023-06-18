@@ -241,7 +241,7 @@ export default function Profile() {
   const itemsPerPage = 5;
   const maxVisibleButtons = 5;
   const scrollTop = useRef<HTMLDivElement>(null);
-  const listArticle = Object.values(articleList);
+  const listArticle = articleList ? Object.values(articleList) : [];
   const arr = listArticle[0];
 
   const totalPages = arr?.slice(0).length;
