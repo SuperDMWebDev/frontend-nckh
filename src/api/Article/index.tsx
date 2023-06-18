@@ -14,10 +14,21 @@ const handleError = (error: any) => {
 
 export const getArticles = async () => {
   try {
-    const query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=10`;
+    const query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=1`;
     const res = await axios.get(query);
 
     return res;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const exportExcelArticles = async (year: any) => {
+  try {
+    const query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=9&isExport=true&fromYear=${year}`;
+    const res = await axios.get(query);
+
+    window.open(res.config.url, '_blank');
   } catch (error) {
     return handleError(error);
   }

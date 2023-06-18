@@ -1,6 +1,21 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
+  .year-select {
+    width: 100%;
+  }
+
+  .year-select .ant-select-selector {
+    border-radius: 4px;
+  }
+
+  .year-select .ant-select-selection-placeholder {
+    color: #bfbfbf;
+  }
+
+  .year-select .ant-select-selection-item {
+    padding: 5px 8px;
+  }
   .header_topbar {
     margin-top: 10px;
     width: 100%;
@@ -302,8 +317,10 @@ const Styled = styled.div`
 
   .add-article-container {
     display: flex;
-    justify-content: center;
     padding: 15px;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
   }
 
   .btn-add-article {
@@ -314,7 +331,6 @@ const Styled = styled.div`
     border-radius: 20px;
     height: 45px;
     width: auto;
-    margin-bottom: 10px;
   }
   .btn-add-article:hover {
     background-color: #323232;

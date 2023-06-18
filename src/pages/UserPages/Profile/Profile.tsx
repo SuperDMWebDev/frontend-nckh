@@ -11,18 +11,22 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { deleteFileLecturer, getInfoProfile, uploadFileLecturer } from '../../../api/Lecturer';
 import { Button, Modal } from 'antd';
-import { getArticlesOfLecturers } from '../../../api/Article';
+import { exportExcelArticles, getArticlesOfLecturers } from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
 import httpStatus from 'http-status';
 import ArticleProfileCard from '../../../components/User/ArticleProfileCard/ArticleProfileCard';
 import './Profile.css';
 import Avatar1 from 'react-avatar-edit';
-import { editBioProfile } from '../../../api/Lecturer';
-import { editAvatarProfile } from '../../../api/Lecturer';
-import { editNameProfile } from '../../../api/Lecturer';
-import { editLinkProfile } from '../../../api/Lecturer';
+import {
+  editBioProfile,
+  editAvatarProfile,
+  editNameProfile,
+  editLinkProfile,
+  deleteFileLecturer,
+  getInfoProfile,
+  uploadFileLecturer
+} from '../../../api/Lecturer';
 import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
 import ModalEditInfoProfile from '../../../components/User/ModalLecturer/ModalEditInfoProfile/ModalEditInfoProfile';
 import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/ModalEditBook';
@@ -34,6 +38,7 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import FileUpload from '../../../components/FileUpload';
 import { toast } from 'react-toastify';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ExportExcelModal from '../../../components/ExportExcelModal';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -73,6 +78,7 @@ export default function Profile() {
   const [openEditNameModal, setOpenEditNameModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newName, setNewName] = useState<string | undefined>();
+  const [openExportModal, setOpenExportModal] = useState(false);
 
   const fetchArticle = async () => {
     let param = {
@@ -276,6 +282,11 @@ export default function Profile() {
     return visibleButtons;
   };
 
+  const handleExport = async (selectedYear: any) => {
+    await exportExcelArticles(selectedYear);
+    setOpenExportModal(false);
+  };
+
   return (
     <Styled>
       <div className="header_topbar">
@@ -305,9 +316,9 @@ export default function Profile() {
           <img
             className="img-avatar"
             src={
-              lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar === null ||
+              lecturer?.avatar === '' ||
+              lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -321,7 +332,7 @@ export default function Profile() {
               <div className="field-profile-info">
                 <PortraitIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
-                  {lecturer?.currentDisciplines == undefined ? (
+                  {lecturer?.currentDisciplines === undefined ? (
                     <>
                       <span
                         style={{
@@ -355,7 +366,7 @@ export default function Profile() {
               <div className="field-profile-info">
                 <PlaceIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
-                  {lecturer?.currentDisciplines == undefined ? (
+                  {lecturer?.currentDisciplines === undefined ? (
                     <>
                       <span
                         style={{
@@ -901,7 +912,20 @@ export default function Profile() {
             </>
           ) : currentTab === 2 ? (
             <>
-              <div className="content-profile" ref={scrollTop}>
+              <div className="add-article-container" ref={scrollTop}>
+                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
+                  Thêm bài báo khoa học
+                </button>
+                <button className="btn btn-add-article" onClick={() => setOpenExportModal(true)}>
+                  Xuất excel
+                </button>
+                <ExportExcelModal
+                  visible={openExportModal}
+                  onClose={() => setOpenExportModal(false)}
+                  onExport={handleExport}
+                />
+              </div>
+              <div className="content-profile">
                 {currentLecturers ? (
                   currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (
@@ -910,8 +934,8 @@ export default function Profile() {
                       style={{
                         fontSize: '14px',
                         marginTop: '10px',
-                        fontStyle: 'italic',
-                        marginLeft: '-70px'
+                        fontStyle: 'italic'
+                        // marginLeft: '-70px'
                       }}>
                       Không tìm thấy bài báo khoa học nào!
                     </div>
@@ -951,7 +975,7 @@ export default function Profile() {
           ) : (
             <>
               <ModalEditResearchField lecturer={lecturer} canEdit={true} />
-              <ModalEditBook lecturer={lecturer} canEdit={true} />
+              <ModalEditBook lecturer={lecturer} canEdit />
             </>
           )}
         </div>
