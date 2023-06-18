@@ -59,7 +59,7 @@ const MyArticleCard = (props: any) => {
           </div>
           <div className="right-part">
             <div className="citationContainer">
-              <div className="right-part__num">{data?.citationCount}</div>
+              <div className="right-part__num">{data?.citationCount ? data?.citationCount : 0}</div>
               <div>Trích dẫn</div>
             </div>
             <div>

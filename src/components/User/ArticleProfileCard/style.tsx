@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const Styled = styled.div`
   .card_article {
     box-sizing: border-box;
-    /* max-width: 750px; */
 
     height: auto;
     background: #ffffff;
@@ -17,23 +16,16 @@ const Styled = styled.div`
     border-left: 0px;
     border-right: 0px;
 
-    padding: 20px;
+    padding: 20px 40px;
 
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
     margin-bottom: 15px;
+    width: 100%;
   }
 
   .card_article:hover {
     background-color: #efefef !important;
-  }
-
-  .right-part-1 {
-    color: #3f51b5;
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    width: 12%;
   }
 
   .icon_more {
@@ -42,48 +34,33 @@ const Styled = styled.div`
     cursor: pointer;
   }
 
-  .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .card-top-part {
     width: 100%;
-    height: 70%;
     padding: 15px;
     display: flex;
   }
 
   .left-part {
     margin: auto;
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
 
   .right-part {
+    color: #3f51b5;
     width: 10%;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
-    font-weight: 300;
-    color: #3f51b5;
-    font-size: 16px;
-    font-weight: 500;
-
-    &_group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: center;
-    }
+    font-weight: 400;
 
     &__num {
       display: inline-block;
-      font-size: 18px;
+      font-size: 30px;
       margin: auto;
     }
 
@@ -103,6 +80,11 @@ const Styled = styled.div`
   .name {
     font-size: 20px;
     font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .user-field {
@@ -110,6 +92,12 @@ const Styled = styled.div`
     font-weight: 400;
     font-style: italic;
     margin: 5px 0;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .name:hover {
@@ -129,15 +117,13 @@ const Styled = styled.div`
   .user-position {
     color: grey;
     font-size: 13px;
+    margin-top: 5px;
 
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .position {
   }
 
   .card-bottom-part {
@@ -169,6 +155,18 @@ const Styled = styled.div`
 
   .article-author_list2 {
     font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .citationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

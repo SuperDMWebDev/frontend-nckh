@@ -151,6 +151,9 @@ const UpdateArticle = () => {
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
   const [selectedTag, setSelectedTag] = useState<OptionSelect[]>();
+  const [citation, setCitation] = useState(article?.citationCount);
+  const [journalUrl, setJournalUrl] = useState('');
+
   const handleSelect = (data: any) => {
     setSelectedTag(data);
   };
@@ -266,6 +269,8 @@ const UpdateArticle = () => {
           setPII(data.PII);
           setSGR(data.SGR);
           setGeneralNote(data.generalNote);
+          setCitation(data.citationCount);
+          setJournalUrl(data.journalUrl);
 
           const tagSelect = data.tags.filter((e: any) => {
             return Object.keys(e).includes('tag_id');
@@ -371,6 +376,8 @@ const UpdateArticle = () => {
           setPII(data.PII);
           setSGR(data.SGR);
           setGeneralNote(data.generalNote);
+          setCitation(data.citationCount);
+          setJournalUrl(data.journalUrl);
 
           // tag select
           const tagSelect = data.tags.filter((e: any) => {
@@ -466,7 +473,9 @@ const UpdateArticle = () => {
       SGR,
       generalNote,
       tags,
-      authors
+      authors,
+      citationCount: citation,
+      journalUrl
     };
     var bodyFormData = new FormData();
     bodyFormData.append('data', JSON.stringify(data));

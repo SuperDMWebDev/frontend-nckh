@@ -901,12 +901,7 @@ export default function Profile() {
             </>
           ) : currentTab === 2 ? (
             <>
-              <div className="add-article-container" ref={scrollTop}>
-                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
-                  Thêm bài báo khoa học
-                </button>
-              </div>
-              <div className="content-profile">
+              <div className="content-profile" ref={scrollTop}>
                 {currentLecturers ? (
                   currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (
