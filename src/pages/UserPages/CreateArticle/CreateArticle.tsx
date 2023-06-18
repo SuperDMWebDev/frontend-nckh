@@ -656,7 +656,7 @@ const CreateArticle = () => {
             Hủy
           </Button>
           <Button size="large" variant="contained" onClick={() => handleCreateArticle()}>
-            Tạo
+            Lưu
           </Button>
         </div>
       </div>
