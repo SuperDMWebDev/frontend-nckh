@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ArticleCard = (props: any) => {
   const { data } = props;
+  const isLogin = !!localStorage.getItem('accessToken');
   const [authorList, setAuthorList] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -61,8 +62,23 @@ const ArticleCard = (props: any) => {
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
-          <div className="right-part-1">
-            {data?.rank && data?.rank !== 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+          <div className="right-part">
+            <div>
+              {data?.citationCount && (
+                <div className="citationContainer">
+                  <div className="right-part__num">{data?.citationCount}</div>
+                  <div>Trích dẫn</div>
+                </div>
+              )}
+            </div>
+            <div>
+              {isLogin && data?.rank && data?.rank !== 'Unranked' ? (
+                <div className="citationContainer">
+                  <div className="right-part__num">{data?.rank}</div>
+                  <div>Ranking</div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

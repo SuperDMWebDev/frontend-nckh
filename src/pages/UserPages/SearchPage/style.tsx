@@ -136,7 +136,7 @@ const Styled = styled.div`
       color: #111;
       font-size: 31px;
       font-weight: 600;
-      letter-spacing: .9px;
+      letter-spacing: 0.9px;
       line-height: 1;
     }
 
@@ -149,7 +149,7 @@ const Styled = styled.div`
       color: #111;
       font-size: 23px;
       font-weight: 600;
-      letter-spacing: .3px;
+      letter-spacing: 0.3px;
       line-height: 1.2;
       margin-bottom: 20px;
       text-align: center;
@@ -166,7 +166,7 @@ const Styled = styled.div`
       display: flex;
       font-size: 14px;
       font-weight: 600;
-      letter-spacing: .1px;
+      letter-spacing: 0.1px;
       line-height: 1;
       padding: 10px 5px;
       justify-content: space-between;
@@ -174,14 +174,14 @@ const Styled = styled.div`
 
       button {
         -webkit-font-smoothing: inherit;
-      background: none;
-      border: 0;
-      cursor: pointer;
-      font: inherit;
-      letter-spacing: inherit;
-      overflow: visible;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        letter-spacing: inherit;
+        overflow: visible;
         color: #505050;
-        font-family: barlow-condensed,serif;
+        font-family: barlow-condensed, serif;
         font-size: 15px;
         font-weight: 500;
         letter-spacing: 0;
@@ -190,7 +190,6 @@ const Styled = styled.div`
     }
 
     .sideBar_item_container {
-
       .sideBar_item {
         align-items: center;
         border-radius: 3px;
@@ -211,7 +210,6 @@ const Styled = styled.div`
         input {
           margin-right: 5px;
         }
-
       }
 
       .show-button {
@@ -238,89 +236,86 @@ const Styled = styled.div`
         cursor: pointer;
       }
     }
-
-
   }
 
+  .result__buffer {
+    flex: 0 2 90px;
+    min-width: 45px;
+    z-index: 0;
+  }
 
-    .result__buffer {
-      flex: 0 2 90px;
-      min-width: 45px;
-      z-index: 0;
-    }
+  .result__pagination {
+    width: 700px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    padding: 11px 13px 0;
+    flex: 0 1 926px;
+  }
 
-    .result__pagination {
-      width: 700px;
-      margin: 0 auto;
-      padding-bottom: 20px;
-      padding: 11px 13px 0;
-      flex: 0 1 926px;
-    }
-
-    .sort_container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0 auto;
-      margin-top: 50px;
-      margin-bottom: 30px;
-      width: 100%;
-    }
+  .sort_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
 
   .dropdown_discovery {
-      align-items: center;
-      background-color: #f7f7f7;
-      border-radius: 6px;
-      display: inline-flex;
-      padding: 3px 8px 4px 10px;
-      white-space: nowrap;
-      padding: 10px;
+    align-items: center;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    display: inline-flex;
+    padding: 3px 8px 4px 10px;
+    white-space: nowrap;
+    padding: 10px;
 
-      label {
-        color: #111;
-      font-family: proxima-nova,sans-serif;
+    label {
+      color: #111;
+      font-family: proxima-nova, sans-serif;
       font-size: 14px;
       font-weight: 400;
-      letter-spacing: .28px;
+      letter-spacing: 0.28px;
       line-height: 17px;
       margin-bottom: 0px;
-      }
+    }
 
-      select {
-        color: #111;
-        font-family: proxima-nova,sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: .28px;
-        line-height: 17px;
-        appearance: none;
-        border: 0;
-        padding: 0 18px 0 5px;
-        background-color: #f7f7f7;
-      }
+    select {
+      color: #111;
+      font-family: proxima-nova, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.28px;
+      line-height: 17px;
+      appearance: none;
+      border: 0;
+      padding: 0 18px 0 5px;
+      background-color: #f7f7f7;
+    }
 
-      select > option {
-        font-weight: 400;
-      }
+    select > option {
+      font-weight: 400;
+    }
 
-      .select-container {
-        position: relative;
-        display: inline-block;
-      }
+    .select-container {
+      position: relative;
+      display: inline-block;
+    }
 
-      .custom-select {
-        appearance: none;
-        position: relative;
-        z-index: 1;
-      }
+    .custom-select {
+      appearance: none;
+      position: relative;
+      z-index: 1;
+    }
 
-      .dropdown-icon {
-        position: absolute;
-        top: 50%;
-        right: 0px;
-        transform: translateY(-50%);
-        pointer-events: none;
-      }
+    .dropdown-icon {
+      position: absolute;
+      top: 50%;
+      right: 0px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
   }
 
   .dropdown_discovery select:focus {
@@ -337,8 +332,8 @@ const Styled = styled.div`
 
     .pagination_button__container {
       display: flex;
-      marginBottom: '50px',
-      marginTop: '30px'
+      margin-bottom: '50px';
+      margin-top: '30px';
     }
   }
   .pagination_bar_right {
@@ -404,47 +399,6 @@ const Styled = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-  }
-
-  .card-top-part {
-    width: 100%;
-    height: 70%;
-    padding: 15px;
-    display: flex;
-  }
-
-  .left-part {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-
-  .right-part {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    font-weight: 300;
-
-    &_group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      align-items: center;
-    }
-
-    &__num {
-      display: inline-block;
-      font-size: 18px;
-      margin: auto;
-    }
-
-    &__title {
-      font-size: 13px;
-      margin-right: auto;
-    }
   }
 
   .user-name {
