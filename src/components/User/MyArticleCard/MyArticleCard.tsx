@@ -43,27 +43,33 @@ const MyArticleCard = (props: any) => {
                 <p className="name">{data?.name}</p>
               </div>
             </div>
-            <div className="user-field">{data?.journal}</div>
+            <div className="user-field">{data?.journal ? data?.journal : data?.conference}</div>
             <div>
               <div style={{ display: 'inline' }}>
-                <div
-                  className="article-author_list2"
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    flexDirection: 'row',
-                    fontSize: '12px'
-                  }}>
-                  {authorList.map((item) => (
-                    <div style={{ marginRight: '4px' }}>{item},</div>
-                  ))}
+                <div className="article-author_list2">
+                  {authorList
+                    .map((item) => {
+                      return item;
+                    })
+                    .join(', ')}
                 </div>
               </div>
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
           <div className="right-part">
-            {data?.rank && data?.rank != 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+            <div className="citationContainer">
+              <div className="right-part__num">{data?.citationCount}</div>
+              <div>Trích dẫn</div>
+            </div>
+            <div>
+              {data?.rank && data?.rank !== 'Unranked' ? (
+                <div className="citationContainer">
+                  <div className="right-part__num">{data?.rank}</div>
+                  <div>Ranking</div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

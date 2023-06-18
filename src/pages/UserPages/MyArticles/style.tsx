@@ -8,7 +8,9 @@ const Styled = styled.div`
     flex-direction: column;
     position: relative;
   }
-
+  .content-profile {
+    width: 850px;
+  }
   .disabled {
     /* Apply the desired styles for the disabled button */
     opacity: 0.5; /* Example: Reducing opacity */

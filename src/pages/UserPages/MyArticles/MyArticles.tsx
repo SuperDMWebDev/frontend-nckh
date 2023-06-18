@@ -5,6 +5,7 @@ import MyArticleCard from '../../../components/User/MyArticleCard/MyArticleCard'
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import ArticleCard from '../../../components/User/ArticleCard/ArticleCard';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -111,53 +112,51 @@ export default function MyArticles() {
       </div>
 
       <div className="center" ref={scrollTop}>
-        <div className="content content_article">
-          <div className="list_article">
-            <div className="content-profile">
-              {currentLecturers ? (
-                currentLecturers?.map((item: any) => <MyArticleCard data={item} />)
-              ) : (
-                <>
-                  <div
-                    style={{
-                      fontSize: '14px',
-                      marginTop: '10px',
-                      fontStyle: 'italic',
-                      marginLeft: '-70px'
-                    }}>
-                    Không tìm thấy bài báo khoa học nào!
-                  </div>
-                </>
-              )}
-            </div>
+        <div className="list_article">
+          <div className="content-profile">
+            {currentLecturers ? (
+              currentLecturers?.map((item: any) => <MyArticleCard data={item} />)
+            ) : (
+              <>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    marginTop: '10px',
+                    fontStyle: 'italic',
+                    marginLeft: '-70px'
+                  }}>
+                  Không tìm thấy bài báo khoa học nào!
+                </div>
+              </>
+            )}
+          </div>
 
-            <div>
-              <div
-                style={{
-                  marginBottom: '50px',
-                  marginTop: '30px',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}>
-                {/* Previous button */}
-                <button
-                  className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
-                  disabled={currentPage <= 1}
-                  onClick={() => handlePageChange(currentPage - 1)}>
-                  <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
-                </button>
+          <div>
+            <div
+              style={{
+                marginBottom: '50px',
+                marginTop: '30px',
+                display: 'flex',
+                justifyContent: 'center'
+              }}>
+              {/* Previous button */}
+              <button
+                className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
+                disabled={currentPage <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}>
+                <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
+              </button>
 
-                {/* Page buttons */}
-                {renderPageButtons()}
+              {/* Page buttons */}
+              {renderPageButtons()}
 
-                {/* Next button */}
-                <button
-                  className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
-                  disabled={currentPage >= totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}>
-                  <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
-                </button>
-              </div>
+              {/* Next button */}
+              <button
+                className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
+                disabled={currentPage >= totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}>
+                <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
+              </button>
             </div>
           </div>
         </div>
