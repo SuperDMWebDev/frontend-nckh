@@ -22,7 +22,7 @@ export default function ModalEditInfoProfile(props: any) {
   const [newLink, setNewLink] = useState<string>(lecturer.contacts[3].value);
   const [universitys, setUniversitys] = useState<any>([]);
   const [contactTypes, setContactTypes] = useState<any>([]);
-  const flagCreate = lecturer.currentDisciplines == undefined ? true : false;
+  const flagCreate = lecturer.currentDisciplines === undefined;
 
   useEffect(() => {
     if (lecturer.contacts !== undefined) {

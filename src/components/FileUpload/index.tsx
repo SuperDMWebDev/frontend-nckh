@@ -6,9 +6,10 @@ import { func } from 'prop-types';
 interface FileUploadProps {
   setFiles: (files: File[]) => void;
   files: File[];
+  multiple?: boolean;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ setFiles, files }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ setFiles, files, multiple = true }) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       setFiles([...files, ...acceptedFiles]);
@@ -16,7 +17,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ setFiles, files }) => {
     [files, setFiles]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple });
 
   return (
     <Styled>

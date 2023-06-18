@@ -699,3 +699,14 @@ export const deleteFileLecturer = async (fileId: any, lecturerId: any) => {
     return handleError(error);
   }
 };
+
+export const updateProfile = async (lecturerId: any, data: any) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data
+  });
+
+  return res.data;
+};

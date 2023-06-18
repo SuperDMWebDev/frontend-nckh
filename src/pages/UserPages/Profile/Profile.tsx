@@ -39,6 +39,7 @@ import FileUpload from '../../../components/FileUpload';
 import { toast } from 'react-toastify';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExportExcelModal from '../../../components/ExportExcelModal';
+import PDFReader from '../../../components/PDFReader';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -60,6 +61,11 @@ export default function Profile() {
   const [email, setEmail] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [link, setLink] = useState<string>('');
+  const [emailId, setEmailId] = useState<string>('');
+  const [addressId, setAddressId] = useState<string>('');
+  const [linkId, setLinkId] = useState<string>('');
+  const [phoneId, setPhoneId] = useState<string>('');
+  const [currentDisciplineId, setCurrentDisciplineId] = useState<any>();
   const [linkInner, setLinkInner] = useState<string>('');
   const accountId = localStorage.getItem('accountId');
   const lecturerId = localStorage.getItem('lecturerId');
@@ -68,6 +74,9 @@ export default function Profile() {
   const [previewAvatar, setPreviewAvatar] = useState<string>('');
   const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
+  const [file, setFile] = useState<any>();
+  const [reload, setReload] = useState<boolean>(false);
+  console.log('🚀 ~ file: Profile.tsx:79 ~ Profile ~ reload:', reload);
 
   // ----  MODAL ----
   const [openBioModal, setOpenBioModal] = useState(false);
@@ -79,6 +88,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [newName, setNewName] = useState<string | undefined>();
   const [openExportModal, setOpenExportModal] = useState(false);
+  const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
 
   const fetchArticle = async () => {
     let param = {
@@ -113,6 +123,13 @@ export default function Profile() {
         setAddress(result.contacts[1].value);
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
+
+        setEmailId(result.contacts[0]);
+        setAddressId(result.contacts[1]);
+        setPhoneId(result.contacts[2]);
+        setLinkId(result.contacts[3]);
+        setCurrentDisciplineId(result.currentDisciplines[0]);
+
         setPreviewAvatar(result.avatar);
         setLecturerFiles(result.lecturerFiles);
 
@@ -153,13 +170,15 @@ export default function Profile() {
     [lecturerId]
   );
 
+  const handleUploadProfile = useCallback(async () => {}, []);
+
   useEffect(() => {
     fetchArticle();
   }, []);
 
   useEffect(() => {
     getInfoLecturer();
-  }, [getInfoLecturer]);
+  }, [getInfoLecturer, reload]);
 
   const handleTab1 = () => {
     setCurrentTab(1);
@@ -379,8 +398,15 @@ export default function Profile() {
                     </>
                   ) : (
                     <>
-                      {lecturer?.currentDisciplines[0].departmentName} -{' '}
-                      {lecturer?.currentDisciplines[0].universityName}
+                      {lecturer?.currentDisciplines[0].departmentName && (
+                        <>
+                          {lecturer.currentDisciplines[0].departmentName} -{' '}
+                          {lecturer.currentDisciplines[0].universityName}
+                        </>
+                      )}
+                      {!lecturer?.currentDisciplines[0].departmentName && (
+                        <>{lecturer.currentDisciplines[0].universityName}</>
+                      )}
                     </>
                   )}
                 </span>
@@ -825,13 +851,28 @@ export default function Profile() {
                   className="modalStyle">
                   <div className="group">
                     <FileUpload files={files} setFiles={setFiles} />
-                    {files.map((file, index) => (
+                    {files.map((file: any, index: any) => (
                       <p className="file" key={index}>
-                        {file.name}
+                        {file?.name}
                       </p>
                     ))}
                   </div>
                 </Modal>
+              </div>
+              <div>
+                <div className="header-edit-profile">
+                  <h2>Cập nhật thông tin cá nhân</h2>
+                </div>
+                <PDFReader
+                  setOpenEditProfile={setOpenEditProfile}
+                  email={emailId}
+                  phone={phoneId}
+                  address={addressId}
+                  link={linkId}
+                  currentDiscipline={currentDisciplineId}
+                  reload={reload}
+                  setReload={setReload}
+                />
               </div>
             </Modal>
           </div>
