@@ -113,6 +113,8 @@ const CreateArticle = () => {
   const [PII, setPII] = useState('');
   const [SGR, setSGR] = useState('');
   const [generalNote, setGeneralNote] = useState('');
+  const [citationCount, setCitationCount] = useState(0);
+  const [journalUrl, setJournalUrl] = useState('');
 
   const [tagList, setTagList] = useState<OptionSelect[]>([]);
   const [lecturerList, setLecturerList] = useState<OptionSelect[]>([]);
@@ -261,6 +263,8 @@ const CreateArticle = () => {
           setPII(data.PII);
           setSGR(data.SGR);
           setGeneralNote(data.generalNote);
+          setCitationCount(data.citationCount);
+          setJournalUrl(data.journalUrl);
 
           // tag select
           const tagSelect = data.tags.filter((e: any) => {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ArticleProfileCard = (props: any) => {
   const { data } = props;
+  const isLogin = !!localStorage.getItem('accessToken');
   const [authorList, setAuthorList] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -44,23 +45,30 @@ const ArticleProfileCard = (props: any) => {
             <div className="user-field">{data?.journal}</div>
             <div>
               <div style={{ display: 'inline' }}>
-                <div
-                  className="article-author_list2"
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    flexDirection: 'row'
-                  }}>
-                  {authorList.map((item) => (
-                    <div style={{ marginRight: '4px' }}>{item},</div>
-                  ))}
+                <div className="article-author_list2">
+                  {authorList
+                    .map((item) => {
+                      return item;
+                    })
+                    .join(', ')}
                 </div>
               </div>
             </div>
             <div className="user-position">{data?.abstract}</div>
           </div>
           <div className="right-part">
-            {data?.rank && data?.rank != 'Unranked' ? `Rank ${data?.rank}` : 'Unranked'}
+            <div className="citationContainer">
+              <div className="right-part__num">{data?.citationCount ? data?.citationCount : 0}</div>
+              <div>Trích dẫn</div>
+            </div>
+            <div>
+              {isLogin && data?.rank && data?.rank !== 'Unranked' ? (
+                <div className="citationContainer">
+                  <div className="right-part__num">{data?.rank}</div>
+                  <div>Ranking</div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

@@ -168,7 +168,7 @@ const Styled = styled.div`
 
   .content-profile {
     background-color: #efefef;
-    width: 840px;
+    width: 1000px;
     height: 100vh;
     margin-left: 20px;
     border-radius: 20px;
