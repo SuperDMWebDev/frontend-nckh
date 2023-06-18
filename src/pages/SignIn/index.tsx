@@ -55,7 +55,7 @@ const SignIn = () => {
           if (role === '0') {
             navigate('/admin');
           } else {
-            navigate('/');
+            navigate('/search');
           }
           // eslint-disable-next-line no-self-assign
           window.location.href = window.location.href;

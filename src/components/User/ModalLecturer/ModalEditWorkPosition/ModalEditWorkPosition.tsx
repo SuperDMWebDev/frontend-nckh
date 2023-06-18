@@ -210,7 +210,6 @@ export default function ModalEditWorkPosition(props: any) {
                     ) : null}
                     <div className="name-book">
                       <p className="name">
-                        Nơi công tác:{' '}
                         {workPosition.universityName
                           ? workPosition.universityName
                           : workPosition.company}

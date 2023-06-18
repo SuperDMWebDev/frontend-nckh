@@ -474,7 +474,7 @@ export const editExpertises = async (lecturer: any, data: any, lecturerId: strin
         {
           id: data.id,
           lecturerId: lecturer.id,
-          title: data.title,
+          title: "",
           specialization: data.specialization,
           update: true
         }
