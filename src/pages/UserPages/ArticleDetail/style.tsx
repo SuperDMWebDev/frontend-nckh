@@ -139,6 +139,10 @@ const Styled = styled.div`
     background: #fff;
     margin-top: 20px;
   }
+
+  .comma {
+    margin-right: 0.5em;
+  }
 `;
 
 export default Styled;

@@ -17,13 +17,18 @@ type Article = {
   name: string;
 };
 
+type AuthorType = {
+  name: string;
+  id: number | null;
+};
+
 export default function ArticleDetail() {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [article, setArticle] = useState<Article>();
-  const [authorList, setAuthorList] = useState<string[]>([]);
+  const [authorList, setAuthorList] = useState<AuthorType[]>([]);
   const lecturerId = localStorage.getItem('lecturerId');
   const accountId = localStorage.getItem('accountId');
   const [isEnableEdit, setIsEnableEdit] = useState<boolean>(true);
@@ -95,20 +100,36 @@ export default function ArticleDetail() {
   }, []);
 
   const getAuthorList = (article: any) => {
-    let nameList: string[] = [];
+    let nameList: AuthorType[] = [];
     // eslint-disable-next-line array-callback-return
     article?.authors.map((item: any) => {
       if (item.lecturer_name !== undefined && item.lecturer_name !== null) {
-        nameList.push(item.lecturer_name);
+        nameList.push({ name: item.lecturer_name, id: item.lecturer_id });
       }
       if (item.lastName && item.firstName) {
         let name = `${item.lastName} ${item.firstName}`;
-        nameList.push(name);
+        nameList.push({ name: name, id: null });
       }
     });
 
     setAuthorList(nameList);
   };
+
+  const renderedAuthorList = authorList.map((item, index) => {
+    if (item.id !== null) {
+      return (
+        <a href={`/lecturer/${item.id}`} key={index}>
+          {item.name}
+        </a>
+      );
+    } else {
+      return <span key={index}>{item.name}</span>;
+    }
+  });
+
+  console.log('renderedAuthorList', renderedAuthorList);
+
+  const renderedAuthorListJoined = renderedAuthorList.join(',  ');
 
   useEffect(() => {
     const getInfo = async () => {
@@ -173,11 +194,12 @@ export default function ArticleDetail() {
           <div className="article-author">
             <div className="article-author_title">Tác giả: </div>
             <div className="article-author_list">
-              {authorList
-                .map((item) => {
-                  return item;
-                })
-                .join(', ')}
+              {renderedAuthorList.map((item, index) => (
+                <React.Fragment key={index}>
+                  {index > 0 && <span className="comma">, </span>}
+                  {item}
+                </React.Fragment>
+              ))}
             </div>
           </div>
 
