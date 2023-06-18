@@ -151,7 +151,7 @@ export default function ModalEditBook(props: any) {
                         </div>
                       ) : null}
                       <div className="name-book">
-                        <p className="name">Sách: {book.name}</p>
+                        <p className="name">{book.name}</p>
                       </div>
                       <div className="user-field">Tác giả: {book.coAuthors}</div>
                       <div>Năm xuất bản: {book.publicYear}</div>

@@ -31,6 +31,7 @@ export default function ArticleDetail() {
   const [authorList, setAuthorList] = useState<AuthorType[]>([]);
   const lecturerId = localStorage.getItem('lecturerId');
   const accountId = localStorage.getItem('accountId');
+  const role = localStorage.getItem('role');
   const [isEnableEdit, setIsEnableEdit] = useState<boolean>(true);
 
   const { confirm } = Modal;
@@ -76,7 +77,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() {}
+      onCancel() { }
     });
   }
 
@@ -219,7 +220,7 @@ export default function ArticleDetail() {
                   {article.conference}
                 </p>
               )}
-              {article.rank && (
+              {article.rank && role == '1' && (
                 <p>
                   <span className="subTitle">Rank: </span>
                   {article.rank}
@@ -286,7 +287,7 @@ export default function ArticleDetail() {
           <div className="file-section">
             {!article.files ? null : (
               <>
-                <div className="fileTitle">Bài báo: </div>
+                <div className="fileTitle">Tập tin: </div>
                 <div className="fileList">
                   {article.files.map((item: any, index: any) => (
                     <div key={index}>

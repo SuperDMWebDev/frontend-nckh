@@ -33,6 +33,7 @@ import ModalEditBook from '../../../components/User/ModalLecturer/ModalEditBook/
 import ModalEditDegree from '../../../components/User/ModalLecturer/ModalEditDegree/ModalEditDegree';
 import ModalEditResearchField from '../../../components/User/ModalLecturer/ModalEditResearchField/ModalEditResearchField';
 import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalEditWorkPosition/ModalEditWorkPosition';
+import ModalEditSubjectTeaching from '../../../components/User/ModalLecturer/ModalEditSubjectTeaching/ModalEditSubjectTeaching';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import FileUpload from '../../../components/FileUpload';
@@ -170,7 +171,7 @@ export default function Profile() {
     [lecturerId]
   );
 
-  const handleUploadProfile = useCallback(async () => {}, []);
+  const handleUploadProfile = useCallback(async () => { }, []);
 
   useEffect(() => {
     fetchArticle();
@@ -336,8 +337,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar === null ||
-              lecturer?.avatar === '' ||
-              lecturer?.avatar === 'data:image/png;base64,'
+                lecturer?.avatar === '' ||
+                lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -609,9 +610,9 @@ export default function Profile() {
                     className="img-avatar-edit"
                     src={
                       lecturer?.avatar == 'null' ||
-                      lecturer?.avatar == null ||
-                      lecturer?.avatar == '' ||
-                      lecturer?.avatar == 'data:image/png;base64,'
+                        lecturer?.avatar == null ||
+                        lecturer?.avatar == '' ||
+                        lecturer?.avatar == 'data:image/png;base64,'
                         ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                         : previewAvatar
                     }
@@ -943,7 +944,8 @@ export default function Profile() {
                   </Modal>
                 </div>
               </div>
-              <ModalEditExpertises
+              <ModalEditExpertises lecturer={lecturer} canEdit={true} />
+              <ModalEditSubjectTeaching
                 lecturer={lecturer}
                 canEdit={true}
                 getInfoLecturer={getInfoLecturer}

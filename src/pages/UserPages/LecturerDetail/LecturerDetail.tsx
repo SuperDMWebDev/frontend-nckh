@@ -295,14 +295,14 @@ export default function LecturerDetail() {
                   </div>
                 </>
               )}
-              {!phone ? null : (
+              {/* {!phone ? null : (
                 <>
                   <div className="field-profile-info">
                     <PhoneAndroidIcon style={{ fontSize: '20px' }} />
                     <span style={{ marginLeft: '5px' }}>{!phone ? null : phone}</span>
                   </div>
                 </>
-              )}
+              )} */}
               {!address ? null : (
                 <>
                   <div className="field-profile-info">

@@ -28,7 +28,6 @@ export default function ModalEditExpertises(props: any) {
   const handleSaveEdit = async () => {
     const data = {
       id: currentEdit,
-      title: editTitle,
       specialization: editSpecialization
     };
 
@@ -78,13 +77,10 @@ export default function ModalEditExpertises(props: any) {
                       </div>
                     ) : null}
                     <div className="name-book">
-                      <p className="name">
-                        Lĩnh vực: {expertise.title ? expertise.title : 'Công nghệ thông tin'}
-                      </p>
-                    </div>
-                    <div>
-                      Chuyên môn:{' '}
-                      {expertise.specialization ? expertise.specialization : 'Chưa cập nhật'}
+                      <div style={{ width: "auto" }}>
+                        <FiberManualRecordIcon style={{ fontSize: '9px', textAlign: 'center' }} />{' '}
+                        <span>{expertise.specialization}</span>
+                      </div>
                     </div>
                   </div>
                 </p>
@@ -112,21 +108,6 @@ export default function ModalEditExpertises(props: any) {
               required
               type="text"
               className="input-edit-profile"
-              value={editTitle}
-              onChange={(e) => {
-                setEditTitle(e.target.value);
-              }}
-            />
-            <span className="highlight-edit-profile"></span>
-            <span className="bar-edit-profile"></span>
-            <label className="label-edit-profile">Lĩnh vực</label>
-          </div>
-
-          <div className="group">
-            <input
-              required
-              type="text"
-              className="input-edit-profile"
               value={editSpecialization}
               onChange={(e) => {
                 setEditSpecialization(e.target.value);
@@ -134,7 +115,7 @@ export default function ModalEditExpertises(props: any) {
             />
             <span className="highlight-edit-profile"></span>
             <span className="bar-edit-profile"></span>
-            <label className="label-edit-profile">Chuyên ngành</label>
+            <label className="label-edit-profile">Lĩnh vực chuyên môn</label>
           </div>
         </div>
       </Modal>
