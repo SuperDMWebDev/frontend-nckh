@@ -125,22 +125,37 @@ const App = () => {
         ) : roleUser == '2' ? (
           //SUPERUSER
           <>
-            <NavBarSuperUser />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/signin" element={!isLogin ? <SignIn /> : <Navigate replace to="/" />} />
-              <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
-              <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/create-article" element={<CreateArticle />} />
-              <Route path="/update-article/:id" element={<UpdateArticle />} />
-              <Route path="/my-articles" element={<MyArticles />} />
-              <Route path="/test" element={<EditProfile />} />
-              <Route path="/article-detail/:id" element={<ArticleDetail />} />
-              <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/statistics" element={<Statistics />} />
-            </Routes>
+            {scopusId === 'null' ? (
+              <>
+                <NavBarRetrieveScopus />
+                <Routes>
+                  <Route path="/" element={<RetrieveScopusAuthor />} />
+                  <Route path="/*" element={<RetrieveScopusAuthor />} />
+                </Routes>
+              </>
+            ) : (
+              <>
+                <NavBarSuperUser />
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route
+                    path="/signin"
+                    element={!isLogin ? <SignIn /> : <Navigate replace to="/" />}
+                  />
+                  <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
+                  <Route path="/profile" element={<Profile />}></Route>
+                  <Route path="/create-article" element={<CreateArticle />} />
+                  <Route path="/update-article/:id" element={<UpdateArticle />} />
+                  <Route path="/my-articles" element={<MyArticles />} />
+                  <Route path="/test" element={<EditProfile />} />
+                  <Route path="/article-detail/:id" element={<ArticleDetail />} />
+                  <Route path="/retrieve-scopus-author" element={<RetrieveScopusAuthor />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/statistics" element={<Statistics />} />
+                </Routes>
+              </>
+            )}
           </>
         ) : (
           // GUEST
