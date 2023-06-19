@@ -51,12 +51,20 @@ export default function ArticleDetail() {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Xóa bài báo thành công!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         case httpStatus.UNAUTHORIZED: {
           toast.success('Xóa bài báo thất bại!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         default:
@@ -166,9 +174,11 @@ export default function ArticleDetail() {
           <Link fontSize={14} underline="hover" color="#0056ce" href="/">
             Trang chủ
           </Link>
-          <Link fontSize={14} underline="hover" color="#0056ce" href="/search">
-            Tìm kiếm
-          </Link>
+          {role !== '0' && (
+            <Link fontSize={14} underline="hover" color="#0056ce" href="/search">
+              Tìm kiếm
+            </Link>
+          )}
           <Typography fontSize={14} color="text.primary">
             Chi tiết
           </Typography>

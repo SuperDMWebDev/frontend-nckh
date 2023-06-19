@@ -185,7 +185,7 @@ const TabActivity: React.FC = () => {
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    placeholder={`Tìm ${dataIndex !== 'id' ? 'tên' : dataIndex}`}
                     // eslint-disable-next-line no-magic-numbers
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
@@ -199,13 +199,13 @@ const TabActivity: React.FC = () => {
                         icon={<SearchOutlined />}
                         size="small"
                         style={{ width: 90 }}>
-                        Search
+                        Tìm
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
                         size="small"
                         style={{ width: 90 }}>
-                        Reset
+                        Xóa
                     </Button>
                     <Button
                         type="link"
@@ -216,7 +216,7 @@ const TabActivity: React.FC = () => {
                             setSearchText((selectedKeys as string[])[0]);
                             setSearchedColumn(dataIndex);
                         }}>
-                        Filter
+                        Bộ lọc
                     </Button>
                     <Button
                         type="link"
@@ -224,7 +224,7 @@ const TabActivity: React.FC = () => {
                         onClick={() => {
                             close();
                         }}>
-                        close
+                        Đóng
                     </Button>
                 </Space>
             </div>

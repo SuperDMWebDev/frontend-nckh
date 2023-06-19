@@ -55,7 +55,7 @@ const NavBarUser = () => {
         setOpen(false);
       } else if (value === 'logout') {
         localStorage.clear();
-        navigate('/signin');
+        navigate('/search');
         // eslint-disable-next-line no-self-assign
         window.location.href = window.location.href;
       }

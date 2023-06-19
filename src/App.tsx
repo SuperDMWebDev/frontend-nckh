@@ -87,6 +87,10 @@ const App = () => {
             <Route path="/admin" element={<Admin />}></Route>
             <Route path="/" element={!isLogin ? <SignIn /> : <Navigate replace to="/admin" />} />
             <Route path="/loader" element={<Loader />} />
+            <Route path="/create-article" element={<CreateArticle />} />
+            <Route path="/update-article/:id" element={<UpdateArticle />} />
+            <Route path="/article-detail/:id" element={<ArticleDetail />} />
+            <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
           </Routes>
         ) : roleUser == '1' ? (
           // LECTURER

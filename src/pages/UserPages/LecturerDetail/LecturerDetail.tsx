@@ -48,6 +48,7 @@ export default function LecturerDetail() {
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const { id }: any = useParams();
+  const role = localStorage.getItem('role');
 
   const fetchArticle = async () => {
     let param = {
@@ -123,7 +124,12 @@ export default function LecturerDetail() {
   };
 
   const handleBackSearch = () => {
-    navigate('/search');
+    if (role === '0') {
+      const articleId = localStorage.getItem('articleId');
+      navigate(`/article-detail/${articleId}`);
+    } else {
+      navigate('/search');
+    }
   };
 
   // PAGINATION ARTICLES
@@ -169,9 +175,16 @@ export default function LecturerDetail() {
   return (
     <Styled>
       <div className="header_topbar">
-        <div className="btn-back-search" onClick={handleBackSearch}>
-          <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
-        </div>
+        {role === '0' ? (
+          <div className="btn-back-search" onClick={handleBackSearch}>
+            <ArrowBackIcon /> quay lại trang trước{' '}
+          </div>
+        ) : (
+          <div className="btn-back-search" onClick={handleBackSearch}>
+            <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
+          </div>
+        )
+        }
         <ul className="header_tab">
           <li className="content_tab">
             <div id="1" className="content_tab_name tab-selected" onClick={handleTab1}>
