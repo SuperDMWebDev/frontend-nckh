@@ -1,47 +1,63 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styled from './style';
-import { getArticlesOfLecturers } from '../../../api/Article';
+import { exportExcelArticles, getArticles } from '../../../api/Article';
 import MyArticleCard from '../../../components/User/MyArticleCard/MyArticleCard';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import httpStatus from 'http-status';
+import ExportExcelModal from '../../../components/ExportExcelModal';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
   name: string;
 };
 
-export default function MyArticles() {
+const itemsPerPage = 20;
+const maxVisibleButtons = 7;
+
+export default function Statistics() {
   const navigate = useNavigate();
   const scrollTop = useRef<HTMLDivElement>(null);
   const [listArticles, setListArticles] = useState<Article[]>([]);
-  const lecturerId = localStorage.getItem('lecturerId');
+  const [openExportModal, setOpenExportModal] = useState(false);
 
-  const handleBackSearch = () => {
-    navigate('/');
+  const handleExport = async (selectedYear: any) => {
+    await exportExcelArticles(selectedYear);
+    setOpenExportModal(false);
   };
 
-  const fetchListArticle = async (lecturerId: any) => {
-    let param = {
-      data: {
-        lecturerIds: [Number(lecturerId)]
+  const fetchListArticle = async () => {
+    const res = await getArticles();
+    if (res) {
+      switch (res.status) {
+        case httpStatus.OK: {
+          console.log('res', res);
+          setListArticles(res.data.data);
+          break;
+        }
+        case httpStatus.UNAUTHORIZED: {
+          navigate('/');
+          break;
+        }
+        default:
+          break;
       }
-    };
-    const res = await getArticlesOfLecturers(param);
-    setListArticles(res.data.data);
+    }
   };
 
   useEffect(() => {
-    fetchListArticle(lecturerId);
+    fetchListArticle();
   }, []);
 
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 7;
-  const maxVisibleButtons = 7;
-  const arr = Object.values(listArticles)[0];
-  const totalPages = Math.ceil(arr?.length / itemsPerPage);
+  // const arr = Object.values(listArticles)[0];
+  const totalPages = Math.ceil(listArticles?.length / itemsPerPage);
+  const totalItems = listArticles.length;
+  const itemStart = (currentPage - 1) * itemsPerPage + 1;
+  const itemEnd = Math.min(currentPage * itemsPerPage, totalItems);
   useEffect(() => {}, [currentPage, totalPages]);
 
   const renderPageButtons = (): JSX.Element[] => {
@@ -65,7 +81,7 @@ export default function MyArticles() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentLecturers = arr?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentLecturers = listArticles?.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber: number) => {
     if (scrollTop.current) {
@@ -99,19 +115,58 @@ export default function MyArticles() {
                 display: 'flex',
                 justifyContent: 'center'
               }}>
-              CÁC CÔNG BỐ KHOA HỌC CỦA TÔI
+              THỐNG KÊ
             </div>
             <div className="add-article-container">
-              <button className="btn btn-add-article-2" onClick={() => navigate('/create-article')}>
-                Thêm bài báo khoa học
+              <button className="btn btn-add-article-2" onClick={() => setOpenExportModal(true)}>
+                Xuất file excel
               </button>
             </div>
+            <ExportExcelModal
+              visible={openExportModal}
+              onClose={() => setOpenExportModal(false)}
+              onExport={handleExport}
+            />
           </div>
         </div>
       </div>
 
       <div className="center" ref={scrollTop}>
         <div className="list_article">
+          <div>
+            <div
+              style={{
+                marginBottom: '20px',
+                marginTop: '20px',
+                display: 'flex',
+                justifyContent: 'center'
+              }}>
+              {/* Previous button */}
+              <button
+                className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
+                disabled={currentPage <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}>
+                <FontAwesomeIcon fontSize={14} icon={faArrowLeft} />
+              </button>
+
+              {/* Page buttons */}
+              {renderPageButtons()}
+
+              {/* Next button */}
+              <button
+                className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
+                disabled={currentPage >= totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}>
+                <FontAwesomeIcon fontSize={14} icon={faArrowRight} />
+              </button>
+            </div>{' '}
+            <div className="pagination_bar_right">
+              <div>
+                <strong>{itemStart}</strong> - <strong>{itemEnd}</strong> <span>trên tổng số </span>
+                <strong>{totalItems}</strong>
+              </div>
+            </div>
+          </div>
           <div className="content-profile">
             {currentLecturers ? (
               currentLecturers?.map((item: any) => <MyArticleCard data={item} />)
@@ -128,35 +183,6 @@ export default function MyArticles() {
                 </div>
               </>
             )}
-          </div>
-
-          <div>
-            <div
-              style={{
-                marginBottom: '50px',
-                marginTop: '30px',
-                display: 'flex',
-                justifyContent: 'center'
-              }}>
-              {/* Previous button */}
-              <button
-                className={`btn-pre-next${currentPage <= 1 ? ' disabled' : ''}`}
-                disabled={currentPage <= 1}
-                onClick={() => handlePageChange(currentPage - 1)}>
-                <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowLeft} />
-              </button>
-
-              {/* Page buttons */}
-              {renderPageButtons()}
-
-              {/* Next button */}
-              <button
-                className={`btn-pre-next${currentPage >= totalPages ? ' disabled' : ''}`}
-                disabled={currentPage >= totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}>
-                <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
-              </button>
-            </div>
           </div>
         </div>
       </div>

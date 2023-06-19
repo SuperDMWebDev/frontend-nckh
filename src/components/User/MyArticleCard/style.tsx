@@ -50,7 +50,7 @@ const Styled = styled.div`
 
   .right-part {
     color: #3f51b5;
-    width: 10%;
+    width: 12%;
     font-size: 16px;
     display: flex;
     flex-direction: column;

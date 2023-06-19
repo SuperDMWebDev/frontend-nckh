@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { getAllFilterUniversities } from '../../../api/Configuration';
 
-const itemsPerPage = 7;
+const itemsPerPage = 20;
 const maxVisibleButtons = 7;
 
 export default function SearchPage() {
@@ -233,7 +233,6 @@ export default function SearchPage() {
 
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>, universityId: any) => {
     const isChecked = e.target.checked;
-    console.log('item checkbox ', isChecked, universityId);
 
     let updatedList = universityList.map((university) => {
       if (university.id === universityId) {
@@ -419,7 +418,7 @@ export default function SearchPage() {
             </div>
             <div className="pagination_bar_right">
               <div>
-                <strong>{itemStart}</strong> - <strong>{itemEnd}</strong> trên tổng số{' '}
+                <strong>{itemStart}</strong> - <strong>{itemEnd}</strong> <span>trên tổng số </span>
                 <strong>{totalItems}</strong>
               </div>
             </div>

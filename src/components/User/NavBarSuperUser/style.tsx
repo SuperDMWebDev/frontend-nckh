@@ -27,8 +27,7 @@ const Styled = styled.div`
   .text__title_navbar {
     font-size: 20px;
     color: #4562aa;
-    /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
-    font-family: 'Poppins';
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;
     cursor: pointer;
 

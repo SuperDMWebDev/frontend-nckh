@@ -94,24 +94,6 @@ const Styled = styled.div`
     color: #004fbd;
   }
 
-  .card_article {
-    box-sizing: border-box;
-    width: 700px;
-    height: auto;
-    background: #ffffff;
-    backdrop-filter: blur(6px);
-    cursor: pointer;
-    transition: all 0.5s;
-    user-select: none;
-    font-weight: bolder;
-
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
-    padding: 10px;
-  }
-
   .btn-pre-next {
     font-family: monospace;
     background-color: #f3f7fe;
@@ -154,6 +136,14 @@ const Styled = styled.div`
     border: none;
   }
 
+  .pagination_bar_right {
+    flex: 1;
+    text-align: center;
+    font-size: 15px;
+    font-family: monospace;
+    margin-bottom: 20px;
+  }
+
   .card_article:hover {
     background-color: #efefef;
   }
@@ -168,7 +158,7 @@ const Styled = styled.div`
     padding: 7px 15px;
     font-size: 12px;
     font-weight: bold;
-    border: 2px solid #3f51b5;
+    border: 1px solid #3f51b5;
     border-radius: 20px;
     height: 40px;
     width: auto;

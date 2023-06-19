@@ -24,9 +24,9 @@ const style = {
   width: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
-  borderRadius: "5px",
-  border: "none",
-  p: 4,
+  borderRadius: '5px',
+  border: 'none',
+  p: 4
 };
 
 export default function RetrieveScopusAuthor() {
@@ -102,7 +102,7 @@ export default function RetrieveScopusAuthor() {
         <>
           <div className="form-body">
             <div className="form-data">
-              <h1> Truy xuất tác giả Scopus </h1>
+              <h2>Truy xuất tác giả Scopus</h2>
               <div className="form-input">
                 <div className="wrapper">
                   <input
