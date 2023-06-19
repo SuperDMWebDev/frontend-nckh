@@ -1,7 +1,10 @@
 /* eslint-disable no-implicit-coercion */
 /* eslint-disable no-negated-condition */
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { setLoginStatus } from './redux/actions/loginActions';
 import HomePage from './pages/UserPages/HomePage/HomePage';
 import SearchPage from './pages/UserPages/SearchPage/SearchPage';
 import NoMatch from './components/NoMatch';
@@ -27,7 +30,13 @@ import ResetPassword from './pages/UserPages/ResetPassword/ResetPassword';
 import Statistics from './pages/SuperUserPages/MyArticles/Statistics';
 import NavBarSuperUser from './components/User/NavBarSuperUser/NavBarSuperUser';
 
-const App = () => {
+const App = (props: any) => {
+  const { isLogin: checkIsLogin, setLoginStatus } = props;
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    setLoginStatus(!!accessToken);
+  }, [setLoginStatus]);
   const isLogin = !!localStorage.getItem('accessToken');
   const scopusId = localStorage.getItem('scopusId');
   const roleUser = localStorage.getItem('role');
@@ -181,5 +190,14 @@ const App = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    isLogin: state.loginReducer.isLogin
+  };
+};
 
-export default App;
+const mapDispatchToProps = {
+  setLoginStatus
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
