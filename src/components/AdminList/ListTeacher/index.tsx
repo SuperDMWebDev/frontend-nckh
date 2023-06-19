@@ -10,11 +10,15 @@ import Loader from '../../Loader/Loader';
 import './style.css';
 import Typography from '@mui/material/Typography';
 import { deleteAccount, getAllAccounts, signup } from '../../../api/Account';
-import { createLecturer, editBioProfile, getListLecturers } from '../../../api/Lecturer';
+import { createLecturer, editBioProfile, getInfoProfile, getListLecturers } from '../../../api/Lecturer';
 import { toast } from "react-toastify";
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
+interface ContactType {
+  contactTypeId: number;
+  value: string;
+}
 interface DataType {
   index: number,
   id: number;
@@ -27,13 +31,12 @@ interface DataId {
 interface DataName {
   name: string;
 }
-interface DataEmail {
-  email: string;
-}
 
 interface Lecturer {
   [key: string]: any; // 👈️ variable key
+  id: number;
   name: string;
+  contacts: ContactType[];
 }
 interface Account {
   [key: string]: any; // 👈️ variable key
@@ -61,8 +64,6 @@ const ListTeacher: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dataId, setDataId] = useState<DataId[]>([]);
-  const [successEmail, setSuccessEmail] = useState<boolean>(false);
-  const [successName, setSuccessName] = useState<boolean>(false);
 
   const locale = {
     emptyText: 'Không có dữ liệu',
@@ -216,7 +217,7 @@ const ListTeacher: React.FC = () => {
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
           ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`Tìm ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
@@ -229,13 +230,13 @@ const ListTeacher: React.FC = () => {
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 90 }}>
-            Search
+            Tìm
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}>
-            Reset
+            Xóa
           </Button>
           <Button
             type="link"
@@ -245,7 +246,7 @@ const ListTeacher: React.FC = () => {
               setSearchText((selectedKeys as string[])[0]);
               setSearchedColumn(dataIndex);
             }}>
-            Filter
+            Bộ lọc
           </Button>
           <Button
             type="link"
@@ -253,7 +254,7 @@ const ListTeacher: React.FC = () => {
             onClick={() => {
               close();
             }}>
-            close
+            Đóng
           </Button>
         </Space>
       </div>
@@ -330,11 +331,22 @@ const ListTeacher: React.FC = () => {
 
   const fetchData = () => {
     fetchLecturerList();
+    lecturerList?.map((itemLecturer: Lecturer, index: number) => {
+      const idxContact = itemLecturer.contacts.findIndex((itemContact: ContactType) => itemContact.contactTypeId === 1);
+      if (itemLecturer.contacts[idxContact] !== null) {
+        const idxAccount = accountList?.findIndex((itemAccount: Account, index: number) => {
+          itemLecturer.contacts[idxContact].value === itemAccount.email;
+          if (idxAccount < 0) {
+            signup(itemLecturer.contacts[idxContact].value);
+          }
+        })
+      }
+    });
+
     fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList?.map((itemAccount: Account, index: number) => {
-      console.log(itemAccount);
       console.log("itemAccount: ", itemAccount);
       if (itemAccount.role == 1) {
         const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
@@ -363,13 +375,6 @@ const ListTeacher: React.FC = () => {
     }
   };
   fetchData();
-
-  const dataTable = data.map((item, index) => {
-    item.index = index + 1;
-    console.log(index);
-  });
-
-  console.log("dataTable: ", data);
 
   return (
     <>

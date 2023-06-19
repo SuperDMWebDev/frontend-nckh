@@ -18,7 +18,7 @@ function DropdownItem(props: DropdownType) {
       navigate('/retrieve-scopus-author');
     } else if (value === 'Logout') {
       localStorage.clear();
-      navigate('/signin');
+      navigate('/search');
       // eslint-disable-next-line no-self-assign
       window.location.href = window.location.href;
     }

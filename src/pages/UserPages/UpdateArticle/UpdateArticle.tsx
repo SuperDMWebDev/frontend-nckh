@@ -97,6 +97,7 @@ const UpdateArticle = () => {
   const accountId: string | null = localStorage.getItem('accountId');
   const lecturerId: string | null = localStorage.getItem('lecturerId');
   const [article, setArticle] = useState<any>();
+  const role = localStorage.getItem('role');
 
   const [DOI, setDOI] = useState('');
 
@@ -488,12 +489,20 @@ const UpdateArticle = () => {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Cập nhật bài báo thành công!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         case httpStatus.UNAUTHORIZED: {
           toast.success('Cập nhật bài báo thất bại!');
-          navigate('/profile');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/profile');
+          }
           break;
         }
         default:
