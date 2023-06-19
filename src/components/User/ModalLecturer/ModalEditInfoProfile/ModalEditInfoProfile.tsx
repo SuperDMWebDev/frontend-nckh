@@ -27,11 +27,11 @@ export default function ModalEditInfoProfile(props: any) {
   useEffect(() => {
     if (lecturer.contacts !== undefined) {
       lecturer.contacts.map((contact: any) => {
-        if (contact.contactTypeName == 'phone') {
+        if (contact.contactTypeName === 'phone') {
           setNewPhone(contact.value);
-        } else if (contact.contactTypeName == 'address') {
+        } else if (contact.contactTypeName === 'address') {
           setNewAddress(contact.value);
-        } else if (contact.contactTypeName == 'email') {
+        } else if (contact.contactTypeName === 'email') {
           setNewEmail(contact.value);
         }
 
