@@ -10,8 +10,13 @@ import Loader from '../../Loader/Loader';
 import './style.css';
 import Typography from '@mui/material/Typography';
 import { deleteAccount, getAllAccounts, signup } from '../../../api/Account';
-import { createLecturer, editBioProfile, getInfoProfile, getListLecturers } from '../../../api/Lecturer';
-import { toast } from "react-toastify";
+import {
+  createLecturer,
+  editBioProfile,
+  getInfoProfile,
+  getListLecturers
+} from '../../../api/Lecturer';
+import { toast } from 'react-toastify';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 
@@ -20,7 +25,7 @@ interface ContactType {
   value: string;
 }
 interface DataType {
-  index: number,
+  index: number;
   id: number;
   name: string;
   email: string;
@@ -66,7 +71,7 @@ const ListTeacher: React.FC = () => {
   const [dataId, setDataId] = useState<DataId[]>([]);
 
   const locale = {
-    emptyText: 'Không có dữ liệu',
+    emptyText: 'Không có dữ liệu'
   };
 
   useEffect(() => {
@@ -130,7 +135,7 @@ const ListTeacher: React.FC = () => {
             const newData: DataType = {
               index: index,
               id: itemAccount.id,
-              name: "New user",
+              name: 'New user',
               email: itemAccount.email
             };
             dataArray.push(newData);
@@ -161,7 +166,9 @@ const ListTeacher: React.FC = () => {
 
         const dataArray: DataType[] = [];
         accountList.map((itemAccount: Account, index: number) => {
-          const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+          const idx = lecturerList.findIndex(
+            (itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id
+          );
           if (idx >= 0) {
             const newData: DataType = {
               index: index,
@@ -209,7 +216,7 @@ const ListTeacher: React.FC = () => {
         });
         setDataId(dataId);
       }
-    },
+    }
   };
 
   const getColumnSearchProps = (dataIndex: keyof DataType): ColumnType<DataType> => ({
@@ -303,53 +310,50 @@ const ListTeacher: React.FC = () => {
       key: 'x',
       width: '3%',
       render: (text, record) => (
-        <DeleteFilled className="del-button" style={{ cursor: "pointer" }} onClick={() => handleDelete(record)} />
+        <DeleteFilled
+          className="del-button"
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleDelete(record)}
+        />
       )
     }
   ];
 
   const fetchLecturerList = () => {
     useEffect(() => {
-      getListLecturers().then((result) => {
-        setLecturerList(result.data.data);
-      })
+      getListLecturers()
+        .then((result) => {
+          setLecturerList(result.data.data);
+        })
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
   const fetchAccountList = () => {
     useEffect(() => {
-      getAllAccounts().then((result) => {
-        setAccountList(result.data.data);
-      })
+      getAllAccounts()
+        .then((result) => {
+          setAccountList(result.data.data);
+        })
         .catch((err) => console.log("Can't get data lecturer: ", err));
     }, []);
   };
 
   const handleAddAccount = () => {
     console.log(email);
-  }
+  };
 
   const fetchData = () => {
     fetchLecturerList();
-    lecturerList?.map((itemLecturer: Lecturer, index: number) => {
-      const idxContact = itemLecturer.contacts.findIndex((itemContact: ContactType) => itemContact.contactTypeId === 1);
-      if (itemLecturer.contacts[idxContact] !== null) {
-        const idxAccount = accountList?.findIndex((itemAccount: Account, index: number) => {
-          itemLecturer.contacts[idxContact].value === itemAccount.email;
-          if (idxAccount < 0) {
-            signup(itemLecturer.contacts[idxContact].value);
-          }
-        })
-      }
-    });
 
     fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList?.map((itemAccount: Account, index: number) => {
-      console.log("itemAccount: ", itemAccount);
+      console.log('itemAccount: ', itemAccount);
       if (itemAccount.role == 1) {
-        const idx = lecturerList.findIndex((itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id);
+        const idx = lecturerList.findIndex(
+          (itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id
+        );
         if (idx >= 0) {
           const newData: DataType = {
             index: index,
@@ -362,7 +366,7 @@ const ListTeacher: React.FC = () => {
           const newData: DataType = {
             index: index,
             id: itemAccount.id,
-            name: "New user",
+            name: 'New user',
             email: itemAccount.email
           };
           dataArray.push(newData);
@@ -387,8 +391,13 @@ const ListTeacher: React.FC = () => {
               className="title_table"
               style={{
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-              }}>Danh sách người dùng</span>
-            <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+              }}>
+              Danh sách người dùng
+            </span>
+            <button className="button2" onClick={handleCreate}>
+              <PlusOutlined style={{ marginRight: '10px' }} />
+              Thêm
+            </button>
           </div>
 
           <Table
@@ -412,8 +421,7 @@ const ListTeacher: React.FC = () => {
             onCancel={handleCancel}
             width={500}
             destroyOnClose
-            footer={[]}
-          >
+            footer={[]}>
             <Form
               form={form}
               className="modalTeacher modal-popup"
@@ -424,14 +432,18 @@ const ListTeacher: React.FC = () => {
               initialValues={{ size: componentSize }}
               onValuesChange={onFormLayoutChange}
               size={componentSize as SizeType}
-              style={{ maxWidth: 500 }}
-            >
-              <Form.Item label="Email" name="email" className='form-add-account'>
-                <Input className='input-add-account' placeholder="Nhập email" value={email} onChange={handleInputChangeEmail} />
+              style={{ maxWidth: 500 }}>
+              <Form.Item label="Email" name="email" className="form-add-account">
+                <Input
+                  className="input-add-account"
+                  placeholder="Nhập email"
+                  value={email}
+                  onChange={handleInputChangeEmail}
+                />
               </Form.Item>
 
-              <Form.Item className='btn-controls' wrapperCol={{ offset: 8, span: 16 }}>
-                <Button className='btn-cancel' key="back" onClick={handleCancel}>
+              <Form.Item className="btn-controls" wrapperCol={{ offset: 8, span: 16 }}>
+                <Button className="btn-cancel" key="back" onClick={handleCancel}>
                   Thoát
                 </Button>
                 <Button type="primary" htmlType="submit" onClick={handleAddAccount}>
@@ -441,7 +453,7 @@ const ListTeacher: React.FC = () => {
             </Form>
           </Modal>
           <Modal
-            className='title_modal'
+            className="title_modal"
             centered
             open={openDel}
             onOk={() => setOpenDel(false)}
@@ -452,18 +464,18 @@ const ListTeacher: React.FC = () => {
               <Button type="primary" htmlType="submit" onClick={() => onDelete(id.toString())}>
                 Có
               </Button>,
-              <Button className='btn-cancel' key="back" onClick={handleCancel}>
+              <Button className="btn-cancel" key="back" onClick={handleCancel}>
                 Không
               </Button>
-            ]}
-          >
-            <div style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "20px",
-              marginBottom: "20px"
-            }}>
+            ]}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '20px',
+                marginBottom: '20px'
+              }}>
               <Typography
                 id="modal-modal-title"
                 variant="h5"

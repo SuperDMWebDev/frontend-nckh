@@ -190,6 +190,16 @@ export const getAllFilterUniversities = async () => {
   }
 };
 
+export const getAllDifferentUniversities = async () => {
+  try {
+    const res = await axios.get(`${BASE_URL}configs/university/fetch-all-difference`);
+
+    return res.data.data;
+  } catch (err) {
+    return handleError(err);
+  }
+};
+
 // eslint-disable-next-line no-shadow
 export const createMultipleUniversities = async (data: any) => {
   try {
