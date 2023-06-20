@@ -224,7 +224,7 @@ export default function ModalEditDegree(props: any) {
                         </div>
                       ) : null}
                       <div className="name-book">
-                        <p className="name">Tên đề tài, luận án: {degree.graduationThesisName}</p>
+                        <p className="name">{degree.graduationThesisName}</p>
                       </div>
                       <div className="user-field">
                         Chuyên ngành: {degree.specialization} - {degree.universityName}

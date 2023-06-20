@@ -22,6 +22,7 @@ import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalE
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
+import ModalEditSubjectTeaching from '../../../components/User/ModalLecturer/ModalEditSubjectTeaching/ModalEditSubjectTeaching';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -396,6 +397,7 @@ export default function LecturerDetail() {
               </div>
 
               <ModalEditExpertises lecturer={lecturer} canEdit={false} />
+              <ModalEditSubjectTeaching lecturer={lecturer} canEdit={false} />
               <ModalEditDegree lecturer={lecturer} canEdit={false} />
               <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
             </>
