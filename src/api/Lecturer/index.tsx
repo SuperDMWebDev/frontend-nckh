@@ -180,6 +180,63 @@ export const editInfoProfile = async (lecturer: any, data: any, lecturerId: stri
   }
 };
 
+export const editSubjectTeaching = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      currentDiscipline: {
+        id: data.id,
+        lecturerId: lecturerId,
+        departmentName: lecturer.departmentName,
+        universityId: 1,
+        disciplineName: data.disciplineName,
+        position: "",
+        update: true
+      }
+    }
+  });
+};
+
+export const createSubjectTeaching = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      currentDiscipline: {
+        lecturerId: lecturerId,
+        departmentName: "",
+        universityId: 1,
+        disciplineName: data.subjectTeaching,
+        position: "",
+        create: true
+      }
+    }
+  });
+};
+
 export const editLinkProfile = async (lecturer: any, link: any, lecturerId: string | null) => {
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
