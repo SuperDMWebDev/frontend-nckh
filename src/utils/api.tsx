@@ -1,5 +1,5 @@
 import axios from 'axios';
-const URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
+import { BASE_URL } from '../api';
 
 export interface DataResponse {
   code: number;
@@ -25,7 +25,7 @@ const config = {
 };
 export const loginUser = async (email: string, password: string) => {
   const response: Response = await axios.post(
-    `${URL}/auth/login`,
+    `${BASE_URL}auth/login`,
     {
       email,
       password
@@ -37,7 +37,7 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 export const getLecturerIdFromAccountId = async (accountId: string) => {
-  const response: any = await axios.get(`${URL}/lecturers/account/${accountId}`);
+  const response: any = await axios.get(`${BASE_URL}lecturers/account/${accountId}`);
 
   return response;
 };
