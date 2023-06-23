@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { DownloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
@@ -8,13 +8,15 @@ import { PlusOutlined } from '@ant-design/icons';
 import Loader from '../../Loader/Loader';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
-import { getArticles } from '../../../api/Article';
+import { exportExcelArticles, getArticles } from '../../../api/Article';
+import ExportExcelModal from '../../ExportExcelModal';
 
 interface DataType {
     index: number;
     id: number;
     name: string;
     type: string;
+    date: string;
     rank: string;
 }
 interface Article {
@@ -23,6 +25,9 @@ interface Article {
     name: string;
     journal: string;
     conference: string;
+    day: number;
+    month: number;
+    year: number;
     rank: string;
 }
 
@@ -32,6 +37,7 @@ const ListArticle: React.FC = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
+    const [openExportModal, setOpenExportModal] = useState(false);
 
     const [articleList, setArticleList] = useState<Article[]>([]);
     const [data, setData] = useState<DataType[]>([]);
@@ -61,11 +67,14 @@ const ListArticle: React.FC = () => {
 
         const dataArray: DataType[] = [];
         articleList?.map((item: Article, index: number) => {
+            const date: string = `
+                ${item.day !== null ? `${item.day} - ` : ''}${item.month !== null ? `${item.month} - ` : ''}${item.year}`;
             const newData: DataType = {
                 index: index + 1,
                 id: item.id,
                 name: item.name,
                 type: item.conference === null ? 'Tạp chí' : 'Hội nghị',
+                date: date,
                 rank: item.rank
             };
             dataArray.push(newData);
@@ -164,22 +173,28 @@ const ListArticle: React.FC = () => {
             title: 'STT',
             dataIndex: 'index',
             key: 'index',
-            width: '10%',
-            ...getColumnSearchProps('index')
+            width: '5%'
         },
         {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
-            width: '65%',
+            width: '55%',
             ...getColumnSearchProps('name')
         },
         {
             title: 'Loại',
             dataIndex: 'type',
             key: 'type',
-            width: '15%',
+            width: '12%',
             ...getColumnSearchProps('type')
+        },
+        {
+            title: 'Ngày phát hành',
+            dataIndex: 'date',
+            key: 'date',
+            width: '18%',
+            ...getColumnSearchProps('date')
         },
         {
             title: 'Rank',
@@ -189,6 +204,11 @@ const ListArticle: React.FC = () => {
             ...getColumnSearchProps('rank')
         }
     ];
+
+    const handleExport = async (selectedYear: any) => {
+        await exportExcelArticles(selectedYear);
+        setOpenExportModal(false);
+    };
 
     return (
         <>
@@ -200,9 +220,11 @@ const ListArticle: React.FC = () => {
                         <span
                             className="title_table"
                             style={{
-                                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                width: "68%"
                             }}>Danh sách công bố khoa học</span>
                         <button className='button2' onClick={handleCreate}><PlusOutlined style={{ marginRight: "10px" }} />Thêm</button>
+                        <button className='button2' style={{ marginLeft: "10px" }} onClick={() => setOpenExportModal(true)}><DownloadOutlined style={{ marginRight: "10px" }} />Xuất excel</button>
                     </div>
 
                     <Table
@@ -222,6 +244,12 @@ const ListArticle: React.FC = () => {
                                 },
                             };
                         }}
+                    />
+
+                    <ExportExcelModal
+                        visible={openExportModal}
+                        onClose={() => setOpenExportModal(false)}
+                        onExport={handleExport}
                     />
                 </div>
             )}

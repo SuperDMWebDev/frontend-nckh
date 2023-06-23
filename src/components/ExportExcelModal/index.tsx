@@ -30,12 +30,12 @@ const ExportExcelModal: React.FC<ExportExcelModalProps> = ({ visible, onClose, o
   return (
     <StyledExportExcelModal>
       <Modal
-        title="Export Excel"
+        title="Xuất Excel"
         visible={visible}
         onCancel={onClose}
         footer={[
           <Button key="cancel" onClick={onClose}>
-            Cancel
+            Thoát
           </Button>,
           <Button key="export" type="primary" disabled={!selectedYear} onClick={handleExport}>
             Bắt đầu xuất file

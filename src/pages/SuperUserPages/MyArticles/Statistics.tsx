@@ -119,7 +119,7 @@ export default function Statistics() {
             </div>
             <div className="add-article-container">
               <button className="btn btn-add-article-2" onClick={() => setOpenExportModal(true)}>
-                Xuất file excel
+                Xuất excel
               </button>
             </div>
             <ExportExcelModal

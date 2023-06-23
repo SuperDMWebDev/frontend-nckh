@@ -10,12 +10,7 @@ import Loader from '../../Loader/Loader';
 import './style.css';
 import Typography from '@mui/material/Typography';
 import { deleteAccount, getAllAccounts, signup } from '../../../api/Account';
-import {
-  createLecturer,
-  editBioProfile,
-  getInfoProfile,
-  getListLecturers
-} from '../../../api/Lecturer';
+import { getListLecturers } from '../../../api/Lecturer';
 import { toast } from 'react-toastify';
 
 type SizeType = Parameters<typeof Form>[0]['size'];
@@ -287,8 +282,7 @@ const ListTeacher: React.FC = () => {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
-      width: '5%',
-      ...getColumnSearchProps('index')
+      width: '5%'
     },
     {
       title: 'Họ và tên',
@@ -338,18 +332,12 @@ const ListTeacher: React.FC = () => {
     }, []);
   };
 
-  const handleAddAccount = () => {
-    console.log(email);
-  };
-
   const fetchData = () => {
     fetchLecturerList();
-
     fetchAccountList();
 
     const dataArray: DataType[] = [];
     accountList?.map((itemAccount: Account, index: number) => {
-      console.log('itemAccount: ', itemAccount);
       if (itemAccount.role == 1) {
         const idx = lecturerList.findIndex(
           (itemLecturer: Lecturer) => itemLecturer.accountId === itemAccount.id
@@ -446,7 +434,7 @@ const ListTeacher: React.FC = () => {
                 <Button className="btn-cancel" key="back" onClick={handleCancel}>
                   Thoát
                 </Button>
-                <Button type="primary" htmlType="submit" onClick={handleAddAccount}>
+                <Button type="primary" htmlType="submit">
                   OK
                 </Button>
               </Form.Item>
