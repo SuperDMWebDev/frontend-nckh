@@ -283,8 +283,7 @@ export default function ArticleDetail() {
               )}
               {article.day && article.month && article.year ? (
                 <p>
-                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} -
-                  {article.year}
+                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} - {article.year}
                 </p>
               ) : (
                 <p>
