@@ -25,7 +25,11 @@ export default function Sidebar(props: SidebarProps) {
           <span className="logo">
             <img src="/assets/images/logo.png" alt="logo" />
           </span>
+<<<<<<< HEAD
           <span className="sidebar__title">Dashboard</span>
+=======
+          <span className="sidebar__title">Trang quản lý</span>
+>>>>>>> origin/develop
         </div>
         <Menu
           className="sidebar__menu"

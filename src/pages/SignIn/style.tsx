@@ -101,9 +101,11 @@ const Styled = styled.div`
   }
   .signin-main {
     padding: 5rem 0rem;
+    padding-bottom: 12rem;
     width: 100%;
     height: fit-content;
     background-color: transparent;
+    min-height: 100vh;
   }
   .main-container {
     display: flex;
@@ -275,8 +277,14 @@ const Styled = styled.div`
     line-height: 17px;
     margin: 1rem 0px 1.5rem;
   }
-  a.reset-link {
+  .reset-link {
     margin-left: 20px;
+    cursor: pointer;
+    color: #2e53f8;
+  }
+
+  .reset-link:hover {
+    text-decoration: underline;
   }
 `;
 

@@ -1,0 +1,24 @@
+.pdf-reader {
+  /* Add general styles for the PDF reader container */
+}
+
+.pdf-reader input[type='file'] {
+  /* Styles for the file input */
+  padding: 10px;
+  border: none;
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.pdf-reader input[type='file']:hover {
+  background-color: #e0e0e0;
+}
+
+.pdf-reader input[type='file']:focus {
+  outline: none;
+  background-color: #d2d2d2;
+}
