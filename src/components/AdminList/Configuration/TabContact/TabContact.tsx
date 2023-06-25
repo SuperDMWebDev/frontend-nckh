@@ -252,8 +252,7 @@ const TabContact: React.FC = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: '3%',
-            ...getColumnSearchProps('id')
+            width: '3%'
         },
         {
             title: 'Tên',

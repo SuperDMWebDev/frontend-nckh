@@ -956,12 +956,6 @@ export default function Profile() {
           ) : currentTab === 2 ? (
             <>
               <div className="add-article-container" ref={scrollTop}>
-                <button className="btn btn-add-article" onClick={() => navigate('/create-article')}>
-                  Thêm bài báo khoa học
-                </button>
-                <button className="btn btn-add-article" onClick={() => setOpenExportModal(true)}>
-                  Xuất excel
-                </button>
                 <ExportExcelModal
                   visible={openExportModal}
                   onClose={() => setOpenExportModal(false)}
