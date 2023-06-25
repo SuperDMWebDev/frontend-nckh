@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const port = process.env.PORT || 8000;
 const ASSET_PATH = process.env.ASSET_PATH || '/';
+console.log('🚀 ~ file: webpack.config.js:6 ~ port:', port);
 
 module.exports = {
   // Webpack configuration goes here
@@ -81,7 +82,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
-    new Dotenv(),
+    new Dotenv({ path: './.env' }),
     new CopyPlugin({
       patterns: [
         { from: 'public/assets', to: 'assets' } // to the  root directory
