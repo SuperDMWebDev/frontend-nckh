@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 443;
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 console.log('🚀 ~ file: webpack.config.js:6 ~ port:', port);
 
