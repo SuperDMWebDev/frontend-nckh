@@ -90,12 +90,12 @@ export default function LecturerDetail() {
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
         setLecturerFiles(result.lecturerFiles);
-        if (result.contacts[3].value.length >= 25) {
+        if (result.contacts[3]?.value.length >= 25) {
           setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
         } else {
           setLinkInner(result.contacts[3].value);
         }
-        result.workPositions.map((workPosition: any) => {
+        result?.workPositions.map((workPosition: any) => {
           workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
         });
         result.bio !== null ? setBio(result.bio) : setBio('');
@@ -184,8 +184,7 @@ export default function LecturerDetail() {
           <div className="btn-back-search" onClick={handleBackSearch}>
             <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
           </div>
-        )
-        }
+        )}
         <ul className="header_tab">
           <li className="content_tab">
             <div id="1" className="content_tab_name tab-selected" onClick={handleTab1}>
@@ -210,8 +209,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }

@@ -41,6 +41,7 @@ import { toast } from 'react-toastify';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExportExcelModal from '../../../components/ExportExcelModal';
 import PDFReader from '../../../components/PDFReader';
+import { isEmpty } from 'lodash-es';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -72,7 +73,10 @@ export default function Profile() {
   const lecturerId = localStorage.getItem('lecturerId');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
-  const [previewAvatar, setPreviewAvatar] = useState<string>('');
+  const [previewAvatar, setPreviewAvatar] = useState<string>(
+    'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+  );
+  console.log('🚀 ~ file: Profile.tsx:78 ~ Profile ~ previewAvatar:', previewAvatar);
   const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const [file, setFile] = useState<any>();
@@ -130,17 +134,18 @@ export default function Profile() {
         setPhoneId(result.contacts[2]);
         setLinkId(result.contacts[3]);
         setCurrentDisciplineId(result.currentDisciplines[0]);
-
-        setPreviewAvatar(result.avatar);
+        if (!isEmpty(result.avatar)) {
+          setPreviewAvatar(result.avatar);
+        }
         setLecturerFiles(result.lecturerFiles);
 
-        if (result.contacts[3].value.length >= 25) {
+        if (result.contacts[3]?.value.length >= 25) {
           setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
         } else {
           setLinkInner(result.contacts[3].value);
         }
-        result.workPositions.map((workPosition: any) => {
-          workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
+        result?.workPositions?.map((workPosition: any) => {
+          workPosition.isNow === 1 ? setCurrentPosition(workPosition) : null;
         });
         result.bio !== null || result.bio !== 'null' ? setBio(result.bio) : setBio('');
       })
@@ -171,7 +176,7 @@ export default function Profile() {
     [lecturerId]
   );
 
-  const handleUploadProfile = useCallback(async () => { }, []);
+  const handleUploadProfile = useCallback(async () => {}, []);
 
   useEffect(() => {
     fetchArticle();
@@ -247,9 +252,10 @@ export default function Profile() {
     }, 3000);
   };
 
-  const onCrop = (view: string) => {
+  const onCrop = async (view: string) => {
+    console.log('🚀 ~ file: Profile.tsx:251 ~ onCrop ~ view:', view);
     setPreviewAvatar(view);
-    editAvatarProfile(lecturer, view, lecturerId);
+    await editAvatarProfile(lecturer, view, lecturerId);
   };
 
   const handleSaveName = () => {
@@ -337,8 +343,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar === null ||
-                lecturer?.avatar === '' ||
-                lecturer?.avatar === 'data:image/png;base64,'
+              lecturer?.avatar === '' ||
+              lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -606,18 +612,7 @@ export default function Profile() {
                     justifyContent: 'center',
                     alignItems: 'center'
                   }}>
-                  <img
-                    className="img-avatar-edit"
-                    src={
-                      lecturer?.avatar == 'null' ||
-                        lecturer?.avatar == null ||
-                        lecturer?.avatar == '' ||
-                        lecturer?.avatar == 'data:image/png;base64,'
-                        ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
-                        : previewAvatar
-                    }
-                    alt=""
-                  />
+                  <img className="img-avatar-edit" src={previewAvatar} alt="" />
                 </div>
 
                 <Modal
@@ -628,7 +623,7 @@ export default function Profile() {
                   onCancel={() => setOpenEditAvatarModal(false)}
                   width={700}
                   className="modalStyle">
-                  <Avatar1 width={400} height={300} onCrop={onCrop} />
+                  <Avatar1 width={200} height={200} onCrop={(e) => onCrop(e)} />
                 </Modal>
               </div>
 
@@ -873,6 +868,7 @@ export default function Profile() {
                   currentDiscipline={currentDisciplineId}
                   reload={reload}
                   setReload={setReload}
+                  avatar={previewAvatar}
                 />
               </div>
             </Modal>
@@ -962,7 +958,11 @@ export default function Profile() {
                   onExport={handleExport}
                 />
               </div>
+
               <div className="content-profile">
+                <h2 className="title_content" style={{ marginBottom: '10px' }} ref={scrollTop}>
+                  CÔNG BỐ KHOA HỌC
+                </h2>
                 {currentLecturers ? (
                   currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (

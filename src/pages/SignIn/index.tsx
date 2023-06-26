@@ -11,9 +11,11 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import Footer from '../../components/Footer';
 import { Button, Modal } from 'antd';
 import { forgetPassword } from '../../api/Account';
+import Loader from '../../components/Loader/Loader';
 
 const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const signInSchema = Yup.object({
     email: Yup.string().email('Not a valid email').required('Email required'),
@@ -32,7 +34,9 @@ const SignIn = () => {
     validationSchema: signInSchema,
     onSubmit: async (value) => {
       try {
+        setLoading(true);
         const responseSignIn = await loginUser(value.email, value.password);
+        setLoading(false);
         console.log(responseSignIn);
         let {
           data: { token, message, code, expire, accountId, role, lecturerInfo }
@@ -84,149 +88,165 @@ const SignIn = () => {
   };
 
   return (
-    <Styled>
-      <div className="signin__container">
-        <nav className="signin__header">
-          <div className="nav__container container">
-            <nav className="nav__left">
-              <span>
-                <i className="fa fa-phone"></i>
-                <a href="tel:(028) 3835 4266">Điện thoại: (028) 3835 4266</a>
-              </span>
-              <span>
-                <i className="fa-regular fa-envelope"></i>{' '}
-                <a href="mailto:info@fit.hcmus.edu.vn">info@fit.hcmus.edu.vn</a>
-              </span>
-            </nav>
-            <div className="nav__right">
-              <span>Bạn chưa đăng nhập</span>
-            </div>
+    <div>
+      {
+        loading ? (
+          <div
+            style={{
+              marginTop: '30px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}>
+            <Loader />
           </div>
-        </nav>
-        <div className="signin__logo">
-          <div className="container">
-            <nav className="navbar">
-              <a href="/" className="navbar__logo">
-                <span className="logo">
-                  <img className="navbar__image" src="/assets/images/logo_hcmus.jpg" alt="logo" />
-                </span>
-              </a>
-            </nav>
-          </div>
-        </div>
-        <main className="signin-main">
-          <div className="main-container">
-            <div className="auth-form">
-              <div className="card-container">
-                <h2>Đăng nhập</h2>
-                <form
-                  className="form-login"
-                  method="post"
-                  onSubmit={formik.handleSubmit}
-                  autoComplete="on">
-                  <div className="input-box">
-                    <label htmlFor="email" className="input-label">
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      type="text"
-                      placeholder="Nhập email"
-                      className="input-text"
-                    />
-                    {formik.errors.email && formik.touched.email && (
-                      <p className="error-message">{formik.errors.email}</p>
-                    )}
+        ) : <>
+          <Styled>
+            <div className="signin__container">
+              <nav className="signin__header">
+                <div className="nav__container container">
+                  <nav className="nav__left">
+                    <span>
+                      <i className="fa fa-phone"></i>
+                      <a href="tel:(028) 3835 4266">Điện thoại: (028) 3835 4266</a>
+                    </span>
+                    <span>
+                      <i className="fa-regular fa-envelope"></i>{' '}
+                      <a href="mailto:info@fit.hcmus.edu.vn">info@fit.hcmus.edu.vn</a>
+                    </span>
+                  </nav>
+                  <div className="nav__right">
+                    <span>Bạn chưa đăng nhập</span>
                   </div>
-                  <div className="input-box">
-                    <label htmlFor="password" className="input-label">
-                      Mật khẩu
-                    </label>
-                    <div className="pwd-container">
-                      <input
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        type={showPwd ? 'text' : 'password'}
-                        placeholder="Nhập password"
-                        className="input-text"
-                      />
-                      <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
-                        <div className="pwd-img">
-                          {showPwd === false ? (
-                            <VisibilityOutlinedIcon />
-                          ) : (
-                            <VisibilityOffOutlinedIcon />
+                </div>
+              </nav>
+              <div className="signin__logo">
+                <div className="container">
+                  <nav className="navbar">
+                    <a href="/" className="navbar__logo">
+                      <span className="logo">
+                        <img className="navbar__image" src="/assets/images/logo_hcmus.jpg" alt="logo" />
+                      </span>
+                    </a>
+                  </nav>
+                </div>
+              </div>
+              <main className="signin-main">
+                <div className="main-container">
+                  <div className="auth-form">
+                    <div className="card-container">
+                      <h2>Đăng nhập</h2>
+                      <form
+                        className="form-login"
+                        method="post"
+                        onSubmit={formik.handleSubmit}
+                        autoComplete="on">
+                        <div className="input-box">
+                          <label htmlFor="email" className="input-label">
+                            Email
+                          </label>
+                          <input
+                            id="email"
+                            name="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            type="text"
+                            placeholder="Nhập email"
+                            className="input-text"
+                          />
+                          {formik.errors.email && formik.touched.email && (
+                            <p className="error-message">{formik.errors.email}</p>
                           )}
                         </div>
-                      </div>
-                    </div>
-                    {formik.errors.password && formik.touched.password && (
-                      <p className="error-message">{formik.errors.password}</p>
-                    )}
-                  </div>
-                  <div className="forgot-password">
-                    Quên mật khẩu?
-                    <span className="reset-link" onClick={() => setOpenChangePwdModal(true)}>
-                      Đặt lại mật khẩu
-                    </span>
-                  </div>
-                  <Modal
-                    title="Thay đổi mật khẩu"
-                    centered
-                    open={openChangePwdModal}
-                    onCancel={() => setOpenChangePwdModal(false)}
-                    width={700}
-                    footer={[
-                      <Button
-                        key="submit"
-                        style={{ backgroundColor: 'gray', color: 'white' }}
-                        onClick={() => setOpenChangePwdModal(false)}>
-                        Hủy
-                      </Button>,
-                      <Button key="submit" type="primary" onClick={() => handleSendEmail()}>
-                        Gửi
-                      </Button>
-                    ]}
-                    className="modalStyle">
-                    <div className="group">
-                      <input
-                        required={true}
-                        type="text"
-                        className="input-edit-profile"
-                        value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                        }}
-                      />
-                      <span className="highlight-edit-profile"></span>
-                      <span className="bar-edit-profile"></span>
-                      <label className="label-edit-profile">Email</label>
-                    </div>
-                  </Modal>
-                  <button type="submit" className="login-btn">
-                    Đăng nhập
-                  </button>
-                </form>
-                <hr className="card-line" />
+                        <div className="input-box">
+                          <label htmlFor="password" className="input-label">
+                            Mật khẩu
+                          </label>
+                          <div className="pwd-container">
+                            <input
+                              id="password"
+                              name="password"
+                              value={formik.values.password}
+                              onChange={formik.handleChange}
+                              type={showPwd ? 'text' : 'password'}
+                              placeholder="Nhập password"
+                              className="input-text"
+                            />
+                            <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
+                              <div className="pwd-img">
+                                {showPwd === false ? (
+                                  <VisibilityOutlinedIcon />
+                                ) : (
+                                  <VisibilityOffOutlinedIcon />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          {formik.errors.password && formik.touched.password && (
+                            <p className="error-message">{formik.errors.password}</p>
+                          )}
+                        </div>
+                        <div className="forgot-password">
+                          Quên mật khẩu?
+                          <span className="reset-link" onClick={() => setOpenChangePwdModal(true)}>
+                            Đặt lại mật khẩu
+                          </span>
+                        </div>
+                        <Modal
+                          title="Thay đổi mật khẩu"
+                          centered
+                          open={openChangePwdModal}
+                          onCancel={() => setOpenChangePwdModal(false)}
+                          width={700}
+                          footer={[
+                            <Button
+                              key="submit"
+                              style={{ backgroundColor: 'gray', color: 'white' }}
+                              onClick={() => setOpenChangePwdModal(false)}>
+                              Hủy
+                            </Button>,
+                            <Button key="submit" type="primary" onClick={() => handleSendEmail()}>
+                              Gửi
+                            </Button>
+                          ]}
+                          className="modalStyle">
+                          <div className="group">
+                            <input
+                              required={true}
+                              type="text"
+                              className="input-edit-profile"
+                              value={email}
+                              onChange={(e) => {
+                                setEmail(e.target.value);
+                              }}
+                            />
+                            <span className="highlight-edit-profile"></span>
+                            <span className="bar-edit-profile"></span>
+                            <label className="label-edit-profile">Email</label>
+                          </div>
+                        </Modal>
+                        <button type="submit" className="login-btn">
+                          Đăng nhập
+                        </button>
+                      </form>
+                      <hr className="card-line" />
 
-                <p className="text-disclaimer">
-                  {/* By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                      <p className="text-disclaimer">
+                        {/* By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
                   and Children’s Privacy Policy. */}
-                  Bằng cách Đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi. Vui lòng
-                  đọc Chính sách quyền riêng tư và Quyền riêng tư của trẻ em.
-                </p>
-              </div>
+                        Bằng cách Đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi. Vui lòng
+                        đọc Chính sách quyền riêng tư và Quyền riêng tư của trẻ em.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </main>
             </div>
-          </div>
-        </main>
-      </div>
-      <Footer />
-    </Styled>
+            <Footer />
+          </Styled>
+        </>
+      }
+    </div>
   );
 };
 
