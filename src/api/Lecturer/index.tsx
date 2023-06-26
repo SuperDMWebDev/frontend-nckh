@@ -202,14 +202,18 @@ export const editSubjectTeaching = async (lecturer: any, data: any, lecturerId: 
         departmentName: lecturer.departmentName,
         universityId: 1,
         disciplineName: data.disciplineName,
-        position: "",
+        position: '',
         update: true
       }
     }
   });
 };
 
-export const createSubjectTeaching = async (lecturer: any, data: any, lecturerId: string | null) => {
+export const createSubjectTeaching = async (
+  lecturer: any,
+  data: any,
+  lecturerId: string | null
+) => {
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -227,10 +231,10 @@ export const createSubjectTeaching = async (lecturer: any, data: any, lecturerId
       academicTitleGainYear: lecturer.academicTitleGainYear,
       currentDiscipline: {
         lecturerId: lecturerId,
-        departmentName: "",
+        departmentName: '',
         universityId: 1,
         disciplineName: data.subjectTeaching,
-        position: "",
+        position: '',
         create: true
       }
     }
@@ -560,7 +564,7 @@ export const editExpertises = async (lecturer: any, data: any, lecturerId: strin
         {
           id: data.id,
           lecturerId: lecturer.id,
-          title: "",
+          title: '',
           specialization: data.specialization,
           update: true
         }
@@ -712,6 +716,7 @@ export const getAllUniversity = async () => {
   try {
     const query = `${BASE_URL}configs/university/fetch-all`;
     const res = await axios.get(query);
+
     return res;
   } catch (error) {
     return handleError(error);
@@ -723,6 +728,7 @@ export const getAllContactType = async () => {
   try {
     const query = `${BASE_URL}configs/contact-type/fetch-all`;
     const res = await axios.get(query);
+
     return res;
   } catch (error) {
     return handleError(error);
@@ -792,6 +798,16 @@ export const updateProfile = async (lecturerId: any, data: any) => {
       Authorization: `Bearer ${token}`
     },
     data
+  });
+
+  return res.data;
+};
+
+export const resetLecturer = async (lecturerId: any) => {
+  const res = await axios.delete(`${BASE_URL}lecturers/reset`, {
+    data: {
+      id: lecturerId
+    }
   });
 
   return res.data;
