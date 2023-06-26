@@ -958,7 +958,11 @@ export default function Profile() {
                   onExport={handleExport}
                 />
               </div>
+
               <div className="content-profile">
+                <h2 className="title_content" style={{ marginBottom: '10px' }} ref={scrollTop}>
+                  CÔNG BỐ KHOA HỌC
+                </h2>
                 {currentLecturers ? (
                   currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (

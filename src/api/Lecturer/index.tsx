@@ -458,6 +458,35 @@ export const editWorkPosition = async (lecturer: any, data: any, lecturerId: str
   });
 };
 
+export const createWorkPosition = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      workPositions: [
+        {
+          create: true,
+          position: data.position,
+          company: data.company,
+          fromDate: data.fromDate,
+          toDate: data.toDate,
+        }
+      ]
+    }
+  });
+};
+
 export const updateBook = async (lecturer: any, book: any, lecturerId: string | null) => {
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
