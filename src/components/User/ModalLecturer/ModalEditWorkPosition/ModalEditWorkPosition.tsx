@@ -5,6 +5,7 @@ import { Button, Modal } from 'antd';
 import './ModalEditWorkPosition.css';
 import { editWorkPosition } from '../../../../api/Lecturer';
 import { getAllUniversity } from '../../../../api/Lecturer';
+import { createWorkPosition } from '../../../../api/Lecturer';
 
 export default function ModalEditWorkPosition(props: any) {
   const { lecturer, canEdit } = props;
@@ -49,11 +50,14 @@ export default function ModalEditWorkPosition(props: any) {
 
   const handleCreatWorkPosition = () => {
     const data = {
-      universityName: newUniversityName,
+      company: newUniversityName,
       position: newPosition,
       fromDate: newFromDate,
       toDate: newToDate
     };
+
+    createWorkPosition(lecturer, data, lecturerId);
+    window.location.reload();
   };
 
   const handleSaveEdit = () => {

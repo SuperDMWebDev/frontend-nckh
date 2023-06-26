@@ -14,6 +14,7 @@ interface AuthorScopus {
   surname: string;
   givenName: string;
   scopusId: string;
+  scopusUrl: string;
 }
 
 const style = {
@@ -36,6 +37,7 @@ export default function RetrieveScopusAuthor() {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [scopusID, setScopusID] = useState<string>('');
+  const [scopusUrl, setScopusUrl] = useState<string>('');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -148,7 +150,7 @@ export default function RetrieveScopusAuthor() {
                     {scopusAuthors?.map((scopusAuthor) => (
                       <div
                         key={scopusAuthor.scopusId}
-                        onChange={() => setScopusID(scopusAuthor.scopusId)}>
+                        onChange={() => { setScopusID(scopusAuthor.scopusId), setScopusUrl(scopusAuthor.scopusUrl) }}>
                         <div className="radio-inputs">
                           <label>
                             <input className="radio-input" type="radio" name="engine" />
@@ -193,6 +195,9 @@ export default function RetrieveScopusAuthor() {
                       marginLeft: '10px'
                     }}>
                     Xác nhận đây là tài khoản Scopus của bạn
+                    <div>
+                      Ấn vào <a href={scopusUrl} target="_blank">đây</a> để kiếm tra tài khoản của bạn
+                    </div>
                   </Typography>
                   <div
                     className="button_notification"
