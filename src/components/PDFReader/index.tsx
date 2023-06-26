@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import './style.css';
-import { updateProfile } from '../../api/Lecturer';
+import { resetLecturer, updateProfile } from '../../api/Lecturer';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const PDFReader: React.FC<any> = ({
   phone,
   link,
   currentDiscipline,
+  avatar,
   setReload,
   reload
 }) => {
@@ -23,7 +24,8 @@ const PDFReader: React.FC<any> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const extractValues = async (content: any) => {
+  const extractValues = async (contentDraft: any) => {
+    let content = contentDraft;
     const nameRegex = /Họ và tên:\s*(.+?)\s*2\./;
     const dateOfBirthRegex = /Ngày sinh:\s*(.+?)\s*3\./;
     const genderRegex = /Nam\/nữ:\s*(.+?)\s*4\./;
@@ -35,8 +37,11 @@ const PDFReader: React.FC<any> = ({
     const positionRegex = /Chức vụ:\s*(.+?)\s*5./;
     const addressRegex = /Địa chỉ\s*(.+?\s*P\d+\s*Q\d+)/;
     const linkRegex = /Website\s*(.+?)\s*8/;
+    const workPositionRegex = /(\d{4})\s*–\s*(Nay|\d{4})\s*([\s\S]+?)(?=\s*(10|\d{4}\s*–\s*|$))/g;
+    const researchRegex = /•\s*([\s\S]+?)\s*(?=II)/g;
 
     const extractedName = content.match(nameRegex);
+    content = content.replace(nameRegex, '');
     const extractedDateOfBirth = content.match(dateOfBirthRegex);
     const extractedGender = content.match(genderRegex);
     const extractedPhoneNumber = content.match(phoneRegex);
@@ -47,17 +52,67 @@ const PDFReader: React.FC<any> = ({
     const extractedPosition = content.match(positionRegex);
     const extractedAddress = content.match(addressRegex);
     const extractedLink = content.match(linkRegex);
+    const positionWorkPosition = content.indexOf('Thời gian công tác:');
+    content = content.substring(positionWorkPosition);
+    const extractedWorkPosition = content.match(workPositionRegex);
+    const positionExpertise = content.indexOf('Lĩnh vực chuyên môn');
+    const expertise = 'Công nghệ phần mềm';
+    content = content.substring('Hướng nghiên cứu:');
+    const extractedResearchField = content.match(researchRegex);
+
+    let arrWorkPosition: any[] = [];
+    for (let i = 0; i < 5; i++) {
+      if (i === 3) {
+        const arrExtracted = extractedWorkPosition[i].split('  ');
+        arrWorkPosition.push({
+          fromDate: arrExtracted[0],
+          toDate: arrExtracted[2],
+          position: arrExtracted.slice(arrExtracted.length - 5).join(''),
+          company: arrExtracted.slice(3, arrExtracted.length - 5).join(''),
+          create: true
+        });
+      } else {
+        const arrExtracted = extractedWorkPosition[i].split('   ');
+        arrWorkPosition.push({
+          fromDate: arrExtracted[0],
+          toDate: arrExtracted[2],
+          position: arrExtracted[arrExtracted.length - 1],
+          company: arrExtracted.slice(3, arrExtracted.length - 1).join(''),
+          create: true
+        });
+      }
+    }
+    const arrResearchField: any[] = [];
+    if (extractedResearchField.length > 0) {
+      const arrExtractedResearchField = extractedResearchField[0].split('•');
+      for (let i = 1; i < arrExtractedResearchField.length; i++) {
+        if (i == 2) {
+          arrExtractedResearchField[i] = arrExtractedResearchField[i].replace('3', '');
+        }
+        arrResearchField.push({ researchName: arrExtractedResearchField[i].trim(), create: true });
+      }
+    }
 
     const data = {
       name: extractedName[1],
       gender: extractedGender[1],
       dateOfBirth: removeSpacesAndHyphens(extractedDateOfBirth[1]),
+      workPositions: arrWorkPosition,
+      avatar,
+      expertises: [
+        {
+          specialization: expertise,
+          create: true
+        }
+      ],
+      researchFields: arrResearchField,
       currentDiscipline: {
         universityName: extractedUniversity[1].trim(),
         disciplineName: extractedDiscipline[1].trim(),
         departmentName: extractedDepartment[1].trim(),
-        position: extractedPosition[1].trim(),
-        id: currentDiscipline.id
+        position: extractedPosition[1].replace(',', ' ').trim(),
+        id: currentDiscipline?.id ? currentDiscipline.id : undefined,
+        create: !currentDiscipline?.id
       },
       contacts: [
         {
@@ -87,7 +142,9 @@ const PDFReader: React.FC<any> = ({
 
     if (res.code === 0) {
       toast.success(res.message);
-      navigate('/profile');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } else {
       toast.error(res.message);
     }
@@ -103,14 +160,16 @@ const PDFReader: React.FC<any> = ({
       const totalPages = pdf.numPages;
 
       let content = '';
-      let pageNumber = 1;
 
-      const page = await pdf.getPage(pageNumber);
-      const textContent: any = await page.getTextContent();
-      const pageContent = textContent.items.map((item: any) => item.str).join(' ');
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        const page = await pdf.getPage(pageNumber);
+        const textContent: any = await page.getTextContent();
+        const pageContent = textContent.items.map((item: any) => item.str).join(' ');
 
-      content += pageContent;
+        content += pageContent;
+      }
 
+      await resetLecturer(lecturerId);
       await extractValues(content);
     };
 
