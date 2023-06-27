@@ -48,7 +48,7 @@ export default function ModalEditWorkPosition(props: any) {
       });
   }, []);
 
-  const handleCreatWorkPosition = () => {
+  const handleCreatWorkPosition = async () => {
     const data = {
       company: newUniversityName,
       position: newPosition,
@@ -56,11 +56,11 @@ export default function ModalEditWorkPosition(props: any) {
       toDate: newToDate
     };
 
-    createWorkPosition(lecturer, data, lecturerId);
+    await createWorkPosition(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     let data: any = {};
     if (toDate == 'nay') {
       data = {
@@ -82,7 +82,7 @@ export default function ModalEditWorkPosition(props: any) {
       };
     }
 
-    editWorkPosition(lecturer, data, lecturerId);
+    await editWorkPosition(lecturer, data, lecturerId);
     window.location.reload();
   };
 
