@@ -176,7 +176,7 @@ export default function Profile() {
     [lecturerId]
   );
 
-  const handleUploadProfile = useCallback(async () => {}, []);
+  const handleUploadProfile = useCallback(async () => { }, []);
 
   useEffect(() => {
     fetchArticle();
@@ -215,7 +215,7 @@ export default function Profile() {
     window.location.replace('/profile/article-detail');
   };
 
-  const handleOkBio = () => {
+  const handleOkBio = async () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -223,7 +223,7 @@ export default function Profile() {
     }, 3000);
     const newData: Lecturer1 | any = { ...lecturer };
     newData.bio = bio;
-    editBioProfile(newData, lecturerId);
+    await editBioProfile(newData, lecturerId);
     window.location.reload();
   };
 
@@ -258,13 +258,13 @@ export default function Profile() {
     await editAvatarProfile(lecturer, view, lecturerId);
   };
 
-  const handleSaveName = () => {
-    editNameProfile(lecturer, newName, lecturerId);
+  const handleSaveName = async () => {
+    await editNameProfile(lecturer, newName, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveLink = () => {
-    editLinkProfile(lecturer, link, lecturerId);
+  const handleSaveLink = async () => {
+    await editLinkProfile(lecturer, link, lecturerId);
     window.location.reload();
   };
 
@@ -343,8 +343,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar === null ||
-              lecturer?.avatar === '' ||
-              lecturer?.avatar === 'data:image/png;base64,'
+                lecturer?.avatar === '' ||
+                lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }

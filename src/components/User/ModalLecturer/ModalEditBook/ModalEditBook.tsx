@@ -32,7 +32,7 @@ export default function ModalEditBook(props: any) {
     setOpenEditModal(true);
   };
 
-  const handleCreateBook = () => {
+  const handleCreateBook = async () => {
     const newBook = {
       name: newNameBook,
       publisherName: 'IEEE CPS, ISBN-13; 978',
@@ -40,11 +40,11 @@ export default function ModalEditBook(props: any) {
       coAuthors: newNameAuthor
     };
 
-    addNewBook(lecturer, newBook, lecturerId);
+    await addNewBook(lecturer, newBook, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const book = {
       id: idBook,
       name: nameBook,
@@ -52,12 +52,12 @@ export default function ModalEditBook(props: any) {
       publicYear: year,
       coAuthors: nameAuthor
     };
-    updateBook(lecturer, book, lecturerId);
+    await updateBook(lecturer, book, lecturerId);
     window.location.reload();
   };
 
-  const handleDeleteBook = () => {
-    deleteBook(lecturer, idBook, lecturerId);
+  const handleDeleteBook = async () => {
+    await deleteBook(lecturer, idBook, lecturerId);
     window.location.reload();
   };
 

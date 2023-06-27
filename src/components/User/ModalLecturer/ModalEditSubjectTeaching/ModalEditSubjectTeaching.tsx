@@ -20,20 +20,20 @@ export default function ModalEditSubjectTeaching(props: any) {
   const [newSubjectTeaching, setNewSubjectTeaching] = useState<string>();
   const [idSubjectTeaching, setIdSubjectTeaching] = useState<string>();
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const data = {
       subjectTeaching: subjectTeaching,
     };
-    createSubjectTeaching(lecturer, data, lecturerId);
+    await createSubjectTeaching(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const data = {
       id: idSubjectTeaching,
       disciplineName: newSubjectTeaching,
     };
-    editSubjectTeaching(lecturer, data, lecturerId);
+    await editSubjectTeaching(lecturer, data, lecturerId);
     window.location.reload();
   };
 

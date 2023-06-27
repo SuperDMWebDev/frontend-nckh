@@ -119,7 +119,7 @@ export default function ModalEditInfoProfile(props: any) {
     { value: 'Nữ', label: 'Nữ' }
   ];
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const data = {
       newUniversity: newUniversity,
       newCurrentDisciplines: newCurrentDisciplines,
@@ -133,7 +133,7 @@ export default function ModalEditInfoProfile(props: any) {
       flagCreate: flagCreate
     };
 
-    editInfoProfile(lecturer, data, lecturerId);
+    await editInfoProfile(lecturer, data, lecturerId);
     window.location.reload();
   };
 
