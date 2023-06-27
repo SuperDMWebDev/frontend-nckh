@@ -22,22 +22,22 @@ export default function ModalEditResearchField(props: any) {
   const [newNote, setNewNote] = useState<string>();
   const [idResearchField, setIdResearchField] = useState<string>();
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const data = {
       researchName: researchField,
       note: note
     };
-    createResearchField(lecturer, data, lecturerId);
+    await createResearchField(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const data = {
       id: idResearchField,
       researchName: newResearchField,
       note: newNote
     };
-    editResearchField(lecturer, data, lecturerId);
+    await editResearchField(lecturer, data, lecturerId);
     window.location.reload();
   };
 
