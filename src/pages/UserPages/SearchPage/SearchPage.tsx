@@ -17,12 +17,14 @@ import {
   faAnglesDown
 } from '@fortawesome/free-solid-svg-icons';
 import { getAllDifferentUniversities } from '../../../api/Configuration';
+import LoaderLayer from '../../../components/LoaderLayer/LoaderLayer';
 
 const itemsPerPage = 20;
 const maxVisibleButtons = 7;
 
 export default function SearchPage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
 
   const customIconStyle = {
@@ -104,8 +106,10 @@ export default function SearchPage() {
 
   const fetchListArticle = useCallback(
     async (data: any) => {
+      setIsLoading(true);
       const res = await getListArticleWithKeyword(data);
       if (res) {
+        setIsLoading(false);
         switch (res.status) {
           case httpStatus.OK: {
             const data = res.data.data;
@@ -126,8 +130,10 @@ export default function SearchPage() {
 
   const fetchListLectures = useCallback(
     async (data: any) => {
+      setIsLoading(true);
       const res = await getListLecturerWithKeyword(data);
       if (res) {
+        setIsLoading(false);
         switch (res.status) {
           case httpStatus.OK: {
             const data = res.data.data;
@@ -278,6 +284,7 @@ export default function SearchPage() {
 
   return (
     <Styled>
+      {isLoading && <LoaderLayer />}
       <div className="center">
         <div className="searchPage__title">
           {`TÌM KIẾM ${navigate_searchOption.label.toUpperCase()}`}

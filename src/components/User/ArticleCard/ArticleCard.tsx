@@ -65,10 +65,14 @@ const ArticleCard = (props: any) => {
             </div>
             <div>
               {isLogin && data?.rank && roleUser == '2' && data?.rank !== 'Unranked' ? (
-                <div className="citationContainer">
+                <a
+                  href={data?.rankUrl}
+                  target="_blank"
+                  style={{ color: 'inherit' }}
+                  className="citationContainer">
                   <div className="right-part__num">{data?.rank}</div>
                   <div>Ranking</div>
-                </div>
+                </a>
               ) : null}
             </div>
           </div>
