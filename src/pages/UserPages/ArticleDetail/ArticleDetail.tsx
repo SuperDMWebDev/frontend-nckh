@@ -85,7 +85,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() { }
+      onCancel() {}
     });
   }
 
@@ -233,7 +233,9 @@ export default function ArticleDetail() {
               {article.rank && role == '1' && (
                 <p>
                   <span className="subTitle">Rank: </span>
-                  {article.rank}
+                  <a href={article.rankUrl} target="_blank">
+                    {article.rank}
+                  </a>
                 </p>
               )}
               {article.DOI && (
@@ -283,7 +285,8 @@ export default function ArticleDetail() {
               )}
               {article.day && article.month && article.year ? (
                 <p>
-                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} - {article.year}
+                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} -{' '}
+                  {article.year}
                 </p>
               ) : (
                 <p>

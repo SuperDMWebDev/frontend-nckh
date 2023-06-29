@@ -437,10 +437,10 @@ export default function Profile() {
                   )}
                 </span>
               </div>
-              <div className="field-profile-info">
+              {/* <div className="field-profile-info">
                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>{lecturer?.dateOfBirth}</span>
-              </div>
+              </div> */}
               <div className="field-profile-info">
                 <EmailIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>

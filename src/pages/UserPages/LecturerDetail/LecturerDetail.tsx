@@ -209,8 +209,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-              lecturer?.avatar == '' ||
-              lecturer?.avatar == 'data:image/png;base64,'
+                lecturer?.avatar == '' ||
+                lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -353,11 +353,10 @@ export default function LecturerDetail() {
                         height: 'auto',
                         marginLeft: '5px',
                         color: 'white',
-                        textDecoration: 'none'
+                        textDecoration: 'none',
+                        cursor: "text"
                       }}
-                      href={item.filePath}
-                      target="_blank"
-                      rel="noopener noreferrer">
+                    >
                       {item.originalFileName}
                     </a>
                   </div>
