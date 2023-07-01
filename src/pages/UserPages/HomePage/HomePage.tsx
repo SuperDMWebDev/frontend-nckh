@@ -31,8 +31,8 @@ const HomePage: React.FC = () => {
     <Styled>
       <section className="banner">
         <div className="content">
-          <div className="content_title" style={{ fontSize: '60px' }}>
-            QUẢN LÝ BÀI VIẾT KHOA HỌC
+          <div className="content_title" style={{ fontSize: '45px' }}>
+            HỆ THỐNG QUẢN LÝ VÀ CÔNG BỐ HỒ SƠ GIẢNG VIÊN
           </div>
           <div
             className="content_script"

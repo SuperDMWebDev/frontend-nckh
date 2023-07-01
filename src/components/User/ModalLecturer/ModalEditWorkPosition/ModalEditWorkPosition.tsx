@@ -5,6 +5,7 @@ import { Button, Modal } from 'antd';
 import './ModalEditWorkPosition.css';
 import { editWorkPosition } from '../../../../api/Lecturer';
 import { getAllUniversity } from '../../../../api/Lecturer';
+import { createWorkPosition } from '../../../../api/Lecturer';
 
 export default function ModalEditWorkPosition(props: any) {
   const { lecturer, canEdit } = props;
@@ -47,16 +48,19 @@ export default function ModalEditWorkPosition(props: any) {
       });
   }, []);
 
-  const handleCreatWorkPosition = () => {
+  const handleCreatWorkPosition = async () => {
     const data = {
-      universityName: newUniversityName,
+      company: newUniversityName,
       position: newPosition,
       fromDate: newFromDate,
       toDate: newToDate
     };
+
+    await createWorkPosition(lecturer, data, lecturerId);
+    window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     let data: any = {};
     if (toDate == 'nay') {
       data = {
@@ -78,7 +82,7 @@ export default function ModalEditWorkPosition(props: any) {
       };
     }
 
-    editWorkPosition(lecturer, data, lecturerId);
+    await editWorkPosition(lecturer, data, lecturerId);
     window.location.reload();
   };
 

@@ -89,6 +89,7 @@ const CreateArticle = () => {
   const navigate = useNavigate();
   const accountId: string | null = localStorage.getItem('accountId');
   const lecturerId: string | null = localStorage.getItem('lecturerId');
+  const role = localStorage.getItem('role');
 
   const [DOI, setDOI] = useState('');
   const [name, setName] = useState('');
@@ -332,7 +333,7 @@ const CreateArticle = () => {
   };
 
   const handleBackSearch = () => {
-    navigate('/profile');
+    navigate('/');
   };
 
   const handleCreateArticle = async () => {
@@ -393,12 +394,20 @@ const CreateArticle = () => {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Tạo bài báo mới thành công!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         case httpStatus.UNAUTHORIZED: {
           toast.error('Tạo bài báo thất bại!');
-          navigate('/profile');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/profile');
+          }
           break;
         }
         default:

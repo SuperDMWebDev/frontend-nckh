@@ -22,6 +22,7 @@ import ModalEditWorkPosition from '../../../components/User/ModalLecturer/ModalE
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ModalEditExpertises from '../../../components/User/ModalLecturer/ModalEditExpertises/ModalEditExpertises';
+import ModalEditSubjectTeaching from '../../../components/User/ModalLecturer/ModalEditSubjectTeaching/ModalEditSubjectTeaching';
 
 type Article = {
   [key: string]: any; // 👈️ variable key
@@ -48,6 +49,7 @@ export default function LecturerDetail() {
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [lecturerFiles, setLecturerFiles] = useState<any[]>([]);
   const { id }: any = useParams();
+  const role = localStorage.getItem('role');
 
   const fetchArticle = async () => {
     let param = {
@@ -88,12 +90,12 @@ export default function LecturerDetail() {
         setPhone(result.contacts[2].value);
         setLink(result.contacts[3].value);
         setLecturerFiles(result.lecturerFiles);
-        if (result.contacts[3].value.length >= 25) {
+        if (result.contacts[3]?.value.length >= 25) {
           setLinkInner(result.contacts[3].value.slice(0, 25) + '...');
         } else {
           setLinkInner(result.contacts[3].value);
         }
-        result.workPositions.map((workPosition: any) => {
+        result?.workPositions.map((workPosition: any) => {
           workPosition.isNow == 1 ? setCurrentPosition(workPosition) : null;
         });
         result.bio !== null ? setBio(result.bio) : setBio('');
@@ -123,7 +125,12 @@ export default function LecturerDetail() {
   };
 
   const handleBackSearch = () => {
-    navigate('/search');
+    if (role === '0') {
+      const articleId = localStorage.getItem('articleId');
+      navigate(`/article-detail/${articleId}`);
+    } else {
+      navigate('/search');
+    }
   };
 
   // PAGINATION ARTICLES
@@ -169,9 +176,15 @@ export default function LecturerDetail() {
   return (
     <Styled>
       <div className="header_topbar">
-        <div className="btn-back-search" onClick={handleBackSearch}>
-          <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
-        </div>
+        {role === '0' ? (
+          <div className="btn-back-search" onClick={handleBackSearch}>
+            <ArrowBackIcon /> quay lại trang trước{' '}
+          </div>
+        ) : (
+          <div className="btn-back-search" onClick={handleBackSearch}>
+            <ArrowBackIcon /> quay lại trang tìm kiếm{' '}
+          </div>
+        )}
         <ul className="header_tab">
           <li className="content_tab">
             <div id="1" className="content_tab_name tab-selected" onClick={handleTab1}>
@@ -340,11 +353,10 @@ export default function LecturerDetail() {
                         height: 'auto',
                         marginLeft: '5px',
                         color: 'white',
-                        textDecoration: 'none'
+                        textDecoration: 'none',
+                        cursor: "text"
                       }}
-                      href={item.filePath}
-                      target="_blank"
-                      rel="noopener noreferrer">
+                    >
                       {item.originalFileName}
                     </a>
                   </div>
@@ -383,6 +395,7 @@ export default function LecturerDetail() {
               </div>
 
               <ModalEditExpertises lecturer={lecturer} canEdit={false} />
+              <ModalEditSubjectTeaching lecturer={lecturer} canEdit={false} />
               <ModalEditDegree lecturer={lecturer} canEdit={false} />
               <ModalEditWorkPosition lecturer={lecturer} canEdit={false} />
             </>

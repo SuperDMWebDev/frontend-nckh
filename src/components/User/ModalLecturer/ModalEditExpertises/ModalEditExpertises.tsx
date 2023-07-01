@@ -33,18 +33,20 @@ export default function ModalEditExpertises(props: any) {
 
     await editExpertises(lecturer, data, lecturerId);
     setOpenEditModal(false);
-    await getInfoLecturer();
+    //await getInfoLecturer();
+    window.location.reload();
   };
 
   const handleSaveCreate = async () => {
     const data = {
-      title: addTitle,
+      title: "",
       specialization: addSpecialization
     };
 
     await addExpertises(lecturer, data, lecturerId);
     setOpenAddModal(false);
-    await getInfoLecturer();
+    //await getInfoLecturer();
+    window.location.reload();
   };
 
   return (
@@ -128,21 +130,6 @@ export default function ModalEditExpertises(props: any) {
         width={700}
         className="modalStyle">
         <div>
-          <div className="group">
-            <input
-              required
-              type="text"
-              className="input-edit-profile"
-              value={addTitle}
-              onChange={(e) => {
-                setAddTitle(e.target.value);
-              }}
-            />
-            <span className="highlight-edit-profile"></span>
-            <span className="bar-edit-profile"></span>
-            <label className="label-edit-profile">Lĩnh vực</label>
-          </div>
-
           <div className="group">
             <input
               required

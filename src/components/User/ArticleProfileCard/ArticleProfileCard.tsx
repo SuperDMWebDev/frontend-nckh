@@ -7,6 +7,7 @@ const ArticleProfileCard = (props: any) => {
   const isLogin = !!localStorage.getItem('accessToken');
   const [authorList, setAuthorList] = useState<string[]>([]);
   const navigate = useNavigate();
+  const roleUser = localStorage.getItem('role');
 
   const getAuthorList = (data: any) => {
     let nameList: string[] = [];
@@ -62,7 +63,7 @@ const ArticleProfileCard = (props: any) => {
               <div>Trích dẫn</div>
             </div>
             <div>
-              {isLogin && data?.rank && data?.rank !== 'Unranked' ? (
+              {isLogin && data?.rank && roleUser == '2' && data?.rank !== 'Unranked' ? (
                 <div className="citationContainer">
                   <div className="right-part__num">{data?.rank}</div>
                   <div>Ranking</div>

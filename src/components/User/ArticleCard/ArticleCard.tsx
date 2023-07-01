@@ -6,6 +6,8 @@ const ArticleCard = (props: any) => {
   const { data } = props;
   const isLogin = !!localStorage.getItem('accessToken');
   const [authorList, setAuthorList] = useState<string[]>([]);
+  const roleUser = localStorage.getItem('role');
+
   const navigate = useNavigate();
 
   const getAuthorList = (data: any) => {
@@ -62,11 +64,15 @@ const ArticleCard = (props: any) => {
               <div>Trích dẫn</div>
             </div>
             <div>
-              {isLogin && data?.rank && data?.rank !== 'Unranked' ? (
-                <div className="citationContainer">
+              {isLogin && data?.rank && roleUser == '2' && data?.rank !== 'Unranked' ? (
+                <a
+                  href={data?.rankUrl}
+                  target="_blank"
+                  style={{ color: 'inherit' }}
+                  className="citationContainer">
                   <div className="right-part__num">{data?.rank}</div>
                   <div>Ranking</div>
-                </div>
+                </a>
               ) : null}
             </div>
           </div>

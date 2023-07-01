@@ -51,12 +51,20 @@ export default function ArticleDetail() {
       switch (res.status) {
         case httpStatus.OK: {
           toast.success('Xóa bài báo thành công!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         case httpStatus.UNAUTHORIZED: {
           toast.success('Xóa bài báo thất bại!');
-          navigate('/my-articles');
+          if (role === '0') {
+            navigate('/');
+          } else {
+            navigate('/my-articles');
+          }
           break;
         }
         default:
@@ -77,7 +85,7 @@ export default function ArticleDetail() {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel() { }
+      onCancel() {}
     });
   }
 
@@ -166,9 +174,11 @@ export default function ArticleDetail() {
           <Link fontSize={14} underline="hover" color="#0056ce" href="/">
             Trang chủ
           </Link>
-          <Link fontSize={14} underline="hover" color="#0056ce" href="/search">
-            Tìm kiếm
-          </Link>
+          {role !== '0' && (
+            <Link fontSize={14} underline="hover" color="#0056ce" href="/search">
+              Tìm kiếm
+            </Link>
+          )}
           <Typography fontSize={14} color="text.primary">
             Chi tiết
           </Typography>
@@ -223,7 +233,9 @@ export default function ArticleDetail() {
               {article.rank && role == '1' && (
                 <p>
                   <span className="subTitle">Rank: </span>
-                  {article.rank}
+                  <a href={article.rankUrl} target="_blank">
+                    {article.rank}
+                  </a>
                 </p>
               )}
               {article.DOI && (
@@ -273,7 +285,7 @@ export default function ArticleDetail() {
               )}
               {article.day && article.month && article.year ? (
                 <p>
-                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} -
+                  <span className="subTitle">Ngày công bố:</span> {article.day} - {article.month} -{' '}
                   {article.year}
                 </p>
               ) : (

@@ -62,7 +62,7 @@ export default function ModalEditDegree(props: any) {
       });
   }, []);
 
-  const handleCreatDegree = () => {
+  const handleCreatDegree = async () => {
     const data = {
       graduationThesisName: newName,
       specialization: newSpecialization,
@@ -70,11 +70,11 @@ export default function ModalEditDegree(props: any) {
       graduationDate: newYear,
       academicTitleId: newAcademicTitle
     };
-    createDegree(lecturer, data, lecturerId);
+    await createDegree(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const data = {
       id: idDegree,
       graduationThesisName: name,
@@ -82,12 +82,12 @@ export default function ModalEditDegree(props: any) {
       graduationDate: year,
       specialization: specialization
     };
-    editDegree(lecturer, data, lecturerId);
+    await editDegree(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleDeleteBook = () => {
-    deleteDegree(lecturer, idDegree, lecturerId);
+  const handleDeleteBook = async () => {
+    await deleteDegree(lecturer, idDegree, lecturerId);
     window.location.reload();
   };
 
@@ -224,7 +224,7 @@ export default function ModalEditDegree(props: any) {
                         </div>
                       ) : null}
                       <div className="name-book">
-                        <p className="name">Tên đề tài, luận án: {degree.graduationThesisName}</p>
+                        <p className="name">{degree.graduationThesisName}</p>
                       </div>
                       <div className="user-field">
                         Chuyên ngành: {degree.specialization} - {degree.universityName}

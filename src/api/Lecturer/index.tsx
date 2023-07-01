@@ -180,6 +180,67 @@ export const editInfoProfile = async (lecturer: any, data: any, lecturerId: stri
   }
 };
 
+export const editSubjectTeaching = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      currentDiscipline: {
+        id: data.id,
+        lecturerId: lecturerId,
+        departmentName: lecturer.departmentName,
+        universityId: 1,
+        disciplineName: data.disciplineName,
+        position: '',
+        update: true
+      }
+    }
+  });
+};
+
+export const createSubjectTeaching = async (
+  lecturer: any,
+  data: any,
+  lecturerId: string | null
+) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      currentDiscipline: {
+        lecturerId: lecturerId,
+        departmentName: '',
+        universityId: 1,
+        disciplineName: data.subjectTeaching,
+        position: '',
+        create: true
+      }
+    }
+  });
+};
+
 export const editLinkProfile = async (lecturer: any, link: any, lecturerId: string | null) => {
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
@@ -397,6 +458,35 @@ export const editWorkPosition = async (lecturer: any, data: any, lecturerId: str
   });
 };
 
+export const createWorkPosition = async (lecturer: any, data: any, lecturerId: string | null) => {
+  const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      id: lecturer.id,
+      name: lecturer.name,
+      gender: lecturer.gender,
+      avatar: lecturer.avatar,
+      dateOfBirth: lecturer.dateOfBirth,
+      bio: lecturer.bio,
+      academicRankId: lecturer.academicRankId,
+      academicRankGainYear: lecturer.academicRankGainYear,
+      academicTitleId: lecturer.academicTitleId,
+      academicTitleGainYear: lecturer.academicTitleGainYear,
+      workPositions: [
+        {
+          create: true,
+          position: data.position,
+          company: data.company,
+          fromDate: data.fromDate,
+          toDate: data.toDate,
+        }
+      ]
+    }
+  });
+};
+
 export const updateBook = async (lecturer: any, book: any, lecturerId: string | null) => {
   const res = await axios.put(`${BASE_URL}lecturers/${lecturerId}/update`, {
     headers: {
@@ -474,7 +564,7 @@ export const editExpertises = async (lecturer: any, data: any, lecturerId: strin
         {
           id: data.id,
           lecturerId: lecturer.id,
-          title: "",
+          title: '',
           specialization: data.specialization,
           update: true
         }
@@ -626,6 +716,7 @@ export const getAllUniversity = async () => {
   try {
     const query = `${BASE_URL}configs/university/fetch-all`;
     const res = await axios.get(query);
+
     return res;
   } catch (error) {
     return handleError(error);
@@ -637,6 +728,7 @@ export const getAllContactType = async () => {
   try {
     const query = `${BASE_URL}configs/contact-type/fetch-all`;
     const res = await axios.get(query);
+
     return res;
   } catch (error) {
     return handleError(error);
@@ -706,6 +798,16 @@ export const updateProfile = async (lecturerId: any, data: any) => {
       Authorization: `Bearer ${token}`
     },
     data
+  });
+
+  return res.data;
+};
+
+export const resetLecturer = async (lecturerId: any) => {
+  const res = await axios.delete(`${BASE_URL}lecturers/reset`, {
+    data: {
+      id: lecturerId
+    }
   });
 
   return res.data;

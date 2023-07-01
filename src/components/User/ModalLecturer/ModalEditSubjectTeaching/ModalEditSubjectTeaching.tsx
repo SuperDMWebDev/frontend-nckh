@@ -3,8 +3,9 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { Button, Modal } from 'antd';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import AddIcon from '@mui/icons-material/Add';
-import { editResearchField } from '../../../../api/Lecturer';
 import { createResearchField } from '../../../../api/Lecturer';
+import { editSubjectTeaching } from '../../../../api/Lecturer';
+import { createSubjectTeaching } from '../../../../api/Lecturer';
 
 export default function ModalEditSubjectTeaching(props: any) {
   const { lecturer, canEdit } = props;
@@ -19,26 +20,26 @@ export default function ModalEditSubjectTeaching(props: any) {
   const [newSubjectTeaching, setNewSubjectTeaching] = useState<string>();
   const [idSubjectTeaching, setIdSubjectTeaching] = useState<string>();
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const data = {
       subjectTeaching: subjectTeaching,
     };
-    createResearchField(lecturer, data, lecturerId);
+    await createSubjectTeaching(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     const data = {
       id: idSubjectTeaching,
-      researchName: newSubjectTeaching,
+      disciplineName: newSubjectTeaching,
     };
-    editResearchField(lecturer, data, lecturerId);
+    await editSubjectTeaching(lecturer, data, lecturerId);
     window.location.reload();
   };
 
-  const handleEditCard = (researchField: any) => {
-    setNewSubjectTeaching(researchField.researchName);
-    setIdSubjectTeaching(researchField.id);
+  const handleEditCard = (item: any) => {
+    setNewSubjectTeaching(item.disciplineName);
+    setIdSubjectTeaching(item.id);
     setOpenEditModal(true);
   };
 
@@ -60,29 +61,34 @@ export default function ModalEditSubjectTeaching(props: any) {
             />
           </div>
         ) : null}
-        {lecturer?.researchFields == undefined ? (
+        {lecturer?.currentDisciplines == undefined ? (
           <>
             <span style={{ fontSize: '14px', fontStyle: 'italic' }}>Chưa cập nhật.</span>
           </>
         ) : (
           <>
-            {lecturer?.researchFields.map((researchField: any) => (
-              <div style={{ marginBottom: '2px' }} key={researchField.id.toString()}>
-                <p className="data_content" style={{ marginBottom: '-5px' }}>
-                  <div className="card_book">
-                    {canEdit ? (
-                      <div
-                        className="btn-edit-card"
-                        onClick={() => handleEditCard(researchField)}
-                        style={{ top: '15px' }}>
-                        <ModeEditOutlineIcon />
-                      </div>
-                    ) : null}
-                    <FiberManualRecordIcon style={{ fontSize: '9px', textAlign: 'center' }} />{' '}
-                    <span>{researchField.researchName}</span>
-                    {researchField.note ? <span>({researchField.note})</span> : null}
-                  </div>
-                </p>
+            {lecturer?.currentDisciplines.map((item: any) => (
+              <div>
+                {
+                  item.disciplineName != null ? <div>
+                    <div style={{ marginBottom: '2px' }} key={item.id.toString()}>
+                      <p className="data_content" style={{ marginBottom: '-5px' }}>
+                        <div className="card_book">
+                          {canEdit ? (
+                            <div
+                              className="btn-edit-card"
+                              onClick={() => handleEditCard(item)}
+                              style={{ top: '15px' }}>
+                              <ModeEditOutlineIcon />
+                            </div>
+                          ) : null}
+                          <FiberManualRecordIcon style={{ fontSize: '9px', textAlign: 'center' }} />{' '}
+                          <span>{item.disciplineName}</span>
+                        </div>
+                      </p>
+                    </div>
+                  </div> : null
+                }
               </div>
             ))}
           </>
