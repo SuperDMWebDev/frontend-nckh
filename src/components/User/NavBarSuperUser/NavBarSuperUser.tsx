@@ -78,14 +78,14 @@ const NavBarSuperUser = () => {
   };
 
   const navigateToHomePage = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
     <Styled>
       <div className="container">
         <div className="logo">
-          <a href="/">
+          <a href="/home">
             <div className="container_logo">
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>

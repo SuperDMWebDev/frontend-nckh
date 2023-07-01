@@ -103,7 +103,8 @@ const App = () => {
               <>
                 <NavBarUser />
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<SearchPage />} />
+                  <Route path="/homepage" element={<HomePage />} />
                   <Route path="/search" element={<SearchPage />} />
                   <Route
                     path="/signin"
@@ -137,7 +138,8 @@ const App = () => {
               <>
                 <NavBarSuperUser />
                 <Routes>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path="/" element={<SearchPage />} />
+                  <Route path="/home" element={<HomePage />} />
                   <Route path="/search" element={<SearchPage />} />
                   <Route
                     path="/signin"
@@ -162,7 +164,8 @@ const App = () => {
           <>
             <AnonymousNavBar />
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<SearchPage />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={!isLogin ? <SignIn /> : <Navigate replace to="/" />} />
               <Route path="/lecturer/:id" element={<LecturerDetail />}></Route>
