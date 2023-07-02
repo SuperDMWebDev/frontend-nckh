@@ -16,12 +16,14 @@ const Styled = styled.div`
     border-left: 0px;
     border-right: 0px;
 
-    padding: 20px 40px;
+    padding: 10px 40px;
 
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
     margin-bottom: 15px;
     width: 100%;
+    padding-left: 0px;
+    padding-right: 1px;
   }
 
   .card_article:hover {
@@ -42,6 +44,8 @@ const Styled = styled.div`
 
   .left-part {
     margin: auto;
+    margin-left: 25px;
+    margin-right: 20px;
     width: 80%;
     display: flex;
     flex-direction: column;

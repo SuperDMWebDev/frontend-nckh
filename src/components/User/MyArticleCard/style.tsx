@@ -42,6 +42,7 @@ const Styled = styled.div`
 
   .left-part {
     margin: auto;
+    margin-left: 5px;
     width: 80%;
     display: flex;
     flex-direction: column;

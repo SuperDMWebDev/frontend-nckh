@@ -73,6 +73,7 @@ export default function Profile() {
   const lecturerId = localStorage.getItem('lecturerId');
   const token = localStorage.getItem('accessToken');
   const [articleList, setArticleList] = useState<Article[]>([]);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [previewAvatar, setPreviewAvatar] = useState<string>(
     'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
   );
@@ -176,7 +177,7 @@ export default function Profile() {
     [lecturerId]
   );
 
-  const handleUploadProfile = useCallback(async () => {}, []);
+  const handleUploadProfile = useCallback(async () => { }, []);
 
   useEffect(() => {
     fetchArticle();
@@ -270,7 +271,6 @@ export default function Profile() {
 
   // PAGINATION ARTICLES
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
   const maxVisibleButtons = 5;
   const scrollTop = useRef<HTMLDivElement>(null);
   const listArticle = articleList ? Object.values(articleList) : [];
@@ -313,6 +313,14 @@ export default function Profile() {
     setOpenExportModal(false);
   };
 
+  const handleChangeItemsPerPage = (event: any) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setItemsPerPage(event.target.value)
+  }
+
   return (
     <Styled>
       <div className="header_topbar">
@@ -343,8 +351,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar === null ||
-              lecturer?.avatar === '' ||
-              lecturer?.avatar === 'data:image/png;base64,'
+                lecturer?.avatar === '' ||
+                lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -959,10 +967,16 @@ export default function Profile() {
                 />
               </div>
 
-              <div className="content-profile">
-                <h2 className="title_content" style={{ marginBottom: '10px' }} ref={scrollTop}>
-                  CÔNG BỐ KHOA HỌC
-                </h2>
+              <div className="content-profile" style={{ marginTop: "-20px" }}>
+                <div className='article-header-2'>
+                  <h2 className="title_content" style={{ marginBottom: '15px', fontSize: "17px" }} ref={scrollTop}>
+                    CÔNG BỐ KHOA HỌC
+                  </h2>
+                  <div>
+                    <strong>{indexOfFirstItem}</strong> - <strong>{indexOfLastItem > totalPages ? totalPages : indexOfLastItem}</strong> <span>trên tổng số </span>
+                    <strong>{totalPages}</strong>
+                  </div>
+                </div>
                 {currentLecturers ? (
                   currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
                 ) : (
@@ -979,7 +993,7 @@ export default function Profile() {
                   </>
                 )}
 
-                <div>
+                <div style={{ position: "relative" }}>
                   <div
                     style={{
                       marginBottom: '50px',
@@ -1005,6 +1019,15 @@ export default function Profile() {
                       onClick={() => handlePageChange(currentPage + 1)}>
                       <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
                     </button>
+                  </div>
+
+                  <div style={{ position: "absolute", top: 0, right: 0 }} className="dropdown-perpage">
+                    <select id="dropdown" value={itemsPerPage} onChange={handleChangeItemsPerPage}>
+                      <option value={10}>10 / trang</option>
+                      <option value={20}>20 / trang</option>
+                      <option value={50}>50 / trang</option>
+                      <option value={100}>100 / trang</option>
+                    </select>
                   </div>
                 </div>
               </div>
