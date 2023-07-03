@@ -37,12 +37,11 @@ export default function MyArticles() {
 
   //PAGINATION
   const [currentPage, setCurrentPage] = useState(1);
-
-  const itemsPerPage = 7;
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const maxVisibleButtons = 7;
   const arr = Object.values(listArticles)[0];
   const totalPages = Math.ceil(arr?.length / itemsPerPage);
-  useEffect(() => {}, [currentPage, totalPages]);
+  useEffect(() => { }, [currentPage, totalPages]);
 
   const renderPageButtons = (): JSX.Element[] => {
     const visibleButtons: JSX.Element[] = [];
@@ -73,6 +72,14 @@ export default function MyArticles() {
     }
     setCurrentPage(pageNumber);
   };
+
+  const handleChangeItemsPerPage = (event: any) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setItemsPerPage(event.target.value)
+  }
 
   return (
     <Styled>
@@ -130,7 +137,7 @@ export default function MyArticles() {
             )}
           </div>
 
-          <div>
+          <div style={{ position: "relative" }}>
             <div
               style={{
                 marginBottom: '50px',
@@ -156,6 +163,15 @@ export default function MyArticles() {
                 onClick={() => handlePageChange(currentPage + 1)}>
                 <FontAwesomeIcon className="deleteicon" fontSize={14} icon={faArrowRight} />
               </button>
+            </div>
+
+            <div style={{ position: "absolute", top: 0, right: 0 }} className="dropdown-perpage">
+              <select id="dropdown" value={itemsPerPage} onChange={handleChangeItemsPerPage}>
+                <option value={10}>10 / trang</option>
+                <option value={20}>20 / trang</option>
+                <option value={50}>50 / trang</option>
+                <option value={100}>100 / trang</option>
+              </select>
             </div>
           </div>
         </div>

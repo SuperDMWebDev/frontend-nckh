@@ -150,6 +150,38 @@ const Styled = styled.div`
     font-size: 14px;
   }
 
+    .article-header-2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .article-header-2 div {
+    font-size: 15px;
+    font-family: monospace;
+    margin-bottom: 20px;
+  }
+
+  .dropdown-perpage {
+    font-size: 16px;
+    font-family: monospace;
+  }
+
+  .dropdown-perpage select {
+    height: 35px;
+    width: auto;
+    padding-left: 5px;
+    font-family: monospace;
+    background-color: #f3f7fe;
+    color: #3f51b5;
+    border: none;
+    border-radius: 8px;
+    border: 1px solid #3f51b5;
+    transition: 0.3s;
+    font-size: 13px;
+    margin-right: 5px;
+  }
+
   .content-profile {
     background-color: #efeeee;
     width: 840px;

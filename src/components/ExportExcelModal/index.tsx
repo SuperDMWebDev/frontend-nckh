@@ -7,9 +7,15 @@ interface ExportExcelModalProps {
   visible: boolean;
   onClose: () => void;
   onExport: (selectedYear: string) => void;
+  onExportBrief?: (selectedYear: string) => void;
 }
 
-const ExportExcelModal: React.FC<ExportExcelModalProps> = ({ visible, onClose, onExport }) => {
+const ExportExcelModal: React.FC<ExportExcelModalProps> = ({
+  visible,
+  onClose,
+  onExport,
+  onExportBrief
+}) => {
   const [selectedYear, setSelectedYear] = useState('1990');
 
   const handleYearChange = (value: any) => {
@@ -27,6 +33,10 @@ const ExportExcelModal: React.FC<ExportExcelModalProps> = ({ visible, onClose, o
     onExport(selectedYear);
   };
 
+  const handleExportBrief = () => {
+    onExportBrief(selectedYear);
+  };
+
   return (
     <StyledExportExcelModal>
       <Modal
@@ -37,8 +47,15 @@ const ExportExcelModal: React.FC<ExportExcelModalProps> = ({ visible, onClose, o
           <Button key="cancel" onClick={onClose}>
             Thoát
           </Button>,
+          <Button
+            key="brief-export"
+            type="primary"
+            disabled={!selectedYear}
+            onClick={handleExportBrief}>
+            Xuất tóm tắt
+          </Button>,
           <Button key="export" type="primary" disabled={!selectedYear} onClick={handleExport}>
-            Bắt đầu xuất file
+            Xuất đầy đủ
           </Button>
         ]}>
         <div className="year-select" style={{ minWidth: '100px' }}>

@@ -53,14 +53,14 @@ const AnonymousNavBar = () => {
   };
 
   const navigateToHomePage = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
     <Styled>
       <div className="container">
         <div className="header">
-          <a href="/">
+          <a href="/home">
             <div className="container_logo">
               <img src="/assets/images/hcmus_logo.jpg" />
             </div>

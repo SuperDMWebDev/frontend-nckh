@@ -6,6 +6,9 @@ const MyArticleCard = (props: any) => {
   const { data } = props;
   const navigate = useNavigate();
   const [authorList, setAuthorList] = useState<string[]>([]);
+  const [citationScopus, setCitationScopus] = useState<number | null>(0);
+  const [citationGGScholar, setCitationGGScholar] = useState<number | null>(0);
+  const [totalCitationCount, setTotalCitationCount] = useState<number>(0);
 
   const getAuthorList = (data: any) => {
     let nameList: string[] = [];
@@ -25,9 +28,15 @@ const MyArticleCard = (props: any) => {
 
   useEffect(() => {
     getAuthorList(data);
+    setCitationScopus(data?.citationCount);
+    setCitationGGScholar(data?.googleScholarCitationCount);
   }, [data]);
 
-  console.log(authorList);
+  useEffect(() => {
+    const citationCountScopus: number = citationScopus ? citationScopus : 0;
+    const citationCountGGScholar: number = citationGGScholar ? citationGGScholar : 0;
+    setTotalCitationCount(citationCountScopus + citationCountGGScholar);
+  });
 
   const handleGoToDetail = (id: any) => {
     navigate(`/article-detail/${id}`);
@@ -59,8 +68,18 @@ const MyArticleCard = (props: any) => {
           </div>
           <div className="right-part">
             <div className="citationContainer">
-              <div className="right-part__num">{data?.citationCount ? data?.citationCount : 0}</div>
+              <div className="right-part__num">{totalCitationCount}</div>
               <div>Trích dẫn</div>
+              {citationScopus !== null || citationGGScholar !== null ? (
+                <div className="citationModal">
+                  {citationScopus !== null ? (
+                    <div>Trích dẫn từ Scopus: {citationScopus}</div>
+                  ) : null}
+                  {citationGGScholar !== null ? (
+                    <div style={{ marginTop: '5px' }}>Trích dẫn từ Google Scholar: {citationGGScholar}</div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
             <div>
               {data?.rank && data?.rank !== 'Unranked' ? (
