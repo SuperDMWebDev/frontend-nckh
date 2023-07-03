@@ -12,7 +12,11 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Button, Modal } from 'antd';
-import { exportExcelArticles, getArticlesOfLecturers } from '../../../api/Article';
+import {
+  exportExcelArticles,
+  exportExcelBriefArticles,
+  getArticlesOfLecturers
+} from '../../../api/Article';
 import { useNavigate } from 'react-router-dom';
 import httpStatus from 'http-status';
 import ArticleProfileCard from '../../../components/User/ArticleProfileCard/ArticleProfileCard';
@@ -177,7 +181,7 @@ export default function Profile() {
     [lecturerId]
   );
 
-  const handleUploadProfile = useCallback(async () => { }, []);
+  const handleUploadProfile = useCallback(async () => {}, []);
 
   useEffect(() => {
     fetchArticle();
@@ -313,13 +317,18 @@ export default function Profile() {
     setOpenExportModal(false);
   };
 
+  const handleExportBrief = async (selectedYear: any) => {
+    await exportExcelBriefArticles(selectedYear);
+    setOpenExportModal(false);
+  };
+
   const handleChangeItemsPerPage = (event: any) => {
     if (scrollTop.current) {
       scrollTop.current.scrollIntoView({ behavior: 'smooth' });
     }
 
-    setItemsPerPage(event.target.value)
-  }
+    setItemsPerPage(event.target.value);
+  };
 
   return (
     <Styled>
@@ -351,8 +360,8 @@ export default function Profile() {
             className="img-avatar"
             src={
               lecturer?.avatar === null ||
-                lecturer?.avatar === '' ||
-                lecturer?.avatar === 'data:image/png;base64,'
+              lecturer?.avatar === '' ||
+              lecturer?.avatar === 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -964,16 +973,22 @@ export default function Profile() {
                   visible={openExportModal}
                   onClose={() => setOpenExportModal(false)}
                   onExport={handleExport}
+                  onExportBrief={handleExportBrief}
                 />
               </div>
 
-              <div className="content-profile" style={{ marginTop: "-20px" }}>
-                <div className='article-header-2'>
-                  <h2 className="title_content" style={{ marginBottom: '15px', fontSize: "17px" }} ref={scrollTop}>
+              <div className="content-profile" style={{ marginTop: '-20px' }}>
+                <div className="article-header-2">
+                  <h2
+                    className="title_content"
+                    style={{ marginBottom: '15px', fontSize: '17px' }}
+                    ref={scrollTop}>
                     CÔNG BỐ KHOA HỌC
                   </h2>
                   <div>
-                    <strong>{indexOfFirstItem}</strong> - <strong>{indexOfLastItem > totalPages ? totalPages : indexOfLastItem}</strong> <span>trên tổng số </span>
+                    <strong>{indexOfFirstItem}</strong> -{' '}
+                    <strong>{indexOfLastItem > totalPages ? totalPages : indexOfLastItem}</strong>{' '}
+                    <span>trên tổng số </span>
                     <strong>{totalPages}</strong>
                   </div>
                 </div>
@@ -993,7 +1008,7 @@ export default function Profile() {
                   </>
                 )}
 
-                <div style={{ position: "relative" }}>
+                <div style={{ position: 'relative' }}>
                   <div
                     style={{
                       marginBottom: '50px',
@@ -1021,7 +1036,9 @@ export default function Profile() {
                     </button>
                   </div>
 
-                  <div style={{ position: "absolute", top: 0, right: 0 }} className="dropdown-perpage">
+                  <div
+                    style={{ position: 'absolute', top: 0, right: 0 }}
+                    className="dropdown-perpage">
                     <select id="dropdown" value={itemsPerPage} onChange={handleChangeItemsPerPage}>
                       <option value={10}>10 / trang</option>
                       <option value={20}>20 / trang</option>

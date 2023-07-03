@@ -34,6 +34,17 @@ export const exportExcelArticles = async (year: any) => {
   }
 };
 
+export const exportExcelBriefArticles = async (year: any) => {
+  try {
+    const query = `${BASE_URL}articles/fetch?pageOffset=1&limitSize=9&isExport=true&isBrief=true&fromYear=${year}`;
+    const res = await axios.get(query);
+
+    window.open(res.config.url, '_blank');
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 export const getArticlesOfLecturers = async (data: any) => {
   try {
     const query = `${BASE_URL}articles/fetch-all`;
