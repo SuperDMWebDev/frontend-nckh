@@ -9,6 +9,7 @@ const ArticleCard = (props: any) => {
   const roleUser = localStorage.getItem('role');
   const [citationScopus, setCitationScopus] = useState<number>(0);
   const [citationGGScholar, setCitationGGScholar] = useState<number>(0);
+  const [totalCitationCount, setTotalCitationCount] = useState<number>(0);
 
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const ArticleCard = (props: any) => {
     getAuthorList(data);
     setCitationScopus(data?.citationCount ? data?.citationCount : 0);
     setCitationGGScholar(data?.googleScholarCitationCount ? data?.googleScholarCitationCount : 0);
+    setTotalCitationCount(data?.citationCount + data?.googleScholarCitationCount);
   }, [data]);
 
   const handleGoToDetail = (id: any) => {
@@ -64,12 +66,18 @@ const ArticleCard = (props: any) => {
           </div>
           <div className="right-part">
             <div className="citationContainer">
-              <div className="right-part__num">{data?.citationCount ? data?.citationCount : 0}</div>
+              <div className="right-part__num">{totalCitationCount}</div>
               <div>Trích dẫn</div>
-              <div className="citationModal">
-                <div>Trích dẫn từ Scopus: {citationScopus}</div>
-                <div style={{ marginTop: '5px' }}>Trích dẫn từ Google Scholar: {citationGGScholar}</div>
-              </div>
+              {totalCitationCount != 0 ? (
+                <div className="citationModal">
+                  {citationScopus != 0 ? (
+                    <div>Trích dẫn từ Scopus: {citationScopus}</div>
+                  ) : null}
+                  {citationGGScholar != 0 ? (
+                    <div style={{ marginTop: '5px' }}>Trích dẫn từ Google Scholar: {citationGGScholar}</div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
             <div>
               {isLogin && data?.rank && roleUser == '2' && data?.rank !== 'Unranked' ? (
