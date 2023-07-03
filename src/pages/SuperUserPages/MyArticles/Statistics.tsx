@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styled from './style';
-import { exportExcelArticles, getArticles } from '../../../api/Article';
+import { exportExcelArticles, exportExcelBriefArticles, getArticles } from '../../../api/Article';
 import MyArticleCard from '../../../components/User/MyArticleCard/MyArticleCard';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +24,11 @@ export default function Statistics() {
 
   const handleExport = async (selectedYear: any) => {
     await exportExcelArticles(selectedYear);
+    setOpenExportModal(false);
+  };
+
+  const handleExportBrief = async (selectedYear: any) => {
+    await exportExcelBriefArticles(selectedYear);
     setOpenExportModal(false);
   };
 
@@ -126,6 +131,7 @@ export default function Statistics() {
               visible={openExportModal}
               onClose={() => setOpenExportModal(false)}
               onExport={handleExport}
+              onExportBrief={handleExportBrief}
             />
           </div>
         </div>
