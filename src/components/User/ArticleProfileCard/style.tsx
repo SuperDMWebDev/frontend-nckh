@@ -16,12 +16,14 @@ const Styled = styled.div`
     border-left: 0px;
     border-right: 0px;
 
-    padding: 20px 40px;
+    padding: 10px 40px;
 
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.09);
     margin-bottom: 15px;
     width: 100%;
+    padding-left: 0px;
+    padding-right: 1px;
   }
 
   .card_article:hover {
@@ -42,6 +44,8 @@ const Styled = styled.div`
 
   .left-part {
     margin: auto;
+    margin-left: 25px;
+    margin-right: 20px;
     width: 80%;
     display: flex;
     flex-direction: column;
@@ -167,6 +171,39 @@ const Styled = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+  }
+
+  .citationContainer:hover .citationModal {
+    display: block;
+  }
+
+  .citationModal {
+    color: black;
+    position: absolute;
+    font-size: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.09);
+    background-color: white;
+    min-width: 200px;
+    padding: 10px;
+    top: -60px;
+    font-weight: 600;
+    display: none;
+    border-radius: 3px;
+  }
+
+  .citationModal::after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-top: 10px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -8px;
   }
 `;
 

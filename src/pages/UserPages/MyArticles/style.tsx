@@ -18,6 +18,26 @@ const Styled = styled.div`
     /* Add any other styles you want */
   }
 
+    .dropdown-perpage {
+    font-size: 16px;
+    font-family: monospace;
+  }
+
+  .dropdown-perpage select {
+    height: 35px;
+    width: auto;
+    padding-left: 5px;
+    font-family: monospace;
+    background-color: #f3f7fe;
+    color: #3f51b5;
+    border: none;
+    border-radius: 8px;
+    border: 1px solid #3f51b5;
+    transition: 0.3s;
+    font-size: 13px;
+    margin-right: 5px;
+  }
+
   .list_article {
     margin-top: 2rem;
   }

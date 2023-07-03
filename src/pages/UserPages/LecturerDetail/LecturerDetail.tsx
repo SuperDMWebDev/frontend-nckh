@@ -135,8 +135,8 @@ export default function LecturerDetail() {
 
   // PAGINATION ARTICLES
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
   const maxVisibleButtons = 5;
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const scrollTop = useRef<HTMLDivElement>(null);
   const listArti = Object.values(articleList);
   const arr = listArti[0];
@@ -172,6 +172,14 @@ export default function LecturerDetail() {
 
     return visibleButtons;
   };
+
+  const handleChangeItemsPerPage = (event: any) => {
+    if (scrollTop.current) {
+      scrollTop.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setItemsPerPage(event.target.value)
+  }
 
   return (
     <Styled>
@@ -402,9 +410,15 @@ export default function LecturerDetail() {
             <>
               <div className="content-profile">
                 <div className="main_content">
-                  <h2 className="title_content" style={{ marginBottom: '10px' }} ref={scrollTop}>
-                    CÔNG BỐ KHOA HỌC
-                  </h2>
+                  <div className='article-header-2'>
+                    <h2 className="title_content" style={{ marginBottom: '15px', fontSize: "17px" }} ref={scrollTop}>
+                      CÔNG BỐ KHOA HỌC
+                    </h2>
+                    <div>
+                      <strong>{indexOfFirstItem}</strong> - <strong>{indexOfLastItem > totalPages ? totalPages : indexOfLastItem}</strong> <span>trên tổng số </span>
+                      <strong>{totalPages}</strong>
+                    </div>
+                  </div>
                   <div>
                     {currentLecturers ? (
                       currentLecturers?.map((item: any) => <ArticleProfileCard data={item} />)
@@ -422,7 +436,7 @@ export default function LecturerDetail() {
                       </>
                     )}
 
-                    <div>
+                    <div style={{ position: "relative" }}>
                       <div
                         style={{
                           marginBottom: '50px',
@@ -456,6 +470,15 @@ export default function LecturerDetail() {
                             icon={faArrowRight}
                           />
                         </button>
+                      </div>
+
+                      <div style={{ position: "absolute", top: 0, right: 0 }} className="dropdown-perpage">
+                        <select id="dropdown" value={itemsPerPage} onChange={handleChangeItemsPerPage}>
+                          <option value={10}>10 / trang</option>
+                          <option value={20}>20 / trang</option>
+                          <option value={50}>50 / trang</option>
+                          <option value={100}>100 / trang</option>
+                        </select>
                       </div>
                     </div>
                   </div>
