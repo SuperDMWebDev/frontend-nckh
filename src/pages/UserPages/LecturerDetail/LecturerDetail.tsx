@@ -209,8 +209,8 @@ export default function LecturerDetail() {
             className="img-avatar"
             src={
               lecturer?.avatar == null ||
-                lecturer?.avatar == '' ||
-                lecturer?.avatar == 'data:image/png;base64,'
+              lecturer?.avatar == '' ||
+              lecturer?.avatar == 'data:image/png;base64,'
                 ? 'https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
                 : lecturer?.avatar
             }
@@ -296,10 +296,10 @@ export default function LecturerDetail() {
                   )}
                 </span>
               </div>
-              <div className="field-profile-info">
+              {/* <div className="field-profile-info">
                 <CalendarMonthIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>{lecturer?.dateOfBirth}</span>
-              </div>
+              </div> */}
               {!email ? null : (
                 <>
                   <div className="field-profile-info">
@@ -354,9 +354,8 @@ export default function LecturerDetail() {
                         marginLeft: '5px',
                         color: 'white',
                         textDecoration: 'none',
-                        cursor: "text"
-                      }}
-                    >
+                        cursor: 'text'
+                      }}>
                       {item.originalFileName}
                     </a>
                   </div>
