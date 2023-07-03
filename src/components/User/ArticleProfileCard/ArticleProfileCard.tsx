@@ -8,8 +8,8 @@ const ArticleProfileCard = (props: any) => {
   const [authorList, setAuthorList] = useState<string[]>([]);
   const navigate = useNavigate();
   const roleUser = localStorage.getItem('role');
-  const [citationScopus, setCitationScopus] = useState<number>(0);
-  const [citationGGScholar, setCitationGGScholar] = useState<number>(0);
+  const [citationScopus, setCitationScopus] = useState<number | null>(0);
+  const [citationGGScholar, setCitationGGScholar] = useState<number | null>(0);
   const [totalCitationCount, setTotalCitationCount] = useState<number>(0);
 
   const getAuthorList = (data: any) => {
@@ -30,10 +30,15 @@ const ArticleProfileCard = (props: any) => {
 
   useEffect(() => {
     getAuthorList(data);
-    setCitationScopus(data?.citationCount ? data?.citationCount : 0);
-    setCitationGGScholar(data?.googleScholarCitationCount ? data?.googleScholarCitationCount : 0);
-    setTotalCitationCount(data?.citationCount + data?.googleScholarCitationCount);
+    setCitationScopus(data?.citationCount);
+    setCitationGGScholar(data?.googleScholarCitationCount);
   }, [data]);
+
+  useEffect(() => {
+    const citationCountScopus: number = citationScopus ? citationScopus : 0;
+    const citationCountGGScholar: number = citationGGScholar ? citationGGScholar : 0;
+    setTotalCitationCount(citationCountScopus + citationCountGGScholar);
+  });
 
   const handleGoToDetail = (id: any) => {
     navigate(`/article-detail/${id}`);
@@ -67,12 +72,12 @@ const ArticleProfileCard = (props: any) => {
             <div className="citationContainer">
               <div className="right-part__num">{totalCitationCount}</div>
               <div>Trích dẫn</div>
-              {totalCitationCount != 0 ? (
+              {citationScopus !== null || citationGGScholar !== null ? (
                 <div className="citationModal">
-                  {citationScopus != 0 ? (
+                  {citationScopus !== null ? (
                     <div>Trích dẫn từ Scopus: {citationScopus}</div>
                   ) : null}
-                  {citationGGScholar != 0 ? (
+                  {citationGGScholar !== null ? (
                     <div style={{ marginTop: '5px' }}>Trích dẫn từ Google Scholar: {citationGGScholar}</div>
                   ) : null}
                 </div>
