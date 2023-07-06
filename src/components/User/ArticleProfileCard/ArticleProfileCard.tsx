@@ -70,7 +70,7 @@ const ArticleProfileCard = (props: any) => {
           </div>
           <div className="right-part">
             <div className="citationContainer">
-              <div className="right-part__num">{totalCitationCount}</div>
+              <div className="right-part__num">{citationScopus}</div>
               <div>Trích dẫn</div>
               {citationScopus !== null || citationGGScholar !== null ? (
                 <div className="citationModal">
