@@ -477,7 +477,7 @@ export default function Profile() {
                   )}
                 </span>
               </div>
-              <div className="field-profile-info">
+              {/* <div className="field-profile-info">
                 <PhoneAndroidIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
                   {!phone ? (
@@ -495,7 +495,7 @@ export default function Profile() {
                     phone
                   )}
                 </span>
-              </div>
+              </div> */}
               <div className="field-profile-info">
                 <HouseIcon style={{ fontSize: '20px' }} />
                 <span style={{ marginLeft: '5px' }}>
